@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kt.cloud</groupId>
+    <artifactId>kt-cloud-commodity</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>kt-cloud-commodity-api</module>
+        <module>kt-cloud-commodity-acl</module>
+        <module>kt-cloud-commodity-dao</module>
+        <module>kt-cloud-commodity-manager</module>
+        <module>kt-cloud-commodity-service</module>
+        <module>kt-cloud-commodity-start</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <kt.dependencies.version>1.0.0-SNAPSHOT</kt.dependencies.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kt</groupId>
+                <artifactId>kt-dependencies</artifactId>
+                <version>${kt.dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-acl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-manager</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-commodity-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+
+</project>
