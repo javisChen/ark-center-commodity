@@ -15,4 +15,11 @@
     <properties>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.kt.cloud</groupId>
+            <artifactId>kt-cloud-commodity-api</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

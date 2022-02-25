@@ -1,0 +1,58 @@
+# 启动了consul配置中心，程序启动后会优先读取bootstrap.yml配置文件读取consul配置
+spring:
+  application:
+    name: kt-cloud-commodity
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        enabled: ${nacos-discovery-enabled}
+        server-addr: ${discovery-server-addr}
+        group: DEFAULT_GROUP
+      config:
+        enabled: ${nacos-config-enabled}
+        server-addr: ${config-server-addr}
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}
+        refresh-enabled: true
+      password: ${nacos-username}
+      username: ${nacos-password}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+cloud-namespace: bd4a7bc5-d80b-416a-a37e-e577fc0e366c
+discovery-server-addr: 127.0.0.1:8848
+config-server-addr: 127.0.0.1:8848
+nacos-username: nacos
+nacos-password: nacos
+nacos-discovery-enabled: true
+nacos-config-enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+cloud-namespace: bd4a7bc5-d80b-416a-a37e-e577fc0e366c
+discovery-server-addr: 127.0.0.1:8848
+config-server-addr: 127.0.0.1:8848
+nacos-username: nacos
+nacos-password: nacos
+nacos-discovery-enabled: true
+nacos-config-enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: sit
+cloud-namespace: bd4a7bc5-d80b-416a-a37e-e577fc0e366c
+discovery-server-addr: 127.0.0.1:8848
+config-server-addr: 127.0.0.1:8848
+nacos-username: nacos
+nacos-password: nacos
+nacos-discovery-enabled: true
+nacos-config-enabled: false
