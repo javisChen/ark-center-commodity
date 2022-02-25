@@ -15,4 +15,18 @@
     <properties>
     </properties>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-microservice-rpc-feign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-dto</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>
