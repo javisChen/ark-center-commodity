@@ -1,10 +1,10 @@
 server:
   port: 8083
   servlet:
-    context-path: 
+    context-path:
 spring:
   application:
-    name: kt-cloud-commodity
+    name: commodity
   datasource:
     druid:
       url: jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/eop?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True

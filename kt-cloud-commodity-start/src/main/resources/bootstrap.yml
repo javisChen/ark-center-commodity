@@ -1,7 +1,7 @@
 # 启动了consul配置中心，程序启动后会优先读取bootstrap.yml配置文件读取consul配置
 spring:
   application:
-    name: kt-cloud-commodity
+    name: commodity
   cloud:
     nacos:
       discovery:
@@ -12,7 +12,7 @@ spring:
       config:
         enabled: ${nacos-config-enabled}
         server-addr: ${config-server-addr}
-        file-extension: yaml
+        file-extension: yml
         group: DEFAULT_GROUP
         namespace: ${nacos-config-namespace}
         prefix: ${spring.application.name}
@@ -25,22 +25,23 @@ spring:
 spring:
   profiles: local
 nacos-discovery-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-discovery-server-addr: 127.0.0.1:9999
+nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
+discovery-server-addr: 127.0.0.1:8848
 config-server-addr: 127.0.0.1:8848
 nacos-username: nacos
 nacos-password: nacos
-nacos-discovery-enabled: false
+nacos-discovery-enabled: true
 nacos-config-enabled: true
 ---
 # 开发环境
 spring:
   profiles: dev
-
 nacos-discovery-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
+nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
 discovery-server-addr: 127.0.0.1:8848
 config-server-addr: 127.0.0.1:8848
-nacos-username: nacos1
-nacos-password: nacos1
+nacos-username: nacos
+nacos-password: nacos
 nacos-discovery-enabled: true
 nacos-config-enabled: true
 
@@ -49,6 +50,7 @@ nacos-config-enabled: true
 spring:
   profiles: sit
 nacos-discovery-namespace: 74ac3a8d-d15e-4f1b-a5cd-112f438c975d
+nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
 discovery-server-addr: 127.0.0.1:8848
 config-server-addr: 127.0.0.1:8848
 nacos-username: nacos

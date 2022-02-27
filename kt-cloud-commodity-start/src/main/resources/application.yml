@@ -4,7 +4,7 @@ server:
     context-path: 
 spring:
   application:
-    name: kt-cloud-commodity
+    name: commodity
   datasource:
     druid:
       url: jdbc:mysql://localhost:3306/cop?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
@@ -28,6 +28,8 @@ spring:
     port: 6379
   main:
     allow-bean-definition-overriding: true
+  profiles:
+    active: local
 # mybatis
 mybatis-plus:
   mapper-locations: classpath:com/kt/cloud/dao/*.xml
