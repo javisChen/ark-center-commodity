@@ -1,10 +1,16 @@
 package com.kt.cloud.commodity.module.brand.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.Brand;
 import com.kt.cloud.commodity.dao.mapper.BrandMapper;
-import com.kt.cloud.commodity.module.brand.dto.request.BrandCreateReqDTO;
+import com.kt.cloud.commodity.module.brand.dto.request.cmd.BrandCreateReqDTO;
+import com.kt.cloud.commodity.module.brand.dto.request.query.BrandPageQueryDTO;
+import com.kt.cloud.commodity.module.brand.dto.response.BrandRespDTO;
+import com.kt.component.web.util.bean.BeanConvertor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +25,15 @@ import org.springframework.stereotype.Service;
 public class BrandService extends ServiceImpl<BrandMapper, Brand> implements IService<Brand> {
 
     public Long create(BrandCreateReqDTO reqDTO) {
-        return null;
+        Brand entity = BeanConvertor.copy(reqDTO, Brand.class);
+        save(entity);
+        return entity.getId();
+    }
+
+    public IPage<BrandRespDTO> pageList(BrandPageQueryDTO queryDTO) {
+        return lambdaQuery()
+                .like(StringUtils.isNotEmpty(queryDTO.getName()), Brand::getName, queryDTO.getName())
+                .page(new PageDTO<>(queryDTO.getCurrent(), queryDTO.getSize()))
+                .convert(item -> BeanConvertor.copy(item, BrandRespDTO.class));
     }
 }

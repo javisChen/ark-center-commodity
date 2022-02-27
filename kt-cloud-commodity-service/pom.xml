@@ -30,11 +30,6 @@
 
         <dependency>
             <groupId>com.kt</groupId>
-            <artifactId>kt-component-db-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kt</groupId>
             <artifactId>kt-component-redis-spring-boot-starter</artifactId>
         </dependency>
 

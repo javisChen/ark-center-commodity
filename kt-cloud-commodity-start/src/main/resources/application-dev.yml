@@ -7,7 +7,7 @@ spring:
     name: commodity
   datasource:
     druid:
-      url: jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/eop?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+      url: jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
       username: kt_cloud8888
       password: Kt.cloud1234!@#$
       name: defaultDataSource
@@ -28,6 +28,9 @@ spring:
     port: 6379
   main:
     allow-bean-definition-overriding: true
-# mybatis
-mybatis-plus:
-  mapper-locations: classpath:com/kt/cloud/dao/*.xml
+
+# swagger
+knife4j:
+  enable: true
+  # production=true会禁用swagger
+  production: false
