@@ -45,11 +45,6 @@
 
         <dependency>
             <groupId>com.kt.cloud</groupId>
-            <artifactId>kt-cloud-commodity-dao</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kt.cloud</groupId>
             <artifactId>kt-cloud-commodity-acl</artifactId>
         </dependency>
 

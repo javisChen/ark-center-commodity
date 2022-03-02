@@ -15,4 +15,13 @@
     <properties>
     </properties>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.kt.cloud</groupId>
+            <artifactId>kt-cloud-commodity-dao</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>
