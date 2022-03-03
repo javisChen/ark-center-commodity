@@ -1,9 +1,9 @@
 package com.kt.cloud.commodity.module.brand.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.kt.cloud.commodity.module.brand.dto.request.cmd.BrandCreateReqDTO;
-import com.kt.cloud.commodity.module.brand.dto.request.cmd.BrandUpdateReqDTO;
-import com.kt.cloud.commodity.module.brand.dto.request.query.BrandPageQueryDTO;
+import com.kt.cloud.commodity.module.brand.dto.request.BrandCreateReqDTO;
+import com.kt.cloud.commodity.module.brand.dto.request.BrandUpdateReqDTO;
+import com.kt.cloud.commodity.module.brand.dto.request.BrandPageQueryReqDTO;
 import com.kt.cloud.commodity.module.brand.dto.response.BrandRespDTO;
 import com.kt.cloud.commodity.module.brand.service.BrandService;
 import com.kt.component.dto.PageResponse;
@@ -45,7 +45,7 @@ public class BrandController extends BaseController {
 
     @ApiOperation(value = "查询商品分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<BrandRespDTO>> pageList(@RequestBody @Validated BrandPageQueryDTO queryDTO) {
+    public SingleResponse<PageResponse<BrandRespDTO>> pageList(@RequestBody @Validated BrandPageQueryReqDTO queryDTO) {
         IPage<BrandRespDTO> page = brandService.getPageList(queryDTO);
         return SingleResponse.ok(BeanConvertor.copyPage(page, BrandRespDTO.class));
     }

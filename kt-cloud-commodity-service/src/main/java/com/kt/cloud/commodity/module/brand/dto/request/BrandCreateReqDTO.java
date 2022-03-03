@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.brand.dto.request.cmd;
+package com.kt.cloud.commodity.module.brand.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
