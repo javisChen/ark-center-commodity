@@ -23,16 +23,16 @@ public class CategoryPageQueryReqDTO extends PagingQuery {
     private String name;
 
     @ApiModelProperty(value = "商品数量")
-    private Integer commodityNum;
+    private Integer commodityCount;
 
     @ApiModelProperty(value = "是否显示 enums[NO,否,0;YES,是,1]")
-    private Boolean isShow;
+    private Integer isShow;
 
     @ApiModelProperty(value = "是否导航 enums[NO,否,0;YES,是,1]")
-    private Boolean isMenu;
+    private Integer isNav;
 
     @ApiModelProperty(value = "排序")
-    private Integer seq;
+    private Integer sort;
 
     @ApiModelProperty(value = "上级ID")
     private Integer parentId;

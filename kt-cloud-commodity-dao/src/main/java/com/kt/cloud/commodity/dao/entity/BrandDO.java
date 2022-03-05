@@ -27,16 +27,19 @@ public class BrandDO extends BaseEntity {
     /**
      * 品牌图片地址
      */
+    @TableField("image_url")
     private String imageUrl;
 
     /**
      * 品牌的首字母
      */
+    @TableField("letter")
     private String letter;
 
     /**
      * 排序
      */
-    private Integer seq;
+    @TableField("sort")
+    private Integer sort;
 
 }

@@ -31,8 +31,8 @@ public class CategoryDO extends BaseEntity {
     /**
      * 商品数量
      */
-    @TableField("commodity_num")
-    private Integer commodityNum;
+    @TableField("commodity_count")
+    private Integer commodityCount;
 
     /**
      * 是否显示 enums[NO,否,0;YES,是,1]
@@ -43,14 +43,14 @@ public class CategoryDO extends BaseEntity {
     /**
      * 是否导航 enums[NO,否,0;YES,是,1]
      */
-    @TableField("is_menu")
-    private Integer isMenu;
+    @TableField("is_nav")
+    private Integer isNav;
 
     /**
      * 排序
      */
-    @TableField("seq")
-    private Integer seq;
+    @TableField("sort")
+    private Integer sort;
 
     /**
      * 上级ID
@@ -83,14 +83,14 @@ public class CategoryDO extends BaseEntity {
     }
     @Getter
     @AllArgsConstructor
-    public enum IsMenu implements BasicEnums {
+    public enum IsNav implements BasicEnums {
         NO(0, "否"),
             YES(1, "是"),
     ;
         private final Integer value;
         private final String text;
 
-        public static IsMenu getByValue(Integer value) {
+        public static IsNav getByValue(Integer value) {
             return EnumUtils.getByValue(values(), value);
         }
 

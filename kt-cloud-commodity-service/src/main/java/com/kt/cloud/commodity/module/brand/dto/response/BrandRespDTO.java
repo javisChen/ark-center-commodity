@@ -16,6 +16,6 @@ public class BrandRespDTO {
     private String letter;
 
     @ApiModelProperty(value = "排序")
-    private Integer seq;
+    private Integer sort;
 
 }

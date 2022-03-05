@@ -25,16 +25,16 @@ public class CategoryRespDTO implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "商品数量", required = false)
-    private Integer commodityNum;
+    private Integer commodityCount;
 
     @ApiModelProperty(value = "是否显示 enums[NO,否,0;YES,是,1]", required = true)
-    private Boolean isShow;
+    private Integer isShow;
 
     @ApiModelProperty(value = "是否导航 enums[NO,否,0;YES,是,1]", required = true)
-    private Boolean isMenu;
+    private Integer isNav;
 
     @ApiModelProperty(value = "排序", required = true)
-    private Integer seq;
+    private Integer sort;
 
     @ApiModelProperty(value = "上级ID", required = true)
     private Integer parentId;

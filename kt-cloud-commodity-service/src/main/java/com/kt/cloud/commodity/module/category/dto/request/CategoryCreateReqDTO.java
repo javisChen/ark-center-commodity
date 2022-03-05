@@ -29,10 +29,10 @@ public class CategoryCreateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "是否导航 enums[NO,否,0;YES,是,1]", required = true)
     @NotNull(message = "是否导航 enums[NO,否,0;YES,是,1]不能为空")
-    private Integer isMenu;
+    private Integer isNav;
 
     @ApiModelProperty(value = "排序", required = false)
-    private Integer seq;
+    private Integer sort;
 
     @ApiModelProperty(value = "上级ID", required = false)
     private Integer parentId;
