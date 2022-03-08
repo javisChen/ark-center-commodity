@@ -1,20 +1,24 @@
 package com.kt.cloud.commodity.module.attr.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrCreateReqDTO;
-import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
+import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
+import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.service.AttrService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
-import com.kt.component.web.base.BaseController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
+import javax.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.RestController;
+import com.kt.component.web.base.BaseController;
 
 /**
  * <p>
@@ -22,7 +26,7 @@ import javax.validation.constraints.NotNull;
  * </p>
  *
  * @author EOP
- * @since 2022-03-05
+ * @since 2022-03-08
  */
 @Api(tags = "商品属性")
 @Validated

@@ -15,7 +15,7 @@ import lombok.Getter;
  * </p>
  *
  * @author EOP
- * @since 2022-03-05
+ * @since 2022-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

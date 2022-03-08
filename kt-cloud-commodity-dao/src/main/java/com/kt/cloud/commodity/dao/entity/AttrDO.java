@@ -1,13 +1,13 @@
 package com.kt.cloud.commodity.dao.entity;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.kt.component.db.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.component.common.enums.BasicEnums;
 import com.kt.component.common.enums.EnumUtils;
-import com.kt.component.db.base.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 /**
  * <p>
@@ -15,7 +15,7 @@ import lombok.Getter;
  * </p>
  *
  * @author EOP
- * @since 2022-03-04
+ * @since 2022-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,12 +36,6 @@ public class AttrDO extends BaseEntity {
     private Integer inputType;
 
     /**
-     * 选项列表，有多个选项以逗号（,）分隔
-     */
-    @TableField("`options`")
-    private String options;
-
-    /**
      * 属性的类型，enums[SPEC,规格,1;PARAM,参数,2]
      */
     @TableField("`type`")
@@ -58,12 +52,6 @@ public class AttrDO extends BaseEntity {
      */
     @TableField("attr_template_id")
     private Long attrTemplateId;
-
-    /**
-     * 属性分组ID，关联co_attr_group.id
-     */
-    @TableField("attr_group_id")
-    private Long attrGroupId;
 
     /**
      * 是否支持手动新增，enums[NO,不支持,0;YES,支持,1]

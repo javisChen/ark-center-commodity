@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author EOP
- * @since 2022-03-05
+ * @since 2022-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -24,9 +24,6 @@ public class AttrPageQueryReqDTO extends PagingQuery {
 
     @ApiModelProperty(value = "属性录入方式，enums[INPUT,手工录入,1;SELECT,从选项列表选取,2]")
     private Integer inputType;
-
-    @ApiModelProperty(value = "选项列表，有多个选项以逗号（,）分隔")
-    private String options;
 
     @ApiModelProperty(value = "属性的类型，enums[SPEC,规格,1;PARAM,参数,2]")
     private Integer type;
