@@ -17,6 +17,7 @@ spring:
         namespace: ${nacos-config-namespace}
         prefix: ${spring.application.name}
         refresh-enabled: true
+        shared-configs: common-${spring.profiles.active}.yml
       password: ${nacos-username}
       username: ${nacos-password}
 
