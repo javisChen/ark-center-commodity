@@ -3,6 +3,8 @@ package com.kt.cloud.commodity.module.brand.dto.response;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class BrandRespDTO {
 
@@ -17,5 +19,8 @@ public class BrandRespDTO {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime gmtCreate;
 
 }
