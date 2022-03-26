@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Api(tags = "商品属性组")
 @Validated
 @RestController
-@RequestMapping("/v1/attr-group")
+@RequestMapping("/v1/attr/group")
 public class AttrGroupController extends BaseController {
 
     private final AttrGroupService attrGroupService;

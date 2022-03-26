@@ -40,6 +40,7 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
 
     public PageResponse<AttrGroupRespDTO> getPageList(AttrGroupPageQueryReqDTO queryDTO) {
         IPage<AttrGroupRespDTO> page = lambdaQuery()
+                .eq(AttrGroupDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrGroupRespDTO.class));
         return BeanConvertor.copyPage(page, AttrGroupRespDTO.class);

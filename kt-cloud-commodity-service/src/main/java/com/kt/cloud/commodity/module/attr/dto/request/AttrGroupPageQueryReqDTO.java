@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.kt.component.dto.PagingQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 商品属性组
@@ -22,7 +25,8 @@ public class AttrGroupPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "属性分组名称")
     private String name;
 
-    @ApiModelProperty(value = "模板ID，关联co_attr_template.id")
+    @ApiModelProperty(value = "模板ID")
+    @NotNull(message = "模板ID不能为空")
     private Long attrTemplateId;
 
 }

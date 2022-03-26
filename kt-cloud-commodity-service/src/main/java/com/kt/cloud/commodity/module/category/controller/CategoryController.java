@@ -38,25 +38,25 @@ public class CategoryController extends BaseController {
         this.categoryService = categoryService;
     }
 
-    @ApiOperation(value = "创建")
+    @ApiOperation(value = "创建商品类目")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateReqDTO reqDTO) {
         return SingleResponse.ok(categoryService.createCategory(reqDTO));
     }
 
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改商品类目")
     @PostMapping("/update")
     public SingleResponse<Long> update(@RequestBody @Validated CategoryUpdateReqDTO reqDTO) {
         return SingleResponse.ok(categoryService.updateCategory(reqDTO));
     }
 
-    @ApiOperation(value = "查询分页列表")
+    @ApiOperation(value = "查询商品类目分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<CategoryRespDTO>> pageList(@RequestBody @Validated CategoryPageQueryReqDTO queryDTO) {
         return SingleResponse.ok(categoryService.getPageList(queryDTO));
     }
 
-    @ApiOperation(value = "查询详情")
+    @ApiOperation(value = "查询商品类目详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
     public SingleResponse<CategoryRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {

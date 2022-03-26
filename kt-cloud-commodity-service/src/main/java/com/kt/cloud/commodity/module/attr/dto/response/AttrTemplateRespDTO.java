@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -29,5 +30,8 @@ public class AttrTemplateRespDTO implements Serializable {
 
     @ApiModelProperty(value = "参数数量", required = true)
     private Integer paramCount;
+
+    @ApiModelProperty(value = "创建时间", required = true)
+    private LocalDateTime gmtCreate;
 
 }
