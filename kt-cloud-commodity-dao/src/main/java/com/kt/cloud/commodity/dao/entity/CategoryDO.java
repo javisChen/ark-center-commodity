@@ -1,7 +1,7 @@
 package com.kt.cloud.commodity.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.kt.component.db.base.BaseEntity;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.common.enums.BasicEnums;
 import com.kt.component.common.enums.EnumUtils;
 import lombok.Data;
