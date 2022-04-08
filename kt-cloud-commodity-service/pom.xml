@@ -19,12 +19,12 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.kt</groupId>
+            <groupId>com.kt.microservice</groupId>
             <artifactId>kt-component-microservice-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.kt</groupId>
+            <groupId>com.kt.web</groupId>
             <artifactId>kt-component-web-spring-boot-starter</artifactId>
         </dependency>
 
@@ -34,7 +34,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.kt</groupId>
+            <groupId>com.kt.context</groupId>
             <artifactId>kt-component-context-spring-boot-starter</artifactId>
         </dependency>
 

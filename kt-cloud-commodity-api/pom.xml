@@ -20,12 +20,12 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.kt</groupId>
+            <groupId>com.kt.microservice</groupId>
             <artifactId>kt-component-microservice-rpc-feign</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.kt</groupId>
+            <groupId>com.kt.dto</groupId>
             <artifactId>kt-component-dto</artifactId>
         </dependency>
 

@@ -32,9 +32,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.kt</groupId>
+                <groupId>com.kt.boot</groupId>
                 <artifactId>kt-dependencies</artifactId>
-                <version>${kt.dependencies.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

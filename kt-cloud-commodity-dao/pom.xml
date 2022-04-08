@@ -18,8 +18,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-common</artifactId>
+            <groupId>com.kt.common</groupId>
+            <artifactId>kt-component-common-core</artifactId>
         </dependency>
 
         <dependency>
