@@ -1,11 +1,25 @@
-# 商品中心
-
-## 介绍
+# 介绍
 商品中心
 
-### 软件架构
+# 运行
 
-### 组件说明
+## Docker Build
+```shell
+docker build -f ./kt-cloud-commodity-start/Dockerfile -t kt-cloud-commodity:v1 ./kt-cloud-commodity-start
+```
+## Docker Run
+```shell
+docker run --name kt-cloud-commodity -d -p 8082:8080 \
+-e SPRING.CLOUD.NACOS.DISCOVERY.IP=172.24.80.20 \
+-e DISCOVERY-SERVER-ADDR=172.24.80.20:8848 \
+-e CONFIG-SERVER-ADDR=172.24.80.20:8848 \
+-e SYS_OPT=-DSpring.profiles.active=dev \
+kt-cloud-gateway:v1
+```
+
+# 软件架构
+
+## 组件说明
 
 | 组件名称                       | 描述           | 版本    |
 |----------------------------|--------------|-------|
@@ -17,7 +31,7 @@
 | kt-cloud-commodity-start   | 启动层          | 1.0.0 |
 
 
-### 使用说明
+## 使用说明
 ```
 mvn install到本地（如果不想运行测试，可以加上-DskipTests参数）
 ```

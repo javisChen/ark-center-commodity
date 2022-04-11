@@ -7,43 +7,51 @@ spring:
       discovery:
         enabled: ${nacos-discovery-enabled}
         server-addr: ${discovery-server-addr}
-        group: DEFAULT_GROUP
         namespace: ${nacos-discovery-namespace}
+        group: ${nacos-discovery-group}
+        ip: ${nacos-discovery-ip}
       config:
         enabled: ${nacos-config-enabled}
         server-addr: ${config-server-addr}
-        file-extension: yml
-        group: DEFAULT_GROUP
         namespace: ${nacos-config-namespace}
+        group: ${nacos-config-group}
+        file-extension: yml
         prefix: ${spring.application.name}
         refresh-enabled: true
         shared-configs:
           - common-${spring.profiles.active}.yml
       password: ${nacos-username}
       username: ${nacos-password}
+  profiles:
+    active: local
 
 ---
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
 spring:
   profiles: local
-nacos-discovery-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-discovery-server-addr: 127.0.0.1:8848
-config-server-addr: 127.0.0.1:8848
-nacos-username: nacos
-nacos-password: nacos
+nacos-discovery-ip: ${NACOS.DISCOVERY.IP:}
+nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+discovery-server-addr: ${DISCOVERY-SERVER-ADDR:127.0.0.1:8848}
+config-server-addr: ${CONFIG_SERVER_ADDR:127.0.0.1:8848}
+nacos-username: ${NACOS_USERNAME:nacos}
+nacos-password: ${NACOS_PASSWORD:nacos}
+nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
 ---
 # 开发环境
 spring:
   profiles: dev
-nacos-discovery-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-discovery-server-addr: 127.0.0.1:8848
-config-server-addr: 127.0.0.1:8848
-nacos-username: nacos
-nacos-password: nacos
+nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+discovery-server-addr: ${DISCOVERY-SERVER-ADDR:127.0.0.1:8848}
+config-server-addr: ${CONFIG_SERVER_ADDR:127.0.0.1:8848}
+nacos-username: ${NACOS_USERNAME:nacos}
+nacos-password: ${NACOS_PASSWORD:nacos}
+nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
 
@@ -51,11 +59,13 @@ nacos-config-enabled: true
 # 集成测试环境
 spring:
   profiles: sit
-nacos-discovery-namespace: 74ac3a8d-d15e-4f1b-a5cd-112f438c975d
-nacos-config-namespace: aaff0c75-80b1-4c85-ad3f-c625501368ba
-discovery-server-addr: 127.0.0.1:8848
-config-server-addr: 127.0.0.1:8848
-nacos-username: nacos
-nacos-password: nacos
+nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
+discovery-server-addr: ${DISCOVERY-SERVER-ADDR:127.0.0.1:8848}
+config-server-addr: ${CONFIG_SERVER_ADDR:127.0.0.1:8848}
+nacos-username: ${NACOS_USERNAME:nacos}
+nacos-password: ${NACOS_PASSWORD:nacos}
+nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
