@@ -23,6 +23,7 @@
     </dependencies>
 
     <build>
+        <finalName>kt-cloud-commodity</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
