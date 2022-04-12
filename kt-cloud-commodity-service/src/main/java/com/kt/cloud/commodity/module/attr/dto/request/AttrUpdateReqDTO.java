@@ -1,5 +1,6 @@
 package com.kt.cloud.commodity.module.attr.dto.request;
 
+import com.kt.component.validator.ValidateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +22,7 @@ import java.util.List;
 public class AttrUpdateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "id", required = true)
-    @NotNull(message = "id不能为空")
+    @NotNull(message = "id不能为空", groups = ValidateGroup.Update.class)
     private Long id;
 
     @ApiModelProperty(value = "属性名称", required = true)

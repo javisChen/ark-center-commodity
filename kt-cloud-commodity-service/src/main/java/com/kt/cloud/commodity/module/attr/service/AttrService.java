@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.AttrDO;
 import com.kt.cloud.commodity.dao.entity.AttrValueDO;
 import com.kt.cloud.commodity.dao.mapper.AttrMapper;
-import com.kt.cloud.commodity.module.attr.dto.request.AttrCreateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
@@ -45,7 +44,9 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Long createAttr(AttrCreateReqDTO reqDTO) {
+    public Long createAttr(AttrUpdateReqDTO reqDTO) {
+        doCheck(reqDTO);
+
         AttrDO attrDO = BeanConvertor.copy(reqDTO, AttrDO.class);
         // 保存属性基本信息
         save(attrDO);
@@ -62,10 +63,9 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
     }
 
     public Long updateAttr(AttrUpdateReqDTO reqDTO) {
-        Long attrId = reqDTO.getId();
-        AttrDO attrOldDO = getById(attrId);
         doCheck(reqDTO);
-        ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
+
+        Long attrId = reqDTO.getId();
 
         AttrDO attrNewDO = BeanConvertor.copy(reqDTO, AttrDO.class);
         updateById(attrNewDO);
@@ -86,6 +86,11 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         count = attrGroupService.countById(reqDTO.getAttrGroupId());
         if (count.equals(0L)) {
             throw ExceptionFactory.userException("属性组不存在");
+        }
+        Long attrId = reqDTO.getId();
+        if (attrId != null) {
+            AttrDO attrOldDO = getById(attrId);
+            ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
         }
     }
 

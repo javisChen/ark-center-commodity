@@ -1,24 +1,20 @@
 package com.kt.cloud.commodity.module.attr.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.kt.cloud.commodity.module.attr.dto.request.AttrCreateReqDTO;
-import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
-import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
+import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.service.AttrService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.kt.component.validator.ValidateGroup;
+import com.kt.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
-import com.kt.component.web.base.BaseController;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -42,7 +38,7 @@ public class AttrController extends BaseController {
 
     @ApiOperation(value = "创建商品属性")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated AttrCreateReqDTO reqDTO) {
+    public SingleResponse<Long> create(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
         return SingleResponse.ok(attrService.createAttr(reqDTO));
     }
 
