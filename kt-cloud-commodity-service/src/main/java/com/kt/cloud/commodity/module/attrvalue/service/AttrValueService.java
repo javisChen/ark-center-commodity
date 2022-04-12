@@ -14,6 +14,9 @@ import com.kt.component.dto.PageResponse;
 import org.springframework.stereotype.Service;
 import com.kt.component.web.util.bean.BeanConvertor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * 商品属性值 服务实现类
@@ -49,4 +52,21 @@ public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrValueDO> 
         return BeanConvertor.copy(entity, AttrValueRespDTO.class);
     }
 
+    public void batchSave(Long attrId, List<String> values, Integer type) {
+        List<AttrValueDO> dos = new ArrayList<>(values.size());
+        for (String value : values) {
+            AttrValueDO valueDO = new AttrValueDO();
+            valueDO.setAttrId(attrId);
+            valueDO.setValue(value);
+            valueDO.setType(type);
+            dos.add(valueDO);
+        }
+        saveBatch(dos);
+    }
+
+    public void removeByAttrId(Long attrId) {
+        lambdaUpdate()
+                .eq(AttrValueDO::getAttrId, attrId)
+                .remove();
+    }
 }

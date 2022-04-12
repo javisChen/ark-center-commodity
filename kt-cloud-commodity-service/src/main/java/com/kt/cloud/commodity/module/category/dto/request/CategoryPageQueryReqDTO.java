@@ -38,7 +38,7 @@ public class CategoryPageQueryReqDTO extends PagingQuery {
     private Integer parentId;
 
     @ApiModelProperty(value = "规格参数模板ID")
-    private Integer specParamTemplateId;
+    private Integer attrTemplateId;
 
     @ApiModelProperty(value = "删除标识 0-表示未删除 大于0-已删除")
     private Long isDeleted;

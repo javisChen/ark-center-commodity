@@ -1,11 +1,13 @@
 package com.kt.cloud.commodity.module.attr.dto.request;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotEmpty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 /**
  * <p>
  * 商品属性
@@ -45,5 +47,11 @@ public class AttrUpdateReqDTO implements Serializable {
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)
     @NotNull(message = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]不能为空")
     private Integer canManualAdd;
+
+    @ApiModelProperty(value = "属性可选值列表", required = false)
+    private List<String> values;
+
+    @ApiModelProperty(value = "属性组ID", required = false)
+    private Long attrGroupId;
 
 }

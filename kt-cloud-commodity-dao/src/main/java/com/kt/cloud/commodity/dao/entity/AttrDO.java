@@ -1,13 +1,13 @@
 package com.kt.cloud.commodity.dao.entity;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.kt.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.kt.component.common.enums.BasicEnums;
 import com.kt.component.common.enums.EnumUtils;
+import com.kt.component.orm.mybatis.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 /**
  * <p>
@@ -52,6 +52,12 @@ public class AttrDO extends BaseEntity {
      */
     @TableField("attr_template_id")
     private Long attrTemplateId;
+
+    /**
+     * 属性组ID，关联co_attr_group.id
+     */
+    @TableField("attr_group_id")
+    private Long attrGroupId;
 
     /**
      * 是否支持手动新增，enums[NO,不支持,0;YES,支持,1]

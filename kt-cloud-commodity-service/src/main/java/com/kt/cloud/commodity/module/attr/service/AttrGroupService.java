@@ -3,7 +3,9 @@ package com.kt.cloud.commodity.module.attr.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kt.cloud.commodity.dao.entity.AttrGroupDO;
+import com.kt.cloud.commodity.dao.entity.AttrGroupRelDO;
 import com.kt.cloud.commodity.dao.mapper.AttrGroupMapper;
+import com.kt.cloud.commodity.dao.mapper.AttrGroupRelMapper;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupCreateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupPageQueryReqDTO;
@@ -11,6 +13,7 @@ import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import org.springframework.stereotype.Service;
 import com.kt.component.web.util.bean.BeanConvertor;
 
@@ -26,9 +29,12 @@ import com.kt.component.web.util.bean.BeanConvertor;
 public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> implements IService<AttrGroupDO> {
 
     private final AttrTemplateService attrTemplateService;
+    private final AttrGroupRelMapper attrGroupRelMapper;
 
-    public AttrGroupService(AttrTemplateService attrTemplateService) {
+    public AttrGroupService(AttrTemplateService attrTemplateService,
+                            AttrGroupRelMapper attrGroupRelMapper) {
         this.attrTemplateService = attrTemplateService;
+        this.attrGroupRelMapper = attrGroupRelMapper;
     }
 
     public Long createAttrGroup(AttrGroupCreateReqDTO reqDTO) {
@@ -58,4 +64,14 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
         return BeanConvertor.copy(entity, AttrGroupRespDTO.class);
     }
 
+    public void saveAttrGroupRel(Long attrGroupId, Long attrId) {
+        AttrGroupRelDO entity = new AttrGroupRelDO();
+        entity.setAttrId(attrId);
+        entity.setAttrGroupId(attrGroupId);
+        attrGroupRelMapper.insert(entity);
+    }
+
+    public Long countById(Long attrGroupId) {
+        return lambdaQuery().eq(BaseEntity::getId, attrGroupId).count();
+    }
 }

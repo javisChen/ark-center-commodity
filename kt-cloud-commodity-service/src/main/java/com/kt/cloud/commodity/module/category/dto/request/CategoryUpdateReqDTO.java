@@ -42,6 +42,6 @@ public class CategoryUpdateReqDTO implements Serializable {
     private Integer parentId;
 
     @ApiModelProperty(value = "规格参数模板ID", required = false)
-    private Integer specParamTemplateId;
+    private Integer attrTemplateId;
 
 }

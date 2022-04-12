@@ -61,15 +61,15 @@ public class CategoryDO extends BaseEntity {
     /**
      * 规格参数模板ID
      */
-    @TableField("spec_param_template_id")
-    private Integer specParamTemplateId;
+    @TableField("attr_template_id")
+    private Long attrTemplateId;
 
     @Getter
     @AllArgsConstructor
     public enum IsShow implements BasicEnums {
         NO(0, "否"),
-            YES(1, "是"),
-    ;
+        YES(1, "是"),
+        ;
         private final Integer value;
         private final String text;
 
@@ -81,12 +81,13 @@ public class CategoryDO extends BaseEntity {
             return EnumUtils.getTextByValue(values(), value);
         }
     }
+
     @Getter
     @AllArgsConstructor
     public enum IsNav implements BasicEnums {
         NO(0, "否"),
-            YES(1, "是"),
-    ;
+        YES(1, "是"),
+        ;
         private final Integer value;
         private final String text;
 

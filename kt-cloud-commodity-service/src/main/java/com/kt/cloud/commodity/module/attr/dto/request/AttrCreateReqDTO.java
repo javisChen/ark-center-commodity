@@ -1,11 +1,14 @@
 package com.kt.cloud.commodity.module.attr.dto.request;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotEmpty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
  * 商品属性
@@ -17,8 +20,6 @@ import lombok.Data;
 @Data
 @ApiModel(value = "AttrCreateReqDTO对象", description = "商品属性")
 public class AttrCreateReqDTO implements Serializable {
-
-
 
     @ApiModelProperty(value = "属性名称", required = true)
     @NotEmpty(message = "属性名称不能为空")
@@ -36,12 +37,18 @@ public class AttrCreateReqDTO implements Serializable {
     @NotNull(message = "排序不能为空")
     private Integer sort;
 
-    @ApiModelProperty(value = "模板ID，关联co_attr_template.id", required = true)
-    @NotEmpty(message = "模板ID，关联co_attr_template.id不能为空")
+    @ApiModelProperty(value = "模板ID", required = true)
+    @NotEmpty(message = "模板ID不能为空")
     private Long attrTemplateId;
 
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)
     @NotNull(message = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]不能为空")
     private Integer canManualAdd;
+
+    @ApiModelProperty(value = "属性可选值列表", required = false)
+    private List<String> values;
+
+    @ApiModelProperty(value = "属性组ID", required = false)
+    private Long attrGroupId;
 
 }

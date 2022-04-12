@@ -13,6 +13,7 @@ import com.kt.cloud.commodity.module.attr.dto.response.AttrTemplateRespDTO;
 import com.kt.component.common.ParamsChecker;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.exception.ExceptionFactory;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.web.util.bean.BeanConvertor;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +55,9 @@ public class AttrTemplateService extends ServiceImpl<AttrTemplateMapper, AttrTem
     public void checkTemplateExists(Long attrTemplateId) {
         AttrTemplateDO attrTemplateDO = getById(attrTemplateId);
         ParamsChecker.throwIfIsNull(attrTemplateDO, ExceptionFactory.userException("属性模板不存在"));
+    }
+
+    public Long countById(Long attrTemplateId) {
+        return lambdaQuery().eq(BaseEntity::getId, attrTemplateId).count();
     }
 }
