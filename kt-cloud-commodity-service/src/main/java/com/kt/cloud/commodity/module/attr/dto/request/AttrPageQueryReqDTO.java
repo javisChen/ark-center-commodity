@@ -31,7 +31,7 @@ public class AttrPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "模板ID，关联co_attr_template.id")
+    @ApiModelProperty(value = "模板ID")
     private Long attrTemplateId;
 
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]")
