@@ -15,6 +15,7 @@ import com.kt.component.common.ParamsChecker;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.exception.ExceptionFactory;
 import com.kt.component.web.util.bean.BeanConvertor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     public PageResponse<AttrRespDTO> getPageList(AttrPageQueryReqDTO queryDTO) {
         IPage<AttrRespDTO> page = lambdaQuery()
+                .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrRespDTO.class));
         return BeanConvertor.copyPage(page, AttrRespDTO.class);
@@ -93,7 +95,6 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
             ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
         }
     }
-
 
     private void attemptRemoveAttrValues(Long attrId, AttrDO attrNewDO) {
         // 如果录入方式为[SELECT]，把attr_value先清掉

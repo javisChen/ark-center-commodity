@@ -1,9 +1,11 @@
 package com.kt.cloud.commodity.module.attr.dto.response;
 
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -34,6 +36,9 @@ public class AttrRespDTO implements Serializable {
 
     @ApiModelProperty(value = "模板ID，关联co_attr_template.id", required = true)
     private Long attrTemplateId;
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime gmtCreate;
 
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)
     private Integer canManualAdd;

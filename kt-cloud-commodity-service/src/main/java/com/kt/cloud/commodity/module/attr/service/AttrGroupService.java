@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.orm.mybatis.base.BaseEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import com.kt.component.web.util.bean.BeanConvertor;
 
@@ -46,6 +47,7 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
 
     public PageResponse<AttrGroupRespDTO> getPageList(AttrGroupPageQueryReqDTO queryDTO) {
         IPage<AttrGroupRespDTO> page = lambdaQuery()
+                .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrGroupDO::getName, queryDTO.getName())
                 .eq(AttrGroupDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrGroupRespDTO.class));
