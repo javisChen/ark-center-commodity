@@ -8,10 +8,12 @@ services:
      ports:
        - "8082:8082"
      environment:
-       NACOS_DISCOVERY_IP: nacos.cloud.org
+#       NACOS_DISCOVERY_IP: 172.24.80.20
        NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
        NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
        SYS_OPT: -DSpring.profiles.active=dev
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
    iam:
      container_name: kt-cloud-iam
      image: kt-cloud-iam:v1
@@ -19,7 +21,10 @@ services:
      ports:
        - "8080:8080"
      environment:
-       NACOS_DISCOVERY_IP: nacos.cloud.org
+#       NACOS_DISCOVERY_IP: 172.24.80.20
        NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
        NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
        SYS_OPT: -DSpring.profiles.active=dev
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
+
