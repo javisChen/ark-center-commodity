@@ -1,5 +1,6 @@
 package com.kt.cloud.commodity.module.attr.service;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -111,9 +113,14 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         }
     }
 
-    public AttrRespDTO getAttrInfo(Long AttrId) {
-        AttrDO entity = getById(AttrId);
-        return BeanConvertor.copy(entity, AttrRespDTO.class);
+    public AttrRespDTO getAttrInfo(Long attrId) {
+        AttrDO entity = getById(attrId);
+        AttrRespDTO respDTO = BeanConvertor.copy(entity, AttrRespDTO.class);
+        List<AttrValueDO> attrValueDOList = attrValueService.listByAttrId(attrId);
+        if (CollUtil.isNotEmpty(attrValueDOList)) {
+            respDTO.setValues(attrValueDOList.stream().map(AttrValueDO::getValue).collect(Collectors.toList()));
+        }
+        return respDTO;
     }
 
 }
