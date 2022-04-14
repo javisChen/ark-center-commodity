@@ -38,13 +38,13 @@ public class AttrController extends BaseController {
 
     @ApiOperation(value = "创建商品属性")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
+    public SingleResponse<Long> create(@RequestBody @Validated AttrUpdateReqDTO reqDTO) {
         return SingleResponse.ok(attrService.createAttr(reqDTO));
     }
 
     @ApiOperation(value = "修改商品属性")
     @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated AttrUpdateReqDTO reqDTO) {
+    public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
         return SingleResponse.ok(attrService.updateAttr(reqDTO));
     }
 

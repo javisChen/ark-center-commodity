@@ -64,6 +64,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         return BeanConvertor.copyPage(page, AttrRespDTO.class);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Long updateAttr(AttrUpdateReqDTO reqDTO) {
         doCheck(reqDTO);
 
@@ -90,7 +91,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
             throw ExceptionFactory.userException("属性组不存在");
         }
         Long attrId = reqDTO.getId();
-        if (attrId != null) {
+        if (attrId != null && attrId > 0L) {
             AttrDO attrOldDO = getById(attrId);
             ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
         }
