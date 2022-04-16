@@ -26,7 +26,7 @@ public class CategoryPageQueryReqDTO extends PagingQuery {
     private Integer sort;
 
     @ApiModelProperty(value = "分类等级")
-    private Integer level;
+    private Integer level = 1;
 
     @ApiModelProperty(value = "上级ID")
     private Long pid;
