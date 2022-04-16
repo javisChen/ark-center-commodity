@@ -1,12 +1,12 @@
 package com.kt.cloud.commodity.module.category.controller;
 
-import com.kt.cloud.commodity.module.category.dto.request.CategoryCreateReqDTO;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryPageQueryReqDTO;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryUpdateReqDTO;
 import com.kt.cloud.commodity.module.category.dto.response.CategoryRespDTO;
 import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
+import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,13 +40,13 @@ public class CategoryController extends BaseController {
 
     @ApiOperation(value = "创建商品类目")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateReqDTO reqDTO) {
+    public SingleResponse<Long> create(@RequestBody @Validated CategoryUpdateReqDTO reqDTO) {
         return SingleResponse.ok(categoryService.createCategory(reqDTO));
     }
 
     @ApiOperation(value = "修改商品类目")
     @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated CategoryUpdateReqDTO reqDTO) {
+    public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateReqDTO reqDTO) {
         return SingleResponse.ok(categoryService.updateCategory(reqDTO));
     }
 

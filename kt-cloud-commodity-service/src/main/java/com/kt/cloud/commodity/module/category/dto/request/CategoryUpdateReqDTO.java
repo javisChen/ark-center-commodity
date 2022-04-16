@@ -1,5 +1,6 @@
 package com.kt.cloud.commodity.module.category.dto.request;
 
+import com.kt.component.validator.ValidateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 public class CategoryUpdateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "分类id", required = true)
-    @NotNull(message = "分类id不能为空")
+    @NotNull(message = "分类id不能为空", groups = ValidateGroup.Update.class)
     private Long id;
 
     @ApiModelProperty(value = "分类名称", required = true)
@@ -39,9 +40,9 @@ public class CategoryUpdateReqDTO implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "上级ID", required = false)
-    private Integer parentId;
+    private Long pid;
 
-    @ApiModelProperty(value = "规格参数模板ID", required = false)
-    private Integer attrTemplateId;
+    @ApiModelProperty(value = "规格参数模板ID", required = true)
+    private Long attrTemplateId;
 
 }

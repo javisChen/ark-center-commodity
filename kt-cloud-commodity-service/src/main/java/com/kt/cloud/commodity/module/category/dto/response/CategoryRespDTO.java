@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -37,9 +38,15 @@ public class CategoryRespDTO implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "上级ID", required = true)
-    private Integer parentId;
+    private Long pid;
 
     @ApiModelProperty(value = "规格参数模板ID", required = true)
-    private Integer attrTemplateId;
+    private Long attrTemplateId;
+
+    @ApiModelProperty(value = "分类级别", required = true)
+    private Integer level;
+
+    @ApiModelProperty(value = "创建时间", required = true)
+    private LocalDateTime gmtCreate;
 
 }

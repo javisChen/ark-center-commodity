@@ -22,25 +22,18 @@ public class CategoryPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "分类名称")
     private String name;
 
-    @ApiModelProperty(value = "商品数量")
-    private Integer commodityCount;
-
-    @ApiModelProperty(value = "是否显示 enums[NO,否,0;YES,是,1]")
-    private Integer isShow;
-
-    @ApiModelProperty(value = "是否导航 enums[NO,否,0;YES,是,1]")
-    private Integer isNav;
-
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "分类等级")
+    private Integer level;
+
     @ApiModelProperty(value = "上级ID")
-    private Integer parentId;
+    private Long pid;
 
     @ApiModelProperty(value = "规格参数模板ID")
-    private Integer attrTemplateId;
+    private Long attrTemplateId;
 
-    @ApiModelProperty(value = "删除标识 0-表示未删除 大于0-已删除")
-    private Long isDeleted;
+
 
 }

@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.common.enums.BasicEnums;
 import com.kt.component.common.enums.EnumUtils;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
+
 /**
  * <p>
  * 商品类目
@@ -19,8 +17,8 @@ import lombok.Getter;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("co_category")
+@NoArgsConstructor
 public class CategoryDO extends BaseEntity {
-
 
     /**
      * 分类名称
@@ -55,8 +53,20 @@ public class CategoryDO extends BaseEntity {
     /**
      * 上级ID
      */
-    @TableField("parent_id")
-    private Integer parentId;
+    @TableField("pid")
+    private Long pid;
+
+    /**
+     * 分类级别
+     */
+    @TableField("level")
+    private Integer level;
+
+    /**
+     * 分类级别路径，例如：0.1.2 代表该分类是三级分类，上级路由的id是1,再上级的路由id是0
+     */
+    @TableField("level_path")
+    private String levelPath;
 
     /**
      * 规格参数模板ID
@@ -98,5 +108,10 @@ public class CategoryDO extends BaseEntity {
         public static String getText(Integer value) {
             return EnumUtils.getTextByValue(values(), value);
         }
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
     }
 }

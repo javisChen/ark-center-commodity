@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -48,8 +49,10 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     @Transactional(rollbackFor = Exception.class)
     public Long createAttr(AttrUpdateReqDTO reqDTO) {
+        if (reqDTO.getId() != null) {
+            return updateAttr(reqDTO);
+        }
         doCheck(reqDTO);
-
         AttrDO attrDO = BeanConvertor.copy(reqDTO, AttrDO.class);
         // 保存属性基本信息
         save(attrDO);
@@ -60,6 +63,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     public PageResponse<AttrRespDTO> getPageList(AttrPageQueryReqDTO queryDTO) {
         IPage<AttrRespDTO> page = lambdaQuery()
+                .like(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrRespDTO.class));
@@ -101,9 +105,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     private void attemptRemoveAttrValues(Long attrId, AttrDO attrNewDO) {
         // 如果录入方式为[SELECT]，把attr_value先清掉
-        if ((attrNewDO.getInputType().equals(AttrDO.InputType.SELECT.getValue()))) {
-            attrValueService.removeByAttrId(attrId);
-        }
+        attrValueService.removeByAttrId(attrId);
     }
 
     private void saveValues(AttrDO attrDO, List<String> values) {
