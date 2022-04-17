@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.spu.dto.request;
+package com.kt.cloud.commodity.module.commodity.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,19 +9,33 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 /**
  * <p>
- * spu主表
+ * 商品
  * </p>
- *
  * @author EOP
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "SpuCreateReqDTO对象", description = "spu主表")
-public class SpuCreateReqDTO implements Serializable {
+@ApiModel(value = "CommodityUpdateReqDTO对象", description = "商品对象")
+public class CommodityUpdateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "商品名称", required = true)
     @NotEmpty(message = "商品名称不能为空")
-    private String mainName;
+    private String name;
+
+    @ApiModelProperty(value = "商品编号", required = true)
+    @NotEmpty(message = "商品编号不能为空")
+    private String code;
+
+    @ApiModelProperty(value = "商品介绍", required = false)
+    private String description;
+
+    @ApiModelProperty(value = "品牌id，关联co_brand.id", required = true)
+    @NotEmpty(message = "品牌id，关联co_brand.id不能为空")
+    private Long brandId;
+
+    @ApiModelProperty(value = "分类id，关联co_category.id", required = true)
+    @NotEmpty(message = "分类id，关联co_category.id不能为空")
+    private Long categoryId;
 
     @ApiModelProperty(value = "spu主图url", required = true)
     @NotEmpty(message = "spu主图url不能为空")
@@ -43,22 +57,10 @@ public class SpuCreateReqDTO implements Serializable {
     @NotNull(message = "默认展示价格（单位：分）不能为空")
     private Integer showPrice;
 
-    @ApiModelProperty(value = "单位", required = false)
+    @ApiModelProperty(value = "单位（G、KG）", required = false)
     private String unit;
 
     @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
     private Integer weight;
-
-    @ApiModelProperty(value = "排序", required = true)
-    @NotNull(message = "排序不能为空")
-    private Integer sort;
-
-    @ApiModelProperty(value = "品牌id，关联co_brand.id", required = true)
-    @NotEmpty(message = "品牌id，关联co_brand.id不能为空")
-    private Long brandId;
-
-    @ApiModelProperty(value = "分类id，关联co_category.id", required = true)
-    @NotEmpty(message = "分类id，关联co_category.id不能为空")
-    private Long categoryId;
 
 }

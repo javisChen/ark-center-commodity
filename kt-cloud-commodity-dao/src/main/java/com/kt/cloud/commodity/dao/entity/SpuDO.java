@@ -25,8 +25,20 @@ public class SpuDO extends BaseEntity {
     /**
      * 商品名称
      */
-    @TableField("main_name")
-    private String mainName;
+    @TableField("name")
+    private String name;
+
+    /**
+     * 商品编号
+     */
+    @TableField("code")
+    private String code;
+
+    /**
+     * 商品介绍
+     */
+    @TableField("description")
+    private String description;
 
     /**
      * spu主图url
