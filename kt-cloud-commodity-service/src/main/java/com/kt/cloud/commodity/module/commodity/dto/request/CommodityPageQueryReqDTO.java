@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "SkuPageQueryReqDTO对象", description = "sku")
-public class SkuPageQueryReqDTO extends PagingQuery {
+public class CommodityPageQueryReqDTO extends PagingQuery {
 
 
     @ApiModelProperty(value = "SpuId，关联co_spu.id")

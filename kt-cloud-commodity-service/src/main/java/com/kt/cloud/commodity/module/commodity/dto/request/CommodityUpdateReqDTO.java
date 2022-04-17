@@ -7,6 +7,8 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
  * 商品
@@ -49,18 +51,27 @@ public class CommodityUpdateReqDTO implements Serializable {
     @NotNull(message = "审核状态：enums[NO_CHECK,未审核,0;CHECK_PASS,审核通过,1;CHECK_NO_PASS,审核不通过,2]不能为空")
     private Integer verifyStatus;
 
-    @ApiModelProperty(value = "销量", required = true)
-    @NotNull(message = "销量不能为空")
-    private Integer sales;
-
     @ApiModelProperty(value = "默认展示价格（单位：分）", required = true)
-    @NotNull(message = "默认展示价格（单位：分）不能为空")
+    @NotNull(message = "默认展示价格）不能为空")
     private Integer showPrice;
 
-    @ApiModelProperty(value = "单位（G、KG）", required = false)
+    @ApiModelProperty(value = "单位（G、KG）", required = true)
     private String unit;
 
-    @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
+    @ApiModelProperty(value = "商品重量，默认为克(g)", required = true)
     private Integer weight;
+
+    @ApiModelProperty(value = "运费模板ID", required = false)
+    private Long freightTemplateId;
+
+    @ApiModelProperty(value = "PC端详情富文本", required = false)
+    private String pcDetailHtml;
+
+    @ApiModelProperty(value = "移动端详情富文本", required = false)
+    private String mobileDetailHtml;
+
+
+    @ApiModelProperty(value = "SKU列表", required = true)
+    private List<SkuUpdateDTO> skuList;
 
 }

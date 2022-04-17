@@ -18,7 +18,6 @@ import java.io.Serializable;
 @ApiModel(value = "SkuRespDTO对象", description = "sku")
 public class SkuRespDTO implements Serializable {
 
-
     @ApiModelProperty(value = "SpuId，关联co_spu.id", required = true)
     private Long spuId;
 

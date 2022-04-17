@@ -27,8 +27,8 @@ public class SpuSalesDO extends BaseEntity {
     /**
      * spu编码
      */
-    @TableField("sn")
-    private String sn;
+    @TableField("code")
+    private String code;
 
     /**
      * 运费模版ID,关联freight_template.id

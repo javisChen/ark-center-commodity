@@ -1,13 +1,10 @@
 package com.kt.cloud.commodity.dao.entity;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.kt.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.kt.component.common.enums.BasicEnums;
-import com.kt.component.common.enums.EnumUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 /**
  * <p>
  * sku
@@ -31,8 +28,8 @@ public class SkuDO extends BaseEntity {
     /**
      * spu编码
      */
-    @TableField("sn")
-    private String sn;
+    @TableField("code")
+    private String code;
 
     /**
      * 销售价（单位：分）

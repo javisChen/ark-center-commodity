@@ -1,10 +1,9 @@
 package com.kt.cloud.commodity.module.commodity.controller;
 
+import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.request.SkuPageQueryReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.SkuRespDTO;
-import com.kt.cloud.commodity.module.commodity.service.SkuService;
+import com.kt.cloud.commodity.module.commodity.service.CommodityService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.web.base.BaseController;
@@ -29,35 +28,35 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/v1/commodity")
 public class CommodityController extends BaseController {
 
-    private final SkuService skuService;
+    private final CommodityService commodityService;
 
-    public CommodityController(SkuService skuService) {
-        this.skuService = skuService;
+    public CommodityController(CommodityService commodityService) {
+        this.commodityService = commodityService;
     }
 
     @ApiOperation(value = "创建")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
-        return SingleResponse.ok(skuService.createSku(reqDTO));
+        return SingleResponse.ok(commodityService.create(reqDTO));
     }
 
     @ApiOperation(value = "修改")
     @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated SkuUpdateReqDTO reqDTO) {
-        return SingleResponse.ok(skuService.updateSku(reqDTO));
+    public SingleResponse<Long> update(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
+        return SingleResponse.ok(commodityService.updateCommodity(reqDTO));
     }
 
     @ApiOperation(value = "查询分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<SkuRespDTO>> pageList(@RequestBody @Validated SkuPageQueryReqDTO queryDTO) {
-        return SingleResponse.ok(skuService.getPageList(queryDTO));
+    public SingleResponse<PageResponse<SkuRespDTO>> pageList(@RequestBody @Validated CommodityPageQueryReqDTO queryDTO) {
+        return SingleResponse.ok(commodityService.getPageList(queryDTO));
     }
 
     @ApiOperation(value = "查询详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
     public SingleResponse<SkuRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(skuService.getSkuInfo(id));
+        return SingleResponse.ok(commodityService.getInfo(id));
     }
 
 
