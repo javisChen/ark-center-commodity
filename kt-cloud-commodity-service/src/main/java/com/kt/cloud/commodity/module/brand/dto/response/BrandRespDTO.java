@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Data
 public class BrandRespDTO {
 
+    @ApiModelProperty(value = "品牌ID")
+    private Long id;
+
     @ApiModelProperty(value = "品牌名称")
     private String name;
 

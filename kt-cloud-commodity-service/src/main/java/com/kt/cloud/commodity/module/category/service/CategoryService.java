@@ -1,21 +1,28 @@
 package com.kt.cloud.commodity.module.category.service;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.kt.cloud.commodity.dao.entity.CategoryDO;
 import com.kt.cloud.commodity.dao.mapper.CategoryMapper;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryPageQueryReqDTO;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryUpdateReqDTO;
 import com.kt.cloud.commodity.module.category.dto.response.CategoryRespDTO;
+import com.kt.cloud.commodity.module.category.dto.response.TreeDTO;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.web.util.bean.BeanConvertor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -76,4 +83,29 @@ public class CategoryService extends ServiceImpl<CategoryMapper, CategoryDO> imp
         return BeanConvertor.copy(entity, CategoryRespDTO.class);
     }
 
+    public TreeDTO<CategoryRespDTO> getTree(CategoryPageQueryReqDTO queryDTO) {
+        List<CategoryDO> list = list();
+        Map<Long, List<CategoryDO>> pidMap = list.stream().collect(Collectors.groupingBy(CategoryDO::getPid));
+        List<CategoryDO> level1 = list.stream().filter(item -> item.getLevel().equals(1)).collect(Collectors.toList());
+        TreeDTO<CategoryRespDTO> treeDTO = new TreeDTO<>();
+        List<TreeDTO.Node<CategoryRespDTO>> nodes = new ArrayList<>();
+        treeDTO.setNodes(nodes);
+        fill(pidMap, level1, nodes);
+        return treeDTO;
+    }
+
+    private void fill(Map<Long, List<CategoryDO>> pidMap, List<CategoryDO> categoryDOList, List<TreeDTO.Node<CategoryRespDTO>> nodes) {
+        for (CategoryDO categoryDO : categoryDOList) {
+            TreeDTO.Node<CategoryRespDTO> node = new TreeDTO.Node<>();
+            node.setName(categoryDO.getName());
+            node.setId(categoryDO.getId());
+            node.setPid(categoryDO.getPid());
+            List<CategoryDO> r = pidMap.get(categoryDO.getId());
+            if (CollectionUtil.isNotEmpty(r)) {
+                node.setNodes(Lists.newArrayListWithCapacity(r.size()));
+                fill(pidMap, r, node.getNodes());
+            }
+            nodes.add(node);
+        }
+    }
 }

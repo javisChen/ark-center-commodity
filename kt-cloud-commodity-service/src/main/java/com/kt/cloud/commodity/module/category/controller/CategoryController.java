@@ -3,6 +3,7 @@ package com.kt.cloud.commodity.module.category.controller;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryPageQueryReqDTO;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryUpdateReqDTO;
 import com.kt.cloud.commodity.module.category.dto.response.CategoryRespDTO;
+import com.kt.cloud.commodity.module.category.dto.response.TreeDTO;
 import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
@@ -54,6 +55,12 @@ public class CategoryController extends BaseController {
     @PostMapping("/page")
     public SingleResponse<PageResponse<CategoryRespDTO>> pageList(@RequestBody @Validated CategoryPageQueryReqDTO queryDTO) {
         return SingleResponse.ok(categoryService.getPageList(queryDTO));
+    }
+
+    @ApiOperation(value = "查询商品类目树形结构")
+    @PostMapping("/tree")
+    public SingleResponse<TreeDTO<CategoryRespDTO>> tree(@RequestBody @Validated CategoryPageQueryReqDTO queryDTO) {
+        return SingleResponse.ok(categoryService.getTree(queryDTO));
     }
 
     @ApiOperation(value = "查询商品类目详情")

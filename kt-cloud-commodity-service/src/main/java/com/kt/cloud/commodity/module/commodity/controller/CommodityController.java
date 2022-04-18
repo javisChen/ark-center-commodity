@@ -2,7 +2,7 @@ package com.kt.cloud.commodity.module.commodity.controller;
 
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.response.SkuRespDTO;
+import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.cloud.commodity.module.commodity.service.CommodityService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
@@ -48,14 +48,14 @@ public class CommodityController extends BaseController {
 
     @ApiOperation(value = "查询分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<SkuRespDTO>> pageList(@RequestBody @Validated CommodityPageQueryReqDTO queryDTO) {
+    public SingleResponse<PageResponse<CommodityPageRespDTO>> pageList(@RequestBody @Validated CommodityPageQueryReqDTO queryDTO) {
         return SingleResponse.ok(commodityService.getPageList(queryDTO));
     }
 
     @ApiOperation(value = "查询详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
-    public SingleResponse<SkuRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    public SingleResponse<CommodityPageRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(commodityService.getInfo(id));
     }
 

@@ -6,7 +6,7 @@ import com.kt.cloud.commodity.dao.entity.SpuDO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateDTO;
-import com.kt.cloud.commodity.module.commodity.dto.response.SkuRespDTO;
+import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.component.dto.PageResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -25,8 +25,8 @@ import java.util.List;
 @Service
 public class CommodityService {
 
-    private SpuService spuService;
-    private SkuService skuService;
+    private final SpuService spuService;
+    private final SkuService skuService;
 
     public CommodityService(SpuService spuService, SkuService skuService) {
         this.spuService = spuService;
@@ -80,11 +80,11 @@ public class CommodityService {
         return null;
     }
 
-    public PageResponse<SkuRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
-        return null;
+    public PageResponse<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
+        return PageResponse.build(spuService.getPageList(queryDTO));
     }
 
-    public SkuRespDTO getInfo(Long id) {
+    public CommodityPageRespDTO getInfo(Long id) {
         return null;
     }
 }

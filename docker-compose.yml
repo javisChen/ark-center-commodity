@@ -8,7 +8,18 @@ services:
      ports:
        - "8082:8082"
      environment:
-#       NACOS_DISCOVERY_IP: 172.24.80.20
+       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
+       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
+       SYS_OPT: -DSpring.profiles.active=dev
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
+   oss:
+     container_name: kt-cloud-oss
+     image: kt-cloud-oss:v1
+     restart: always
+     ports:
+       - "8084:8084"
+     environment:
        NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
        NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
        SYS_OPT: -DSpring.profiles.active=dev
@@ -21,10 +32,34 @@ services:
      ports:
        - "8080:8080"
      environment:
-#       NACOS_DISCOVERY_IP: 172.24.80.20
        NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
        NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
        SYS_OPT: -DSpring.profiles.active=dev
        LANG: C.UTF-8
        TZ: "Asia/Shanghai"
+   redis:
+     container_name: redis
+     image: redis:latest
+     restart: always
+     ports:
+       - "6379:6379"
+     environment:
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
+   minio:
+     container_name: minio
+     image: minio/minio:latest
+     restart: always
+     ports:
+       - "9000:9000"
+       - "9100:9100"
+     environment:
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
+       MINIO_ROOT_USER: admin
+       MINIO_ROOT_PASSWORD: admin123456
+     volumes:
+       - "/Users/chenjiawei/dev/docker/minio/data:/data"
+       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
+     command: server /data --console-address ":9100"
 
