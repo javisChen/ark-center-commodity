@@ -74,6 +74,9 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
     }
 
     public Long countById(Long attrGroupId) {
+        if (attrGroupId == null) {
+            return 0L;
+        }
         return lambdaQuery().eq(BaseEntity::getId, attrGroupId).count();
     }
 }

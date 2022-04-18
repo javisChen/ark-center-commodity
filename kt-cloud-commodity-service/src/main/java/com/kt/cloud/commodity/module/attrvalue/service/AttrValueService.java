@@ -75,4 +75,10 @@ public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrValueDO> 
                 .eq(AttrValueDO::getAttrId, attrId)
                 .list();
     }
+
+    public List<AttrValueDO> listByAttrIds(List<Long> attrIds) {
+        return lambdaQuery()
+                .in(AttrValueDO::getAttrId, attrIds)
+                .list();
+    }
 }

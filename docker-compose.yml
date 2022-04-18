@@ -59,7 +59,9 @@ services:
        MINIO_ROOT_USER: admin
        MINIO_ROOT_PASSWORD: admin123456
      volumes:
-       - "/Users/chenjiawei/dev/docker/minio/data:/data"
-       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
+#       - "/Users/chenjiawei/dev/docker/minio/data:/data"
+#       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
+       - "D:\\docker\\minio\\data:/data"
+       - "D:\\docker\\minio\\config:/root/.minio"
      command: server /data --console-address ":9100"
 

@@ -7,21 +7,26 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.AttrDO;
 import com.kt.cloud.commodity.dao.entity.AttrValueDO;
+import com.kt.cloud.commodity.dao.entity.CategoryDO;
 import com.kt.cloud.commodity.dao.mapper.AttrMapper;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
+import com.kt.cloud.commodity.module.attr.support.AttrHelper;
 import com.kt.cloud.commodity.module.attrvalue.service.AttrValueService;
+import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.component.common.ParamsChecker;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.exception.ExceptionFactory;
 import com.kt.component.web.util.bean.BeanConvertor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -36,15 +41,21 @@ import java.util.stream.Collectors;
 public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements IService<AttrDO> {
 
     private final AttrGroupService attrGroupService;
+    private final AttrHelper attrHelper;
     private final AttrValueService attrValueService;
     private final AttrTemplateService attrTemplateService;
+    private final CategoryService categoryService;
 
     public AttrService(AttrGroupService attrGroupService,
+                       AttrHelper attrHelper,
                        AttrValueService attrValueService,
-                       AttrTemplateService attrTemplateService) {
+                       AttrTemplateService attrTemplateService,
+                       CategoryService categoryService) {
         this.attrGroupService = attrGroupService;
+        this.attrHelper = attrHelper;
         this.attrValueService = attrValueService;
         this.attrTemplateService = attrTemplateService;
+        this.categoryService = categoryService;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -62,13 +73,33 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
     }
 
     public PageResponse<AttrRespDTO> getPageList(AttrPageQueryReqDTO queryDTO) {
-        IPage<AttrRespDTO> page = lambdaQuery()
+        if (queryDTO.getCategoryId() != null) {
+            CategoryDO categoryDO = Optional.ofNullable(categoryService.getById(queryDTO.getCategoryId()))
+                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
+            queryDTO.setAttrTemplateId(categoryDO.getAttrTemplateId());
+        }
+        IPage<AttrRespDTO> page = getAttrPage(queryDTO);
+        List<AttrRespDTO> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return PageResponse.build(page);
+        }
+        List<Long> attrIdList = records.stream().map(AttrRespDTO::getId).collect(Collectors.toList());
+        if (queryDTO.getQueryValues()) {
+            List<AttrValueDO> attrValueDOList = attrValueService.listByAttrIds(attrIdList);
+            attrHelper.fillAttrValues(records, attrValueDOList);
+        }
+        return PageResponse.build(page);
+    }
+
+    private IPage<AttrRespDTO> getAttrPage(AttrPageQueryReqDTO queryDTO) {
+        return lambdaQuery()
+                .eq(Objects.nonNull(queryDTO.getAttrTemplateId()), AttrDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .like(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrRespDTO.class));
-        return BeanConvertor.copyPage(page, AttrRespDTO.class);
     }
+
 
     @Transactional(rollbackFor = Exception.class)
     public Long updateAttr(AttrUpdateReqDTO reqDTO) {
@@ -92,9 +123,12 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         if (count.equals(0L)) {
             throw ExceptionFactory.userException("属性模板不存在");
         }
-        count = attrGroupService.countById(reqDTO.getAttrGroupId());
-        if (count.equals(0L)) {
-            throw ExceptionFactory.userException("属性组不存在");
+        Long attrGroupId = reqDTO.getAttrGroupId();
+        if (attrGroupId != null && attrGroupId > 0) {
+            count = attrGroupService.countById(attrGroupId);
+            if (count.equals(0L)) {
+                throw ExceptionFactory.userException("属性组不存在");
+            }
         }
         Long attrId = reqDTO.getId();
         if (attrId != null && attrId > 0L) {
@@ -120,7 +154,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         AttrRespDTO respDTO = BeanConvertor.copy(entity, AttrRespDTO.class);
         List<AttrValueDO> attrValueDOList = attrValueService.listByAttrId(attrId);
         if (CollUtil.isNotEmpty(attrValueDOList)) {
-            respDTO.setValues(attrValueDOList.stream().map(AttrValueDO::getValue).collect(Collectors.toList()));
+            attrHelper.fillAttrValues(respDTO, attrValueDOList);
         }
         return respDTO;
     }
