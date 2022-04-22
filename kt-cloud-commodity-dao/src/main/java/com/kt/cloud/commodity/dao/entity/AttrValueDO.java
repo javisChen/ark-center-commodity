@@ -46,8 +46,8 @@ public class AttrValueDO extends BaseEntity {
     @AllArgsConstructor
     public enum Type implements BasicEnums {
         COMMON(1, "通用"),
-            EXCLUSIVE(2, "商品特有"),
-    ;
+        EXCLUSIVE(2, "商品特有"),
+        ;
         private final Integer value;
         private final String text;
 

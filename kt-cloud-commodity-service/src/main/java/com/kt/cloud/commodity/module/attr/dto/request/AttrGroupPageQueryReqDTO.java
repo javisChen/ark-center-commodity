@@ -1,12 +1,10 @@
 package com.kt.cloud.commodity.module.attr.dto.request;
 
+import com.kt.component.dto.PagingQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.kt.component.dto.PagingQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -21,12 +19,16 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "AttrGroupPageQueryReqDTO对象", description = "商品属性组")
 public class AttrGroupPageQueryReqDTO extends PagingQuery {
 
-
-    @ApiModelProperty(value = "属性分组名称")
+    @ApiModelProperty(value = "属性分组名称", required = false)
     private String name;
 
-    @ApiModelProperty(value = "模板ID")
-    @NotNull(message = "模板ID不能为空")
+    @ApiModelProperty(value = "模板ID", required = false)
     private Long attrTemplateId;
+
+    @ApiModelProperty(value = "商品类目ID", required = false)
+    private Long categoryId;
+
+    @ApiModelProperty(value = "查询属性组下的属性")
+    private Boolean withAttr = false;
 
 }

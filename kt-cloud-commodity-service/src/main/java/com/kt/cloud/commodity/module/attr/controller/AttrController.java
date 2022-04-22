@@ -1,7 +1,7 @@
 package com.kt.cloud.commodity.module.attr.controller;
 
-import com.kt.cloud.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
-import com.kt.cloud.commodity.module.attr.dto.request.AttrUpdateReqDTO;
+import com.kt.cloud.commodity.module.attr.dto.request.*;
+import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.service.AttrService;
 import com.kt.component.dto.PageResponse;
@@ -57,9 +57,32 @@ public class AttrController extends BaseController {
     @ApiOperation(value = "查询商品属性详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
-    public SingleResponse<AttrRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    public SingleResponse<AttrRespDTO> getInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrService.getAttrInfo(id));
     }
 
+    @ApiOperation(value = "创建商品属性组")
+    @PostMapping("/group/create")
+    public SingleResponse<Long> createGroup(@RequestBody @Validated AttrGroupCreateReqDTO reqDTO) {
+        return SingleResponse.ok(attrService.createAttrGroup(reqDTO));
+    }
 
+    @ApiOperation(value = "修改商品属性组")
+    @PostMapping("/group/update")
+    public SingleResponse<Long> updateGroup(@RequestBody @Validated AttrGroupUpdateReqDTO reqDTO) {
+        return SingleResponse.ok(attrService.updateAttrGroup(reqDTO));
+    }
+
+    @ApiOperation(value = "查询商品属性组分页列表")
+    @PostMapping("/group/page")
+    public SingleResponse<PageResponse<AttrGroupRespDTO>> getGroupPageList(@RequestBody @Validated AttrGroupPageQueryReqDTO queryDTO) {
+        return SingleResponse.ok(attrService.getAttrGroupPageList(queryDTO));
+    }
+
+    @ApiOperation(value = "查询商品属性组详情")
+    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @GetMapping("/group/info")
+    public SingleResponse<AttrGroupRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+        return SingleResponse.ok(attrService.getAttrGroupInfo(id));
+    }
 }

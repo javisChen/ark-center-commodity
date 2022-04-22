@@ -34,13 +34,13 @@ public class CommodityController extends BaseController {
         this.commodityService = commodityService;
     }
 
-    @ApiOperation(value = "创建")
+    @ApiOperation(value = "创建商品")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
         return SingleResponse.ok(commodityService.create(reqDTO));
     }
 
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改商品")
     @PostMapping("/update")
     public SingleResponse<Long> update(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
         return SingleResponse.ok(commodityService.updateCommodity(reqDTO));

@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -30,5 +31,8 @@ public class AttrGroupRespDTO implements Serializable {
 
     @ApiModelProperty(value = "创建时间", required = true)
     private LocalDateTime gmtCreate;
+
+    @ApiModelProperty(value = "属性列表", required = false)
+    private List<AttrRespDTO> attrList;
 
 }

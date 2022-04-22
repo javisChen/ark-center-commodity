@@ -24,7 +24,7 @@ public class AttrGroupCreateReqDTO implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "模板ID，关联co_attr_template.id", required = true)
-    @NotNull(message = "模板ID")
+    @NotNull(message = "模板ID不能为空")
     private Long attrTemplateId;
 
 }
