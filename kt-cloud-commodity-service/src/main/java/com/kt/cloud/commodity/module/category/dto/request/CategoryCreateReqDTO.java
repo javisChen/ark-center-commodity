@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 /**
@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class CategoryCreateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "分类名称", required = true)
-    @NotEmpty(message = "分类名称不能为空")
+    @NotBlank(message = "分类名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "是否显示 enums[NO,否,0;YES,是,1]", required = true)

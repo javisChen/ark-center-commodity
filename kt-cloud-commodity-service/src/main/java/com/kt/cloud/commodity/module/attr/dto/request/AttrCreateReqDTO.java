@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class AttrCreateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "属性名称", required = true)
-    @NotEmpty(message = "属性名称不能为空")
+    @NotBlank(message = "属性名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "属性录入方式，enums[INPUT,手工录入,1;SELECT,从选项列表选取,2]", required = true)
@@ -38,7 +38,7 @@ public class AttrCreateReqDTO implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "模板ID", required = true)
-    @NotEmpty(message = "模板ID不能为空")
+    @NotBlank(message = "模板ID不能为空")
     private Long attrTemplateId;
 
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)

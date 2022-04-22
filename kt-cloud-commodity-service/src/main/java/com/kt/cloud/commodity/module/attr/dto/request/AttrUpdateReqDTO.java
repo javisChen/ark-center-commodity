@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +26,7 @@ public class AttrUpdateReqDTO implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "属性名称", required = true)
-    @NotEmpty(message = "属性名称不能为空")
+    @NotBlank(message = "属性名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "属性录入方式，enums[INPUT,手工录入,1;SELECT,从选项列表选取,2]", required = true)

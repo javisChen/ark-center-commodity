@@ -74,7 +74,7 @@ public class SpuDO extends BaseEntity {
      * 单位
      */
     @TableField("unit")
-    private String unit;
+    private Integer unit;
 
     /**
      * 商品重量，默认为克(g)

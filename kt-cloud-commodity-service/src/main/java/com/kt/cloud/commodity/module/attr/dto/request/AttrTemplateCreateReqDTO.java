@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 /**
  * <p>
@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class AttrTemplateCreateReqDTO implements Serializable {
 
     @ApiModelProperty(value = "模板名称", required = true)
-    @NotEmpty(message = "模板名称不能为空")
+    @NotBlank(message = "模板名称不能为空")
     private String name;
 
 }
