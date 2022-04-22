@@ -1,6 +1,5 @@
 package com.kt.cloud.commodity.module.attr.dto.response;
 
-import com.kt.cloud.commodity.module.attrvalue.dto.response.AttrValueRespDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -48,7 +47,7 @@ public class AttrRespDTO implements Serializable {
     @ApiModelProperty(value = "属性组ID", required = false)
     private Long attrGroupId;
 
-    @ApiModelProperty(value = "属性可选值列表", required = false)
-    private List<AttrValueRespDTO> values;
+    @ApiModelProperty(value = "属性可选项列表", required = false)
+    private List<AttrOptionRespDTO> optionList;
 
 }

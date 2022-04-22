@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.attrvalue.dto.response;
+package com.kt.cloud.commodity.module.attr.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,15 +8,15 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 商品属性值
+ * 商品可选项
  * </p>
  *
  * @author EOP
  * @since 2022-03-08
  */
 @Data
-@ApiModel(value = "AttrValueRespDTO对象", description = "商品属性值")
-public class AttrValueRespDTO implements Serializable {
+@ApiModel(value = "AttrOptionRespDTO对象", description = "商品可选项")
+public class AttrOptionRespDTO implements Serializable {
 
     @ApiModelProperty(value = "id", required = true)
     private Long id;
@@ -25,7 +25,7 @@ public class AttrValueRespDTO implements Serializable {
     private Long attrId;
 
     @ApiModelProperty(value = "选项值内容", required = true)
-    private String content;
+    private String value;
 
     @ApiModelProperty(value = "类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]", required = true)
     private Integer type;

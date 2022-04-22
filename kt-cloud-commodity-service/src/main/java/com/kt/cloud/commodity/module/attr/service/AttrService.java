@@ -84,7 +84,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
             return PageResponse.build(page);
         }
         List<Long> attrIdList = records.stream().map(AttrRespDTO::getId).collect(Collectors.toList());
-        if (queryDTO.getQueryValues()) {
+        if (queryDTO.getWithOptions()) {
             List<AttrOptionDO> attrOptionDOList = attrValueService.listByAttrIds(attrIdList);
             attrHelper.fillAttrValues(records, attrOptionDOList);
         }

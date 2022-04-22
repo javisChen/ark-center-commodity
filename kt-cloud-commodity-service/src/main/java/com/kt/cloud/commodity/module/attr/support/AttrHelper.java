@@ -2,8 +2,8 @@ package com.kt.cloud.commodity.module.attr.support;
 
 import com.google.common.collect.Lists;
 import com.kt.cloud.commodity.dao.entity.AttrOptionDO;
+import com.kt.cloud.commodity.module.attr.dto.response.AttrOptionRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
-import com.kt.cloud.commodity.module.attrvalue.dto.response.AttrValueRespDTO;
 import com.kt.component.web.util.bean.BeanConvertor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class AttrHelper {
             for (AttrRespDTO record : records) {
                 List<AttrOptionDO> valueList = attrValueMap.get(record.getId());
                 if (CollectionUtils.isNotEmpty(valueList)) {
-                    record.setValues(BeanConvertor.copyList(valueList, AttrValueRespDTO.class));
+                    record.setOptionList(BeanConvertor.copyList(valueList, AttrOptionRespDTO.class));
                 }
             }
         }

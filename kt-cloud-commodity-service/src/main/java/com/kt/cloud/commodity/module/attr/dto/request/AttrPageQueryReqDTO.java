@@ -42,7 +42,7 @@ public class AttrPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "商品类别ID")
     private Long categoryId;
 
-    @ApiModelProperty(value = "是否查询属性值，false=否 true=是")
-    private Boolean queryValues = false;
+    @ApiModelProperty(value = "是否查询属性可选项列表，false=否 true=是")
+    private Boolean withOptions = false;
 
 }
