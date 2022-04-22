@@ -1,7 +1,7 @@
 package com.kt.cloud.commodity.module.attr.support;
 
 import com.google.common.collect.Lists;
-import com.kt.cloud.commodity.dao.entity.AttrValueDO;
+import com.kt.cloud.commodity.dao.entity.AttrOptionDO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attrvalue.dto.response.AttrValueRespDTO;
 import com.kt.component.web.util.bean.BeanConvertor;
@@ -18,14 +18,14 @@ public class AttrHelper {
     /**
      * 填充属性值
      * @param records
-     * @param attrValueDOList
+     * @param attrOptionDOList
      */
-    public void fillAttrValues(List<AttrRespDTO> records, List<AttrValueDO> attrValueDOList) {
-        if (CollectionUtils.isNotEmpty(attrValueDOList)) {
-            Map<Long, List<AttrValueDO>> attrValueMap = attrValueDOList.stream()
-                    .collect(Collectors.groupingBy(AttrValueDO::getAttrId));
+    public void fillAttrValues(List<AttrRespDTO> records, List<AttrOptionDO> attrOptionDOList) {
+        if (CollectionUtils.isNotEmpty(attrOptionDOList)) {
+            Map<Long, List<AttrOptionDO>> attrValueMap = attrOptionDOList.stream()
+                    .collect(Collectors.groupingBy(AttrOptionDO::getAttrId));
             for (AttrRespDTO record : records) {
-                List<AttrValueDO> valueList = attrValueMap.get(record.getId());
+                List<AttrOptionDO> valueList = attrValueMap.get(record.getId());
                 if (CollectionUtils.isNotEmpty(valueList)) {
                     record.setValues(BeanConvertor.copyList(valueList, AttrValueRespDTO.class));
                 }
@@ -33,8 +33,8 @@ public class AttrHelper {
         }
     }
 
-    public void fillAttrValues(AttrRespDTO record, List<AttrValueDO> attrValueDOList) {
-        fillAttrValues(Lists.newArrayList(record), attrValueDOList);
+    public void fillAttrValues(AttrRespDTO record, List<AttrOptionDO> attrOptionDOList) {
+        fillAttrValues(Lists.newArrayList(record), attrOptionDOList);
     }
 
 }

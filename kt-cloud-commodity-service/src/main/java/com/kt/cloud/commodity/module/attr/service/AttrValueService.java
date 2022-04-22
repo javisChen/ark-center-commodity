@@ -2,7 +2,7 @@ package com.kt.cloud.commodity.module.attr.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kt.cloud.commodity.dao.entity.AttrValueDO;
+import com.kt.cloud.commodity.dao.entity.AttrOptionDO;
 import com.kt.cloud.commodity.dao.mapper.AttrValueMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,14 @@ import java.util.List;
  * @since 2022-03-08
  */
 @Service
-public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrValueDO> implements IService<AttrValueDO> {
+public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrOptionDO> implements IService<AttrOptionDO> {
 
     public void batchSave(Long attrId, List<String> values, Integer type) {
-        List<AttrValueDO> dos = new ArrayList<>(values.size());
+        List<AttrOptionDO> dos = new ArrayList<>(values.size());
         for (String value : values) {
-            AttrValueDO valueDO = new AttrValueDO();
+            AttrOptionDO valueDO = new AttrOptionDO();
             valueDO.setAttrId(attrId);
-            valueDO.setContent(value);
+            valueDO.setValue(value);
             valueDO.setType(type);
             dos.add(valueDO);
         }
@@ -34,19 +34,19 @@ public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrValueDO> 
 
     public void removeByAttrId(Long attrId) {
         lambdaUpdate()
-                .eq(AttrValueDO::getAttrId, attrId)
+                .eq(AttrOptionDO::getAttrId, attrId)
                 .remove();
     }
 
-    public List<AttrValueDO> listByAttrId(Long attrId) {
+    public List<AttrOptionDO> listByAttrId(Long attrId) {
         return lambdaQuery()
-                .eq(AttrValueDO::getAttrId, attrId)
+                .eq(AttrOptionDO::getAttrId, attrId)
                 .list();
     }
 
-    public List<AttrValueDO> listByAttrIds(List<Long> attrIds) {
+    public List<AttrOptionDO> listByAttrIds(List<Long> attrIds) {
         return lambdaQuery()
-                .in(AttrValueDO::getAttrId, attrIds)
+                .in(AttrOptionDO::getAttrId, attrIds)
                 .list();
     }
 }

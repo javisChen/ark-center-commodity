@@ -12,7 +12,7 @@ import lombok.Getter;
 
 /**
  * <p>
- * 商品属性值
+ * 商品属性值选项
  * </p>
  *
  * @author EOP
@@ -20,8 +20,8 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_value")
-public class AttrValueDO extends BaseEntity {
+@TableName("co_attr_option")
+public class AttrOptionDO extends BaseEntity {
 
 
     /**
@@ -33,8 +33,8 @@ public class AttrValueDO extends BaseEntity {
     /**
      * 属性值内容
      */
-    @TableField("`content`")
-    private String content;
+    @TableField("`value`")
+    private String value;
 
     /**
      * 类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]

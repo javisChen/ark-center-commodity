@@ -85,8 +85,8 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         }
         List<Long> attrIdList = records.stream().map(AttrRespDTO::getId).collect(Collectors.toList());
         if (queryDTO.getQueryValues()) {
-            List<AttrValueDO> attrValueDOList = attrValueService.listByAttrIds(attrIdList);
-            attrHelper.fillAttrValues(records, attrValueDOList);
+            List<AttrOptionDO> attrOptionDOList = attrValueService.listByAttrIds(attrIdList);
+            attrHelper.fillAttrValues(records, attrOptionDOList);
         }
         return PageResponse.build(page);
     }
@@ -146,16 +146,16 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
     private void saveValues(AttrDO attrDO, List<String> values) {
         if (attrDO.getInputType().equals(AttrDO.InputType.SELECT.getValue())) {
             ParamsChecker.throwIfIsEmpty(values, ExceptionFactory.userException("属性值选项不能为空"));
-            attrValueService.batchSave(attrDO.getId(), values, AttrValueDO.Type.COMMON.getValue());
+            attrValueService.batchSave(attrDO.getId(), values, AttrOptionDO.Type.COMMON.getValue());
         }
     }
 
     public AttrRespDTO getAttrInfo(Long attrId) {
         AttrDO entity = getById(attrId);
         AttrRespDTO respDTO = BeanConvertor.copy(entity, AttrRespDTO.class);
-        List<AttrValueDO> attrValueDOList = attrValueService.listByAttrId(attrId);
-        if (CollUtil.isNotEmpty(attrValueDOList)) {
-            attrHelper.fillAttrValues(respDTO, attrValueDOList);
+        List<AttrOptionDO> attrOptionDOList = attrValueService.listByAttrId(attrId);
+        if (CollUtil.isNotEmpty(attrOptionDOList)) {
+            attrHelper.fillAttrValues(respDTO, attrOptionDOList);
         }
         return respDTO;
     }
