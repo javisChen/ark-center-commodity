@@ -11,7 +11,6 @@ import com.kt.cloud.commodity.module.attr.dto.request.*;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.support.AttrHelper;
-import com.kt.cloud.commodity.module.attrvalue.service.AttrValueService;
 import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.component.common.ParamsChecker;
 import com.kt.component.dto.PageResponse;

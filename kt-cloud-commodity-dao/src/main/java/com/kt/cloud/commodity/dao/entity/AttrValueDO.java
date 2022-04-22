@@ -31,10 +31,10 @@ public class AttrValueDO extends BaseEntity {
     private Long attrId;
 
     /**
-     * 选项值
+     * 属性值内容
      */
-    @TableField("`value`")
-    private String value;
+    @TableField("`content`")
+    private String content;
 
     /**
      * 类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]

@@ -70,8 +70,13 @@ public class CommodityUpdateReqDTO implements Serializable {
     @ApiModelProperty(value = "移动端详情富文本", required = false)
     private String mobileDetailHtml;
 
-
     @ApiModelProperty(value = "SKU列表", required = true)
     private List<SkuUpdateDTO> skuList;
+
+    @ApiModelProperty(value = "参数列表", required = true)
+    private List<SpuAttrUpdateDTO> paramList;
+
+    @ApiModelProperty(value = "图片地址列表", required = true)
+    private List<String> picList;
 
 }

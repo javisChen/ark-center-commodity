@@ -1,9 +1,10 @@
 package com.kt.cloud.commodity.module.attrvalue.dto.response;
 
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -23,8 +24,8 @@ public class AttrValueRespDTO implements Serializable {
     @ApiModelProperty(value = "商品属性ID，关联co_attr.id", required = true)
     private Long attrId;
 
-    @ApiModelProperty(value = "选项值", required = true)
-    private String value;
+    @ApiModelProperty(value = "选项值内容", required = true)
+    private String content;
 
     @ApiModelProperty(value = "类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]", required = true)
     private Integer type;

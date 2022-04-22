@@ -85,4 +85,5 @@ public class AttrController extends BaseController {
     public SingleResponse<AttrGroupRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrService.getAttrGroupInfo(id));
     }
+
 }
