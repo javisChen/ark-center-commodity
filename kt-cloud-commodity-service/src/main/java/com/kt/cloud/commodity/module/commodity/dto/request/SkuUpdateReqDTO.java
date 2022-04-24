@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SkuUpdateDTO {
+public class SkuUpdateReqDTO {
     
     @ApiModelProperty(value = "skuId", required = false)
     private Long id;
@@ -19,7 +19,7 @@ public class SkuUpdateDTO {
     private Integer stock;
     @ApiModelProperty(value = "预警库存", required = false)
     private Integer warnStock;
-    @ApiModelProperty(value  = "SKU列表", required = true)
-    private List<SkuAttrUpdateDTO> skuAttrList;
+    @ApiModelProperty(value  = "SKU规格属性列表", required = true)
+    private List<AttrReqDTO> specList;
 
 }

@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.commodity.dto.request;
+package com.kt.cloud.commodity.module.commodity.dto.response;
 
 import com.kt.component.validator.ValidateGroup;
 import io.swagger.annotations.ApiModel;
@@ -12,14 +12,15 @@ import java.util.List;
 
 /**
  * <p>
- * 商品
+ * CommodityPageRespDTO
  * </p>
+ *
  * @author EOP
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "CommodityUpdateReqDTO对象", description = "商品对象")
-public class CommodityUpdateReqDTO implements Serializable {
+@ApiModel(value = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
+public class CommodityRespDTO implements Serializable {
 
     @ApiModelProperty(value = "商品名称", required = false)
     @NotBlank(message = "商品ID不能为空", groups = ValidateGroup.Update.class)
@@ -70,12 +71,13 @@ public class CommodityUpdateReqDTO implements Serializable {
     private String mobileDetailHtml;
 
     @ApiModelProperty(value = "SKU列表", required = true)
-    private List<SkuUpdateReqDTO> skuList;
+    private List<SkuRespDTO> skuList;
 
     @ApiModelProperty(value = "参数列表", required = true)
-    private List<AttrReqDTO> paramList;
+    private List<AttrRespDTO> paramList;
 
     @ApiModelProperty(value = "图片地址列表", required = true)
     private List<String> picList;
+
 
 }

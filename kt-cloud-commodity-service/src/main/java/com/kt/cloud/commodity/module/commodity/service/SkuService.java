@@ -7,9 +7,10 @@ import com.kt.cloud.commodity.dao.entity.SkuAttrDO;
 import com.kt.cloud.commodity.dao.entity.SkuDO;
 import com.kt.cloud.commodity.dao.mapper.SkuMapper;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.request.SkuAttrUpdateDTO;
-import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateDTO;
+import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
+import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateReqDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,16 +32,17 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         this.skuAttrService = skuAttrService;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void saveSku(Long spuId, CommodityUpdateReqDTO reqDTO) {
-        List<SkuUpdateDTO> skuList = reqDTO.getSkuList();
-        for (SkuUpdateDTO skuUpdateDTO : skuList) {
-            SkuDO skuDO = assembleSkuDTO(spuId, skuUpdateDTO);
+        List<SkuUpdateReqDTO> skuList = reqDTO.getSkuList();
+        for (SkuUpdateReqDTO skuUpdateReqDTO : skuList) {
+            SkuDO skuDO = assembleSkuDTO(spuId, skuUpdateReqDTO);
             save(skuDO);
-            saveSkuAttrs(skuDO.getId(), skuUpdateDTO.getSkuAttrList());
+            saveSkuAttrs(skuDO.getId(), skuUpdateReqDTO.getSpecList());
         }
     }
 
-    private void saveSkuAttrs(Long skuId, List<SkuAttrUpdateDTO> skuAttrList) {
+    private void saveSkuAttrs(Long skuId, List<AttrReqDTO> skuAttrList) {
         List<SkuAttrDO> doList = skuAttrList.stream().map(item -> {
             SkuAttrDO skuAttrDO = new SkuAttrDO();
             skuAttrDO.setSkuId(skuId);
@@ -50,7 +52,7 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         skuAttrService.saveBatch(doList);
     }
 
-    private SkuDO assembleSkuDTO(Long spuId, SkuUpdateDTO entity) {
+    private SkuDO assembleSkuDTO(Long spuId, SkuUpdateReqDTO entity) {
         SkuDO skuDO = new SkuDO();
         skuDO.setSpuId(spuId);
         skuDO.setCode(entity.getCode());
@@ -58,7 +60,7 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         skuDO.setCostPrice(entity.getCostPrice());
         skuDO.setStock(entity.getStock());
         skuDO.setWarnStock(entity.getWarnStock());
-        skuDO.setParamData(JSONObject.toJSONString(entity.getSkuAttrList()));
+        skuDO.setParamData(JSONObject.toJSONString(entity.getSpecList()));
         return skuDO;
     }
 }

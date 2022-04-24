@@ -82,11 +82,6 @@ public class SpuDO extends BaseEntity {
     @TableField("weight")
     private Integer weight;
 
-    /**
-     * 排序
-     */
-    @TableField("sort")
-    private Integer sort;
 
     /**
      * 品牌id，关联co_brand.id

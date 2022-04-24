@@ -34,6 +34,7 @@ public class CommodityService {
         // 添加SPU
         Long spuId = spuService.saveSpu(reqDTO);
         // 添加SKU信息
+
         skuService.saveSku(spuId, reqDTO);
         return spuId;
     }

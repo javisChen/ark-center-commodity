@@ -9,14 +9,15 @@ import com.kt.cloud.commodity.dao.entity.SpuDO;
 import com.kt.cloud.commodity.dao.entity.SpuSalesDO;
 import com.kt.cloud.commodity.dao.mapper.SpuMapper;
 import com.kt.cloud.commodity.module.attachment.service.AttachmentService;
+import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.request.SpuAttrUpdateDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.component.web.util.bean.BeanConvertor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +51,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
                 .convert(item -> BeanConvertor.copy(item, CommodityPageRespDTO.class));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Long saveSpu(CommodityUpdateReqDTO reqDTO) {
         SpuDO spuDO = assembleSpuDO(reqDTO);
         // 保存SPU基本信息
@@ -74,7 +76,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     }
 
     private void saveParams(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
-        List<SpuAttrUpdateDTO> paramList = reqDTO.getParamList();
+        List<AttrReqDTO> paramList = reqDTO.getParamList();
         List<SpuAttrDO> attrDOList = paramList.stream().map(item -> {
             SpuAttrDO spuAttrDO = new SpuAttrDO();
             spuAttrDO.setSpuId(spuDO.getId());
