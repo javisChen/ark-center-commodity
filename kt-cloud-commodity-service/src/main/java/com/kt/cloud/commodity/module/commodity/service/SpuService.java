@@ -1,5 +1,6 @@
 package com.kt.cloud.commodity.module.commodity.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -75,6 +76,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         entity.setFreightTemplateId(reqDTO.getFreightTemplateId());
         entity.setPcDetailHtml(reqDTO.getPcDetailHtml());
         entity.setMobileDetailHtml(reqDTO.getMobileDetailHtml());
+        entity.setParamData(JSONObject.toJSONString(reqDTO.getParamList()));
         spuSalesService.save(entity);
     }
 

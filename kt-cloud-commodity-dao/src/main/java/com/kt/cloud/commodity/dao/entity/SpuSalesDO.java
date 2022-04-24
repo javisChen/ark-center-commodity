@@ -42,4 +42,10 @@ public class SpuSalesDO extends BaseEntity {
     @TableField("mobile_detail_html")
     private String mobileDetailHtml;
 
+    /**
+     * 参数属性JSON
+     */
+    @TableField("param_data")
+    private String paramData;
+
 }

@@ -101,7 +101,6 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
                 .convert(item -> BeanConvertor.copy(item, AttrRespDTO.class));
     }
 
-
     @Transactional(rollbackFor = Exception.class)
     public Long updateAttr(AttrUpdateReqDTO reqDTO) {
         doCheck(reqDTO);

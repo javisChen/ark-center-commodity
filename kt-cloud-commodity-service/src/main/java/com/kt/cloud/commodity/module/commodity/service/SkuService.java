@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.SkuAttrDO;
 import com.kt.cloud.commodity.dao.entity.SkuDO;
 import com.kt.cloud.commodity.dao.mapper.SkuMapper;
-import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
+import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateReqDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +60,13 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         skuDO.setCostPrice(entity.getCostPrice());
         skuDO.setStock(entity.getStock());
         skuDO.setWarnStock(entity.getWarnStock());
-        skuDO.setParamData(JSONObject.toJSONString(entity.getSpecList()));
+        skuDO.setSpecData(JSONObject.toJSONString(entity.getSpecList()));
         return skuDO;
+    }
+
+    public List<SkuDO> listBySpuId(Long spuId) {
+        return lambdaQuery()
+                .eq(SkuDO::getSpuId, spuId)
+                .list();
     }
 }

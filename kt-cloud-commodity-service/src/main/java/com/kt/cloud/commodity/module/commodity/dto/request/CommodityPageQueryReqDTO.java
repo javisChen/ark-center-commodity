@@ -37,7 +37,7 @@ public class CommodityPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "预警库存")
     private Integer warnStock;
 
-    @ApiModelProperty(value = "销售参数JSON")
-    private String paramData;
+    @ApiModelProperty(value = "规格参数JSON")
+    private String specData;
 
 }

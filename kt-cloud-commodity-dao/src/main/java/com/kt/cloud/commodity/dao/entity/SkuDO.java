@@ -58,7 +58,7 @@ public class SkuDO extends BaseEntity {
     /**
      * 销售参数JSON
      */
-    @TableField("param_data")
-    private String paramData;
+    @TableField("spec_data")
+    private String specData;
 
 }

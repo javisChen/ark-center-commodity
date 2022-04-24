@@ -1,12 +1,9 @@
 package com.kt.cloud.commodity.module.commodity.dto.response;
 
-import com.kt.component.validator.ValidateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,27 +20,25 @@ import java.util.List;
 public class CommodityRespDTO implements Serializable {
 
     @ApiModelProperty(value = "商品名称", required = false)
-    @NotBlank(message = "商品ID不能为空", groups = ValidateGroup.Update.class)
     private Long id;
 
     @ApiModelProperty(value = "商品名称", required = true)
-    @NotBlank(message = "商品名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "商品编号", required = true)
-    @NotBlank(message = "商品编号不能为空")
     private String code;
 
     @ApiModelProperty(value = "商品介绍", required = false)
     private String description;
 
     @ApiModelProperty(value = "品牌id，关联co_brand.id", required = true)
-    @NotNull(message = "品牌id，关联co_brand.id不能为空")
     private Long brandId;
 
     @ApiModelProperty(value = "分类id，关联co_category.id", required = true)
-    @NotNull(message = "分类id，关联co_category.id不能为空")
     private Long categoryId;
+
+    @ApiModelProperty(value = "分类等级路径", required = true)
+    private String categoryLevelPath;
 
     @ApiModelProperty(value = "spu主图url", required = false)
     private String mainPicture;
@@ -52,7 +47,6 @@ public class CommodityRespDTO implements Serializable {
     private Integer shelfStatus = 1;
 
     @ApiModelProperty(value = "默认展示价格（单位：分）", required = true)
-    @NotNull(message = "默认展示价格）不能为空")
     private Integer showPrice;
 
     @ApiModelProperty(value = "单位（G、KG）", required = true)
