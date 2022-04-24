@@ -3,6 +3,7 @@ package com.kt.cloud.commodity.module.commodity.controller;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
+import com.kt.cloud.commodity.module.commodity.dto.response.CommodityRespDTO;
 import com.kt.cloud.commodity.module.commodity.service.CommodityService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
@@ -55,7 +56,7 @@ public class CommodityController extends BaseController {
     @ApiOperation(value = "查询详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
-    public SingleResponse<CommodityPageRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    public SingleResponse<CommodityRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(commodityService.getInfo(id));
     }
 

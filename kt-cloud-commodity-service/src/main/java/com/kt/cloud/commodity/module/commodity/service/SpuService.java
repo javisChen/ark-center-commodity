@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.cloud.commodity.constants.AttachmentBizType;
+import com.kt.cloud.commodity.dao.entity.AttachmentDO;
 import com.kt.cloud.commodity.dao.entity.SpuAttrDO;
 import com.kt.cloud.commodity.dao.entity.SpuDO;
 import com.kt.cloud.commodity.dao.entity.SpuSalesDO;
@@ -19,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,7 +92,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     private void savePictures(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
         List<String> picList = reqDTO.getPicList();
         if (CollectionUtils.isNotEmpty(picList)) {
-            attachmentService.saveAttachments("SPU", spuDO.getId(), picList);
+            attachmentService.saveAttachments(AttachmentBizType.SPU_PIC, spuDO.getId(), picList);
         }
     }
 
@@ -113,4 +116,15 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         return spuDO;
     }
 
+    public List<String> getPicList(Long spuId) {
+        List<AttachmentDO> attachmentDOS =  attachmentService.listByBizTypeAndBizId(AttachmentBizType.SPU_PIC, spuId);
+        if (CollectionUtils.isEmpty(attachmentDOS)) {
+            return Collections.emptyList();
+        }
+        return attachmentDOS.stream().map(AttachmentDO::getUrl).collect(Collectors.toList());
+    }
+
+    public SpuSalesDO getSalesInfo(Long spuId) {
+        return spuSalesService.getBySpuId(spuId);
+    }
 }

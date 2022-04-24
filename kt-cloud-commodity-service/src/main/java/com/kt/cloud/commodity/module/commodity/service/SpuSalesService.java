@@ -17,4 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpuSalesService extends ServiceImpl<SpuSalesMapper, SpuSalesDO> implements IService<SpuSalesDO> {
 
+    public SpuSalesDO getBySpuId(Long spuId) {
+        return lambdaQuery()
+                .eq(SpuSalesDO::getSpuId, spuId)
+                .one();
+    }
 }

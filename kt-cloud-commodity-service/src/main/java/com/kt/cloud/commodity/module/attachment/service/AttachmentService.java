@@ -31,4 +31,11 @@ public class AttachmentService extends ServiceImpl<AttachmentMapper, AttachmentD
         }).collect(Collectors.toList());
         saveBatch(doList);
     }
+
+    public List<AttachmentDO> listByBizTypeAndBizId(String bizType, Long bizId) {
+        return lambdaQuery()
+                .eq(AttachmentDO::getBizType, bizType)
+                .eq(AttachmentDO::getBizId, bizId)
+                .list();
+    }
 }
