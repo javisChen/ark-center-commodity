@@ -31,6 +31,12 @@ public class AttrOptionDO extends BaseEntity {
     private Long attrId;
 
     /**
+     * 关联co_spu.id
+     */
+    @TableField("spu_id")
+    private Long spuId;
+
+    /**
      * 属性值内容
      */
     @TableField("`value`")

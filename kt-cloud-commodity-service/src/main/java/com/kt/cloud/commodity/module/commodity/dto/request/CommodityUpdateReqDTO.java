@@ -75,6 +75,9 @@ public class CommodityUpdateReqDTO implements Serializable {
     @ApiModelProperty(value = "参数列表", required = true)
     private List<AttrReqDTO> paramList;
 
+    @ApiModelProperty(value = "属性项列表", required = true)
+    private List<AttrOptionReqDTO> newAttrOptionList;
+
     @ApiModelProperty(value = "图片地址列表", required = true)
     private List<String> picList;
 

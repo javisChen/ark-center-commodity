@@ -45,4 +45,7 @@ public class AttrPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "是否查询属性可选项列表，false=否 true=是")
     private Boolean withOptions = false;
 
+    @ApiModelProperty(value = "商品ID")
+    private Long spuId;
+
 }

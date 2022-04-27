@@ -42,18 +42,18 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     private final AttrGroupService attrGroupService;
     private final AttrHelper attrHelper;
-    private final AttrValueService attrValueService;
+    private final AttrOptionService attrOptionService;
     private final AttrTemplateService attrTemplateService;
     private final CategoryService categoryService;
 
     public AttrService(AttrGroupService attrGroupService,
                        AttrHelper attrHelper,
-                       AttrValueService attrValueService,
+                       AttrOptionService attrOptionService,
                        AttrTemplateService attrTemplateService,
                        CategoryService categoryService) {
         this.attrGroupService = attrGroupService;
         this.attrHelper = attrHelper;
-        this.attrValueService = attrValueService;
+        this.attrOptionService = attrOptionService;
         this.attrTemplateService = attrTemplateService;
         this.categoryService = categoryService;
     }
@@ -85,7 +85,11 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         }
         List<Long> attrIdList = records.stream().map(AttrRespDTO::getId).collect(Collectors.toList());
         if (queryDTO.getWithOptions()) {
-            List<AttrOptionDO> attrOptionDOList = attrValueService.listByAttrIds(attrIdList);
+            List<AttrOptionDO> attrOptionDOList = attrOptionService.listByAttrIdsAndType(attrIdList, AttrOptionDO.Type.COMMON.getValue());
+            // 如果商品ID指明了，就把专属的属性项查出来
+            if (queryDTO.getSpuId() != null) {
+                attrOptionDOList.addAll(attrOptionService.listBySpuId(queryDTO.getSpuId()));
+            }
             attrHelper.fillAttrValues(records, attrOptionDOList);
         }
         return PageResponse.build(page);
@@ -95,7 +99,6 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         return lambdaQuery()
                 .eq(Objects.nonNull(queryDTO.getAttrTemplateId()), AttrDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .eq(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
-                .like(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrRespDTO.class));
@@ -139,20 +142,20 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     private void attemptRemoveAttrValues(Long attrId, AttrDO attrNewDO) {
         // 如果录入方式为[SELECT]，把attr_value先清掉
-        attrValueService.removeByAttrId(attrId);
+        attrOptionService.removeByAttrId(attrId);
     }
 
     private void saveValues(AttrDO attrDO, List<String> values) {
         if (attrDO.getInputType().equals(AttrDO.InputType.SELECT.getValue())) {
             ParamsChecker.throwIfIsEmpty(values, ExceptionFactory.userException("属性值选项不能为空"));
-            attrValueService.batchSave(attrDO.getId(), values, AttrOptionDO.Type.COMMON.getValue());
+            attrOptionService.batchSave(attrDO.getId(), values, AttrOptionDO.Type.COMMON.getValue());
         }
     }
 
     public AttrRespDTO getAttrInfo(Long attrId) {
         AttrDO entity = getById(attrId);
         AttrRespDTO respDTO = BeanConvertor.copy(entity, AttrRespDTO.class);
-        List<AttrOptionDO> attrOptionDOList = attrValueService.listByAttrId(attrId);
+        List<AttrOptionDO> attrOptionDOList = attrOptionService.listByAttrId(attrId);
         if (CollUtil.isNotEmpty(attrOptionDOList)) {
             attrHelper.fillAttrValues(respDTO, attrOptionDOList);
         }

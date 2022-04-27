@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author EOP
  * @since 2022-03-08
  */
-public interface AttrValueMapper extends BaseMapper<AttrOptionDO> {
+public interface AttrOptionMapper extends BaseMapper<AttrOptionDO> {
 
 }

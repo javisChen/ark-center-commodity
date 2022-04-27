@@ -3,7 +3,7 @@ package com.kt.cloud.commodity.module.attr.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.AttrOptionDO;
-import com.kt.cloud.commodity.dao.mapper.AttrValueMapper;
+import com.kt.cloud.commodity.dao.mapper.AttrOptionMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,15 +18,22 @@ import java.util.List;
  * @since 2022-03-08
  */
 @Service
-public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrOptionDO> implements IService<AttrOptionDO> {
+public class AttrOptionService extends ServiceImpl<AttrOptionMapper, AttrOptionDO> implements IService<AttrOptionDO> {
 
     public void batchSave(Long attrId, List<String> values, Integer type) {
+        batchSave(attrId, values, type, null);
+    }
+
+    public void batchSave(Long attrId, List<String> values, Integer type, Long spuId) {
         List<AttrOptionDO> dos = new ArrayList<>(values.size());
         for (String value : values) {
             AttrOptionDO valueDO = new AttrOptionDO();
             valueDO.setAttrId(attrId);
             valueDO.setValue(value);
             valueDO.setType(type);
+            if (spuId != null && spuId > 0) {
+                valueDO.setSpuId(spuId);
+            }
             dos.add(valueDO);
         }
         saveBatch(dos);
@@ -44,9 +51,23 @@ public class AttrValueService extends ServiceImpl<AttrValueMapper, AttrOptionDO>
                 .list();
     }
 
+    public List<AttrOptionDO> listByAttrIdsAndType(List<Long> attrIds, Integer type) {
+        return lambdaQuery()
+                .in(AttrOptionDO::getAttrId, attrIds)
+                .eq(AttrOptionDO::getType, type)
+                .list();
+    }
+
     public List<AttrOptionDO> listByAttrIds(List<Long> attrIds) {
         return lambdaQuery()
                 .in(AttrOptionDO::getAttrId, attrIds)
+                .list();
+    }
+
+    public List<AttrOptionDO> listBySpuId(Long spuId) {
+        return lambdaQuery()
+                .eq(AttrOptionDO::getSpuId, spuId)
+                .eq(AttrOptionDO::getType, AttrOptionDO.Type.EXCLUSIVE.getValue())
                 .list();
     }
 }

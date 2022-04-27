@@ -6,12 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.constants.AttachmentBizType;
-import com.kt.cloud.commodity.dao.entity.AttachmentDO;
-import com.kt.cloud.commodity.dao.entity.SpuAttrDO;
-import com.kt.cloud.commodity.dao.entity.SpuDO;
-import com.kt.cloud.commodity.dao.entity.SpuSalesDO;
+import com.kt.cloud.commodity.dao.entity.*;
 import com.kt.cloud.commodity.dao.mapper.SpuMapper;
 import com.kt.cloud.commodity.module.attachment.service.AttachmentService;
+import com.kt.cloud.commodity.module.attr.service.AttrOptionService;
+import com.kt.cloud.commodity.module.commodity.dto.request.AttrOptionReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
@@ -40,13 +39,16 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     private final AttachmentService attachmentService;
     private final SpuAttrService spuAttrService;
     private final SpuSalesService spuSalesService;
+    private final AttrOptionService attrOptionService;
 
     public SpuService(AttachmentService attachmentService,
                       SpuAttrService spuAttrService,
-                      SpuSalesService spuSalesService) {
+                      SpuSalesService spuSalesService,
+                      AttrOptionService attrOptionService) {
         this.attachmentService = attachmentService;
         this.spuAttrService = spuAttrService;
         this.spuSalesService = spuSalesService;
+        this.attrOptionService = attrOptionService;
     }
 
     public IPage<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
@@ -66,8 +68,20 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         savePictures(reqDTO, spuDO);
         // 保存参数属性
         saveParams(reqDTO, spuDO);
+        // 保存属性项
+        saveAttrOptions(reqDTO, spuDO);
         return spuDO.getId();
 
+    }
+
+    private void saveAttrOptions(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
+        List<AttrOptionReqDTO> newAttrOptionList = reqDTO.getNewAttrOptionList();
+        if (CollectionUtils.isNotEmpty(newAttrOptionList)) {
+            for (AttrOptionReqDTO attrOptionReqDTO : newAttrOptionList) {
+                attrOptionService.batchSave(attrOptionReqDTO.getAttrId(), attrOptionReqDTO.getValueList(),
+                        AttrOptionDO.Type.EXCLUSIVE.getValue(), spuDO.getId());
+            }
+        }
     }
 
     private void saveSalesInfo(SpuDO spuDO, CommodityUpdateReqDTO reqDTO) {
