@@ -44,19 +44,12 @@ public class CommodityService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Long create(CommodityUpdateReqDTO reqDTO) {
-        if (reqDTO.getId() != null) {
-            return updateCommodity(reqDTO);
-        }
-        // 添加SPU
+    public Long save(CommodityUpdateReqDTO reqDTO) {
+        // 保存spu信息
         Long spuId = spuService.saveSpu(reqDTO);
-        // 添加SKU信息
+        // 保存SKU信息
         skuService.saveSku(spuId, reqDTO);
         return spuId;
-    }
-
-    public Long updateCommodity(CommodityUpdateReqDTO reqDTO) {
-        return null;
     }
 
     public PageResponse<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {

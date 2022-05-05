@@ -1,6 +1,7 @@
 package com.kt.cloud.commodity.module.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -24,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.kt.cloud.commodity.module.commodity.support.CommodityHelper.isUpdateAction;
 
 /**
  * <p>
@@ -61,7 +64,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     public Long saveSpu(CommodityUpdateReqDTO reqDTO) {
         SpuDO spuDO = assembleSpuDO(reqDTO);
         // 保存SPU基本信息
-        save(spuDO);
+        saveBaseInfo(spuDO);
         // 保存销售信息
         saveSalesInfo(spuDO, reqDTO);
         // 保存图片
@@ -72,6 +75,10 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         saveAttrOptions(reqDTO, spuDO);
         return spuDO.getId();
 
+    }
+
+    private void saveBaseInfo(SpuDO spuDO) {
+        saveOrUpdate(spuDO);
     }
 
     private void saveAttrOptions(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
@@ -91,10 +98,18 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         entity.setPcDetailHtml(reqDTO.getPcDetailHtml());
         entity.setMobileDetailHtml(reqDTO.getMobileDetailHtml());
         entity.setParamData(JSONObject.toJSONString(reqDTO.getParamList()));
-        spuSalesService.save(entity);
+
+        if (isUpdateAction(reqDTO)) {
+            spuSalesService.update(entity, new LambdaUpdateWrapper<SpuSalesDO>().eq(SpuSalesDO::getSpuId, spuDO.getId()));
+        } else {
+            spuSalesService.save(entity);
+        }
     }
 
     private void saveParams(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
+        if (isUpdateAction(reqDTO)) {
+            spuAttrService.removeBySpuId(spuDO.getId());
+        }
         List<AttrReqDTO> paramList = reqDTO.getParamList();
         List<SpuAttrDO> attrDOList = paramList.stream().map(item -> {
             SpuAttrDO spuAttrDO = new SpuAttrDO();
@@ -106,16 +121,21 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     }
 
     private void savePictures(CommodityUpdateReqDTO reqDTO, SpuDO spuDO) {
+        if (isUpdateAction(reqDTO)) {
+            attachmentService.removeAttachments(AttachmentBizType.SPU_PIC, spuDO.getId());
+        }
         List<String> picList = reqDTO.getPicList();
         if (CollectionUtils.isNotEmpty(picList)) {
             attachmentService.saveAttachments(AttachmentBizType.SPU_PIC, spuDO.getId(), picList);
         }
     }
 
-
     @NotNull
     private SpuDO assembleSpuDO(CommodityUpdateReqDTO reqDTO) {
         SpuDO spuDO = new SpuDO();
+        if (isUpdateAction(reqDTO)) {
+            spuDO.setId(reqDTO.getId());
+        }
         spuDO.setName(reqDTO.getName());
         spuDO.setCode(reqDTO.getCode());
         spuDO.setDescription(reqDTO.getDescription());
@@ -143,4 +163,5 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     public SpuSalesDO getSalesInfo(Long spuId) {
         return spuSalesService.getBySpuId(spuId);
     }
+
 }

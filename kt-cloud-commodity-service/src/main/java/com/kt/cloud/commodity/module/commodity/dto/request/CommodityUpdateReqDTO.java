@@ -81,4 +81,7 @@ public class CommodityUpdateReqDTO implements Serializable {
     @ApiModelProperty(value = "图片地址列表", required = true)
     private List<String> picList;
 
+    @ApiModelProperty(value = "刷新SKU标记", required = false)
+    private Boolean flushSku = false;
+
 }

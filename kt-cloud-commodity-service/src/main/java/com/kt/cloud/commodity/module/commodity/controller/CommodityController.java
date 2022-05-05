@@ -38,13 +38,13 @@ public class CommodityController extends BaseController {
     @ApiOperation(value = "创建商品")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
-        return SingleResponse.ok(commodityService.create(reqDTO));
+        return SingleResponse.ok(commodityService.save(reqDTO));
     }
 
     @ApiOperation(value = "修改商品")
     @PostMapping("/update")
     public SingleResponse<Long> update(@RequestBody @Validated CommodityUpdateReqDTO reqDTO) {
-        return SingleResponse.ok(commodityService.updateCommodity(reqDTO));
+        return SingleResponse.ok(commodityService.update(reqDTO));
     }
 
     @ApiOperation(value = "查询分页列表")

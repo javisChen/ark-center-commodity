@@ -17,4 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpuAttrService extends ServiceImpl<SpuAttrMapper, SpuAttrDO> implements IService<SpuAttrDO> {
 
+    public void removeBySpuId(Long spuId) {
+        lambdaUpdate()
+                .eq(SpuAttrDO::getSpuId, spuId)
+                .remove();
+    }
 }

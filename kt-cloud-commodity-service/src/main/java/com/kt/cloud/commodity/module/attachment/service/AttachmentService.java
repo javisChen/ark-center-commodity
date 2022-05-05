@@ -38,4 +38,11 @@ public class AttachmentService extends ServiceImpl<AttachmentMapper, AttachmentD
                 .eq(AttachmentDO::getBizId, bizId)
                 .list();
     }
+
+    public void removeAttachments(String bizType, Long bizId) {
+        lambdaUpdate()
+                .eq(AttachmentDO::getBizType, bizType)
+                .eq(AttachmentDO::getBizId, bizId)
+                .remove();
+    }
 }

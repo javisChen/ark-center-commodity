@@ -1,6 +1,7 @@
 package com.kt.cloud.commodity.module.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.dao.entity.SkuAttrDO;
@@ -9,6 +10,8 @@ import com.kt.cloud.commodity.dao.mapper.SkuMapper;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateReqDTO;
+import com.kt.cloud.commodity.module.commodity.support.CommodityHelper;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,10 +37,19 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
 
     @Transactional(rollbackFor = Exception.class)
     public void saveSku(Long spuId, CommodityUpdateReqDTO reqDTO) {
+        if (CommodityHelper.isUpdateAction(reqDTO) && reqDTO.getFlushSku()) {
+            // todo 把当前的SKU记录到历史表里面
+
+            // todo 清空SKU记录
+        }
         List<SkuUpdateReqDTO> skuList = reqDTO.getSkuList();
         for (SkuUpdateReqDTO skuUpdateReqDTO : skuList) {
             SkuDO skuDO = assembleSkuDTO(spuId, skuUpdateReqDTO);
-            save(skuDO);
+            if (CommodityHelper.isUpdateAction(reqDTO)) {
+                update(skuDO, new LambdaUpdateWrapper<SkuDO>().eq(BaseEntity::getId, skuDO.getId()));
+            } else {
+                save(skuDO);
+            }
             saveSkuAttrs(skuDO.getId(), skuUpdateReqDTO.getSpecList());
         }
     }
@@ -54,6 +66,9 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
 
     private SkuDO assembleSkuDTO(Long spuId, SkuUpdateReqDTO entity) {
         SkuDO skuDO = new SkuDO();
+        if (entity.getId() != null && entity.getId() > 0) {
+            skuDO.setId(entity.getId());
+        }
         skuDO.setSpuId(spuId);
         skuDO.setCode(entity.getCode());
         skuDO.setSalesPrice(entity.getSalesPrice());
