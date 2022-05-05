@@ -40,18 +40,29 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         if (CommodityHelper.isUpdateAction(reqDTO) && reqDTO.getFlushSku()) {
             // todo 把当前的SKU记录到历史表里面
 
-            // todo 清空SKU记录
+            removeSku(spuId);
+            removeSkuAttrs(spuId);
         }
         List<SkuUpdateReqDTO> skuList = reqDTO.getSkuList();
         for (SkuUpdateReqDTO skuUpdateReqDTO : skuList) {
             SkuDO skuDO = assembleSkuDTO(spuId, skuUpdateReqDTO);
-            if (CommodityHelper.isUpdateAction(reqDTO)) {
-                update(skuDO, new LambdaUpdateWrapper<SkuDO>().eq(BaseEntity::getId, skuDO.getId()));
+            if (CommodityHelper.isUpdateAction(reqDTO) && !reqDTO.getFlushSku()) {
+                updateById(skuDO);
             } else {
                 save(skuDO);
             }
             saveSkuAttrs(skuDO.getId(), skuUpdateReqDTO.getSpecList());
         }
+    }
+
+    private void removeSku(Long spuId) {
+        remove(new LambdaUpdateWrapper<SkuDO>().eq(SkuDO::getSpuId, spuId));
+    }
+
+    private void removeSkuAttrs(Long spuId) {
+        List<SkuDO> skuDOList = listBySpuId(spuId);
+        List<Long> skuIds = skuDOList.stream().map(BaseEntity::getId).collect(Collectors.toList());
+        skuAttrService.removeByIds(skuIds);
     }
 
     private void saveSkuAttrs(Long skuId, List<AttrReqDTO> skuAttrList) {
