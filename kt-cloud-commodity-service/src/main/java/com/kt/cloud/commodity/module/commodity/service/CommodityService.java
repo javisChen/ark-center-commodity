@@ -53,7 +53,7 @@ public class CommodityService {
     }
 
     public PageResponse<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
-        return PageResponse.build(spuService.getPageList(queryDTO));
+        return PageResponse.of(spuService.getPageList(queryDTO));
     }
 
     public CommodityRespDTO getInfo(Long spuId) {

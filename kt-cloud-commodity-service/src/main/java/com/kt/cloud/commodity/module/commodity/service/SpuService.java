@@ -3,7 +3,7 @@ package com.kt.cloud.commodity.module.commodity.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.commodity.constants.AttachmentBizType;
@@ -11,11 +11,14 @@ import com.kt.cloud.commodity.dao.entity.*;
 import com.kt.cloud.commodity.dao.mapper.SpuMapper;
 import com.kt.cloud.commodity.module.attachment.service.AttachmentService;
 import com.kt.cloud.commodity.module.attr.service.AttrOptionService;
+import com.kt.cloud.commodity.module.brand.service.BrandService;
+import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrOptionReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.web.util.bean.BeanConvertor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.kt.cloud.commodity.module.commodity.support.CommodityHelper.isUpdateAction;
@@ -43,21 +47,40 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     private final SpuAttrService spuAttrService;
     private final SpuSalesService spuSalesService;
     private final AttrOptionService attrOptionService;
+    private final BrandService brandService;
+    private final CategoryService categoryService;
 
     public SpuService(AttachmentService attachmentService,
                       SpuAttrService spuAttrService,
                       SpuSalesService spuSalesService,
-                      AttrOptionService attrOptionService) {
+                      AttrOptionService attrOptionService, BrandService brandService, CategoryService categoryService) {
         this.attachmentService = attachmentService;
         this.spuAttrService = spuAttrService;
         this.spuSalesService = spuSalesService;
         this.attrOptionService = attrOptionService;
+        this.brandService = brandService;
+        this.categoryService = categoryService;
     }
 
     public IPage<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
-        return lambdaQuery()
-                .page(new PageDTO<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(item -> BeanConvertor.copy(item, CommodityPageRespDTO.class));
+        Page<SpuDO> page = lambdaQuery()
+                .orderByDesc(BaseEntity::getGmtModified)
+                .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()));
+        List<SpuDO> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        }
+        List<Long> brandIds = records.stream().map(SpuDO::getBrandId).collect(Collectors.toList());
+        List<Long> categoryIds = records.stream().map(SpuDO::getCategoryId).collect(Collectors.toList());
+        Map<Long, String> brandMap = brandService.listByIds(brandIds).stream().collect(Collectors.toMap(BaseEntity::getId, BrandDO::getName));
+        Map<Long, String> categoryMap = categoryService.listByIds(categoryIds).stream().collect(Collectors.toMap(BaseEntity::getId, CategoryDO::getName));
+
+        return page.convert(record -> {
+            CommodityPageRespDTO respDTO = BeanConvertor.copy(record, CommodityPageRespDTO.class);
+            respDTO.setBrandName(brandMap.get(record.getBrandId()));
+            respDTO.setCategoryName(categoryMap.get(record.getCategoryId()));
+            return respDTO;
+        });
     }
 
     @Transactional(rollbackFor = Exception.class)

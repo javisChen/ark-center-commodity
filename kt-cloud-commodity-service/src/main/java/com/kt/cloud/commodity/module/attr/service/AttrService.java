@@ -81,7 +81,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         IPage<AttrRespDTO> page = getAttrPage(queryDTO);
         List<AttrRespDTO> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
-            return PageResponse.build(page);
+            return PageResponse.of(page);
         }
         List<Long> attrIdList = records.stream().map(AttrRespDTO::getId).collect(Collectors.toList());
         if (queryDTO.getWithOptions()) {
@@ -92,7 +92,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
             }
             attrHelper.fillAttrValues(records, attrOptionDOList);
         }
-        return PageResponse.build(page);
+        return PageResponse.of(page);
     }
 
     private IPage<AttrRespDTO> getAttrPage(AttrPageQueryReqDTO queryDTO) {
@@ -189,7 +189,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         IPage<AttrGroupRespDTO> page = attrGroupService.getPageList(queryDTO);
         List<AttrGroupRespDTO> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
-            return PageResponse.build(page);
+            return PageResponse.of(page);
         }
         if (queryDTO.getWithAttr()) {
             List<Long> groupIds = records.stream().map(AttrGroupRespDTO::getId).collect(Collectors.toList());
@@ -201,7 +201,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
                 }
             }
         }
-        return PageResponse.build(page);
+        return PageResponse.of(page);
     }
 
     public Long updateAttrGroup(AttrGroupUpdateReqDTO reqDTO) {
