@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.commodity.dto.response;
+package com.kt.cloud.commodity.api.sku.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,7 +31,9 @@ public class SkuRespDTO implements Serializable {
     private Integer stock;
     @ApiModelProperty(value = "预警库存", required = false)
     private Integer warnStock;
+    @ApiModelProperty(value = "图片地址", required = false)
+    private String mainPicture;
     @ApiModelProperty(value  = "SKU规格属性列表", required = true)
-    private List<AttrRespDTO> specList;
+    private List<SkuAttrRespDTO> specList;
 
 }

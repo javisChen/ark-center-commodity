@@ -9,11 +9,13 @@ import com.kt.cloud.commodity.dao.entity.SpuSalesDO;
 import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.kt.cloud.commodity.module.commodity.dto.response.AttrRespDTO;
+import com.kt.cloud.commodity.api.sku.response.SkuAttrRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityRespDTO;
-import com.kt.cloud.commodity.module.commodity.dto.response.SkuRespDTO;
+import com.kt.cloud.commodity.api.sku.response.SkuRespDTO;
+import com.kt.cloud.commodity.module.commodity.support.CommodityConvertor;
 import com.kt.component.dto.PageResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,18 +71,7 @@ public class CommodityService {
 
     private void assembleSkuList(CommodityRespDTO commodityRespDTO, SpuDO spuDO) {
         List<SkuDO> skuList = skuService.listBySpuId(spuDO.getId());
-        List<SkuRespDTO> skuDTOList = new ArrayList<>();
-        for (SkuDO skuDO : skuList) {
-            SkuRespDTO skuRespDTO = new SkuRespDTO();
-            skuRespDTO.setId(skuDO.getId());
-            skuRespDTO.setCode(skuDO.getCode());
-            skuRespDTO.setSalesPrice(skuDO.getSalesPrice());
-            skuRespDTO.setCostPrice(skuDO.getCostPrice());
-            skuRespDTO.setStock(skuDO.getStock());
-            skuRespDTO.setWarnStock(skuDO.getWarnStock());
-            skuRespDTO.setSpecList(JSON.parseArray(skuDO.getSpecData(), AttrRespDTO.class));
-            skuDTOList.add(skuRespDTO);
-        }
+        List<SkuRespDTO> skuDTOList = CommodityConvertor.convertToSkuDTO(skuList);
         commodityRespDTO.setSkuList(skuDTOList);
 
     }
@@ -105,7 +96,7 @@ public class CommodityService {
         SpuSalesDO spuSalesDO = spuService.getSalesInfo(spuId);
         commodityRespDTO.setMobileDetailHtml(spuSalesDO.getMobileDetailHtml());
         commodityRespDTO.setPcDetailHtml(spuSalesDO.getPcDetailHtml());
-        commodityRespDTO.setParamList(JSONObject.parseArray(spuSalesDO.getParamData(), AttrRespDTO.class));
+        commodityRespDTO.setParamList(JSONObject.parseArray(spuSalesDO.getParamData(), SkuAttrRespDTO.class));
 
         CategoryDO categoryDO = categoryService.getById(spuDO.getCategoryId());
         commodityRespDTO.setCategoryLevelPath(categoryDO.getLevelPath());

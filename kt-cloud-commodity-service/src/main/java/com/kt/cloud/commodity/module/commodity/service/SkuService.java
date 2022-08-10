@@ -4,12 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kt.cloud.commodity.api.sku.request.SkuInfoGetReqDTO;
+import com.kt.cloud.commodity.api.sku.response.SkuRespDTO;
 import com.kt.cloud.commodity.dao.entity.SkuAttrDO;
 import com.kt.cloud.commodity.dao.entity.SkuDO;
 import com.kt.cloud.commodity.dao.mapper.SkuMapper;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.SkuUpdateReqDTO;
+import com.kt.cloud.commodity.module.commodity.support.CommodityConvertor;
 import com.kt.cloud.commodity.module.commodity.support.CommodityHelper;
 import com.kt.component.orm.mybatis.base.BaseEntity;
 import org.springframework.stereotype.Service;
@@ -39,13 +42,12 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
     public void saveSku(Long spuId, CommodityUpdateReqDTO reqDTO) {
         if (CommodityHelper.isUpdateAction(reqDTO) && reqDTO.getFlushSku()) {
             // todo 把当前的SKU记录到历史表里面
-
             removeSku(spuId);
             removeSkuAttrs(spuId);
         }
         List<SkuUpdateReqDTO> skuList = reqDTO.getSkuList();
         for (SkuUpdateReqDTO skuUpdateReqDTO : skuList) {
-            SkuDO skuDO = assembleSkuDTO(spuId, skuUpdateReqDTO);
+            SkuDO skuDO = assembleSkuDTO(spuId, reqDTO.getMainPicture(), skuUpdateReqDTO);
             if (CommodityHelper.isUpdateAction(reqDTO) && !reqDTO.getFlushSku()) {
                 updateById(skuDO);
             } else {
@@ -75,7 +77,7 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         skuAttrService.saveBatch(doList);
     }
 
-    private SkuDO assembleSkuDTO(Long spuId, SkuUpdateReqDTO entity) {
+    private SkuDO assembleSkuDTO(Long spuId, String mainPicture, SkuUpdateReqDTO entity) {
         SkuDO skuDO = new SkuDO();
         if (entity.getId() != null && entity.getId() > 0) {
             skuDO.setId(entity.getId());
@@ -87,6 +89,8 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         skuDO.setStock(entity.getStock());
         skuDO.setWarnStock(entity.getWarnStock());
         skuDO.setSpecData(JSONObject.toJSONString(entity.getSpecList()));
+        // todo 暂时用spu的主图设置，后面再增加sku图片的功能
+        skuDO.setMainPicture(mainPicture);
         return skuDO;
     }
 
@@ -94,5 +98,11 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         return lambdaQuery()
                 .eq(SkuDO::getSpuId, spuId)
                 .list();
+    }
+
+    public List<SkuRespDTO> findByIds(SkuInfoGetReqDTO request) {
+        List<Long> skuIds = request.getSkuIds();
+        List<SkuDO> skuList = listByIds(skuIds);
+        return CommodityConvertor.convertToSkuDTO(skuList);
     }
 }

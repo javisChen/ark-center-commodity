@@ -32,6 +32,12 @@ public class SkuDO extends BaseEntity {
     private String code;
 
     /**
+     * sku主图
+     */
+    @TableField("main_picture")
+    private String mainPicture;
+
+    /**
      * 销售价（单位：分）
      */
     @TableField("sales_price")

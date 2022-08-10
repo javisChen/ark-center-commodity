@@ -13,18 +13,18 @@ services:
        SYS_OPT: -DSpring.profiles.active=dev
        LANG: C.UTF-8
        TZ: "Asia/Shanghai"
-   oss:
-     container_name: kt-cloud-oss
-     image: kt-cloud-oss:v1
-     restart: always
-     ports:
-       - "8084:8084"
-     environment:
-       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-       SYS_OPT: -DSpring.profiles.active=dev
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
+#   oss:
+#     container_name: kt-cloud-oss
+#     image: kt-cloud-oss:v1
+#     restart: always
+#     ports:
+#       - "8084:8084"
+#     environment:
+#       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
+#       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
+#       SYS_OPT: -DSpring.profiles.active=dev
+#       LANG: C.UTF-8
+#       TZ: "Asia/Shanghai"
    iam:
      container_name: kt-cloud-iam
      image: kt-cloud-iam:v1
@@ -58,22 +58,22 @@ services:
      environment:
        LANG: C.UTF-8
        TZ: "Asia/Shanghai"
-   minio:
-     container_name: minio
-     image: minio/minio:latest
-     restart: always
-     ports:
-       - "9000:9000"
-       - "9100:9100"
-     environment:
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
-       MINIO_ROOT_USER: admin
-       MINIO_ROOT_PASSWORD: admin123456
-     volumes:
-       - "/Users/chenjiawei/dev/docker/minio/data:/data"
-       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
-#       - "D:\\docker\\minio\\data:/data"
-#       - "D:\\docker\\minio\\config:/root/.minio"
-     command: server /data --console-address ":9100"
+#   minio:
+#     container_name: minio
+#     image: minio/minio:latest
+#     restart: always
+#     ports:
+#       - "9000:9000"
+#       - "9100:9100"
+#     environment:
+#       LANG: C.UTF-8
+#       TZ: "Asia/Shanghai"
+#       MINIO_ROOT_USER: admin
+#       MINIO_ROOT_PASSWORD: admin123456
+#     volumes:
+#       - "/Users/chenjiawei/dev/docker/minio/data:/data"
+#       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
+##       - "D:\\docker\\minio\\data:/data"
+##       - "D:\\docker\\minio\\config:/root/.minio"
+#     command: server /data --console-address ":9100"
 

@@ -1,4 +1,4 @@
-package com.kt.cloud.commodity.module.commodity.dto.response;
+package com.kt.cloud.commodity.api.sku.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.Data;
  * @author jc
  */
 @Data
-public class AttrRespDTO {
+public class SkuAttrRespDTO {
 
     @ApiModelProperty(value = "属性Id", required = false)
     private Long attrId;

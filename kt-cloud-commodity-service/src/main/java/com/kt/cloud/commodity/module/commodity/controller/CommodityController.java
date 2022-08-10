@@ -30,7 +30,6 @@ import javax.validation.constraints.NotNull;
 public class CommodityController extends BaseController {
 
     private final CommodityService commodityService;
-
     public CommodityController(CommodityService commodityService) {
         this.commodityService = commodityService;
     }
