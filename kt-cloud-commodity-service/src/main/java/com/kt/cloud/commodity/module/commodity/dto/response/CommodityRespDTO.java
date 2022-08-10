@@ -1,5 +1,7 @@
 package com.kt.cloud.commodity.module.commodity.dto.response;
 
+import com.kt.cloud.commodity.api.sku.response.SkuAttrRespDTO;
+import com.kt.cloud.commodity.api.sku.response.SkuRespDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -68,7 +70,7 @@ public class CommodityRespDTO implements Serializable {
     private List<SkuRespDTO> skuList;
 
     @ApiModelProperty(value = "参数列表", required = true)
-    private List<AttrRespDTO> paramList;
+    private List<SkuAttrRespDTO> paramList;
 
     @ApiModelProperty(value = "图片地址列表", required = true)
     private List<String> picList;
