@@ -6,6 +6,7 @@ import com.kt.component.dto.MultiResponse;
 import com.kt.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "${kt.cloud.commodity.service.name:commodity}",
@@ -17,5 +18,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface SkuApi {
 
     @PostMapping("/list")
-    MultiResponse<SkuRespDTO> getSkuInfoList(SkuInfoGetReqDTO request);
+    MultiResponse<SkuRespDTO> getSkuInfoList(@RequestBody SkuInfoGetReqDTO request);
 }
