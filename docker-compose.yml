@@ -37,6 +37,18 @@ services:
        SYS_OPT: -DSpring.profiles.active=dev
        LANG: C.UTF-8
        TZ: "Asia/Shanghai"
+   eop:
+     container_name: kt-cloud-eop
+     image: kt-cloud-eop:v1
+     restart: always
+     ports:
+       - "8081:8081"
+     environment:
+       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
+       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
+       SYS_OPT: -DSpring.profiles.active=dev
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
    redis:
      container_name: redis
      image: redis:latest
