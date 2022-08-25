@@ -49,6 +49,18 @@ services:
        SYS_OPT: -DSpring.profiles.active=dev
        LANG: C.UTF-8
        TZ: "Asia/Shanghai"
+   commodity:
+     container_name: kt-cloud-commodity
+     image: kt-cloud-commodity:v1
+     restart: always
+     ports:
+       - "8083:8083"
+     environment:
+       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
+       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
+       SYS_OPT: -DSpring.profiles.active=dev
+       LANG: C.UTF-8
+       TZ: "Asia/Shanghai"
    redis:
      container_name: redis
      image: redis:latest
