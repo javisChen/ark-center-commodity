@@ -1,75 +1,82 @@
 version: '3'
 
 services:
-   gateway:
-     container_name: kt-cloud-gateway
-     image: kt-cloud-gateway:v1
-     restart: always
-     ports:
-       - "8082:8082"
-     environment:
-       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-       SYS_OPT: -DSpring.profiles.active=dev
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
-#   oss:
-#     container_name: kt-cloud-oss
-#     image: kt-cloud-oss:v1
-#     restart: always
-#     ports:
-#       - "8084:8084"
-#     environment:
-#       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-#       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-#       SYS_OPT: -DSpring.profiles.active=dev
-#       LANG: C.UTF-8
-#       TZ: "Asia/Shanghai"
-   iam:
-     container_name: kt-cloud-iam
-     image: kt-cloud-iam:v1
-     restart: always
-     ports:
-       - "8080:8080"
-     environment:
-       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-       SYS_OPT: -DSpring.profiles.active=dev
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
-   eop:
-     container_name: kt-cloud-eop
-     image: kt-cloud-eop:v1
-     restart: always
-     ports:
-       - "8081:8081"
-     environment:
-       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-       SYS_OPT: -DSpring.profiles.active=dev
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
-   commodity:
-     container_name: kt-cloud-commodity
-     image: kt-cloud-commodity:v1
-     restart: always
-     ports:
-       - "8083:8083"
-     environment:
-       NACOS_DISCOVERY_SERVER_ADDR: nacos.cloud.org:8848
-       NACOS_CONFIG_SERVER_ADDR: nacos.cloud.org:8848
-       SYS_OPT: -DSpring.profiles.active=dev
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
-   redis:
-     container_name: redis
-     image: redis:latest
-     restart: always
-     ports:
-       - "6379:6379"
-     environment:
-       LANG: C.UTF-8
-       TZ: "Asia/Shanghai"
+  nacos:
+    image: nacos/nacos-server:v2.1.1-slim
+    container_name: nacos
+    env_file:
+      - ./env/nacos-standlone-mysql.env
+    volumes:
+      - ./standalone-logs/:/home/nacos/logs
+      - ./init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    restart: always
+  gateway:
+    container_name: kt-cloud-gateway
+    image: kt-cloud-gateway:v1
+    restart: always
+    ports:
+      - "8082:8082"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+  oss:
+    container_name: kt-cloud-oss
+    image: kt-cloud-oss:v1
+    restart: always
+    ports:
+      - "8084:8084"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+  iam:
+    container_name: kt-cloud-iam
+    image: kt-cloud-iam:v1
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+  eop:
+    container_name: kt-cloud-eop
+    image: kt-cloud-eop:v1
+    restart: always
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+  commodity:
+    container_name: kt-cloud-commodity
+    image: kt-cloud-commodity:v1
+    restart: always
+    ports:
+      - "8083:8083"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    env_file:
+      - ./env/service-common.env
 #   minio:
 #     container_name: minio
 #     image: minio/minio:latest
