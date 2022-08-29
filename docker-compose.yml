@@ -25,17 +25,17 @@ services:
     depends_on:
       - nacos
       - redis
-  oss:
-    container_name: kt-cloud-oss
-    image: kt-cloud-oss:v1
-    restart: always
-    ports:
-      - "8084:8084"
-    env_file:
-      - ./env/service-common.env
-    depends_on:
-      - nacos
-      - redis
+#  oss:
+#    container_name: kt-cloud-oss
+#    image: kt-cloud-oss:v1
+#    restart: always
+#    ports:
+#      - "8084:8084"
+#    env_file:
+#      - ./env/service-common.env
+#    depends_on:
+#      - nacos
+#      - redis
   iam:
     container_name: kt-cloud-iam
     image: kt-cloud-iam:v1
