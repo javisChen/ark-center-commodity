@@ -14,6 +14,15 @@ services:
       - "9848:9848"
       - "9555:9555"
     restart: always
+  rocketmq:
+    image: king019/rocketmq
+    container_name: rocketmq
+    environment:
+      JAVA_OPT_EXT: '-Xms128m -Xmx128m -Xmn64m -XX:MetaspaceSize=32m -XX:MaxMetaspaceSize=32m'
+    ports:
+      - "9876:9876"
+      - "10911:10911"
+    restart: always
   gateway:
     container_name: kt-cloud-gateway
     image: kt-cloud-gateway:v1
