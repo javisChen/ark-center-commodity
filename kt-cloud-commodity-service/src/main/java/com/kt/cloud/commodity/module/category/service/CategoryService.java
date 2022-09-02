@@ -110,6 +110,11 @@ public class CategoryService extends ServiceImpl<CategoryMapper, CategoryDO> imp
     }
 
     public void removeCategoryById(Long id) {
-
+        CategoryDO categoryDO = getById(id);
+        if (categoryDO != null) {
+            lambdaUpdate()
+                    .likeRight(CategoryDO::getLevelPath, categoryDO.getId())
+                    .remove();
+        }
     }
 }
