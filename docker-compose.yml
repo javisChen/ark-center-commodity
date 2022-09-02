@@ -78,6 +78,8 @@ services:
     depends_on:
       - nacos
       - redis
+    command:
+      - 'tail -f logs/commodity/commodity.log'
   redis:
     container_name: redis
     image: redis:latest
