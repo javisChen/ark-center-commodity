@@ -6,6 +6,7 @@ import com.kt.cloud.commodity.module.category.dto.response.CategoryRespDTO;
 import com.kt.cloud.commodity.module.category.dto.response.TreeDTO;
 import com.kt.cloud.commodity.module.category.service.CategoryService;
 import com.kt.component.dto.PageResponse;
+import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
@@ -61,6 +62,13 @@ public class CategoryController extends BaseController {
     @PostMapping("/tree")
     public SingleResponse<TreeDTO<CategoryRespDTO>> tree(@RequestBody @Validated CategoryPageQueryReqDTO queryDTO) {
         return SingleResponse.ok(categoryService.getTree(queryDTO));
+    }
+
+    @ApiOperation(value = "删除类目（包括其下所有子分类）")
+    @DeleteMapping
+    public ServerResponse remove(@RequestParam Long id) {
+        categoryService.removeCategoryById(id);
+        return ServerResponse.ok();
     }
 
     @ApiOperation(value = "查询商品类目详情")

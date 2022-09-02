@@ -108,4 +108,8 @@ public class CategoryService extends ServiceImpl<CategoryMapper, CategoryDO> imp
             nodes.add(node);
         }
     }
+
+    public void removeCategoryById(Long id) {
+
+    }
 }
