@@ -1,0 +1,4 @@
+2022-09-05 09:51:43,119 WARN [master-db] jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+
+2022-09-05 09:51:52,951 WARN isQuickStart:false
+

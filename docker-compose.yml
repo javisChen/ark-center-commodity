@@ -34,17 +34,17 @@ services:
     depends_on:
       - nacos
       - redis
-#  oss:
-#    container_name: kt-cloud-oss
-#    image: kt-cloud-oss:v1
-#    restart: always
-#    ports:
-#      - "8084:8084"
-#    env_file:
-#      - ./env/service-common.env
-#    depends_on:
-#      - nacos
-#      - redis
+  oss:
+    container_name: kt-cloud-oss
+    image: kt-cloud-oss:v1
+    restart: always
+    ports:
+      - "8084:8084"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
   iam:
     container_name: kt-cloud-iam
     image: kt-cloud-iam:v1
@@ -88,22 +88,22 @@ services:
       - "6379:6379"
     env_file:
       - ./env/service-common.env
-#   minio:
-#     container_name: minio
-#     image: minio/minio:latest
-#     restart: always
-#     ports:
-#       - "9000:9000"
-#       - "9100:9100"
-#     environment:
-#       LANG: C.UTF-8
-#       TZ: "Asia/Shanghai"
-#       MINIO_ROOT_USER: admin
-#       MINIO_ROOT_PASSWORD: admin123456
-#     volumes:
-#       - "/Users/chenjiawei/dev/docker/minio/data:/data"
-#       - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
-##       - "D:\\docker\\minio\\data:/data"
-##       - "D:\\docker\\minio\\config:/root/.minio"
-#     command: server /data --console-address ":9100"
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9100:9100"
+    environment:
+      LANG: C.UTF-8
+      TZ: "Asia/Shanghai"
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123456
+    volumes:
+      #      - "/Users/chenjiawei/dev/docker/minio/data:/data"
+      #      - "/Users/chenjiawei/dev/docker/minio/config:/root/.mini"
+      - "C:\\docker\\minio\\data:/data"
+      - "C:\\docker\\minio\\config:/root/.minio"
+    command: server /data --console-address ":9100"
 

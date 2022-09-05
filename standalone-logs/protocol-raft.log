@@ -1,0 +1,38 @@
+2022-09-05 09:52:11,845 INFO Initializes the Raft protocol, raft-config info : {}
+
+2022-09-05 09:52:14,905 INFO ========= The raft protocol is starting... =========
+
+2022-09-05 09:52:17,187 INFO ========= The raft protocol start finished... =========
+
+2022-09-05 09:52:17,510 INFO create raft group : naming_persistent_service_v2
+
+2022-09-05 09:52:20,570 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='null', term=null, raftClusterInfo=[7b53aa32d64c:7848]}
+
+2022-09-05 09:52:22,070 INFO create raft group : naming_instance_metadata
+
+2022-09-05 09:52:22,130 INFO This Raft event changes : RaftEvent{groupId='naming_persistent_service_v2', leader='7b53aa32d64c:7848', term=5, raftClusterInfo=[7b53aa32d64c:7848]}
+
+2022-09-05 09:52:25,391 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='null', term=null, raftClusterInfo=[7b53aa32d64c:7848]}
+
+2022-09-05 09:52:26,098 INFO This Raft event changes : RaftEvent{groupId='naming_instance_metadata', leader='7b53aa32d64c:7848', term=5, raftClusterInfo=[7b53aa32d64c:7848]}
+
+2022-09-05 09:52:26,100 INFO create raft group : naming_service_metadata
+
+2022-09-05 09:52:27,201 ERROR Failed to join the cluster, retry...
+
+java.lang.IllegalStateException: Fail to get leader of group naming_persistent_service_v2
+	at com.alipay.sofa.jraft.core.CliServiceImpl.getPeers(CliServiceImpl.java:631)
+	at com.alipay.sofa.jraft.core.CliServiceImpl.getPeers(CliServiceImpl.java:524)
+	at com.alibaba.nacos.core.distributed.raft.JRaftServer.registerSelfToCluster(JRaftServer.java:353)
+	at com.alibaba.nacos.core.distributed.raft.JRaftServer.lambda$createMultiRaftGroup$0(JRaftServer.java:264)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+2022-09-05 09:52:28,607 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='null', term=null, raftClusterInfo=[7b53aa32d64c:7848]}
+
+2022-09-05 09:52:29,860 INFO This Raft event changes : RaftEvent{groupId='naming_service_metadata', leader='7b53aa32d64c:7848', term=5, raftClusterInfo=[7b53aa32d64c:7848]}
+

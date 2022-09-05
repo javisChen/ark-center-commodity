@@ -229,4 +229,9 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
         }
         return lambdaQuery().eq(BaseEntity::getId, attrGroupId).count();
     }
+    public void removeByAttrId(Long id) {
+        lambdaUpdate()
+                .eq(BaseEntity::getId, id)
+                .remove();
+    }
 }

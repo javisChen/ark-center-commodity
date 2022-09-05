@@ -5,6 +5,7 @@ import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.service.AttrService;
 import com.kt.component.dto.PageResponse;
+import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
@@ -46,6 +47,14 @@ public class AttrController extends BaseController {
     @PostMapping("/update")
     public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
         return SingleResponse.ok(attrService.updateAttr(reqDTO));
+    }
+
+
+    @ApiOperation(value = "删除商品属性")
+    @DeleteMapping
+    public ServerResponse remove(@RequestParam Long id) {
+        attrService.removeByAttrId(id);
+        return ServerResponse.ok();
     }
 
     @ApiOperation(value = "查询商品属性分页列表")

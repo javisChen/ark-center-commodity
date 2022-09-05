@@ -1,0 +1,132 @@
+2022-09-05 09:51:28,548 WARN naming.distro config will be removed, please use core.protocol.distro replace.
+
+2022-09-05 09:51:28,548 WARN Using naming.distro config to replace core.distro config
+
+2022-09-05 09:51:30,635 INFO open empty service auto clean job, initialDelay : 50000 ms, period : 30000 ms
+
+2022-09-05 09:51:30,694 INFO listen for service meta change
+
+2022-09-05 09:52:11,056 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.CmdbSelectorContextBuilder) contextType(CMDB) successfully.
+
+2022-09-05 09:52:11,057 INFO [SelectorManager] Load SelectorContextBuilder(class com.alibaba.nacos.naming.selector.context.NoneSelectorContextBuilder) contextType(NONE) successfully.
+
+2022-09-05 09:52:11,058 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.LabelSelector) type(label) contextType(CMDB) successfully.
+
+2022-09-05 09:52:11,058 INFO [SelectorManager] Load Selector(class com.alibaba.nacos.naming.selector.NoneSelector) type(none) contextType(NONE) successfully.
+
+2022-09-05 09:52:32,451 INFO Load instance extension handler []
+
+2022-09-05 09:52:48,357 INFO Client connection 1662342767730_172.18.0.1_37566 connect
+
+2022-09-05 09:52:51,197 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='gateway', ephemeral=true, revision=0}, 1662342767730_172.18.0.1_37566
+
+2022-09-05 09:53:27,610 INFO Client connection 1662342807539_172.18.0.1_37660 connect
+
+2022-09-05 09:53:27,984 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='eop', ephemeral=true, revision=0}, 1662342807539_172.18.0.1_37660
+
+2022-09-05 09:53:38,405 INFO Client connection 1662342818332_172.18.0.1_37680 connect
+
+2022-09-05 09:53:38,738 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='iam', ephemeral=true, revision=0}, 1662342818332_172.18.0.1_37680
+
+2022-09-05 09:53:42,582 INFO Client connection 1662342822556_172.18.0.1_37684 connect
+
+2022-09-05 09:53:42,819 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=0}, 1662342822556_172.18.0.1_37684
+
+2022-09-05 09:58:10,630 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='gateway', ephemeral=true, revision=1}, 1662342767730_172.18.0.1_37566
+
+2022-09-05 09:58:10,985 INFO Client connection 1662342767730_172.18.0.1_37566 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:11,652 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='eop', ephemeral=true, revision=1}, 1662342807539_172.18.0.1_37660
+
+2022-09-05 09:58:11,999 INFO Client connection 1662342807539_172.18.0.1_37660 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:12,550 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='iam', ephemeral=true, revision=1}, 1662342818332_172.18.0.1_37680
+
+2022-09-05 09:58:12,568 INFO Client connection 1662342767887_172.18.0.1_37564 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:12,877 INFO Client connection 1662342818332_172.18.0.1_37680 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:13,329 INFO Client connection 1662342781755_172.18.0.1_37608 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:13,405 INFO Client connection 1662342768502_172.18.0.1_37570 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:14,612 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=1}, 1662342822556_172.18.0.1_37684
+
+2022-09-05 09:58:14,935 INFO Client connection 1662342822556_172.18.0.1_37684 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:15,483 INFO Client connection 1662342784336_172.18.0.1_37612 disconnect, remove instances and subscribers
+
+2022-09-05 09:58:46,486 INFO Client connection 1662343126165_172.18.0.1_37730 connect
+
+2022-09-05 09:58:58,656 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='gateway', ephemeral=true, revision=2}, 1662343126165_172.18.0.1_37730
+
+2022-09-05 09:59:06,981 INFO Client connection 1662343146902_172.18.0.1_37794 connect
+
+2022-09-05 09:59:07,493 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='eop', ephemeral=true, revision=2}, 1662343146902_172.18.0.1_37794
+
+2022-09-05 09:59:14,633 INFO Client connection 1662343154566_172.18.0.1_37798 connect
+
+2022-09-05 09:59:14,869 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='iam', ephemeral=true, revision=2}, 1662343154566_172.18.0.1_37798
+
+2022-09-05 09:59:15,051 INFO Client connection 1662343155007_172.18.0.1_37802 connect
+
+2022-09-05 09:59:15,399 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=2}, 1662343155007_172.18.0.1_37802
+
+2022-09-05 10:10:54,781 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=3}, 1662343155007_172.18.0.1_37802
+
+2022-09-05 10:10:55,131 INFO Client connection 1662343155007_172.18.0.1_37802 disconnect, remove instances and subscribers
+
+2022-09-05 10:10:55,705 INFO Client connection 1662343111050_172.18.0.1_37722 disconnect, remove instances and subscribers
+
+2022-09-05 10:11:56,100 INFO Client connection 1662343916080_172.18.0.1_37874 connect
+
+2022-09-05 10:11:56,337 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=4}, 1662343916080_172.18.0.1_37874
+
+2022-09-05 15:10:36,475 INFO Client connection 1662361836102_172.18.0.1_38708 connect
+
+2022-09-05 15:10:36,692 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='oss', ephemeral=true, revision=0}, 1662361836102_172.18.0.1_38708
+
+2022-09-05 17:15:18,148 INFO Client remove for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='eop', ephemeral=true, revision=3}, 1662343146902_172.18.0.1_37794
+
+2022-09-05 17:15:22,289 INFO Client connection 1662343146902_172.18.0.1_37794 disconnect, remove instances and subscribers
+
+2022-09-05 17:15:32,621 INFO Client connection 1662343104855_172.18.0.1_37698 disconnect, remove instances and subscribers
+
+2022-09-05 17:15:34,897 INFO Client connection 1662369334293_172.18.0.1_39190 connect
+
+2022-09-05 17:15:35,764 INFO Client connection 1662343126165_172.18.0.1_37730 disconnect, remove instances and subscribers
+
+2022-09-05 17:15:39,590 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='gateway', ephemeral=true, revision=4}, 1662369334293_172.18.0.1_39190
+
+2022-09-05 17:15:41,698 INFO Client connection 1662343109644_172.18.0.1_37714 disconnect, remove instances and subscribers
+
+2022-09-05 17:15:49,954 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='gateway', ephemeral=true, revision=5}, 1662369334293_172.18.0.1_39190
+
+2022-09-05 17:15:57,432 INFO Client connection 1662343109870_172.18.0.1_37718 disconnect, remove instances and subscribers
+
+2022-09-05 17:15:57,526 INFO Client connection 1662369355275_172.18.0.1_39224 connect
+
+2022-09-05 17:15:57,664 INFO Client connection 1662343154566_172.18.0.1_37798 disconnect, remove instances and subscribers
+
+2022-09-05 17:16:01,443 INFO Client connection 1662369359785_172.18.0.1_39232 connect
+
+2022-09-05 17:16:01,585 INFO Client connection 1662361836102_172.18.0.1_38708 disconnect, remove instances and subscribers
+
+2022-09-05 17:16:01,591 INFO Client connection 1662361825095_172.18.0.1_38704 disconnect, remove instances and subscribers
+
+2022-09-05 17:16:02,862 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='iam', ephemeral=true, revision=4}, 1662369355275_172.18.0.1_39224
+
+2022-09-05 17:16:05,092 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='oss', ephemeral=true, revision=2}, 1662369359785_172.18.0.1_39232
+
+2022-09-05 17:16:53,642 WARN namespace : aaff0c75-80b1-4c85-ad3f-c625501368ba, [DEFAULT_GROUP@@eop] services are automatically cleaned
+
+2022-09-05 17:22:09,430 INFO Client connection 1662343916080_172.18.0.1_37874 disconnect, remove instances and subscribers
+
+2022-09-05 17:22:09,440 INFO Client connection 1662343890737_172.18.0.1_37872 disconnect, remove instances and subscribers
+
+2022-09-05 17:23:54,039 WARN namespace : aaff0c75-80b1-4c85-ad3f-c625501368ba, [DEFAULT_GROUP@@commodity] services are automatically cleaned
+
+2022-09-05 17:24:15,041 INFO Client connection 1662369855028_172.18.0.1_39252 connect
+
+2022-09-05 17:24:15,223 INFO Client change for service Service{namespace='aaff0c75-80b1-4c85-ad3f-c625501368ba', group='DEFAULT_GROUP', name='commodity', ephemeral=true, revision=0}, 1662369855028_172.18.0.1_39252
+
