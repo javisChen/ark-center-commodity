@@ -71,7 +71,9 @@
         <appender-ref ref="ROLLING"/>
     </appender>
 
-    <root level="info">
+    <logger name="com.kt.cloud.commodity.dao" level="DEBUG"/>
+
+    <root level="INFO">
         <springProfile name="local,dev,test,sit">
             <!-- local本地配置时候打开控制台输出 -->
             <appender-ref ref="STDOUT"/>
