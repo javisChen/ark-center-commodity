@@ -187,4 +187,9 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         return spuSalesService.getBySpuId(spuId);
     }
 
+    public List<SpuDO> listByCategoryIds(List<Long> categoryIds) {
+        return lambdaQuery()
+                .in(SpuDO::getCategoryId, categoryIds)
+                .list();
+    }
 }

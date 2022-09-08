@@ -1,6 +1,5 @@
 package com.kt.cloud.commodity.module.commodity.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.cloud.commodity.dao.entity.CategoryDO;
 import com.kt.cloud.commodity.dao.entity.SkuDO;
@@ -13,9 +12,9 @@ import com.kt.cloud.commodity.api.sku.response.SkuAttrRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityRespDTO;
 import com.kt.cloud.commodity.api.sku.response.SkuRespDTO;
+import com.kt.cloud.commodity.module.commodity.dto.response.SearchRespDTO;
 import com.kt.cloud.commodity.module.commodity.support.CommodityConvertor;
 import com.kt.component.dto.PageResponse;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,5 +99,9 @@ public class CommodityService {
 
         CategoryDO categoryDO = categoryService.getById(spuDO.getCategoryId());
         commodityRespDTO.setCategoryLevelPath(categoryDO.getLevelPath());
+    }
+
+    public SearchRespDTO search() {
+        return null;
     }
 }

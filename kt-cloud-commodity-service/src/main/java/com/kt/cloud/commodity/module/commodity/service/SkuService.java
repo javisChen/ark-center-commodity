@@ -105,4 +105,5 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         List<SkuDO> skuList = listByIds(skuIds);
         return CommodityConvertor.convertToSkuDTO(skuList);
     }
+
 }

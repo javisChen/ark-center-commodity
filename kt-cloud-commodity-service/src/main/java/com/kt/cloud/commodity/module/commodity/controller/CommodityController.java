@@ -4,6 +4,7 @@ import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReq
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.CommodityRespDTO;
+import com.kt.cloud.commodity.module.commodity.dto.response.SearchRespDTO;
 import com.kt.cloud.commodity.module.commodity.service.CommodityService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.dto.SingleResponse;
@@ -59,5 +60,10 @@ public class CommodityController extends BaseController {
         return SingleResponse.ok(commodityService.getInfo(id));
     }
 
+    @ApiOperation(value = "查询分页列表")
+    @PostMapping("/search")
+    public SingleResponse<SearchRespDTO> pageList() {
+        return SingleResponse.ok(commodityService.search());
+    }
 
 }
