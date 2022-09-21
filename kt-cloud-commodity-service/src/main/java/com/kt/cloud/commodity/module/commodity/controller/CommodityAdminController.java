@@ -27,11 +27,11 @@ import javax.validation.constraints.NotNull;
  */
 @Api(tags = "商品")
 @RestController
-@RequestMapping("/v1/commodity")
-public class CommodityController extends BaseController {
+@RequestMapping("/v1/admin/commodity")
+public class CommodityAdminController extends BaseController {
 
     private final CommodityService commodityService;
-    public CommodityController(CommodityService commodityService) {
+    public CommodityAdminController(CommodityService commodityService) {
         this.commodityService = commodityService;
     }
 

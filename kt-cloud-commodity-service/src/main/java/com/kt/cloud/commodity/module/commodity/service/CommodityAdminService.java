@@ -5,7 +5,7 @@ import com.kt.cloud.commodity.dao.entity.CategoryDO;
 import com.kt.cloud.commodity.dao.entity.SkuDO;
 import com.kt.cloud.commodity.dao.entity.SpuDO;
 import com.kt.cloud.commodity.dao.entity.SpuSalesDO;
-import com.kt.cloud.commodity.module.category.service.CategoryService;
+import com.kt.cloud.commodity.module.category.service.CategoryAdminService;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
 import com.kt.cloud.commodity.api.sku.response.SkuAttrRespDTO;
@@ -18,7 +18,6 @@ import com.kt.component.dto.PageResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,18 +29,18 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Service
-public class CommodityService {
+public class CommodityAdminService {
 
     private final SpuService spuService;
     private final SkuService skuService;
-    private final CategoryService categoryService;
+    private final CategoryAdminService categoryAdminService;
 
-    public CommodityService(SpuService spuService,
-                            SkuService skuService,
-                            CategoryService categoryService) {
+    public CommodityAdminService(SpuService spuService,
+                                 SkuService skuService,
+                                 CategoryAdminService categoryAdminService) {
         this.spuService = spuService;
         this.skuService = skuService;
-        this.categoryService = categoryService;
+        this.categoryAdminService = categoryAdminService;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -97,7 +96,7 @@ public class CommodityService {
         commodityRespDTO.setPcDetailHtml(spuSalesDO.getPcDetailHtml());
         commodityRespDTO.setParamList(JSONObject.parseArray(spuSalesDO.getParamData(), SkuAttrRespDTO.class));
 
-        CategoryDO categoryDO = categoryService.getById(spuDO.getCategoryId());
+        CategoryDO categoryDO = categoryAdminService.getById(spuDO.getCategoryId());
         commodityRespDTO.setCategoryLevelPath(categoryDO.getLevelPath());
     }
 
