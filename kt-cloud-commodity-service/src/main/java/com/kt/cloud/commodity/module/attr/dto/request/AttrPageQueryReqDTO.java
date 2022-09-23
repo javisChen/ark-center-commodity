@@ -36,9 +36,6 @@ public class AttrPageQueryReqDTO extends PagingQuery {
     @ApiModelProperty(value = "模板ID")
     private Long attrTemplateId;
 
-    @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]")
-    private Integer canManualAdd;
-
     @ApiModelProperty(value = "商品类别ID")
     private Long categoryId;
 

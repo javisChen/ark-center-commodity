@@ -36,3 +36,5 @@ logs/
 
 ### cop init sh ###
 git_init.sh
+
+standalone-logs/

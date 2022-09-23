@@ -12,6 +12,7 @@ import com.kt.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +30,10 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RestController
 @RequestMapping("/v1/attr")
+@RequiredArgsConstructor
 public class AttrController extends BaseController {
 
     private final AttrService attrService;
-
-    public AttrController(AttrService attrService) {
-        this.attrService = attrService;
-    }
 
     @ApiOperation(value = "创建商品属性")
     @PostMapping("/create")
@@ -48,7 +46,6 @@ public class AttrController extends BaseController {
     public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
         return SingleResponse.ok(attrService.updateAttr(reqDTO));
     }
-
 
     @ApiOperation(value = "删除商品属性")
     @DeleteMapping

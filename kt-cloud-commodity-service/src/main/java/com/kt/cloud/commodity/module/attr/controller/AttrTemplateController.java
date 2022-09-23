@@ -11,6 +11,7 @@ import com.kt.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +29,9 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RestController
 @RequestMapping("/v1/attr/template")
+@RequiredArgsConstructor
 public class AttrTemplateController extends BaseController {
-
     private final AttrTemplateService attrTemplateService;
-
-    public AttrTemplateController(AttrTemplateService attrTemplateService) {
-        this.attrTemplateService = attrTemplateService;
-    }
-
     @ApiOperation(value = "创建属性模板")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated AttrTemplateCreateReqDTO reqDTO) {

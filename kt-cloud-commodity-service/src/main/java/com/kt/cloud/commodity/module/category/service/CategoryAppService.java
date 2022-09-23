@@ -25,15 +25,15 @@ import java.util.stream.Collectors;
 public class CategoryAppService {
 
     private final SpuService spuService;
-    private final CategoryService categoryService;
+    private final CategoryAdminService categoryAdminService;
 
-    public CategoryAppService(SpuService spuService, CategoryService categoryService) {
+    public CategoryAppService(SpuService spuService, CategoryAdminService categoryAdminService) {
         this.spuService = spuService;
-        this.categoryService = categoryService;
+        this.categoryAdminService = categoryAdminService;
     }
 
     public List<HomeCategoryDTO> getCategories() {
-        List<CategoryDO> categoryDOS = categoryService.list();
+        List<CategoryDO> categoryDOS = categoryAdminService.list();
 
         List<Long> categoryIds = categoryDOS.stream()
                 .map(BaseEntity::getId)

@@ -7,16 +7,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.kt.cloud.commodity.dao.entity.CategoryDO;
-import com.kt.cloud.commodity.dao.entity.SkuDO;
-import com.kt.cloud.commodity.dao.entity.SpuDO;
 import com.kt.cloud.commodity.dao.mapper.CategoryMapper;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryPageQueryReqDTO;
 import com.kt.cloud.commodity.module.category.dto.request.CategoryUpdateReqDTO;
 import com.kt.cloud.commodity.module.category.dto.response.CategoryRespDTO;
-import com.kt.cloud.commodity.module.category.dto.response.HomeCategoryDTO;
 import com.kt.cloud.commodity.module.category.dto.response.TreeDTO;
-import com.kt.cloud.commodity.module.commodity.service.SkuService;
-import com.kt.cloud.commodity.module.commodity.service.SpuService;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.web.util.bean.BeanConvertor;
@@ -27,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +33,7 @@ import java.util.stream.Collectors;
  * @since 2022-03-03
  */
 @Service
-public class CategoryService extends ServiceImpl<CategoryMapper, CategoryDO> implements IService<CategoryDO> {
+public class CategoryAdminService extends ServiceImpl<CategoryMapper, CategoryDO> implements IService<CategoryDO> {
 
     @Transactional(rollbackFor = Exception.class)
     public Long createCategory(CategoryUpdateReqDTO reqDTO) {

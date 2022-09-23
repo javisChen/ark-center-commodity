@@ -56,6 +56,18 @@ services:
     depends_on:
       - nacos
       - redis
+  order:
+    container_name: kt-cloud-order
+    image: kt-cloud-order:v1
+    restart: always
+    ports:
+      - "8085:8085"
+    env_file:
+      - ./env/service-common.env
+    depends_on:
+      - nacos
+      - redis
+      - rocketmq
   eop:
     container_name: kt-cloud-eop
     image: kt-cloud-eop:v1

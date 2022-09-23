@@ -13,7 +13,7 @@ import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupCreateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupPageQueryReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.request.AttrGroupUpdateReqDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
-import com.kt.cloud.commodity.module.category.service.CategoryService;
+import com.kt.cloud.commodity.module.category.service.CategoryAdminService;
 import com.kt.component.exception.ExceptionFactory;
 import com.kt.component.orm.mybatis.base.BaseEntity;
 import com.kt.component.web.util.bean.BeanConvertor;
@@ -35,14 +35,14 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
 
     private final AttrTemplateService attrTemplateService;
     private final AttrGroupRelMapper attrGroupRelMapper;
-    private final CategoryService categoryService;
+    private final CategoryAdminService categoryAdminService;
 
     public AttrGroupService(AttrTemplateService attrTemplateService,
                             AttrGroupRelMapper attrGroupRelMapper,
-                            CategoryService categoryService) {
+                            CategoryAdminService categoryAdminService) {
         this.attrTemplateService = attrTemplateService;
         this.attrGroupRelMapper = attrGroupRelMapper;
-        this.categoryService = categoryService;
+        this.categoryAdminService = categoryAdminService;
     }
 
     public Long createAttrGroup(AttrGroupCreateReqDTO reqDTO) {
@@ -54,7 +54,7 @@ public class AttrGroupService extends ServiceImpl<AttrGroupMapper, AttrGroupDO> 
 
     public IPage<AttrGroupRespDTO> getPageList(AttrGroupPageQueryReqDTO queryDTO) {
         if (queryDTO.getCategoryId() != null) {
-            CategoryDO categoryDO = Optional.ofNullable(categoryService.getById(queryDTO.getCategoryId()))
+            CategoryDO categoryDO = Optional.ofNullable(categoryAdminService.getById(queryDTO.getCategoryId()))
                     .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(categoryDO.getAttrTemplateId());
         }

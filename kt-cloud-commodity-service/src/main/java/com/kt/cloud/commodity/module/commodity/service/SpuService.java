@@ -12,7 +12,7 @@ import com.kt.cloud.commodity.dao.mapper.SpuMapper;
 import com.kt.cloud.commodity.module.attachment.service.AttachmentService;
 import com.kt.cloud.commodity.module.attr.service.AttrOptionService;
 import com.kt.cloud.commodity.module.brand.service.BrandService;
-import com.kt.cloud.commodity.module.category.service.CategoryService;
+import com.kt.cloud.commodity.module.category.service.CategoryAdminService;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrOptionReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.AttrReqDTO;
 import com.kt.cloud.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
@@ -48,18 +48,18 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
     private final SpuSalesService spuSalesService;
     private final AttrOptionService attrOptionService;
     private final BrandService brandService;
-    private final CategoryService categoryService;
+    private final CategoryAdminService categoryAdminService;
 
     public SpuService(AttachmentService attachmentService,
                       SpuAttrService spuAttrService,
                       SpuSalesService spuSalesService,
-                      AttrOptionService attrOptionService, BrandService brandService, CategoryService categoryService) {
+                      AttrOptionService attrOptionService, BrandService brandService, CategoryAdminService categoryAdminService) {
         this.attachmentService = attachmentService;
         this.spuAttrService = spuAttrService;
         this.spuSalesService = spuSalesService;
         this.attrOptionService = attrOptionService;
         this.brandService = brandService;
-        this.categoryService = categoryService;
+        this.categoryAdminService = categoryAdminService;
     }
 
     public IPage<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
@@ -73,7 +73,7 @@ public class SpuService extends ServiceImpl<SpuMapper, SpuDO> implements IServic
         List<Long> brandIds = records.stream().map(SpuDO::getBrandId).collect(Collectors.toList());
         List<Long> categoryIds = records.stream().map(SpuDO::getCategoryId).collect(Collectors.toList());
         Map<Long, String> brandMap = brandService.listByIds(brandIds).stream().collect(Collectors.toMap(BaseEntity::getId, BrandDO::getName));
-        Map<Long, String> categoryMap = categoryService.listByIds(categoryIds).stream().collect(Collectors.toMap(BaseEntity::getId, CategoryDO::getName));
+        Map<Long, String> categoryMap = categoryAdminService.listByIds(categoryIds).stream().collect(Collectors.toMap(BaseEntity::getId, CategoryDO::getName));
 
         return page.convert(record -> {
             CommodityPageRespDTO respDTO = BeanConvertor.copy(record, CommodityPageRespDTO.class);

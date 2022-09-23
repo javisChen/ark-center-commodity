@@ -36,8 +36,8 @@ discovery-server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
 config-server-addr: ${NACOS_CONFIG_SERVER_ADDR:127.0.0.1:8848}
 nacos-username: ${NACOS_USERNAME:nacos}
 nacos-password: ${NACOS_PASSWORD:nacos}
-nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
-nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
+nacos-discovery-group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
 ---
@@ -51,8 +51,8 @@ discovery-server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
 config-server-addr: ${NACOS_CONFIG_SERVER_ADDR:127.0.0.1:8848}
 nacos-username: ${NACOS_USERNAME:nacos}
 nacos-password: ${NACOS_PASSWORD:nacos}
-nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
-nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
+nacos-discovery-group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
 
@@ -67,7 +67,7 @@ discovery-server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
 config-server-addr: ${NACOS_CONFIG_SERVER_ADDR:127.0.0.1:8848}
 nacos-username: ${NACOS_USERNAME:nacos}
 nacos-password: ${NACOS_PASSWORD:nacos}
-nacos-discovery-group: ${NACOS_DISCONVERY_GROUP:DEFAULT_GROUP}
-nacos-config-group: ${NACOS_CONIFG_GROUP:DEFAULT_GROUP}
+nacos-discovery-group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+nacos-config-group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true

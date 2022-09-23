@@ -11,7 +11,7 @@ import com.kt.cloud.commodity.module.attr.dto.request.*;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.kt.cloud.commodity.module.attr.dto.response.AttrRespDTO;
 import com.kt.cloud.commodity.module.attr.support.AttrHelper;
-import com.kt.cloud.commodity.module.category.service.CategoryService;
+import com.kt.cloud.commodity.module.category.service.CategoryAdminService;
 import com.kt.component.common.ParamsChecker;
 import com.kt.component.dto.PageResponse;
 import com.kt.component.exception.ExceptionFactory;
@@ -44,18 +44,18 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
     private final AttrHelper attrHelper;
     private final AttrOptionService attrOptionService;
     private final AttrTemplateService attrTemplateService;
-    private final CategoryService categoryService;
+    private final CategoryAdminService categoryAdminService;
 
     public AttrService(AttrGroupService attrGroupService,
                        AttrHelper attrHelper,
                        AttrOptionService attrOptionService,
                        AttrTemplateService attrTemplateService,
-                       CategoryService categoryService) {
+                       CategoryAdminService categoryAdminService) {
         this.attrGroupService = attrGroupService;
         this.attrHelper = attrHelper;
         this.attrOptionService = attrOptionService;
         this.attrTemplateService = attrTemplateService;
-        this.categoryService = categoryService;
+        this.categoryAdminService = categoryAdminService;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -74,7 +74,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     public PageResponse<AttrRespDTO> getPageList(AttrPageQueryReqDTO queryDTO) {
         if (queryDTO.getCategoryId() != null) {
-            CategoryDO categoryDO = Optional.ofNullable(categoryService.getById(queryDTO.getCategoryId()))
+            CategoryDO categoryDO = Optional.ofNullable(categoryAdminService.getById(queryDTO.getCategoryId()))
                     .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(categoryDO.getAttrTemplateId());
         }
@@ -182,7 +182,7 @@ public class AttrService extends ServiceImpl<AttrMapper, AttrDO> implements ISer
 
     public PageResponse<AttrGroupRespDTO> getAttrGroupPageList(AttrGroupPageQueryReqDTO queryDTO) {
         if (queryDTO.getCategoryId() != null) {
-            CategoryDO categoryDO = Optional.ofNullable(categoryService.getById(queryDTO.getCategoryId()))
+            CategoryDO categoryDO = Optional.ofNullable(categoryAdminService.getById(queryDTO.getCategoryId()))
                     .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(categoryDO.getAttrTemplateId());
         }
