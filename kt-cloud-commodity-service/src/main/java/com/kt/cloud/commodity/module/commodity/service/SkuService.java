@@ -100,8 +100,8 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
                 .list();
     }
 
-    public List<SkuRespDTO> findByIds(SkuInfoGetReqDTO request) {
-        List<Long> skuIds = request.getSkuIds();
+    public List<SkuRespDTO> findByIds(SkuInfoGetReqDTO reqDTO) {
+        List<Long> skuIds = reqDTO.getSkuIds();
         List<SkuDO> skuList = listByIds(skuIds);
         return CommodityConvertor.convertToSkuDTO(skuList);
     }

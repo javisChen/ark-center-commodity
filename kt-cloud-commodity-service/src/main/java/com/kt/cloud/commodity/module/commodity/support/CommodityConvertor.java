@@ -16,6 +16,7 @@ public class CommodityConvertor {
         for (SkuDO skuDO : skuList) {
             SkuRespDTO skuRespDTO = new SkuRespDTO();
             skuRespDTO.setId(skuDO.getId());
+            skuRespDTO.setSpuName(skuDO.getSpuName());
             skuRespDTO.setCode(skuDO.getCode());
             skuRespDTO.setSalesPrice(skuDO.getSalesPrice());
             skuRespDTO.setCostPrice(skuDO.getCostPrice());

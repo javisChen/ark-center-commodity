@@ -25,6 +25,13 @@ public class SkuDO extends BaseEntity {
     @TableField("spu_id")
     private Long spuId;
 
+
+    /**
+     * 商品名称（冗余）
+     */
+    @TableField("spu_name")
+    private String spuName;
+
     /**
      * spu编码
      */

@@ -23,6 +23,13 @@ services:
       - "9876:9876"
       - "10911:10911"
     restart: always
+  rocket-console:
+    image: zhanyifan1997/rocketmq-console-ng
+    container_name: mqconsole
+    ports:
+      - "19876:8180"
+    environment:
+      JAVA_OPTS: -Drocketmq.config.namesrvAddr=rocket.cloud.org:9876 -Drocketmq.config.isVIPChannel=false
   gateway:
     container_name: kt-cloud-gateway
     image: kt-cloud-gateway:v1

@@ -23,6 +23,8 @@ public class SkuRespDTO implements Serializable {
     private Long id;
     @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
     private String code;
+    @ApiModelProperty(value = "商品名称", required = false)
+    private String spuName;
     @ApiModelProperty(value = "销售价（单位：分）", required = false)
     private Integer salesPrice;
     @ApiModelProperty(value = "成本价（单位：分）", required = false)
