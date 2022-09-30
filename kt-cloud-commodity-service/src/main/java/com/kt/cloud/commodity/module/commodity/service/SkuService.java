@@ -47,7 +47,7 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
         }
         List<SkuUpdateReqDTO> skuList = reqDTO.getSkuList();
         for (SkuUpdateReqDTO skuUpdateReqDTO : skuList) {
-            SkuDO skuDO = assembleSkuDTO(spuId, reqDTO.getMainPicture(), skuUpdateReqDTO);
+            SkuDO skuDO = assembleSkuDTO(spuId, reqDTO.getPicList().get(0), skuUpdateReqDTO);
             if (CommodityHelper.isUpdateAction(reqDTO) && !reqDTO.getFlushSku()) {
                 updateById(skuDO);
             } else {

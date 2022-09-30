@@ -15,6 +15,7 @@ import com.kt.cloud.commodity.api.sku.response.SkuRespDTO;
 import com.kt.cloud.commodity.module.commodity.dto.response.SearchRespDTO;
 import com.kt.cloud.commodity.module.commodity.support.CommodityConvertor;
 import com.kt.component.dto.PageResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,19 +30,12 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Service
+@RequiredArgsConstructor
 public class CommodityAdminService {
 
     private final SpuService spuService;
     private final SkuService skuService;
     private final CategoryAdminService categoryAdminService;
-
-    public CommodityAdminService(SpuService spuService,
-                                 SkuService skuService,
-                                 CategoryAdminService categoryAdminService) {
-        this.spuService = spuService;
-        this.skuService = skuService;
-        this.categoryAdminService = categoryAdminService;
-    }
 
     @Transactional(rollbackFor = Exception.class)
     public Long save(CommodityUpdateReqDTO reqDTO) {
