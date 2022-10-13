@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kt.cloud</groupId>
-    <artifactId>kt-cloud-commodity</artifactId>
+    <groupId>com.ark.cloud</groupId>
+    <artifactId>ark-center-commodity</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>kt-cloud-commodity-api</module>
-        <module>kt-cloud-commodity-acl</module>
-        <module>kt-cloud-commodity-dao</module>
-        <module>kt-cloud-commodity-service</module>
-        <module>kt-cloud-commodity-manager</module>
-        <module>kt-cloud-commodity-start</module>
+        <module>ark-center-commodity-api</module>
+        <module>ark-center-commodity-acl</module>
+        <module>ark-center-commodity-dao</module>
+        <module>ark-center-commodity-service</module>
+        <module>ark-center-commodity-manager</module>
+        <module>ark-center-commodity-start</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <kt.dependencies.version>1.0.0-SNAPSHOT</kt.dependencies.version>
+        <ark.dependencies.version>1.0.0-SNAPSHOT</ark.dependencies.version>
     </properties>
 
     <dependencies>
@@ -32,35 +32,35 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.kt.boot</groupId>
-                <artifactId>kt-dependencies</artifactId>
+                <groupId>com.ark.boot</groupId>
+                <artifactId>ark-dependencies</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-commodity-dao</artifactId>
+                <groupId>com.ark.cloud</groupId>
+                <artifactId>ark-center-commodity-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-commodity-api</artifactId>
+                <groupId>com.ark.cloud</groupId>
+                <artifactId>ark-center-commodity-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-commodity-acl</artifactId>
+                <groupId>com.ark.cloud</groupId>
+                <artifactId>ark-center-commodity-acl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-commodity-manager</artifactId>
+                <groupId>com.ark.cloud</groupId>
+                <artifactId>ark-center-commodity-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-commodity-service</artifactId>
+                <groupId>com.ark.cloud</groupId>
+                <artifactId>ark-center-commodity-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -31,8 +31,8 @@ services:
     environment:
       JAVA_OPTS: -Drocketmq.config.namesrvAddr=rocket.cloud.org:9876 -Drocketmq.config.isVIPChannel=false
   gateway:
-    container_name: kt-cloud-gateway
-    image: kt-cloud-gateway:v1
+    container_name: ark-center-gateway
+    image: ark-center-gateway:v1
     restart: always
     ports:
       - "8082:8082"
@@ -42,8 +42,8 @@ services:
       - nacos
       - redis
   oss:
-    container_name: kt-cloud-oss
-    image: kt-cloud-oss:v1
+    container_name: ark-center-oss
+    image: ark-center-oss:v1
     restart: always
     ports:
       - "8084:8084"
@@ -53,8 +53,8 @@ services:
       - nacos
       - redis
   iam:
-    container_name: kt-cloud-iam
-    image: kt-cloud-iam:v1
+    container_name: ark-center-iam
+    image: ark-center-iam:v1
     restart: always
     ports:
       - "8080:8080"
@@ -64,8 +64,8 @@ services:
       - nacos
       - redis
   order:
-    container_name: kt-cloud-order
-    image: kt-cloud-order:v1
+    container_name: ark-center-order
+    image: ark-center-order:v1
     restart: always
     ports:
       - "8085:8085"
@@ -76,8 +76,8 @@ services:
       - redis
       - rocketmq
   eop:
-    container_name: kt-cloud-eop
-    image: kt-cloud-eop:v1
+    container_name: ark-center-eop
+    image: ark-center-eop:v1
     restart: always
     ports:
       - "8081:8081"
@@ -87,8 +87,8 @@ services:
       - nacos
       - redis
   commodity:
-    container_name: kt-cloud-commodity
-    image: kt-cloud-commodity:v1
+    container_name: ark-center-commodity
+    image: ark-center-commodity:v1
     restart: always
     ports:
       - "8083:8083"
