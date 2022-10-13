@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ark.cloud</groupId>
+    <groupId>com.ark.center</groupId>
     <artifactId>ark-center-commodity</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
@@ -39,27 +39,27 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.ark.cloud</groupId>
+                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ark.cloud</groupId>
+                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ark.cloud</groupId>
+                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-acl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ark.cloud</groupId>
+                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ark.cloud</groupId>
+                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-service</artifactId>
                 <version>${project.version}</version>
             </dependency>

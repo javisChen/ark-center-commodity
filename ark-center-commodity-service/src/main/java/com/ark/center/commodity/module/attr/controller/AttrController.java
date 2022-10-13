@@ -4,7 +4,7 @@ import com.ark.center.commodity.module.attr.dto.request.*;
 import com.ark.center.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
 import com.ark.center.commodity.module.attr.service.AttrService;
-import com.ark.cloud.commodity.module.attr.dto.request.*;
+import com.ark.center.commodity.module.attr.dto.request.*;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;

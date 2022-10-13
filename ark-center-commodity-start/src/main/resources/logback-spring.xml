@@ -71,7 +71,7 @@
         <appender-ref ref="ROLLING"/>
     </appender>
 
-    <logger name="com.ark.cloud.commodity.dao" level="DEBUG"/>
+    <logger name="com.ark.center.commodity.dao" level="DEBUG"/>
 
     <root level="INFO">
         <springProfile name="local,dev,test,sit">
