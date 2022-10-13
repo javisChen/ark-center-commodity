@@ -35,7 +35,7 @@
                             <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <mainClass>commodity.com.ark.center.Application</mainClass>
+                            <mainClass>com.ark.center.commodity.Application</mainClass>
                         </configuration>
                     </execution>
                 </executions>
