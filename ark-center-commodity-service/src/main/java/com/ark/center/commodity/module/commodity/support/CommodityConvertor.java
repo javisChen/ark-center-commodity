@@ -1,7 +1,7 @@
 package com.ark.center.commodity.module.commodity.support;
 
 import com.alibaba.fastjson.JSON;
-import com.ark.center.commodity.dao.entity.SkuDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.SkuDO;
 import com.google.common.collect.Lists;
 import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
 import com.ark.center.commodity.api.sku.response.SkuRespDTO;

@@ -1,13 +1,13 @@
 package com.ark.center.commodity.module.attr.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ark.center.commodity.dao.entity.*;
+import com.ark.center.commodity.infrastructure.db.dataobject.*;
 import com.ark.center.commodity.module.attr.dto.request.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.dao.mapper.AttrMapper;
+import com.ark.center.commodity.infrastructure.db.mapper.AttrMapper;
 import com.ark.center.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
 import com.ark.center.commodity.module.attr.support.AttrHelper;

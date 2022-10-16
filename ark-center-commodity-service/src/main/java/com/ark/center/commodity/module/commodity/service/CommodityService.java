@@ -1,10 +1,10 @@
 package com.ark.center.commodity.module.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ark.center.commodity.dao.entity.AttrDO;
-import com.ark.center.commodity.dao.entity.SkuDO;
-import com.ark.center.commodity.dao.entity.SpuDO;
-import com.ark.center.commodity.dao.entity.SpuSalesDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.AttrDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.SkuDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.SpuDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.SpuSalesDO;
 import com.ark.center.commodity.module.attr.dto.request.AttrPageQueryReqDTO;
 import com.ark.center.commodity.module.attr.service.AttrService;
 import com.ark.center.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
