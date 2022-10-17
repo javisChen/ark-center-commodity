@@ -19,6 +19,10 @@ import java.io.Serializable;
 @ApiModel(value = "CategoryCreateCommand", description = "创建商品类目")
 public class CategoryCreateCommand implements Serializable {
 
+    @ApiModelProperty(value = "分类id", required = true)
+    @NotNull(message = "分类id不能为空")
+    private Long id;
+
     @ApiModelProperty(value = "分类名称", required = true)
     @NotBlank(message = "分类名称不能为空")
     private String name;
@@ -35,9 +39,9 @@ public class CategoryCreateCommand implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "上级ID", required = false)
-    private Integer parentId;
+    private Long pid;
 
-    @ApiModelProperty(value = "规格参数模板ID", required = false)
+    @ApiModelProperty(value = "规格参数模板ID", required = true)
     private Long attrTemplateId;
 
 }

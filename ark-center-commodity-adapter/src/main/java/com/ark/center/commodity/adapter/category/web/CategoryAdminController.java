@@ -1,6 +1,7 @@
 package com.ark.center.commodity.adapter.category.web;
 
 import com.ark.center.commodity.application.category.service.CategoryAdminApplicationService;
+import com.ark.center.commodity.client.category.command.CategoryCreateCommand;
 import com.ark.center.commodity.client.category.command.CategoryUpdateCommand;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.dto.TreeDTO;
@@ -39,7 +40,7 @@ public class CategoryAdminController extends BaseController {
 
     @ApiOperation(value = "创建商品类目")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated CategoryUpdateCommand command) {
+    public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateCommand command) {
         return SingleResponse.ok(categoryAdminApplicationService.createCategory(command));
     }
 

@@ -8,6 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ark-center-commodity-client</artifactId>
     <name>ark-center-commodity-client</name>
+    <packaging>jar</packaging>
 
     <dependencies>
 
