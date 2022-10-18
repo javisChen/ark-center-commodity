@@ -42,11 +42,6 @@
 
         <dependency>
             <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-commodity-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ark.center</groupId>
             <artifactId>ark-center-commodity-domain</artifactId>
         </dependency>
 

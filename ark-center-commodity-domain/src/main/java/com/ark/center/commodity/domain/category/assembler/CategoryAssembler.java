@@ -1,4 +1,4 @@
-package com.ark.center.commodity.infrastructure.category.assembler;
+package com.ark.center.commodity.domain.category.assembler;
 
 import com.ark.center.commodity.client.category.command.CategoryUpdateCommand;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;

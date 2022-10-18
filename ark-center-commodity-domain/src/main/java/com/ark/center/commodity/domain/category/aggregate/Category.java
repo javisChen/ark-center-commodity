@@ -2,7 +2,6 @@ package com.ark.center.commodity.domain.category.aggregate;
 
 import com.ark.center.commodity.domain.category.vo.CategoryCode;
 import com.ark.center.commodity.domain.category.vo.CategoryId;
-import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
 import lombok.Data;
 
 import java.time.LocalDateTime;

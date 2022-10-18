@@ -1,20 +1,17 @@
 package com.ark.center.commodity.application.category.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.tree.TreeUtil;
 import com.ark.center.commodity.client.category.command.CategoryCreateCommand;
 import com.ark.center.commodity.client.category.command.CategoryUpdateCommand;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.dto.TreeDTO;
 import com.ark.center.commodity.client.category.dto.TreeifyDTO;
 import com.ark.center.commodity.client.category.query.CategoryPageQuery;
-import com.ark.center.commodity.dao.entity.CategoryDO;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.factory.CategoryFactory;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
-import com.ark.center.commodity.infrastructure.category.assembler.CategoryAssembler;
+import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
 import com.ark.component.dto.PageResponse;
-import com.ark.component.web.util.bean.BeanConvertor;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +28,6 @@ public class CategoryAdminApplicationService {
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
     private final CategoryAssembler categoryAssembler;
-    ;
 
     public PageResponse<CategoryDTO> pageList(CategoryPageQuery queryDTO) {
         PageResponse<Category> page = categoryRepository.pageList(queryDTO);

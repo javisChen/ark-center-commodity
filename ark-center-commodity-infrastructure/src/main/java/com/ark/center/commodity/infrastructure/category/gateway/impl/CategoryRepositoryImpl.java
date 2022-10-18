@@ -3,7 +3,7 @@ package com.ark.center.commodity.infrastructure.category.gateway.impl;
 import com.ark.center.commodity.client.category.query.CategoryPageQuery;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
-import com.ark.center.commodity.infrastructure.category.assembler.CategoryAssembler;
+import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
 import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.mapper.CategoryMapper;
 import com.ark.component.dto.PageResponse;

@@ -3,8 +3,8 @@ package com.ark.center.commodity.domain.category.factory;
 import cn.hutool.core.util.RandomUtil;
 import com.ark.center.commodity.client.category.command.CategoryCreateCommand;
 import com.ark.center.commodity.domain.category.aggregate.Category;
+import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
-import com.ark.center.commodity.infrastructure.category.assembler.CategoryAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
