@@ -24,9 +24,11 @@ public class TreeDTO<T> implements Serializable {
 
     @Data
     public static class Node<T> {
-        private Long id;
-        private String name;
-        private Long pid;
+        private T data;
         private List<Node<T>> nodes;
+
+        public Node(T data) {
+            this.data = data;
+        }
     }
 }

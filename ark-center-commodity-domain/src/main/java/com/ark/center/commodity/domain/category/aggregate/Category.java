@@ -1,5 +1,8 @@
 package com.ark.center.commodity.domain.category.aggregate;
 
+import com.ark.center.commodity.domain.category.vo.CategoryCode;
+import com.ark.center.commodity.domain.category.vo.CategoryId;
+import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -7,7 +10,12 @@ import java.time.LocalDateTime;
 @Data
 public class Category {
 
-    private Long productCategoryId;
+    private CategoryId id;
+
+    /**
+     * 编码
+     */
+    private CategoryCode code;
 
     /**
      * 分类名称
@@ -56,4 +64,7 @@ public class Category {
 
     private LocalDateTime gmtCreate;
 
+    public boolean isParentCategory() {
+        return pid == null || pid.equals(0L);
+    }
 }

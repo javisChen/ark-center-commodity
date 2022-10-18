@@ -2,7 +2,7 @@ package com.ark.center.commodity.infrastructure.category.gateway.impl;
 
 import com.ark.center.commodity.client.category.query.CategoryPageQuery;
 import com.ark.center.commodity.domain.category.aggregate.Category;
-import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
+import com.ark.center.commodity.domain.category.repository.CategoryRepository;
 import com.ark.center.commodity.infrastructure.category.assembler.CategoryAssembler;
 import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.mapper.CategoryMapper;
@@ -16,11 +16,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, CategoryDO> implements IService<CategoryDO>, CategoryGateway {
+public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, CategoryDO> implements IService<CategoryDO>, CategoryRepository {
 
     private final CategoryAssembler assembler;
 
@@ -31,7 +32,7 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, CategoryDO>
                 .eq(Objects.nonNull(queryDTO.getPid()), CategoryDO::getPid, queryDTO.getPid())
                 .orderByDesc(BaseEntity::getGmtCreate)
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()));
-        return BeanConvertor.copyPage(page, Category.class);
+        return assembler.doToEntity(page);
     }
 
     @Override
@@ -40,4 +41,39 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, CategoryDO>
         save(db);
         return db.getId();
     }
+
+    @Override
+    public Category findById(Long categoryId) {
+        CategoryDO one = lambdaQuery()
+                .eq(BaseEntity::getId, categoryId)
+                .one();
+        return BeanConvertor.copy(one, Category.class);
+    }
+
+    @Override
+    public boolean update(Category category) {
+        CategoryDO db = assembler.entityToDO(category);
+        return updateById(db);
+    }
+
+    @Override
+    public List<Category> list(CategoryPageQuery queryDTO) {
+        List<CategoryDO> page = lambdaQuery()
+                .eq(Objects.nonNull(queryDTO.getLevel()), CategoryDO::getLevel, queryDTO.getLevel())
+                .eq(Objects.nonNull(queryDTO.getPid()), CategoryDO::getPid, queryDTO.getPid())
+                .orderByDesc(BaseEntity::getGmtCreate)
+                .list();
+        return assembler.doToEntity(page);
+    }
+
+    @Override
+    public void removeCategory(Long categoryId) {
+        CategoryDO categoryDO = getById(categoryId);
+        if (categoryDO != null) {
+            lambdaUpdate()
+                    .likeRight(CategoryDO::getLevelPath, categoryDO.getId())
+                    .remove();
+        }
+    }
+
 }

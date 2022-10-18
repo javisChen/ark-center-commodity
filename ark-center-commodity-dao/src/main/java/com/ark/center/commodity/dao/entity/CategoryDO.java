@@ -1,4 +1,4 @@
-package com.ark.center.commodity.infrastructure.db.dataobject;
+package com.ark.center.commodity.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -25,12 +25,6 @@ public class CategoryDO extends BaseEntity {
      */
     @TableField("`name`")
     private String name;
-
-    /**
-     * 编码
-     */
-    @TableField("`code`")
-    private String code;
 
     /**
      * 商品数量

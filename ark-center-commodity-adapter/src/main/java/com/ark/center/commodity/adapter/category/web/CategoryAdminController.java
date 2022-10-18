@@ -46,8 +46,9 @@ public class CategoryAdminController extends BaseController {
 
     @ApiOperation(value = "修改商品类目")
     @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateCommand reqDTO) {
-        return SingleResponse.ok(categoryAdminApplicationService.updateCategory(reqDTO));
+    public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateCommand reqDTO) {
+        categoryAdminApplicationService.updateCategory(reqDTO);
+        return ServerResponse.ok();
     }
     @ApiOperation(value = "查询商品类目分页列表")
     @PostMapping("/page")
@@ -57,7 +58,7 @@ public class CategoryAdminController extends BaseController {
 
     @ApiOperation(value = "查询商品类目树形结构")
     @PostMapping("/tree")
-    public SingleResponse<TreeDTO<CategoryDTO>> tree(@RequestBody @Validated CategoryPageQueryReqDTO queryDTO) {
+    public SingleResponse<TreeDTO<CategoryDTO>> tree(@RequestBody @Validated CategoryPageQuery queryDTO) {
         return SingleResponse.ok(categoryAdminApplicationService.getTree(queryDTO));
     }
 

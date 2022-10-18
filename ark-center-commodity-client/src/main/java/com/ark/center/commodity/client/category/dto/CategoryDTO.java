@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "CategoryRespDTO对象", description = "商品类目")
-public class CategoryDTO implements Serializable {
+public class CategoryDTO extends TreeifyDTO implements Serializable {
 
     @ApiModelProperty(value = "分类id", required = true)
     private Long id;
