@@ -1,6 +1,6 @@
 package com.ark.center.commodity.dao.mapper;
 
-import com.ark.center.commodity.dao.entity.AttrOptionDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.AttrOptionDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

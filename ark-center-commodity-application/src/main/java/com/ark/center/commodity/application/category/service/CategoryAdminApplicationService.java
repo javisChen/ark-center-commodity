@@ -28,28 +28,23 @@ public class CategoryAdminApplicationService {
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
     private final CategoryAssembler categoryAssembler;
-
     public PageResponse<CategoryDTO> pageList(CategoryPageQuery queryDTO) {
         PageResponse<Category> page = categoryRepository.pageList(queryDTO);
         return categoryAssembler.entityToDTO(page);
     }
-
     public Long createCategory(CategoryCreateCommand command) {
         Category category = categoryFactory.create(command);
         return categoryRepository.save(category);
     }
-
     public void updateCategory(CategoryUpdateCommand reqDTO) {
         Category category = categoryAssembler.updateCmdToCategory(reqDTO);
         categoryRepository.update(category);
     }
-
     public TreeDTO<CategoryDTO> getTree(CategoryPageQuery queryDTO) {
         List<Category> list = categoryRepository.list(queryDTO);
         List<CategoryDTO> categoryDTOList = categoryAssembler.entityToDTO(list);
         return treeify(categoryDTOList);
     }
-
     public <S extends TreeifyDTO> TreeDTO<S> treeify(List<S> sourceList) {
         Map<Long, List<S>> groupByParentMap = sourceList.stream()
                 .collect(Collectors.groupingBy(S::getPid));

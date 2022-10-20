@@ -1,6 +1,6 @@
 package com.ark.center.commodity.dao.mapper;
 
-import com.ark.center.commodity.dao.entity.AttrGroupRelDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.AttrGroupRelDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

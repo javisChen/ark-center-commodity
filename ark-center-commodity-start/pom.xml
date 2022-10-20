@@ -20,6 +20,11 @@
             <groupId>com.ark.center</groupId>
             <artifactId>ark-center-commodity-service</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.ark.center</groupId>
+            <artifactId>ark-center-commodity-adapter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

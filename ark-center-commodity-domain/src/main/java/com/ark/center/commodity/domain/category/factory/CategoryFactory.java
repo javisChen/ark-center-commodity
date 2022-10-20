@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CategoryFactory {
 
-    private final CategoryAssembler assembler;
+    private final CategoryAssembler categoryAssembler;
     private final CategoryRepository categoryRepository;
 
     public Category create(CategoryCreateCommand createCommand) {
-        Category category = assembler.updateCmdToCategory(createCommand);
+        Category category = categoryAssembler.createCmdToCategory(createCommand);
         String categoryCode = generateCategoryCode();
         String levelPath;
         int level = 0;

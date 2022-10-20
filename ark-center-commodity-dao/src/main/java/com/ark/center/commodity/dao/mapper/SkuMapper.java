@@ -1,6 +1,6 @@
 package com.ark.center.commodity.dao.mapper;
 
-import com.ark.center.commodity.dao.entity.SkuDO;
+import com.ark.center.commodity.infrastructure.db.dataobject.SkuDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -25,10 +25,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
         <ark.dependencies.version>1.0.0-SNAPSHOT</ark.dependencies.version>
     </properties>
 
@@ -46,11 +43,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${org.mapstruct.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-dao</artifactId>
@@ -120,14 +112,6 @@
                     <source>11</source>
                     <target>11</target>
                     <encoding>UTF-8</encoding>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
-                        </path>
-                        <!-- other annotation processors -->
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

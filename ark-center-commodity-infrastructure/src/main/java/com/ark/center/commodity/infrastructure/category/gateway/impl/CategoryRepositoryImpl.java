@@ -3,7 +3,7 @@ package com.ark.center.commodity.infrastructure.category.gateway.impl;
 import com.ark.center.commodity.client.category.query.CategoryPageQuery;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
-import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
+import com.ark.center.commodity.infrastructure.category.convertor.CategoryConvertor;
 import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.mapper.CategoryMapper;
 import com.ark.component.dto.PageResponse;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, CategoryDO> implements IService<CategoryDO>, CategoryRepository {
 
-    private final CategoryAssembler assembler;
+    private final CategoryConvertor categoryConvertor;
 
     @Override
     public PageResponse<Category> pageList(CategoryPageQuery queryDTO) {
@@ -32,12 +32,12 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
                 .eq(Objects.nonNull(queryDTO.getPid()), CategoryDO::getPid, queryDTO.getPid())
                 .orderByDesc(BaseEntity::getGmtCreate)
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()));
-        return assembler.doToEntity(page);
+        return categoryConvertor.doToEntity(page);
     }
 
     @Override
     public Long save(Category category) {
-        CategoryDO db = assembler.entityToDO(category);
+        CategoryDO db = categoryConvertor.entityToDO(category);
         save(db);
         return db.getId();
     }
@@ -52,7 +52,7 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
 
     @Override
     public boolean update(Category category) {
-        CategoryDO db = assembler.entityToDO(category);
+        CategoryDO db = categoryConvertor.entityToDO(category);
         return updateById(db);
     }
 
@@ -63,7 +63,7 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
                 .eq(Objects.nonNull(queryDTO.getPid()), CategoryDO::getPid, queryDTO.getPid())
                 .orderByDesc(BaseEntity::getGmtCreate)
                 .list();
-        return assembler.doToEntity(page);
+        return categoryConvertor.doToEntity(page);
     }
 
     @Override

@@ -16,11 +16,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.ark.microservice</groupId>
             <artifactId>ark-component-microservice-core</artifactId>
         </dependency>

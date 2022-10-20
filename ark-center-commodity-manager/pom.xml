@@ -19,7 +19,7 @@
 
         <dependency>
             <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-commodity-dao</artifactId>
+            <artifactId>ark-center-commodity-infrastructure</artifactId>
         </dependency>
 
     </dependencies>
