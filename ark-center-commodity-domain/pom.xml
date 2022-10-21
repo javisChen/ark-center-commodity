@@ -13,6 +13,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.ark.ddd</groupId>
+            <artifactId>ark-ddd-base</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.ark.center</groupId>
             <artifactId>ark-center-commodity-client</artifactId>
         </dependency>

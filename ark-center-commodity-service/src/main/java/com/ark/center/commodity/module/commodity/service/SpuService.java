@@ -2,6 +2,8 @@ package com.ark.center.commodity.module.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ark.center.commodity.constants.AttachmentBizType;
+import com.ark.center.commodity.infrastructure.brand.repository.db.BrandDO;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.*;
 import com.ark.center.commodity.infrastructure.db.mapper.SpuMapper;
 import com.ark.center.commodity.module.attachment.service.AttachmentService;
@@ -19,7 +21,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.infrastructure.db.dataobject.*;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
 import org.apache.commons.collections4.CollectionUtils;

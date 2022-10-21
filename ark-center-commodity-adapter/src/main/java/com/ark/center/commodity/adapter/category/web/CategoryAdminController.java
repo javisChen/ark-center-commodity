@@ -1,11 +1,11 @@
 package com.ark.center.commodity.adapter.category.web;
 
 import com.ark.center.commodity.application.category.service.CategoryAdminApplicationService;
-import com.ark.center.commodity.client.category.command.CategoryCreateCommand;
-import com.ark.center.commodity.client.category.command.CategoryUpdateCommand;
+import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
+import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.dto.TreeDTO;
-import com.ark.center.commodity.client.category.query.CategoryPageQuery;
+import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -40,25 +40,25 @@ public class CategoryAdminController extends BaseController {
 
     @ApiOperation(value = "创建商品类目")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateCommand command) {
+    public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateCmd command) {
         return SingleResponse.ok(categoryAdminApplicationService.createCategory(command));
     }
 
     @ApiOperation(value = "修改商品类目")
     @PostMapping("/update")
-    public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateCommand reqDTO) {
+    public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateCmd reqDTO) {
         categoryAdminApplicationService.updateCategory(reqDTO);
         return ServerResponse.ok();
     }
     @ApiOperation(value = "查询商品类目分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<CategoryDTO>> pageList(@RequestBody @Validated CategoryPageQuery queryDTO) {
+    public SingleResponse<PageResponse<CategoryDTO>> pageList(@RequestBody @Validated CategoryPageQry queryDTO) {
         return SingleResponse.ok(categoryAdminApplicationService.pageList(queryDTO));
     }
 
     @ApiOperation(value = "查询商品类目树形结构")
     @PostMapping("/tree")
-    public SingleResponse<TreeDTO<CategoryDTO>> tree(@RequestBody @Validated CategoryPageQuery queryDTO) {
+    public SingleResponse<TreeDTO<CategoryDTO>> tree(@RequestBody @Validated CategoryPageQry queryDTO) {
         return SingleResponse.ok(categoryAdminApplicationService.getTree(queryDTO));
     }
 

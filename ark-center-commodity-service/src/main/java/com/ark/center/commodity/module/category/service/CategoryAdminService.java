@@ -1,8 +1,8 @@
 package com.ark.center.commodity.module.category.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
-import com.ark.center.commodity.infrastructure.db.mapper.CategoryMapper;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryMapper;
 import com.ark.center.commodity.module.category.dto.request.CategoryPageQueryReqDTO;
 import com.ark.center.commodity.module.category.dto.request.CategoryUpdateReqDTO;
 import com.ark.center.commodity.module.category.dto.response.CategoryRespDTO;

@@ -1,7 +1,5 @@
 package com.ark.center.commodity.domain.category.aggregate;
 
-import com.ark.center.commodity.domain.category.vo.CategoryCode;
-import com.ark.center.commodity.domain.category.vo.CategoryId;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,12 +7,12 @@ import java.time.LocalDateTime;
 @Data
 public class Category {
 
-    private CategoryId id;
+    private Long id;
 
     /**
      * 编码
      */
-    private CategoryCode code;
+    private String code;
 
     /**
      * 分类名称

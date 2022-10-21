@@ -1,6 +1,6 @@
 package com.ark.center.commodity.dao.mapper;
 
-import com.ark.center.commodity.infrastructure.db.dataobject.BrandDO;
+import com.ark.center.commodity.dao.entity.BrandDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

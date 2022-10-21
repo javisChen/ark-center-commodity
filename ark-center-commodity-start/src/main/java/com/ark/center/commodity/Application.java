@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@MapperScan(basePackages =
-        {"com.ark.center.commodity.infrastructure.db.mapper",
-        })
+@MapperScan(basePackages = {
+        "com.ark.center.commodity.infrastructure.*.repository.db",
+        "com.ark.center.commodity.infrastructure.db"
+})
 @SpringBootApplication(scanBasePackages = "com.ark.center.commodity")
 @EnableFeignClients(basePackages = {})
 @EnableDiscoveryClient

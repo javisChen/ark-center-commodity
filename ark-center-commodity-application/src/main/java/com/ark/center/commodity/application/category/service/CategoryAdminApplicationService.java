@@ -1,12 +1,12 @@
 package com.ark.center.commodity.application.category.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.commodity.client.category.command.CategoryCreateCommand;
-import com.ark.center.commodity.client.category.command.CategoryUpdateCommand;
+import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
+import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.dto.TreeDTO;
 import com.ark.center.commodity.client.category.dto.TreeifyDTO;
-import com.ark.center.commodity.client.category.query.CategoryPageQuery;
+import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.factory.CategoryFactory;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
@@ -28,21 +28,22 @@ public class CategoryAdminApplicationService {
     private final CategoryRepository categoryRepository;
     private final CategoryFactory categoryFactory;
     private final CategoryAssembler categoryAssembler;
-    public PageResponse<CategoryDTO> pageList(CategoryPageQuery queryDTO) {
+
+    public PageResponse<CategoryDTO> pageList(CategoryPageQry queryDTO) {
         PageResponse<Category> page = categoryRepository.pageList(queryDTO);
-        return categoryAssembler.entityToDTO(page);
+        return categoryAssembler.toDTO(page);
     }
-    public Long createCategory(CategoryCreateCommand command) {
+    public Long createCategory(CategoryCreateCmd command) {
         Category category = categoryFactory.create(command);
-        return categoryRepository.save(category);
+        return categoryRepository.store(category);
     }
-    public void updateCategory(CategoryUpdateCommand reqDTO) {
+    public void updateCategory(CategoryUpdateCmd reqDTO) {
         Category category = categoryAssembler.updateCmdToCategory(reqDTO);
         categoryRepository.update(category);
     }
-    public TreeDTO<CategoryDTO> getTree(CategoryPageQuery queryDTO) {
+    public TreeDTO<CategoryDTO> getTree(CategoryPageQry queryDTO) {
         List<Category> list = categoryRepository.list(queryDTO);
-        List<CategoryDTO> categoryDTOList = categoryAssembler.entityToDTO(list);
+        List<CategoryDTO> categoryDTOList = categoryAssembler.toDTO(list);
         return treeify(categoryDTOList);
     }
     public <S extends TreeifyDTO> TreeDTO<S> treeify(List<S> sourceList) {
@@ -75,11 +76,11 @@ public class CategoryAdminApplicationService {
     }
 
     public void removeCategoryById(Long id) {
-        categoryRepository.removeCategory(id);
+        categoryRepository.remove(id);
     }
 
     public CategoryDTO getCategoryInfo(Long id) {
         Category category = categoryRepository.findById(id);
-        return categoryAssembler.entityToDTO(category);
+        return categoryAssembler.toDTO(category);
     }
 }

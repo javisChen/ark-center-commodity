@@ -3,7 +3,7 @@ package com.ark.center.commodity.module.commodity.service;
 import com.alibaba.fastjson.JSONObject;
 import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
 import com.ark.center.commodity.api.sku.response.SkuRespDTO;
-import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SkuDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SpuDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SpuSalesDO;

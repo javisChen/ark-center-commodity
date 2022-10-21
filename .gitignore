@@ -38,3 +38,7 @@ logs/
 git_init.sh
 
 standalone-logs/
+
+.fleet
+work/
+init.d/

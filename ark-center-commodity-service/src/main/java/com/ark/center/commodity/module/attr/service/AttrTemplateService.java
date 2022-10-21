@@ -60,4 +60,5 @@ public class AttrTemplateService extends ServiceImpl<AttrTemplateMapper, AttrTem
     public Long countById(Long attrTemplateId) {
         return lambdaQuery().eq(BaseEntity::getId, attrTemplateId).count();
     }
+
 }

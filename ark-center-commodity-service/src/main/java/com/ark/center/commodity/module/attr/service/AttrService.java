@@ -1,6 +1,7 @@
 package com.ark.center.commodity.module.attr.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.*;
 import com.ark.center.commodity.module.attr.dto.request.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;

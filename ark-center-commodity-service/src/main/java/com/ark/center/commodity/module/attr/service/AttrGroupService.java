@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ark.center.commodity.infrastructure.db.dataobject.AttrGroupDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.AttrGroupRelDO;
-import com.ark.center.commodity.infrastructure.db.dataobject.CategoryDO;
+import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
 import com.ark.center.commodity.infrastructure.db.mapper.AttrGroupMapper;
 import com.ark.center.commodity.infrastructure.db.mapper.AttrGroupRelMapper;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupCreateReqDTO;
