@@ -35,7 +35,7 @@ public class BrandApplicationService {
 
     public PageResponse<BrandDTO> getPageList(BrandPageQry pageQry) {
         IPage<Brand> pageList = brandRepository.pageList(pageQry);
-        return brandAssembler.entityToDTO(pageList);
+        return brandAssembler.toDTO(pageList);
     }
 
     public void updateBrand(BrandUpdateCmd reqDTO) {
@@ -45,6 +45,6 @@ public class BrandApplicationService {
 
     public BrandDTO getBrandInfo(Long brandId) {
         Brand brand = brandRepository.findById(brandId);
-        return brandAssembler.entityToDTO(brand);
+        return brandAssembler.toDTO(brand);
     }
 }

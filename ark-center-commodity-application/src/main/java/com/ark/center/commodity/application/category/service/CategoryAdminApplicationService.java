@@ -12,6 +12,7 @@ import com.ark.center.commodity.domain.category.factory.CategoryFactory;
 import com.ark.center.commodity.domain.category.repository.CategoryRepository;
 import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
 import com.ark.component.dto.PageResponse;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class CategoryAdminApplicationService {
     private final CategoryAssembler categoryAssembler;
 
     public PageResponse<CategoryDTO> pageList(CategoryPageQry queryDTO) {
-        PageResponse<Category> page = categoryRepository.pageList(queryDTO);
+        IPage<Category> page = categoryRepository.pageList(queryDTO);
         return categoryAssembler.toDTO(page);
     }
     public Long createCategory(CategoryCreateCmd command) {
