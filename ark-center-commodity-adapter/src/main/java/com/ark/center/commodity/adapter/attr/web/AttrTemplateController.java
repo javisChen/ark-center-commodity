@@ -50,7 +50,7 @@ public class AttrTemplateController extends BaseController {
     @ApiOperation(value = "查询属性模板分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<AttrTemplateDTO>> pageList(@RequestBody @Validated AttrTemplatePageQry queryDTO) {
-        return SingleResponse.ok(attrApplicationService.getPageList(queryDTO));
+        return SingleResponse.ok(attrApplicationService.getAttrTemplatePageList(queryDTO));
     }
 
     @ApiOperation(value = "查询属性模板详情")

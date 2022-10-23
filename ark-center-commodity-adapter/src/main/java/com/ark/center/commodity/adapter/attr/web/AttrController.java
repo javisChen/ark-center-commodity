@@ -3,11 +3,11 @@ package com.ark.center.commodity.adapter.attr.web;
 import com.ark.center.commodity.application.attr.service.AttrApplicationService;
 import com.ark.center.commodity.client.attr.command.AttrGroupCreateCmd;
 import com.ark.center.commodity.client.attr.command.AttrGroupUpdateCmd;
+import com.ark.center.commodity.client.attr.command.AttrSaveCmd;
+import com.ark.center.commodity.client.attr.dto.AttrDTO;
 import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
 import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
-import com.ark.center.commodity.module.attr.dto.response.AttrGroupDTO;
-import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
-import com.ark.center.commodity.module.attr.service.AttrService;
+import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -41,14 +41,15 @@ public class AttrController extends BaseController {
 
     @ApiOperation(value = "创建商品属性")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated AttrUpdateReqDTO reqDTO) {
+    public SingleResponse<Long> create(@RequestBody @Validated AttrSaveCmd reqDTO) {
         return SingleResponse.ok(attrService.createAttr(reqDTO));
     }
 
     @ApiOperation(value = "修改商品属性")
     @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated(ValidateGroup.Update.class) AttrUpdateReqDTO reqDTO) {
-        return SingleResponse.ok(attrService.updateAttr(reqDTO));
+    public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) AttrSaveCmd reqDTO) {
+        attrService.updateAttr(reqDTO);
+        return ServerResponse.ok();
     }
 
     @ApiOperation(value = "删除商品属性")
@@ -60,14 +61,14 @@ public class AttrController extends BaseController {
 
     @ApiOperation(value = "查询商品属性分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<AttrRespDTO>> pageList(@RequestBody @Validated AttrPageQueryReqDTO queryDTO) {
-        return SingleResponse.ok(attrService.getPageList(queryDTO));
+    public SingleResponse<PageResponse<AttrDTO>> pageList(@RequestBody @Validated AttrPageQry queryDTO) {
+        return SingleResponse.ok(attrService.getAttrPageList(queryDTO));
     }
 
     @ApiOperation(value = "查询商品属性详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping("/info")
-    public SingleResponse<AttrRespDTO> getInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    public SingleResponse<AttrDTO> getInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrService.getAttrInfo(id));
     }
 

@@ -19,7 +19,10 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "AttrCreateReqDTO对象", description = "商品属性")
-public class AttrCreateCmd implements Serializable {
+public class AttrSaveCmd implements Serializable {
+
+    @ApiModelProperty(value = "属性ID", required = false)
+    private Long id;
 
     @ApiModelProperty(value = "属性名称", required = true)
     @NotBlank(message = "属性名称不能为空")

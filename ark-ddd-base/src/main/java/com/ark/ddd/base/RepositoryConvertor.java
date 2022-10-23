@@ -37,7 +37,7 @@ public class RepositoryConvertor<A, D> {
         return BeanConvertor.copyList(dataObject, aggClazz);
     }
 
-    public D fromAggregate(A aggregate) {
+    public D fromDomain(A aggregate) {
         return BeanConvertor.copy(aggregate, dataObjectClazz);
     }
 

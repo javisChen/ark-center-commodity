@@ -46,7 +46,7 @@ public class AttrTemplateRepositoryImpl extends ServiceImpl<AttrTemplateMapper, 
 
     @Override
     public Long store(AttrTemplate aggregate) {
-        AttrTemplateDO entity = convertor.fromAggregate(aggregate);
+        AttrTemplateDO entity = convertor.fromDomain(aggregate);
         save(entity);
         return entity.getId();
     }
@@ -59,7 +59,7 @@ public class AttrTemplateRepositoryImpl extends ServiceImpl<AttrTemplateMapper, 
 
     @Override
     public boolean update(AttrTemplate aggregate) {
-        AttrTemplateDO entity = convertor.fromAggregate(aggregate);
+        AttrTemplateDO entity = convertor.fromDomain(aggregate);
         return updateById(entity);
     }
 

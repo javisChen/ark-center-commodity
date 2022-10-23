@@ -9,4 +9,5 @@ public interface AttrGroupRepository extends Repository<AttrGroup, Long> {
 
     IPage<AttrGroup> pageList(AttrGroupPageQry queryDTO);
 
+    Long countById(Long attrGroupId);
 }

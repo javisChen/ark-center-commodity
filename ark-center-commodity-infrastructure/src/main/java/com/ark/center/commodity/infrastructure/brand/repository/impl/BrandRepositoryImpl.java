@@ -41,7 +41,7 @@ public class BrandRepositoryImpl extends ServiceImpl<BrandMapper, BrandDO> imple
 
     @Override
     public Long store(Brand aggregate) {
-        BrandDO entity = convertor.fromAggregate(aggregate);
+        BrandDO entity = convertor.fromDomain(aggregate);
         save(entity);
         return entity.getId();
     }
@@ -54,7 +54,7 @@ public class BrandRepositoryImpl extends ServiceImpl<BrandMapper, BrandDO> imple
 
     @Override
     public boolean update(Brand aggregate) {
-        BrandDO entity = convertor.fromAggregate(aggregate);
+        BrandDO entity = convertor.fromDomain(aggregate);
         return updateById(entity);
     }
 

@@ -1,16 +1,15 @@
 package com.ark.center.commodity.infrastructure.attr.repository.impl;
 
-
-import com.ark.center.commodity.client.attr.query.AttrTemplatePageQry;
-import com.ark.center.commodity.domain.attr.aggregate.AttrTemplate;
-import com.ark.center.commodity.domain.attr.repository.AttrTemplateRepository;
-import com.ark.center.commodity.infrastructure.attr.convertor.AttrTemplateConvertor;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateDO;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateMapper;
+import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
+import com.ark.center.commodity.domain.attr.aggregate.AttrGroup;
+import com.ark.center.commodity.domain.attr.repository.AttrGroupRepository;
+import com.ark.center.commodity.infrastructure.attr.convertor.AttrGroupConvertor;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupDO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,39 +26,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class AttrGroupRepositoryImpl extends ServiceImpl<AttrTemplateMapper, AttrTemplateDO> implements IService<AttrTemplateDO>, AttrTemplateRepository {
+public class AttrGroupRepositoryImpl extends ServiceImpl<AttrGroupMapper, AttrGroupDO> implements IService<AttrGroupDO>, AttrGroupRepository {
 
-    private final AttrTemplateConvertor convertor;
-
-    @Override
-    public IPage<AttrTemplate> pageList(AttrTemplatePageQry queryDTO) {
-        return lambdaQuery()
-                .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrTemplateDO::getName, queryDTO.getName())
-                .page(new PageDTO<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(item -> BeanConvertor.copy(item, AttrTemplate.class));
-    }
+    private final AttrGroupConvertor convertor;
 
     @Override
-    public Long countById(Long attrTemplateId) {
-        return lambdaQuery().eq(BaseEntity::getId, attrTemplateId).count();
-    }
-
-    @Override
-    public Long store(AttrTemplate aggregate) {
-        AttrTemplateDO entity = convertor.fromAggregate(aggregate);
+    public Long store(AttrGroup aggregate) {
+        AttrGroupDO entity = convertor.fromDomain(aggregate);
         save(entity);
         return entity.getId();
     }
 
     @Override
-    public AttrTemplate findById(Long id) {
-        AttrTemplateDO brand = getById(id);
-        return convertor.toAggregate(brand);
+    public AttrGroup findById(Long id) {
+        AttrGroupDO dataObject = getById(id);
+        return convertor.toAggregate(dataObject);
     }
 
     @Override
-    public boolean update(AttrTemplate aggregate) {
-        AttrTemplateDO entity = convertor.fromAggregate(aggregate);
+    public boolean update(AttrGroup aggregate) {
+        AttrGroupDO entity = convertor.fromDomain(aggregate);
         return updateById(entity);
     }
 
@@ -69,4 +55,26 @@ public class AttrGroupRepositoryImpl extends ServiceImpl<AttrTemplateMapper, Att
     }
 
 
+    @Override
+    public IPage<AttrGroup> pageList(AttrGroupPageQry queryDTO) {
+        if (queryDTO.getCategoryId() != null) {
+//            CategoryDO categoryDO = Optional.ofNullable(categoryAdminService.getById(queryDTO.getCategoryId()))
+//                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
+            queryDTO.setAttrTemplateId(queryDTO.getAttrTemplateId());
+        }
+
+        return lambdaQuery()
+                .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrGroupDO::getName, queryDTO.getName())
+                .eq(AttrGroupDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
+                .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
+                .convert(item -> BeanConvertor.copy(item, AttrGroup.class));
+    }
+
+    @Override
+    public Long countById(Long attrGroupId) {
+        if (attrGroupId == null) {
+            return 0L;
+        }
+        return lambdaQuery().eq(BaseEntity::getId, attrGroupId).count();
+    }
 }

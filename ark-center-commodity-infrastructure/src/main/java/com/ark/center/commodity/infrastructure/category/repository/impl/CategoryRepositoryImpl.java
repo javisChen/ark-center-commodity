@@ -36,7 +36,7 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
 
     @Override
     public Long store(Category category) {
-        CategoryDO db = categoryConvertor.fromAggregate(category);
+        CategoryDO db = categoryConvertor.fromDomain(category);
         save(db);
         return db.getId();
     }
@@ -51,7 +51,7 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
 
     @Override
     public boolean update(Category category) {
-        CategoryDO db = categoryConvertor.fromAggregate(category);
+        CategoryDO db = categoryConvertor.fromDomain(category);
         return updateById(db);
     }
 
