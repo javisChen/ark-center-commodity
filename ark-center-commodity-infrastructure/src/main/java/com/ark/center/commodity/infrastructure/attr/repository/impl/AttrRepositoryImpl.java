@@ -11,18 +11,22 @@ import com.ark.center.commodity.infrastructure.attr.repository.db.AttrMapper;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionMapper;
 import com.ark.component.web.util.bean.BeanConvertor;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -47,7 +51,11 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
     public Long store(Attr aggregate) {
         AttrDO attr = attrConvertor.fromDomain(aggregate);
 
-        save(attr);
+        if (attr.getId() != null) {
+            updateById(attr);
+        } else {
+            save(attr);
+        }
 
         Long attrId = attr.getId();
 
@@ -81,7 +89,30 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
     @Override
     public Attr findById(Long id) {
         AttrDO dataObject = getById(id);
-        return attrConvertor.toAggregate(dataObject);
+        Attr attr = attrConvertor.toAggregate(dataObject);
+        LambdaQueryWrapper<AttrOptionDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(AttrOptionDO::getAttrId, attr.getId());
+        List<AttrOptionDO> optionList = attrOptionMapper.selectList(qw);
+        if (CollectionUtils.isNotEmpty(optionList)) {
+            fillOptions(attr, optionList);
+        }
+        return attr;
+    }
+
+    private void fillOptions(Attr attr, List<AttrOptionDO> optionList) {
+        fillOptions(Lists.newArrayList(attr), optionList);
+    }
+    public void fillOptions(List<Attr> records, List<AttrOptionDO> attrOptionDOList) {
+        if (CollectionUtils.isNotEmpty(attrOptionDOList)) {
+            Map<Long, List<AttrOptionDO>> attrValueMap = attrOptionDOList.stream()
+                    .collect(Collectors.groupingBy(AttrOptionDO::getAttrId));
+            for (Attr record : records) {
+                List<AttrOptionDO> valueList = attrValueMap.get(record.getId());
+                if (CollectionUtils.isNotEmpty(valueList)) {
+                    record.setOptions(BeanConvertor.copyList(valueList, AttrOption.class));
+                }
+            }
+        }
     }
 
     @Override

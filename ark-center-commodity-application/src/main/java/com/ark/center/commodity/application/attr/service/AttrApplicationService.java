@@ -100,10 +100,6 @@ public class AttrApplicationService {
     }
 
     public Long createAttr(AttrSaveCmd cmd) {
-        if (cmd.getId() != null) {
-            updateAttr(cmd);
-            return 0L;
-        }
         Attr attr = attrFactory.create(cmd);
         // 如果录入方式为[SELECT]，把attr_value先清掉
         if (attr.isSelectInputType()) {
@@ -113,6 +109,12 @@ public class AttrApplicationService {
     }
 
     public void updateAttr(AttrSaveCmd reqDTO) {
+        Attr attr = attrFactory.create(reqDTO);
+        // 如果录入方式为[SELECT]，把attr_value先清掉
+        if (attr.isSelectInputType()) {
+            attr.removeOptions();
+        }
+        attrRepository.store(attr);
     }
 
     public void removeByAttrId(Long id) {
@@ -120,7 +122,8 @@ public class AttrApplicationService {
     }
 
     public AttrDTO getAttrInfo(Long id) {
-        return null;
+        Attr attr = attrRepository.findById(id);
+        return attrAssembler.toDTO(attr);
     }
 
     public PageResponse<AttrDTO> getAttrPageList(AttrPageQry queryDTO) {
