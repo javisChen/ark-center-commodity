@@ -20,7 +20,7 @@ public class AttrAssembler extends BaseAssembler<Attr, AttrDTO> {
 
     public Attr createCmdToAggregate(AttrSaveCmd command) {
         Attr attr = BeanConvertor.copy(command, Attr.class);
-        attr.setType(Attr.Type.getByValue(command.getInputType()));
+        attr.setType(Attr.Type.getByValue(command.getType()));
         attr.setInputType(Attr.InputType.getByValue(command.getInputType()));
         attr.setCanManualAdd(command.getCanManualAdd().equals(1));
         return attr;

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -31,6 +32,8 @@ public class Attr {
     private Boolean canManualAdd;
 
     private List<AttrOption> options;
+
+    private LocalDateTime gmtCreate;
 
     public boolean isSelectInputType() {
         return inputType.equals(InputType.SELECT);

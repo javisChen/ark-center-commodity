@@ -12,6 +12,8 @@ import lombok.Data;
 @Data
 public class AttrTemplate {
 
+    private Long id;
+
     private String name;
 
     private Integer specCount;
