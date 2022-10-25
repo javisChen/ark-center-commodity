@@ -1,7 +1,9 @@
 package com.ark.center.commodity.module.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ark.center.commodity.infrastructure.db.dataobject.AttrDO;
+import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
+import com.ark.center.commodity.api.sku.response.SkuRespDTO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SkuDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SpuDO;
 import com.ark.center.commodity.infrastructure.db.dataobject.SpuSalesDO;
@@ -11,8 +13,6 @@ import com.ark.center.commodity.module.commodity.dto.request.CommodityPageQueryR
 import com.ark.center.commodity.module.commodity.dto.response.AppCommodityRespDTO;
 import com.ark.center.commodity.module.commodity.dto.response.CommodityPageRespDTO;
 import com.ark.center.commodity.module.commodity.support.CommodityConvertor;
-import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
-import com.ark.center.commodity.api.sku.response.SkuRespDTO;
 import com.ark.component.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
 /**
  * <p>
  * 商品属性
@@ -69,8 +70,8 @@ public class AttrDO extends BaseEntity {
     @AllArgsConstructor
     public enum InputType implements BasicEnums {
         INPUT(1, "手工录入"),
-            SELECT(2, "从选项列表选取"),
-    ;
+        SELECT(2, "从选项列表选取"),
+        ;
         private final Integer value;
         private final String text;
 
@@ -82,12 +83,13 @@ public class AttrDO extends BaseEntity {
             return EnumUtils.getTextByValue(values(), value);
         }
     }
+
     @Getter
     @AllArgsConstructor
     public enum Type implements BasicEnums {
         SPEC(1, "规格"),
-            PARAM(2, "参数"),
-    ;
+        PARAM(2, "参数"),
+        ;
         private final Integer value;
         private final String text;
 
@@ -99,12 +101,13 @@ public class AttrDO extends BaseEntity {
             return EnumUtils.getTextByValue(values(), value);
         }
     }
+
     @Getter
     @AllArgsConstructor
     public enum CanManualAdd implements BasicEnums {
         NO(0, "不支持"),
-            YES(1, "支持"),
-    ;
+        YES(1, "支持"),
+        ;
         private final Integer value;
         private final String text;
 

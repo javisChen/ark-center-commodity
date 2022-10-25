@@ -62,12 +62,12 @@ public class AttrGroupRepositoryImpl extends ServiceImpl<AttrGroupMapper, AttrGr
 //                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(queryDTO.getAttrTemplateId());
         }
-
-        return lambdaQuery()
+        IPage<AttrGroup> page = lambdaQuery()
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrGroupDO::getName, queryDTO.getName())
                 .eq(AttrGroupDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrGroup.class));
+        return page;
     }
 
     @Override

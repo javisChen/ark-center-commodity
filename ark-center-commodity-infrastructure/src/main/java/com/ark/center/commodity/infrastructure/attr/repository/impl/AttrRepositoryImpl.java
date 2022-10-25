@@ -134,6 +134,15 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
                 .eq(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(item -> BeanConvertor.copy(item, Attr.class));
+                .convert(attrConvertor::toAggregate);
+    }
+
+    @Override
+    public List<Attr> findByGroupIds(List<Long> groupIds) {
+        List<AttrDO> list = lambdaQuery()
+                .eq(AttrDO::getType, AttrDO.Type.PARAM.getValue())
+                .in(AttrDO::getAttrGroupId, groupIds)
+                .list();
+        return attrConvertor.toAggregate(list);
     }
 }

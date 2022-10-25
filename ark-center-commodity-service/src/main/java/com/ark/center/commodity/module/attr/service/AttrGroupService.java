@@ -1,14 +1,10 @@
 package com.ark.center.commodity.module.attr.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.infrastructure.db.dataobject.AttrGroupDO;
-import com.ark.center.commodity.infrastructure.db.dataobject.AttrGroupRelDO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupDO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupMapper;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupRelDO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupRelMapper;
 import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
-import com.ark.center.commodity.infrastructure.db.mapper.AttrGroupMapper;
-import com.ark.center.commodity.infrastructure.db.mapper.AttrGroupRelMapper;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupCreateReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupPageQueryReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupUpdateReqDTO;
@@ -17,6 +13,10 @@ import com.ark.center.commodity.module.category.service.CategoryAdminService;
 import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

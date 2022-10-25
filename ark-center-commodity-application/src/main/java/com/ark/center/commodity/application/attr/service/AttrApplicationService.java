@@ -1,6 +1,7 @@
 package com.ark.center.commodity.application.attr.service;
 
 
+import cn.hutool.core.collection.CollUtil;
 import com.ark.center.commodity.client.attr.command.*;
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
 import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
@@ -24,7 +25,13 @@ import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -90,8 +97,20 @@ public class AttrApplicationService {
     }
 
     public PageResponse<AttrGroupDTO> getAttrGroupPageList(AttrGroupPageQry queryDTO) {
-        IPage<AttrGroup> pageList = attrGroupRepository.pageList(queryDTO);
-        return attrGroupAssembler.toDTO(pageList);
+        IPage<AttrGroup> page = attrGroupRepository.pageList(queryDTO);
+        List<AttrGroup> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return attrGroupAssembler.toDTO(page);
+        }
+        if (queryDTO.getWithAttr()) {
+            List<Long> groupIds = CollUtil.map(records, AttrGroup::getId, true);
+            List<Attr> attrList = attrRepository.findByGroupIds(groupIds);
+            Map<Long, List<Attr>> attrMap = attrList.stream().collect(Collectors.groupingBy(Attr::getAttrGroupId));
+            if (MapUtils.isNotEmpty(attrMap)) {
+                records.forEach(record -> record.setAttrList(attrMap.get(record.getId())));
+            }
+        }
+        return attrGroupAssembler.toDTO(page);
     }
 
     public AttrGroupDTO getAttrGroupInfo(Long id) {

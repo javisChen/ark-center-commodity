@@ -1,11 +1,7 @@
 package com.ark.center.commodity.module.attr.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.infrastructure.db.dataobject.AttrTemplateDO;
-import com.ark.center.commodity.infrastructure.db.mapper.AttrTemplateMapper;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateDO;
+import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateMapper;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplateCreateReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplatePageQueryReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplateUpdateReqDTO;
@@ -15,6 +11,10 @@ import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

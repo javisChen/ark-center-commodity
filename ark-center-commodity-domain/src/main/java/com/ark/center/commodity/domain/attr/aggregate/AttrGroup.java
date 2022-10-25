@@ -2,6 +2,9 @@ package com.ark.center.commodity.domain.attr.aggregate;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * <p>
  * 商品属性组
@@ -18,5 +21,9 @@ public class AttrGroup {
     private String name;
 
     private Long attrTemplateId;
+
+    private LocalDateTime gmtCreate;
+
+    private List<Attr> attrList;
 
 }
