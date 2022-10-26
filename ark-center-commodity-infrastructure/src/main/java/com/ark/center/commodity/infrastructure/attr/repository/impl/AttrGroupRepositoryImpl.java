@@ -54,7 +54,6 @@ public class AttrGroupRepositoryImpl extends ServiceImpl<AttrGroupMapper, AttrGr
         return removeById(id);
     }
 
-
     @Override
     public IPage<AttrGroup> pageList(AttrGroupPageQry queryDTO) {
         if (queryDTO.getCategoryId() != null) {
@@ -62,12 +61,11 @@ public class AttrGroupRepositoryImpl extends ServiceImpl<AttrGroupMapper, AttrGr
 //                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(queryDTO.getAttrTemplateId());
         }
-        IPage<AttrGroup> page = lambdaQuery()
+        return lambdaQuery()
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrGroupDO::getName, queryDTO.getName())
                 .eq(AttrGroupDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(item -> BeanConvertor.copy(item, AttrGroup.class));
-        return page;
     }
 
     @Override

@@ -1,12 +1,8 @@
 package com.ark.center.commodity.adapter.attr.web;
 
 import com.ark.center.commodity.application.attr.service.AttrApplicationService;
-import com.ark.center.commodity.client.attr.command.AttrGroupCreateCmd;
-import com.ark.center.commodity.client.attr.command.AttrGroupUpdateCmd;
 import com.ark.center.commodity.client.attr.command.AttrSaveCmd;
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
-import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
-import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
 import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
@@ -70,32 +66,6 @@ public class AttrController extends BaseController {
     @GetMapping("/info")
     public SingleResponse<AttrDTO> getInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrService.getAttrInfo(id));
-    }
-
-    @ApiOperation(value = "创建商品属性组")
-    @PostMapping("/group/create")
-    public SingleResponse<Long> createGroup(@RequestBody @Validated AttrGroupCreateCmd reqDTO) {
-        return SingleResponse.ok(attrService.createAttrGroup(reqDTO));
-    }
-
-    @ApiOperation(value = "修改商品属性组")
-    @PostMapping("/group/update")
-    public ServerResponse updateGroup(@RequestBody @Validated AttrGroupUpdateCmd reqDTO) {
-        attrService.updateAttrGroup(reqDTO);
-        return ServerResponse.ok();
-    }
-
-    @ApiOperation(value = "查询商品属性组分页列表")
-    @PostMapping("/group/page")
-    public SingleResponse<PageResponse<AttrGroupDTO>> getGroupPageList(@RequestBody @Validated AttrGroupPageQry queryDTO) {
-        return SingleResponse.ok(attrService.getAttrGroupPageList(queryDTO));
-    }
-
-    @ApiOperation(value = "查询商品属性组详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
-    @GetMapping("/group/info")
-    public SingleResponse<AttrGroupDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(attrService.getAttrGroupInfo(id));
     }
 
 }

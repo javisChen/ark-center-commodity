@@ -1,19 +1,21 @@
-package com.ark.center.commodity.module.commodity.service;
+package com.ark.center.commodity.application.commodity.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
 import com.ark.center.commodity.api.sku.response.SkuRespDTO;
+import com.ark.center.commodity.client.commodity.command.CommoditySaveCmd;
+import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
+import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
+import com.ark.center.commodity.client.commodity.dto.SearchDTO;
+import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
+import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
+import com.ark.center.commodity.domain.commodity.factory.CommodityFactory;
+import com.ark.center.commodity.domain.commodity.repository.CommodityRepository;
 import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
+import com.ark.center.commodity.infrastructure.commodity.convertor.CommodityConvertor;
 import com.ark.center.commodity.infrastructure.commodity.repository.db.SkuDO;
 import com.ark.center.commodity.infrastructure.commodity.repository.db.SpuDO;
 import com.ark.center.commodity.infrastructure.commodity.repository.db.SpuSalesDO;
-import com.ark.center.commodity.module.category.service.CategoryAdminService;
-import com.ark.center.commodity.module.commodity.dto.request.CommodityPageQueryReqDTO;
-import com.ark.center.commodity.module.commodity.dto.request.CommodityUpdateReqDTO;
-import com.ark.center.commodity.module.commodity.dto.response.CommodityPageRespDTO;
-import com.ark.center.commodity.module.commodity.dto.response.CommodityRespDTO;
-import com.ark.center.commodity.module.commodity.dto.response.SearchRespDTO;
-import com.ark.center.commodity.module.commodity.support.CommodityConvertor;
 import com.ark.component.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,28 +33,25 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class CommodityAdminService {
+public class CommodityAdminApplicationService {
 
-    private final SpuService spuService;
-    private final SkuService skuService;
-    private final CategoryAdminService categoryAdminService;
+    private final CommodityRepository commodityRepository;
+
+    private final CommodityFactory commodityFactory;
 
     @Transactional(rollbackFor = Exception.class)
-    public Long save(CommodityUpdateReqDTO reqDTO) {
-        // 保存spu信息
-        Long spuId = spuService.saveSpu(reqDTO);
-        // 保存SKU信息
-        skuService.saveSku(spuId, reqDTO);
-        return spuId;
+    public Long save(CommoditySaveCmd reqDTO) {
+        Commodity commodity = commodityFactory.create(reqDTO);
+        return commodityRepository.store(commodity);
     }
 
-    public PageResponse<CommodityPageRespDTO> getPageList(CommodityPageQueryReqDTO queryDTO) {
-        return PageResponse.of(spuService.getPageList(queryDTO));
+    public PageResponse<CommodityPageDTO> getPageList(CommodityPageQry queryDTO) {
+        return PageResponse.of(commodityRepository.getPageList(queryDTO));
     }
 
-    public CommodityRespDTO getInfo(Long spuId) {
-        CommodityRespDTO commodityRespDTO = new CommodityRespDTO();
-        SpuDO spuDO = spuService.getById(spuId);
+    public CommodityDTO getInfo(Long spuId) {
+        CommodityDTO commodityRespDTO = new CommodityDTO();
+        SpuDO spuDO = commodityRepository.getById(spuId);
         if (spuDO == null) {
             return null;
         }
@@ -61,14 +60,14 @@ public class CommodityAdminService {
         return commodityRespDTO;
     }
 
-    private void assembleSkuList(CommodityRespDTO commodityRespDTO, SpuDO spuDO) {
-        List<SkuDO> skuList = skuService.listBySpuId(spuDO.getId());
+    private void assembleSkuList(CommodityDTO commodityRespDTO, SpuDO spuDO) {
+        List<SkuDO> skuList = commodityRepository.listBySpuId(spuDO.getId());
         List<SkuRespDTO> skuDTOList = CommodityConvertor.convertToSkuDTO(skuList);
         commodityRespDTO.setSkuList(skuDTOList);
 
     }
 
-    private void assembleSpuInfo(CommodityRespDTO commodityRespDTO, SpuDO spuDO) {
+    private void assembleSpuInfo(CommodityDTO commodityRespDTO, SpuDO spuDO) {
         Long spuId = spuDO.getId();
         commodityRespDTO.setId(spuId);
         commodityRespDTO.setName(spuDO.getName());
@@ -94,7 +93,7 @@ public class CommodityAdminService {
         commodityRespDTO.setCategoryLevelPath(categoryDO.getLevelPath());
     }
 
-    public SearchRespDTO search() {
+    public SearchDTO search() {
         return null;
     }
 }

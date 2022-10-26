@@ -129,10 +129,6 @@ public class AttrApplicationService {
 
     public void updateAttr(AttrSaveCmd reqDTO) {
         Attr attr = attrFactory.create(reqDTO);
-        // 如果录入方式为[SELECT]，把attr_value先清掉
-        if (attr.isSelectInputType()) {
-            attr.removeOptions();
-        }
         attrRepository.store(attr);
     }
 

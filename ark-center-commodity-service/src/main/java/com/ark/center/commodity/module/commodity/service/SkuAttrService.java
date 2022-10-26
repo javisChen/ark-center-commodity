@@ -3,8 +3,8 @@ package com.ark.center.commodity.module.commodity.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.infrastructure.db.dataobject.SkuAttrDO;
-import com.ark.center.commodity.infrastructure.db.mapper.SkuAttrMapper;
+import com.ark.center.commodity.infrastructure.commodity.repository.db.SkuAttrDO;
+import com.ark.center.commodity.infrastructure.commodity.repository.db.SkuAttrMapper;
 import org.springframework.stereotype.Service;
 
 /**

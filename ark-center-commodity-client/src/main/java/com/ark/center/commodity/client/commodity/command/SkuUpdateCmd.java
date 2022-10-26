@@ -1,15 +1,16 @@
-package com.ark.center.commodity.module.commodity.dto.request;
+package com.ark.center.commodity.client.commodity.command;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
-public class SkuUpdateReqDTO {
+public class SkuUpdateCmd {
     
     @ApiModelProperty(value = "skuId", required = false)
     private Long id;
-    @ApiModelProperty(value = "sku编码", required = false)
+    @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
     private String code;
     @ApiModelProperty(value = "销售价（单位：分）", required = false)
     private Integer salesPrice;
@@ -20,6 +21,6 @@ public class SkuUpdateReqDTO {
     @ApiModelProperty(value = "预警库存", required = false)
     private Integer warnStock;
     @ApiModelProperty(value  = "SKU规格属性列表", required = true)
-    private List<AttrReqDTO> specList;
+    private List<AttrCmd> specList;
 
 }
