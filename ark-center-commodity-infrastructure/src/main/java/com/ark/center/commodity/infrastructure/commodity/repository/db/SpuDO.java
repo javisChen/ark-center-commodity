@@ -1,4 +1,5 @@
 package com.ark.center.commodity.infrastructure.commodity.repository.db;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 /**
  * <p>
  * spu主表
@@ -98,8 +100,8 @@ public class SpuDO extends BaseEntity {
     @AllArgsConstructor
     public enum ShelfStatus implements BasicEnums {
         DOWN(0, "下架"),
-            UP(1, "上架"),
-    ;
+        UP(1, "上架"),
+        ;
         private final Integer value;
         private final String text;
 
@@ -111,13 +113,14 @@ public class SpuDO extends BaseEntity {
             return EnumUtils.getTextByValue(values(), value);
         }
     }
+
     @Getter
     @AllArgsConstructor
     public enum VerifyStatus implements BasicEnums {
         NO_CHECK(0, "未审核"),
-            CHECK_PASS(1, "审核通过"),
-            CHECK_NO_PASS(2, "审核不通过"),
-    ;
+        CHECK_PASS(1, "审核通过"),
+        CHECK_NO_PASS(2, "审核不通过"),
+        ;
         private final Integer value;
         private final String text;
 

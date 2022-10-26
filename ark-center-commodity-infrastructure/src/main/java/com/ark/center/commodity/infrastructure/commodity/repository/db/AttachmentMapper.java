@@ -1,6 +1,6 @@
-package com.ark.center.commodity.infrastructure.db.mapper;
+package com.ark.center.commodity.infrastructure.commodity.repository.db;
 
-import com.ark.center.commodity.infrastructure.db.dataobject.AttachmentDO;
+import com.ark.center.commodity.infrastructure.commodity.repository.db.AttachmentDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

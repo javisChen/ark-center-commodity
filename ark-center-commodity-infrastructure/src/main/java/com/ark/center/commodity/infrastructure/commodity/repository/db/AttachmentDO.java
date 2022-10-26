@@ -1,4 +1,4 @@
-package com.ark.center.commodity.infrastructure.db.dataobject;
+package com.ark.center.commodity.infrastructure.commodity.repository.db;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;

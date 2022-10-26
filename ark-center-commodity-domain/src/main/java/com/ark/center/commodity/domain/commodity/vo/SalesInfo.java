@@ -3,9 +3,11 @@ package com.ark.center.commodity.domain.commodity.vo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
-public class SaleInfo {
+public class SalesInfo {
 
 
     /**
@@ -31,6 +33,6 @@ public class SaleInfo {
     /**
      * 参数属性JSON
      */
-    private String paramData;
+    private List<Attr> paramData;
 
 }

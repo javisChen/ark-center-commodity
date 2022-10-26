@@ -1,8 +1,6 @@
 package com.ark.center.commodity.domain.commodity.aggregate;
 
-import com.ark.center.commodity.domain.commodity.vo.Picture;
-import com.ark.center.commodity.domain.commodity.vo.SaleInfo;
-import com.ark.center.commodity.domain.commodity.vo.Sku;
+import com.ark.center.commodity.domain.commodity.vo.*;
 import com.ark.component.common.enums.BasicEnums;
 import com.ark.component.common.enums.EnumUtils;
 import lombok.AllArgsConstructor;
@@ -14,6 +12,7 @@ import java.util.List;
 @Data
 public class Commodity {
 
+    private Long id;
 
     /**
      * 商品名称
@@ -81,14 +80,19 @@ public class Commodity {
     private List<Sku> skuList;
 
     /**
+     * 属性项列表
+     */
+    private List<AttrOption> attrOptionList;
+
+    /**
      * 销售信息
      */
-    private SaleInfo saleInfo;
+    private SalesInfo salesInfo;
 
     /**
      * 商品图片
      */
-    private List<Picture> pictures;
+    private List<Picture> picList;
 
     @Getter
     @AllArgsConstructor

@@ -1,7 +1,7 @@
 package com.ark.center.commodity.module.attachment.service;
 
-import com.ark.center.commodity.infrastructure.db.dataobject.AttachmentDO;
-import com.ark.center.commodity.infrastructure.db.mapper.AttachmentMapper;
+import com.ark.center.commodity.infrastructure.commodity.repository.db.AttachmentDO;
+import com.ark.center.commodity.infrastructure.commodity.repository.db.AttachmentMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
