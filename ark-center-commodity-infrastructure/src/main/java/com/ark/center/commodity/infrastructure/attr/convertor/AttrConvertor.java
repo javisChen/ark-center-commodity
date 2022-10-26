@@ -8,4 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AttrConvertor extends RepositoryConvertor<Attr, AttrDO> {
 
+    @Override
+    public Attr toAggregate(AttrDO dataObject) {
+        Attr attr = super.toAggregate(dataObject);
+        attr.setInputType(Attr.InputType.getByValue(dataObject.getInputType()));
+        attr.setType(Attr.Type.getByValue(dataObject.getType()));
+        return attr;
+    }
 }

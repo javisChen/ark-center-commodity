@@ -41,7 +41,7 @@ public class AttrSaveCmd implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "模板ID", required = true)
-    @NotBlank(message = "模板ID不能为空")
+    @NotNull(message = "模板ID不能为空")
     private Long attrTemplateId;
 
     @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)

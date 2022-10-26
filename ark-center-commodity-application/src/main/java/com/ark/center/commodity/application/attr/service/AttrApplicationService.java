@@ -63,9 +63,9 @@ public class AttrApplicationService {
         return BeanConvertor.copyPage(page, AttrTemplateDTO.class);
     }
 
-    public boolean updateAttrTemplate(AttrTemplateUpdateCmd reqDTO) {
+    public void updateAttrTemplate(AttrTemplateUpdateCmd reqDTO) {
         AttrTemplate aggregate = attrTemplateAssembler.updateCmdToAggregate(reqDTO);
-        return attrTemplateRepository.update(aggregate);
+        attrTemplateRepository.update(aggregate);
     }
 
     public AttrTemplateDTO getAttrTemplateInfo(Long attrTemplateId) {
