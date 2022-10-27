@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -98,6 +99,11 @@ public class Commodity {
      * 商品图片
      */
     private List<Picture> picList;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime gmtCreate;
 
     @Getter
     @AllArgsConstructor
