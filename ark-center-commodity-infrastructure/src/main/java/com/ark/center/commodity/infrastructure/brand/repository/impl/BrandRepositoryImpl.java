@@ -6,6 +6,7 @@ import com.ark.center.commodity.domain.brand.repository.BrandRepository;
 import com.ark.center.commodity.infrastructure.brand.convertor.BrandConvertor;
 import com.ark.center.commodity.infrastructure.brand.repository.db.BrandDO;
 import com.ark.center.commodity.infrastructure.brand.repository.db.BrandMapper;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
@@ -61,6 +62,14 @@ public class BrandRepositoryImpl extends ServiceImpl<BrandMapper, BrandDO> imple
     @Override
     public boolean remove(Long id) {
         return removeById(id);
+    }
+
+    @Override
+    public List<Brand> findByIds(List<Long> brandIds) {
+        List<BrandDO> list = lambdaQuery()
+                .in(BaseEntity::getId, brandIds)
+                .list();
+        return convertor.toAggregate(list);
     }
 
 

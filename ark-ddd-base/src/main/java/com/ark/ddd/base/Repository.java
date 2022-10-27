@@ -1,5 +1,7 @@
 package com.ark.ddd.base;
 
+import java.util.List;
+
 public interface Repository<A, ID> {
 
     Long store(A aggregate);
@@ -10,4 +12,7 @@ public interface Repository<A, ID> {
 
     boolean remove(ID id);
 
+    default List<A> findByIds(List<ID> brandIds) {
+        return null;
+    }
 }

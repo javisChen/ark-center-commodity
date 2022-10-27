@@ -58,6 +58,7 @@ public class SkuService extends ServiceImpl<SkuMapper, SkuDO> implements IServic
     }
 
     private void removeSku(Long spuId) {
+
         remove(new LambdaUpdateWrapper<SkuDO>().eq(SkuDO::getSpuId, spuId));
     }
 

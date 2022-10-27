@@ -1,23 +1,26 @@
 package com.ark.center.commodity.infrastructure.commodity.repository.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
 import com.ark.center.commodity.domain.commodity.repository.CommodityRepository;
-import com.ark.center.commodity.domain.commodity.vo.Attr;
-import com.ark.center.commodity.domain.commodity.vo.AttrOption;
-import com.ark.center.commodity.domain.commodity.vo.Picture;
-import com.ark.center.commodity.domain.commodity.vo.SalesInfo;
+import com.ark.center.commodity.domain.commodity.vo.*;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionMapper;
 import com.ark.center.commodity.infrastructure.commodity.AttachmentBizType;
 import com.ark.center.commodity.infrastructure.commodity.convertor.CommodityConvertor;
 import com.ark.center.commodity.infrastructure.commodity.repository.db.*;
+import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,25 +31,63 @@ public class CommodityRepositoryImpl implements CommodityRepository {
     private final CommodityConvertor convertor;
     private final SpuMapper spuMapper;
     private final SkuMapper skuMapper;
+
+    private final SpuSalesMapper spuSalesMapper;
+
+    private final SkuAttrMapper skuAttrMapper;
     private final SpuAttrMapper spuAttrMapper;
     private final AttachmentMapper attachmentMapper;
-    private final SpuSalesMapper spuSalesMapper;
     private final AttrOptionMapper attrOptionMapper;
 
     @Override
     public Long store(Commodity aggregate) {
-
-        saveSpu(aggregate);
-
-        saveSku(aggregate);
-        return null;
+        SpuDO spuDO = saveSpu(aggregate);
+        saveSku(aggregate, spuDO);
+        return spuDO.getId();
     }
 
-    private void saveSku(Commodity aggregate) {
-
+    private void saveSku(Commodity aggregate, SpuDO spuDO) {
+        Long spuId = spuDO.getId();
+        if (aggregate.getId() != null && aggregate.getFlushSku()) {
+            // todo 把当前的SKU记录到历史表里面
+            removeSku(spuId);
+            removeSkuAttrs(spuId);
+        }
+        List<Sku> skuList = aggregate.getSkuList();
+        for (Sku sku : skuList) {
+            SkuDO skuDO = convertor.convertToSkuDO(spuId, aggregate.getPicList().get(0), sku);
+            if (aggregate.getId() != null && !aggregate.getFlushSku()) {
+                skuMapper.updateById(skuDO);
+            } else {
+                skuMapper.insert(skuDO);
+            }
+            saveSkuAttrs(skuDO.getId(), sku.getSpecList());
+        }
     }
 
-    private void saveSpu(Commodity aggregate) {
+    private void saveSkuAttrs(Long skuId, List<Attr> specList) {
+        List<SkuAttrDO> doList = specList.stream().map(item -> {
+            SkuAttrDO skuAttrDO = new SkuAttrDO();
+            skuAttrDO.setSkuId(skuId);
+            skuAttrDO.setAttrValue(item.getAttrValue());
+            return skuAttrDO;
+        }).collect(Collectors.toList());
+        doList.forEach(skuAttrMapper::insert);
+    }
+
+    private void removeSku(Long spuId) {
+        skuMapper.delete(new LambdaUpdateWrapper<SkuDO>().eq(SkuDO::getSpuId, spuId));
+    }
+
+    private void removeSkuAttrs(Long spuId) {
+        LambdaQueryWrapper<SkuDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(SkuDO::getSpuId, spuId);
+        List<SkuDO> skuDOList = skuMapper.selectList(qw);
+        List<Long> skuIds = skuDOList.stream().map(BaseEntity::getId).collect(Collectors.toList());
+        skuAttrMapper.deleteBatchIds(skuIds);
+    }
+
+    private SpuDO saveSpu(Commodity aggregate) {
         SpuDO spuDO = convertor.convertToSpuDO(aggregate);
         // 保存SPU基本信息
         saveBaseInfo(spuDO);
@@ -58,6 +99,8 @@ public class CommodityRepositoryImpl implements CommodityRepository {
         saveParams(aggregate, spuDO);
         // 保存属性项
         saveAttrOptions(aggregate, spuDO);
+
+        return spuDO;
     }
 
     private void saveAttrOptions(Commodity aggregate, SpuDO spuDO) {
@@ -154,8 +197,70 @@ public class CommodityRepositoryImpl implements CommodityRepository {
     }
 
     @Override
-    public Commodity findById(Long aLong) {
-        return null;
+    public Commodity findById(Long id) {
+        SpuDO spuDO = spuMapper.selectById(id);
+        Commodity commodity = convertor.toAggregate(spuDO);
+        assembleSpuInfo(commodity, spuDO);
+        assembleSkuList(commodity, spuDO);
+        return commodity;
+    }
+
+
+
+    private void assembleSkuList(Commodity commodityRespDTO, SpuDO spuDO) {
+        List<Sku> skuList = listSkuBySpuId(spuDO.getId());
+        commodityRespDTO.setSkuList(skuList);
+
+    }
+
+    private List<Sku> listSkuBySpuId(Long id) {
+        LambdaQueryWrapper<SkuDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(SkuDO::getSpuId, id);
+        List<SkuDO> doList = skuMapper.selectList(qw);
+        return convertor.convertToSku(doList);
+    }
+
+    private void assembleSpuInfo(Commodity commodity, SpuDO spuDO) {
+        Long spuId = spuDO.getId();
+        commodity.setId(spuId);
+        commodity.setName(spuDO.getName());
+        commodity.setCode(spuDO.getCode());
+        commodity.setDescription(spuDO.getDescription());
+        commodity.setBrandId(spuDO.getBrandId());
+        commodity.setCategoryId(spuDO.getCategoryId());
+        commodity.setMainPicture(spuDO.getMainPicture());
+        commodity.setShelfStatus(Commodity.ShelfStatus.getByValue(spuDO.getShelfStatus()));
+        commodity.setShowPrice(spuDO.getShowPrice());
+        commodity.setUnit(spuDO.getUnit());
+        commodity.setWeight(spuDO.getWeight());
+        commodity.setPicList(findSpuPictures(spuId));
+        commodity.setSalesInfo(findSpuSalesInfo(spuId));
+
+    }
+
+    private SalesInfo findSpuSalesInfo(Long spuId) {
+        LambdaQueryWrapper<SpuSalesDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(SpuSalesDO::getSpuId, spuId);
+        SpuSalesDO spuSalesDO = spuSalesMapper.selectOne(qw);
+        return convertor.toSpuSales(spuSalesDO);
+    }
+
+    private List<Picture> findSpuPictures(Long spuId) {
+        List<AttachmentDO> attachmentDOS =  listFileByBizTypeAndBizId(AttachmentBizType.SPU_PIC, spuId);
+        if (CollectionUtils.isEmpty(attachmentDOS)) {
+            return Collections.emptyList();
+        }
+        return attachmentDOS.stream().map(item -> {
+            return new Picture(item.getUrl(), "");
+        }).collect(Collectors.toList());
+
+    }
+
+    private List<AttachmentDO> listFileByBizTypeAndBizId(String bizType, Long bizId) {
+        LambdaQueryWrapper<AttachmentDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(AttachmentDO::getBizType, bizType)
+                .eq(AttachmentDO::getBizId, bizId);
+        return attachmentMapper.selectList(qw);
     }
 
     @Override
@@ -166,5 +271,22 @@ public class CommodityRepositoryImpl implements CommodityRepository {
     @Override
     public boolean remove(Long aLong) {
         return false;
+    }
+
+    @Override
+    public List<Commodity> findByIds(List<Long> brandIds) {
+        return null;
+    }
+
+    @Override
+    public IPage<Commodity> getPageList(CommodityPageQry queryDTO) {
+        LambdaQueryWrapper<SpuDO> qw = new LambdaQueryWrapper<>();
+        qw.orderByDesc(BaseEntity::getGmtModified);
+        Page<SpuDO> page = spuMapper.selectPage(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()), qw);
+        List<SpuDO> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        }
+        return page.convert(convertor::toAggregate);
     }
 }

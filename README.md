@@ -21,11 +21,10 @@ ark-center-commodity:v1
 
 ## 组件说明
 
-| 组件名称                       | 描述           | 版本    |
-|----------------------------|--------------|-------|
+| 组件名称                         | 描述           | 版本    |
+|------------------------------|--------------|-------|
 | ark-center-commodity-acl     | 防腐层          | 1.0.0 |
 | ark-center-commodity-api     | 开放接口层        | 1.0.0 |
-| ark-center-commodity-dao     | 数据访问层        | 1.0.0 |
 | ark-center-commodity-manager | 通用业务处理层      | 1.0.0 |
 | ark-center-commodity-service | 具体业务以及内部访问转发 | 1.0.0 |
 | ark-center-commodity-start   | 启动层          | 1.0.0 |

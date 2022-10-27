@@ -75,6 +75,11 @@ public class Commodity {
     private Long categoryId;
 
     /**
+     * 刷新SKU
+     */
+    private Boolean flushSku;
+
+    /**
      * SKU
      */
     private List<Sku> skuList;

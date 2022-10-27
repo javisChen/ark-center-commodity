@@ -76,4 +76,12 @@ public class CategoryRepositoryImpl extends ServiceImpl<CategoryMapper, Category
         return false;
     }
 
+    @Override
+    public List<Category> findByIds(List<Long> ids) {
+        List<CategoryDO> list = lambdaQuery()
+                .in(BaseEntity::getId, ids)
+                .list();
+        return categoryConvertor.toAggregate(list);
+    }
+
 }

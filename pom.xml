@@ -10,7 +10,6 @@
     <modules>
         <module>ark-center-commodity-api</module>
         <module>ark-center-commodity-acl</module>
-        <module>ark-center-commodity-dao</module>
         <module>ark-center-commodity-service</module>
         <module>ark-center-commodity-manager</module>
         <module>ark-center-commodity-start</module>
@@ -46,11 +45,6 @@
             <dependency>
                 <groupId>com.ark.ddd</groupId>
                 <artifactId>ark-ddd-base</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
