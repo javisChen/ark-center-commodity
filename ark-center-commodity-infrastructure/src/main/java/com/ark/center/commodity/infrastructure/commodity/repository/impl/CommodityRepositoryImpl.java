@@ -55,7 +55,7 @@ public class CommodityRepositoryImpl implements CommodityRepository {
         }
         List<Sku> skuList = aggregate.getSkuList();
         for (Sku sku : skuList) {
-            SkuDO skuDO = convertor.convertToSkuDO(spuId, aggregate.getPicList().get(0), sku);
+            SkuDO skuDO = convertor.convertToSkuDO(spuDO, aggregate.getPicList().get(0), sku);
             if (aggregate.getId() != null && !aggregate.getFlushSku()) {
                 skuMapper.updateById(skuDO);
             } else {

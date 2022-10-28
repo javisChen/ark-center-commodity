@@ -4,12 +4,15 @@ import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.center.commodity.domain.attr.aggregate.Attr;
 import com.ark.center.commodity.domain.attr.repository.AttrRepository;
 import com.ark.center.commodity.domain.attr.vo.AttrOption;
+import com.ark.center.commodity.domain.category.aggregate.Category;
+import com.ark.center.commodity.domain.category.repository.CategoryRepository;
 import com.ark.center.commodity.infrastructure.attr.convertor.AttrConvertor;
 import com.ark.center.commodity.infrastructure.attr.convertor.AttrOptionConvertor;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrDO;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrMapper;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionMapper;
+import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -23,9 +26,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +42,8 @@ import java.util.stream.Collectors;
 public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implements IService<AttrDO>, AttrRepository {
 
     private final AttrMapper attrMapper;
+
+    private final CategoryRepository categoryRepository;
 
     private final AttrOptionMapper attrOptionMapper;
 
@@ -102,6 +105,7 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
     private void fillOptions(Attr attr, List<AttrOptionDO> optionList) {
         fillOptions(Lists.newArrayList(attr), optionList);
     }
+
     public void fillOptions(List<Attr> records, List<AttrOptionDO> attrOptionDOList) {
         if (CollectionUtils.isNotEmpty(attrOptionDOList)) {
             Map<Long, List<AttrOptionDO>> attrValueMap = attrOptionDOList.stream()
@@ -129,12 +133,49 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
 
     @Override
     public IPage<Attr> pageList(AttrPageQry queryDTO) {
-        return lambdaQuery()
+
+        if (queryDTO.getCategoryId() != null) {
+            Category category = Optional.ofNullable(categoryRepository.findById(queryDTO.getCategoryId()))
+                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
+            queryDTO.setAttrTemplateId(category.getAttrTemplateId());
+        }
+
+        IPage<Attr> page = lambdaQuery()
                 .eq(Objects.nonNull(queryDTO.getAttrTemplateId()), AttrDO::getAttrTemplateId, queryDTO.getAttrTemplateId())
                 .eq(Objects.nonNull(queryDTO.getType()), AttrDO::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrDO::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
                 .convert(attrConvertor::toAggregate);
+
+        List<Attr> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return page;
+        }
+        List<Long> attrIdList = records.stream().map(Attr::getId).collect(Collectors.toList());
+        if (queryDTO.getWithOptions()) {
+            List<AttrOptionDO> attrOptionDOList = listOptionsByAttrIdsAndType(attrIdList, AttrOptionDO.Type.COMMON.getValue());
+            // 如果商品ID指明了，就把专属的属性项查出来
+            if (queryDTO.getSpuId() != null) {
+                attrOptionDOList.addAll(listOptionsBySpuId(queryDTO.getSpuId()));
+            }
+            fillOptions(records, attrOptionDOList);
+        }
+        return page;
+    }
+
+    private List<AttrOptionDO> listOptionsBySpuId(Long spuId) {
+        LambdaQueryWrapper<AttrOptionDO> qw = new LambdaQueryWrapper<>();
+        qw.eq(AttrOptionDO::getSpuId, spuId)
+                .eq(AttrOptionDO::getType, AttrOptionDO.Type.EXCLUSIVE.getValue());
+        return attrOptionMapper.selectList(qw);
+    }
+
+    private List<AttrOptionDO> listOptionsByAttrIdsAndType(List<Long> attrIdList, Integer type) {
+        LambdaQueryWrapper<AttrOptionDO> qw = new LambdaQueryWrapper<>();
+        qw.in(AttrOptionDO::getAttrId, attrIdList)
+                .eq(AttrOptionDO::getType, type);
+        List<AttrOptionDO> attrOptionDOS = attrOptionMapper.selectList(qw);
+        return attrOptionDOS;
     }
 
     @Override

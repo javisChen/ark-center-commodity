@@ -1,10 +1,12 @@
 package com.ark.center.commodity.domain.commodity.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@Getter
+@Data
+@NoArgsConstructor
 public class Attr {
 
     private Long attrId;

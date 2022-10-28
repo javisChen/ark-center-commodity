@@ -27,12 +27,13 @@ public class CommodityConvertor extends RepositoryConvertor<Commodity, SpuDO> {
         return spuDO;
     }
 
-    public SkuDO convertToSkuDO(Long spuId, Picture picture, Sku sku) {
+    public SkuDO convertToSkuDO(SpuDO spuDO, Picture picture, Sku sku) {
         SkuDO skuDO = new SkuDO();
         if (sku.getId() != null && sku.getId() > 0) {
             skuDO.setId(sku.getId());
         }
-        skuDO.setSpuId(spuId);
+        skuDO.setSpuName(spuDO.getName());
+        skuDO.setSpuId(spuDO.getId());
         skuDO.setCode(sku.getCode());
         skuDO.setSalesPrice(sku.getSalesPrice());
         skuDO.setCostPrice(sku.getCostPrice());
@@ -55,14 +56,15 @@ public class CommodityConvertor extends RepositoryConvertor<Commodity, SpuDO> {
 
     public List<Sku> convertToSku(List<SkuDO> doList) {
         return doList.stream().map(skuDO -> {
+            List<Attr> specList = JSON.parseArray(skuDO.getSpecData(),
+                    Attr.class);
             return new Sku(skuDO.getId(),
                     skuDO.getCode(),
                     skuDO.getSalesPrice(),
                     skuDO.getCostPrice(),
                     skuDO.getStock(),
                     skuDO.getWarnStock(),
-                    JSON.parseArray(skuDO.getSpecData(),
-                            Attr.class));
+                    specList);
         }).collect(Collectors.toList());
     }
 

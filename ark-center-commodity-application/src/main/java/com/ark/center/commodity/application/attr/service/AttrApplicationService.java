@@ -19,6 +19,7 @@ import com.ark.center.commodity.domain.attr.factory.AttrFactory;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupRepository;
 import com.ark.center.commodity.domain.attr.repository.AttrRepository;
 import com.ark.center.commodity.domain.attr.repository.AttrTemplateRepository;
+import com.ark.center.commodity.domain.category.repository.CategoryRepository;
 import com.ark.component.common.ParamsChecker;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
@@ -51,6 +52,7 @@ public class AttrApplicationService {
     private final AttrTemplateRepository attrTemplateRepository;
     private final AttrAssembler attrAssembler;
     private final AttrRepository attrRepository;
+    private final CategoryRepository categoryRepository;
     private final AttrFactory attrFactory;
 
     public Long createAttrTemplate(AttrTemplateCreateCmd reqDTO) {
@@ -143,6 +145,7 @@ public class AttrApplicationService {
 
     public PageResponse<AttrDTO> getAttrPageList(AttrPageQry queryDTO) {
         IPage<Attr> page = attrRepository.pageList(queryDTO);
+
         return attrAssembler.toDTO(page);
     }
 }

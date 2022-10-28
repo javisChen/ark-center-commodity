@@ -22,6 +22,9 @@ public class AttrOption {
         this.type = type;
     }
 
+    public AttrOption() {
+    }
+
     @Getter
     @AllArgsConstructor
     public enum Type implements BasicEnums {

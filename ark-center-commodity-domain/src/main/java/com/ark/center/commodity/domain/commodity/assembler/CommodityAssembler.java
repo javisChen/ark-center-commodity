@@ -7,12 +7,15 @@ import com.ark.center.commodity.client.commodity.command.CommoditySaveCmd;
 import com.ark.center.commodity.client.commodity.command.SkuUpdateCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
+import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
+import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
 import com.ark.center.commodity.domain.commodity.vo.*;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.ark.ddd.base.BaseAssembler;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Component;
 
@@ -94,6 +97,31 @@ public class CommodityAssembler extends BaseAssembler<Commodity, CommodityDTO> {
             return dto;
         });
         return BeanConvertor.copyPage(page, CommodityPageDTO.class);
+    }
+
+    @Override
+    public CommodityDTO toDTO(Commodity category) {
+        CommodityDTO commodityDTO = super.toDTO(category);
+        List<Picture> picList = category.getPicList();
+        commodityDTO.setShelfStatus(category.getShelfStatus().getValue());
+        commodityDTO.setPicList(picList.stream().map(Picture::getUrl).collect(Collectors.toList()));
+        List<Sku> skuList = category.getSkuList();
+        if (CollectionUtils.isNotEmpty(skuList)) {
+            commodityDTO.setSkuList(skuList.stream().map(sku -> {
+                SkuDTO skuDTO = new SkuDTO();
+                skuDTO.setId(sku.getId());
+                skuDTO.setCode(sku.getCode());
+//            skuDTO.setSpuName(ca);
+                skuDTO.setSalesPrice(sku.getSalesPrice());
+                skuDTO.setCostPrice(sku.getCostPrice());
+                skuDTO.setStock(sku.getStock());
+                skuDTO.setWarnStock(sku.getWarnStock());
+                skuDTO.setMainPicture(sku.getCode());
+                skuDTO.setSpecList(BeanConvertor.copyList(sku.getSpecList(), SkuAttrDTO.class));
+                return skuDTO;
+            }).collect(Collectors.toList()));
+        }
+        return commodityDTO;
     }
 }
 
