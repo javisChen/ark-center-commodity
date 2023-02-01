@@ -57,7 +57,9 @@ services:
     image: ark-center-iam:v1
     restart: always
     ports:
-      - "8080:8080"
+      - "8080:8080"    
+    volumes:
+      - "/Users/chenjiawei/dev/docker/ark/iam:/app/logs/iam"
     env_file:
       - ./env/service-common.env
     depends_on:
