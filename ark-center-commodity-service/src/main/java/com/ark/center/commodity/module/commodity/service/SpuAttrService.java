@@ -2,8 +2,8 @@ package com.ark.center.commodity.module.commodity.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ark.center.commodity.infrastructure.commodity.repository.db.SpuAttrDO;
-import com.ark.center.commodity.infrastructure.commodity.repository.db.SpuAttrMapper;
+import com.ark.center.commodity.infra.commodity.repository.db.SpuAttrDO;
+import com.ark.center.commodity.infra.commodity.repository.db.SpuAttrMapper;
 import org.springframework.stereotype.Service;
 
 /**

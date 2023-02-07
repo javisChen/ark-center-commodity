@@ -1,8 +1,8 @@
 package com.ark.center.commodity.module.commodity.dto.response;
 
-import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
 import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
 import com.ark.center.commodity.api.sku.response.SkuRespDTO;
+import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

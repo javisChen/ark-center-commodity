@@ -52,7 +52,6 @@ public class AttrApplicationService {
     private final AttrTemplateRepository attrTemplateRepository;
     private final AttrAssembler attrAssembler;
     private final AttrRepository attrRepository;
-    private final CategoryRepository categoryRepository;
     private final AttrFactory attrFactory;
 
     public Long createAttrTemplate(AttrTemplateCreateCmd reqDTO) {

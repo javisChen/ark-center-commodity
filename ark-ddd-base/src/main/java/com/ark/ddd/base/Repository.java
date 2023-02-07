@@ -12,7 +12,7 @@ public interface Repository<A, ID> {
 
     boolean remove(ID id);
 
-    default List<A> findByIds(List<ID> brandIds) {
+    default List<A> queryByIds(List<ID> ids) {
         return null;
     }
 }

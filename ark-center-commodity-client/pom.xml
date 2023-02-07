@@ -19,6 +19,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ark.microservice</groupId>
+            <artifactId>ark-component-microservice-rpc-feign</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.ark.dto</groupId>
             <artifactId>ark-component-dto</artifactId>
         </dependency>

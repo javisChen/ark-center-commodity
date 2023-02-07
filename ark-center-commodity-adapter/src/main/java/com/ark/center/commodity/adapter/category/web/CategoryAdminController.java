@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
  * @author EOP
  * @since 2022-03-03
  */
-@Api(tags = "管理端-商品类目")
+@Api(tags = "商品类目接口")
 @Validated
 @RestController
 @RequestMapping("/v1/admin/category")

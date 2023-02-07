@@ -10,6 +10,6 @@ spring:
     include: druid
 # mybatis
 mybatis-plus:
-  mapper-locations: classpath:com/ark/center/commodity/infrastructure/**/*.xml
+  mapper-locations: classpath:com/ark/center/commodity/infra/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl

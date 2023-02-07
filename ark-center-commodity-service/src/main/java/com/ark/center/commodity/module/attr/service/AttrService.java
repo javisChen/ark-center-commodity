@@ -1,8 +1,8 @@
 package com.ark.center.commodity.module.attr.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ark.center.commodity.infrastructure.attr.repository.db.*;
-import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
+import com.ark.center.commodity.infra.attr.repository.db.*;
+import com.ark.center.commodity.infra.category.repository.db.CategoryDO;
 import com.ark.center.commodity.module.attr.dto.request.*;
 import com.ark.center.commodity.module.attr.dto.response.AttrGroupRespDTO;
 import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;

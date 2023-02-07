@@ -1,7 +1,7 @@
 package com.ark.center.commodity.module.attr.service;
 
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionDO;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionMapper;
+import com.ark.center.commodity.infra.attr.repository.db.AttrOptionDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrOptionMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

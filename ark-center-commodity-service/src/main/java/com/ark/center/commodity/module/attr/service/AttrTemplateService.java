@@ -1,7 +1,7 @@
 package com.ark.center.commodity.module.attr.service;
 
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateDO;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrTemplateMapper;
+import com.ark.center.commodity.infra.attr.repository.db.AttrTemplateDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrTemplateMapper;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplateCreateReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplatePageQueryReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrTemplateUpdateReqDTO;

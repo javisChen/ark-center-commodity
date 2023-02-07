@@ -1,10 +1,10 @@
 package com.ark.center.commodity.module.attr.service;
 
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupDO;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupMapper;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupRelDO;
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrGroupRelMapper;
-import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrGroupDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrGroupMapper;
+import com.ark.center.commodity.infra.attr.repository.db.AttrGroupRelDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrGroupRelMapper;
+import com.ark.center.commodity.infra.category.repository.db.CategoryDO;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupCreateReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupPageQueryReqDTO;
 import com.ark.center.commodity.module.attr.dto.request.AttrGroupUpdateReqDTO;

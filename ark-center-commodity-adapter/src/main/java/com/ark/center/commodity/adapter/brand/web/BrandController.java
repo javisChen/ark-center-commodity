@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 
 
-@Api(tags = "商品品牌")
+@Api(tags = "商品品牌接口")
 @Validated
 @RequestMapping("/v1/brand")
 @RestController

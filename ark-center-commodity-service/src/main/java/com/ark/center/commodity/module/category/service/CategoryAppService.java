@@ -1,8 +1,8 @@
 package com.ark.center.commodity.module.category.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.commodity.infrastructure.category.repository.db.CategoryDO;
-import com.ark.center.commodity.infrastructure.commodity.repository.db.SpuDO;
+import com.ark.center.commodity.infra.category.repository.db.CategoryDO;
+import com.ark.center.commodity.infra.commodity.repository.db.SpuDO;
 import com.ark.center.commodity.module.category.dto.response.HomeCategoryDTO;
 import com.google.common.collect.Lists;
 import com.ark.center.commodity.module.commodity.service.SpuService;

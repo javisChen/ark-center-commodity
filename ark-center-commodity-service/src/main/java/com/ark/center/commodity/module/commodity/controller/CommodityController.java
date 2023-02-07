@@ -26,12 +26,12 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/v1/commodity")
 public class CommodityController extends BaseController {
 
-    private final CommodityService commodityService;
-    @ApiOperation(value = "查询详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
-    @GetMapping("/info")
-    public SingleResponse<AppCommodityRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(commodityService.getInfo(id));
-    }
+//    private final CommodityService commodityService;
+//    @ApiOperation(value = "查询详情")
+//    @ApiImplicitParam(name = "id", value = "id", required = true)
+//    @GetMapping("/info")
+//    public SingleResponse<AppCommodityRespDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+//        return SingleResponse.ok(commodityService.getInfo(id));
+//    }
 
 }

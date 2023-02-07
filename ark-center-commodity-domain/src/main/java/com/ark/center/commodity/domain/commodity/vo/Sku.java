@@ -1,9 +1,7 @@
 package com.ark.center.commodity.domain.commodity.vo;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Getter;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,6 +12,8 @@ public class Sku {
 
     private String code;
 
+    private String spuName;
+
     private Integer salesPrice;
 
     private Integer costPrice;
@@ -22,7 +22,8 @@ public class Sku {
 
     private Integer warnStock;
 
-    private List<Attr> specList;
+    private String mainPicture;
 
+    private List<Attr> specList;
 
 }

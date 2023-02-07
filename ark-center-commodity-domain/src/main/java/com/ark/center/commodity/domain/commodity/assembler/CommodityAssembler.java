@@ -30,10 +30,12 @@ public class CommodityAssembler extends BaseAssembler<Commodity, CommodityDTO> {
     public Sku toSku(SkuUpdateCmd cmd) {
         return new Sku(cmd.getId(),
                 cmd.getCode(),
+                "",
                 cmd.getSalesPrice(),
                 cmd.getCostPrice(),
                 cmd.getStock(),
                 cmd.getWarnStock(),
+                "",
                 BeanConvertor.copyList(cmd.getSpecList(), Attr.class));
     }
 

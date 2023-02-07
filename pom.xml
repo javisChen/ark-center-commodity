@@ -8,15 +8,13 @@
     <artifactId>ark-center-commodity</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>ark-center-commodity-api</module>
         <module>ark-center-commodity-acl</module>
-        <module>ark-center-commodity-service</module>
-        <module>ark-center-commodity-manager</module>
+<!--        <module>ark-center-commodity-service</module>-->
         <module>ark-center-commodity-start</module>
         <module>ark-ddd-base</module>
         <module>ark-center-commodity-client</module>
         <module>ark-center-commodity-domain</module>
-        <module>ark-center-commodity-infrastructure</module>
+        <module>ark-center-commodity-infra</module>
         <module>ark-center-commodity-application</module>
         <module>ark-center-commodity-adapter</module>
     </modules>
@@ -59,21 +57,9 @@
             </dependency>
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-manager</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-commodity-domain</artifactId>
@@ -82,7 +68,7 @@
 
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-infrastructure</artifactId>
+                <artifactId>ark-center-commodity-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -111,6 +97,20 @@
                     <source>11</source>
                     <target>11</target>
                     <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <!-- Lombok 注解处理器 -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.20</version>
+                        </path>
+                        <!-- MapStruct 注解处理器 -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.3.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

@@ -9,14 +9,14 @@ import java.util.List;
 
 /**
  * <p>
- * CommodityPageRespDTO
+ * SkuDTO
  * </p>
  *
  * @author EOP
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
+@ApiModel(value = "SkuDTO", description = "SKU信息对象")
 public class SkuDTO implements Serializable {
 
     @ApiModelProperty(value = "skuId", required = false)

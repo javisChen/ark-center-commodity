@@ -1,6 +1,6 @@
 package com.ark.center.commodity.module.attr.support;
 
-import com.ark.center.commodity.infrastructure.attr.repository.db.AttrOptionDO;
+import com.ark.center.commodity.infra.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.module.attr.dto.response.AttrOptionRespDTO;
 import com.ark.center.commodity.module.attr.dto.response.AttrRespDTO;
 import com.ark.component.web.util.bean.BeanConvertor;

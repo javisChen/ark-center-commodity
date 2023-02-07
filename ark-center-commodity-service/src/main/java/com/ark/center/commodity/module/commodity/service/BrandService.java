@@ -1,7 +1,7 @@
 package com.ark.center.commodity.module.brand.service;
 
-import com.ark.center.commodity.infrastructure.brand.repository.db.BrandDO;
-import com.ark.center.commodity.infrastructure.brand.repository.db.BrandMapper;
+import com.ark.center.commodity.infra.brand.repository.db.BrandDO;
+import com.ark.center.commodity.infra.brand.repository.db.BrandMapper;
 import com.ark.center.commodity.module.brand.dto.request.BrandCreateReqDTO;
 import com.ark.center.commodity.module.brand.dto.request.BrandPageQueryReqDTO;
 import com.ark.center.commodity.module.brand.dto.request.BrandUpdateReqDTO;
