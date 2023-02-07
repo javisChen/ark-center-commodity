@@ -1,6 +1,6 @@
 package com.ark.center.commodity.adapter.commodity.web;
 
-import com.ark.center.commodity.application.commodity.service.CommodityAppService;
+import com.ark.center.commodity.app.commodity.service.CommodityAppService;
 import com.ark.center.commodity.client.commodity.command.CommoditySaveCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;

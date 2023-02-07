@@ -1,6 +1,6 @@
 package com.ark.center.commodity.adapter.attr.web;
 
-import com.ark.center.commodity.application.attr.service.AttrApplicationService;
+import com.ark.center.commodity.app.attr.service.AttrApplicationService;
 import com.ark.center.commodity.client.attr.command.AttrSaveCmd;
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
 import com.ark.center.commodity.client.attr.query.AttrPageQry;

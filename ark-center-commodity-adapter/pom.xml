@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-commodity-application</artifactId>
+            <artifactId>ark-center-commodity-app</artifactId>
         </dependency>
 
     </dependencies>

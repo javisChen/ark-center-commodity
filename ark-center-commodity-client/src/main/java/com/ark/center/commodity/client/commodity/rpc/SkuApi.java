@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface SkuApi {
 
     @PostMapping("/list")
-    MultiResponse<SkuDTO> getSkuInfoList(@RequestBody SkuQry qry);
+    MultiResponse<SkuDTO> getSkuList(@RequestBody SkuQry qry);
 }

@@ -1,6 +1,6 @@
 package com.ark.center.commodity.adapter.brand.web;
 
-import com.ark.center.commodity.application.brand.service.BrandApplicationService;
+import com.ark.center.commodity.app.brand.service.BrandApplicationService;
 import com.ark.center.commodity.client.brand.command.BrandCreateCmd;
 import com.ark.center.commodity.client.brand.command.BrandUpdateCmd;
 import com.ark.center.commodity.client.brand.dto.BrandDTO;
