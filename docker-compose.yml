@@ -23,6 +23,11 @@ services:
       - "9876:9876"
       - "10911:10911"
     restart: always
+    command: 
+      - /bin/sh
+      - -c
+      - echo 'brokerIP1=rocketmq.ark-dev.svc' > opt/soft/rocketmq/conf/broker.properties && /docker.sh
+    # command: /bin/bash -c"echo 'brokerIP1=192.168.31.75' > opt/soft/rocketmq/conf/broker.properties && /docker.sh"
   rocket-console:
     image: zhanyifan1997/rocketmq-console-ng
     container_name: mqconsole
