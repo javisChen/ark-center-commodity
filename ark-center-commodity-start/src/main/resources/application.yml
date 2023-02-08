@@ -6,7 +6,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: dev
+    active: local
     include: druid
 # mybatis
 mybatis-plus:

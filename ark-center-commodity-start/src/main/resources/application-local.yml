@@ -28,3 +28,5 @@ spring:
     port: 6379
   main:
     allow-bean-definition-overriding: true
+  profiles:
+    active: local
