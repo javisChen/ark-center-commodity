@@ -13,10 +13,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = "com.ark.center.commodity")
 @EnableFeignClients(basePackages = {})
 @EnableDiscoveryClient
-public class Application extends ArkWebConfig {
+public class CommodityApplication extends ArkWebConfig {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(CommodityApplication.class, args);
     }
 
 }
