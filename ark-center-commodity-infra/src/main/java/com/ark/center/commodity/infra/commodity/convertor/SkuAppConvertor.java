@@ -1,4 +1,4 @@
-package com.ark.center.commodity.app.commodity.convertor;
+package com.ark.center.commodity.infra.commodity.convertor;
 
 import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
