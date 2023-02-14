@@ -47,8 +47,8 @@ public class CommodityAppService {
     private final CategoryRepository categoryRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public Long save(CommoditySaveCmd reqDTO) {
-        Commodity commodity = commodityFactory.create(reqDTO);
+    public Long save(CommoditySaveCmd cmd) {
+        Commodity commodity = commodityFactory.create(cmd);
         return commodityRepository.store(commodity);
     }
 

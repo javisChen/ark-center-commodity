@@ -9,7 +9,9 @@ import com.ark.center.commodity.infra.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.infra.attr.repository.db.AttrOptionMapper;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
 import com.ark.center.commodity.infra.commodity.convertor.CommodityConvertor;
+import com.ark.center.commodity.infra.commodity.repository.cache.CommodityCacheConst;
 import com.ark.center.commodity.infra.commodity.repository.db.*;
+import com.ark.component.cache.CacheService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -19,9 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -39,6 +39,8 @@ public class CommodityRepositoryImpl implements CommodityRepository {
     private final AttachmentMapper attachmentMapper;
     private final AttrOptionMapper attrOptionMapper;
 
+    private final CacheService cacheService;
+
     @Override
     public Long store(Commodity aggregate) {
         SpuDO spuDO = saveSpu(aggregate);
@@ -54,6 +56,8 @@ public class CommodityRepositoryImpl implements CommodityRepository {
             removeSkuAttrs(spuId);
         }
         List<Sku> skuList = aggregate.getSkuList();
+
+        Map<String, Object> stockMap = new HashMap<>(skuList.size());
         for (Sku sku : skuList) {
             SkuDO skuDO = convertor.convertToSkuDO(spuDO, aggregate.getPicList().get(0), sku);
             if (aggregate.getId() != null && !aggregate.getFlushSku()) {
@@ -62,7 +66,12 @@ public class CommodityRepositoryImpl implements CommodityRepository {
                 skuMapper.insert(skuDO);
             }
             saveSkuAttrs(skuDO.getId(), sku.getSpecList());
+
+            stockMap.put(CommodityCacheConst.REDIS_SKU_STOCK + sku.getId(), sku.getStock());
         }
+
+        // 批量缓存SKU库存
+        cacheService.multiSet(stockMap);
     }
 
     private void saveSkuAttrs(Long skuId, List<Attr> specList) {

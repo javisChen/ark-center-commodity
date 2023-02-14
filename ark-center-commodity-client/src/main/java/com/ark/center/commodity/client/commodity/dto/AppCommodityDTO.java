@@ -3,7 +3,6 @@ package com.ark.center.commodity.client.commodity.dto;
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -17,7 +16,6 @@ import java.util.List;
  * @author EOP
  * @since 2022-03-05
  */
-@Data
 @ApiModel(value = "AppCommodityRespDTO", description = "AppCommodityRespDTO")
 public class AppCommodityDTO implements Serializable {
 

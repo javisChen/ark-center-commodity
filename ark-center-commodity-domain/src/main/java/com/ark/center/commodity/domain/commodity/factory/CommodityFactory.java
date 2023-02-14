@@ -5,7 +5,6 @@ import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
 import com.ark.center.commodity.domain.commodity.aggregate.Commodity.ShelfStatus;
 import com.ark.center.commodity.domain.commodity.aggregate.Commodity.VerifyStatus;
 import com.ark.center.commodity.domain.commodity.assembler.CommodityAssembler;
-import com.ark.center.commodity.domain.commodity.repository.CommodityRepository;
 import com.ark.center.commodity.domain.commodity.vo.Sku;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommodityFactory {
     private final CommodityAssembler commodityAssembler;
-    private final CommodityRepository commodityRepository;
     public Commodity create(CommoditySaveCmd cmd) {
         Commodity commodity = commodityAssembler.cmdToCommodity(cmd);
         commodity.setShelfStatus(ShelfStatus.getByValue(cmd.getShelfStatus()));
