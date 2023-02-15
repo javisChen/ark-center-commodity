@@ -7,7 +7,6 @@ spring:
     allow-bean-definition-overriding: true
   profiles:
     active: local
-    include: druid
 # mybatis
 mybatis-plus:
   mapper-locations: classpath:com/ark/center/commodity/infra/**/*.xml

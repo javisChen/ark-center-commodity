@@ -6,11 +6,13 @@ import com.ark.component.cache.CacheService;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Data
 @RequiredArgsConstructor
+@Component
 public class SkuStockReduceCmdExe {
 
     private final CacheService cacheService;
