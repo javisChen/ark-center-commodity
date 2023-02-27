@@ -7,9 +7,9 @@ spring:
     name: commodity
   datasource:
     druid:
-      url: jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
-      username: kt_cloud8888
-      password: Kt.cloud1234!@#$
+      url: jdbc:mysql://localhost:3306/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+      username: root
+      password: Root1234!@#$
       name: defaultDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 10
