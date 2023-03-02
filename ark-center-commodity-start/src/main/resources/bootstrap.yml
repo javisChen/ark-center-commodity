@@ -25,7 +25,7 @@ spring:
     config:
       allow-override: ${config-allow-override:true}
   profiles:
-    active: dev
+    active: local
 
 ---
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
