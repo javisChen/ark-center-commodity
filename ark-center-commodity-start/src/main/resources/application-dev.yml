@@ -9,7 +9,7 @@ spring:
     druid:
       url: jdbc:mysql://localhost:3306/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
       username: root
-      password: Root1234!@#$
+      password: root
       name: defaultDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 10
