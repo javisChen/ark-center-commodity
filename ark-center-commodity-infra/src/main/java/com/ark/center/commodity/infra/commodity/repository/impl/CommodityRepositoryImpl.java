@@ -1,6 +1,6 @@
 package com.ark.center.commodity.infra.commodity.repository.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
 import com.ark.center.commodity.domain.commodity.repository.CommodityRepository;

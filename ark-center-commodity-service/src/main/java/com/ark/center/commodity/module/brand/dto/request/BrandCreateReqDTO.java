@@ -3,7 +3,7 @@ package com.ark.center.commodity.module.brand.dto.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 public class BrandCreateReqDTO {

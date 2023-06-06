@@ -1,6 +1,6 @@
 package com.ark.center.commodity.module.commodity.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.commodity.api.sku.response.SkuAttrRespDTO;
 import com.ark.center.commodity.infra.attr.repository.db.AttrDO;
 import com.ark.center.commodity.infra.commodity.convertor.CommodityConvertor;

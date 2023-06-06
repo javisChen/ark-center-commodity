@@ -1,6 +1,6 @@
 //package com.ark.center.commodity.module.commodity.service;
 //
-//import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson2.JSONObject;
 //import com.ark.center.commodity.client.commodity.query.SkuQry;
 //import com.ark.center.commodity.client.commodity.dto.SkuRespDTO;
 //import com.ark.center.commodity.infra.commodity.repository.db.SkuAttrDO;

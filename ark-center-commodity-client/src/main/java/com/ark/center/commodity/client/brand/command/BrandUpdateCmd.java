@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.brand.command;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 public class BrandUpdateCmd {

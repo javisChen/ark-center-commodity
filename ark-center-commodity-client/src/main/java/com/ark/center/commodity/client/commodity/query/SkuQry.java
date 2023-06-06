@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.commodity.query;
 
 import lombok.Data;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Data

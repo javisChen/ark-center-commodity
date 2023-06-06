@@ -1,6 +1,6 @@
 package com.ark.center.commodity.module.commodity.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.commodity.constants.AttachmentBizType;
 import com.ark.center.commodity.infra.attr.repository.db.AttrOptionDO;
 import com.ark.center.commodity.infra.brand.repository.db.BrandDO;
