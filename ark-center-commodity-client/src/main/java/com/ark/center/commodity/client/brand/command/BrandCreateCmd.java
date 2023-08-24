@@ -1,6 +1,6 @@
 package com.ark.center.commodity.client.brand.command;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
@@ -8,14 +8,14 @@ import jakarta.validation.constraints.NotBlank;
 @Data
 public class BrandCreateCmd {
 
-    @ApiModelProperty(value = "品牌名称", required = true)
+    @Schema(name = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "品牌名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "品牌图片地址", required = true)
+    @Schema(name = "品牌图片地址", requiredMode = Schema.RequiredMode.REQUIRED)
     private String imageUrl;
 
-    @ApiModelProperty(value = "首字母", required = true)
+    @Schema(name = "首字母", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "首字母不能为空")
     private String letter;
 

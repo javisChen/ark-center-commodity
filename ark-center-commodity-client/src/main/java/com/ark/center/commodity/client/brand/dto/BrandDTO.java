@@ -1,6 +1,6 @@
 package com.ark.center.commodity.client.brand.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,22 +8,22 @@ import java.time.LocalDateTime;
 @Data
 public class BrandDTO {
 
-    @ApiModelProperty(value = "品牌ID")
+    @Schema(name = "品牌ID")
     private Long id;
 
-    @ApiModelProperty(value = "品牌名称")
+    @Schema(name = "品牌名称")
     private String name;
 
-    @ApiModelProperty(value = "品牌图片地址")
+    @Schema(name = "品牌图片地址")
     private String imageUrl;
 
-    @ApiModelProperty(value = "首字母")
+    @Schema(name = "首字母")
     private String letter;
 
-    @ApiModelProperty(value = "排序")
+    @Schema(name = "排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime gmtCreate;
 
 }

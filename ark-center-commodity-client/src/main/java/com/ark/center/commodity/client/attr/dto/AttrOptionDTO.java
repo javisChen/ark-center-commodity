@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.attr.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,19 +15,19 @@ import java.io.Serializable;
  * @since 2022-03-08
  */
 @Data
-@ApiModel(value = "AttrOptionRespDTO对象", description = "商品可选项")
+@Schema(name = "AttrOptionRespDTO对象", description = "商品可选项")
 public class AttrOptionDTO implements Serializable {
 
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @ApiModelProperty(value = "商品属性ID，关联co_attr.id", required = true)
+    @Schema(name = "商品属性ID，关联co_attr.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long attrId;
 
-    @ApiModelProperty(value = "选项值内容", required = true)
+    @Schema(name = "选项值内容", requiredMode = Schema.RequiredMode.REQUIRED)
     private String value;
 
-    @ApiModelProperty(value = "类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]", required = true)
+    @Schema(name = "类型：enums[COMMON,通用,1;EXCLUSIVE,商品特有,2]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer type;
 
 }

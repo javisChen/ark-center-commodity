@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.category.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,10 +16,10 @@ import java.util.List;
  * @since 2022-03-03
  */
 @Data
-@ApiModel(value = "树对象", description = "树型对象")
+@Schema(name = "树对象", description = "树型对象")
 public class TreeDTO<T> implements Serializable {
 
-    @ApiModelProperty(value = "分类id", required = true)
+    @Schema(name = "分类id", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<Node<T>> nodes;
 
     @Data

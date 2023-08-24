@@ -10,13 +10,12 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -34,27 +33,26 @@ import jakarta.validation.constraints.NotNull;
 public class AttrTemplateController extends BaseController {
     private final AttrApplicationService attrApplicationService;
 
-    @ApiOperation(value = "创建属性模板")
+    @Operation(summary = "创建属性模板")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated AttrTemplateCreateCmd reqDTO) {
         return SingleResponse.ok(attrApplicationService.createAttrTemplate(reqDTO));
     }
 
-    @ApiOperation(value = "编辑属性模板")
+    @Operation(summary = "编辑属性模板")
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated AttrTemplateUpdateCmd reqDTO) {
         attrApplicationService.updateAttrTemplate(reqDTO);
         return ServerResponse.ok();
     }
 
-    @ApiOperation(value = "查询属性模板分页列表")
+    @Operation(summary = "查询属性模板分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<AttrTemplateDTO>> pageList(@RequestBody @Validated AttrTemplatePageQry queryDTO) {
         return SingleResponse.ok(attrApplicationService.getAttrTemplatePageList(queryDTO));
     }
 
-    @ApiOperation(value = "查询属性模板详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @Operation(summary = "查询属性模板详情")
     @GetMapping("/info")
     public SingleResponse<AttrTemplateDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrApplicationService.getAttrTemplateInfo(id));

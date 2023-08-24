@@ -6,7 +6,7 @@ import com.ark.center.commodity.client.commodity.query.SkuQry;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +22,11 @@ import java.util.List;
 )
 public interface SkuApi {
 
-    @ApiOperation(value = "SKU-列表查询")
+    @Operation(summary = "SKU-列表查询")
     @PostMapping("/list")
     MultiResponse<SkuDTO> listSku(@RequestBody SkuQry qry);
 
-    @ApiOperation(value = "SKU-扣减库存")
+    @Operation(summary = "SKU-扣减库存")
     @PostMapping("/stock/reduce")
     ServerResponse decreaseStock(@RequestBody List<SkuStockReduceCmd> cmd);
 }

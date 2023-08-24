@@ -1,6 +1,6 @@
 package com.ark.center.commodity.client.commodity.command;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 public class AttrOptionCmd {
 
-    @ApiModelProperty(value = "属性Id", required = false)
+    @Schema(name = "属性Id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long attrId;
-    @ApiModelProperty(value = "属性项值", required = false)
+    @Schema(name = "属性项值", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<String> valueList;
 }

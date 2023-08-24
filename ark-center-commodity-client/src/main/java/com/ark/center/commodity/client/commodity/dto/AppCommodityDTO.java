@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.commodity.dto;
 
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,40 +16,40 @@ import java.util.List;
  * @author EOP
  * @since 2022-03-05
  */
-@ApiModel(value = "AppCommodityRespDTO", description = "AppCommodityRespDTO")
+@Schema(name = "AppCommodityRespDTO", description = "AppCommodityRespDTO")
 public class AppCommodityDTO implements Serializable {
 
-    @ApiModelProperty(value = "商品名称", required = false)
+    @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
 
-    @ApiModelProperty(value = "商品id", required = true)
+    @Schema(name = "商品id", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "商品介绍", required = false)
+    @Schema(name = "商品介绍", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String description;
 
-    @ApiModelProperty(value = "spu主图url", required = false)
+    @Schema(name = "spu主图url", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mainPicture;
 
-    @ApiModelProperty(value = "PC端详情富文本", required = false)
+    @Schema(name = "PC端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String pcDetailHtml;
 
-    @ApiModelProperty(value = "移动端详情富文本", required = false)
+    @Schema(name = "移动端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mobileDetailHtml;
 
-    @ApiModelProperty(value = "价格", required = false)
+    @Schema(name = "价格", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer price;
 
-    @ApiModelProperty(value = "SKU列表", required = true)
+    @Schema(name = "SKU列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SkuDTO> skuList;
 
-    @ApiModelProperty(value = "参数列表", required = true)
+    @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SkuAttrDTO> paramList;
 
-    @ApiModelProperty(value = "图片地址列表", required = true)
+    @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> picList;
 
-    @ApiModelProperty(value = "规格列表", required = true)
+    @Schema(name = "规格列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private Collection<AttrDTO> attrList;
 
 }

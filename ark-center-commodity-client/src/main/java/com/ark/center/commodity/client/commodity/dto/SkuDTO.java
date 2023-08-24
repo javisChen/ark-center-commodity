@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.commodity.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,26 +16,26 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "SkuDTO", description = "SKU信息对象")
+@Schema(name = "SkuDTO", description = "SKU信息对象")
 public class SkuDTO implements Serializable {
 
-    @ApiModelProperty(value = "skuId", required = false)
+    @Schema(name = "skuId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
-    @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
+    @Schema(name = "商品重量，默认为克(g)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String code;
-    @ApiModelProperty(value = "商品名称", required = false)
+    @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String spuName;
-    @ApiModelProperty(value = "销售价（单位：分）", required = false)
+    @Schema(name = "销售价（单位：分）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer salesPrice;
-    @ApiModelProperty(value = "成本价（单位：分）", required = false)
+    @Schema(name = "成本价（单位：分）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer costPrice;
-    @ApiModelProperty(value = "库存", required = false)
+    @Schema(name = "库存", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer stock;
-    @ApiModelProperty(value = "预警库存", required = false)
+    @Schema(name = "预警库存", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer warnStock;
-    @ApiModelProperty(value = "图片地址", required = false)
+    @Schema(name = "图片地址", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mainPicture;
-    @ApiModelProperty(value  = "SKU规格属性列表", required = true)
+    @Schema(name  = "SKU规格属性列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SkuAttrDTO> specList;
 
 }

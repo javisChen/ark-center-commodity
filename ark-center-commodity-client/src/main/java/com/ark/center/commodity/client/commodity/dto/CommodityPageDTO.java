@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.commodity.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,25 +16,25 @@ import java.time.LocalDateTime;
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
+@Schema(name = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
 public class CommodityPageDTO implements Serializable {
 
-    @ApiModelProperty(value = "商品ID", required = true)
+    @Schema(name = "商品ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @ApiModelProperty(value = "商品名称", required = true)
+    @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "品牌名称", required = true)
+    @Schema(name = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String brandName;
 
-    @ApiModelProperty(value = "分类名称", required = true)
+    @Schema(name = "分类名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String categoryName;
 
-    @ApiModelProperty(value = "创建时间", required = true)
+    @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime gmtCreate;
 
-    @ApiModelProperty(value = "上下架状态：enums[DOWN,下架,0;UP,上架,1]", required = true)
+    @Schema(name = "上下架状态：enums[DOWN,下架,0;UP,上架,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer shelfStatus;
 
 }

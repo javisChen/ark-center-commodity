@@ -1,6 +1,6 @@
 package com.ark.center.commodity.client.commodity.command;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -8,19 +8,19 @@ import java.util.List;
 @Data
 public class SkuUpdateCmd {
     
-    @ApiModelProperty(value = "skuId", required = false)
+    @Schema(name = "skuId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
-    @ApiModelProperty(value = "商品重量，默认为克(g)", required = false)
+    @Schema(name = "商品重量，默认为克(g)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String code;
-    @ApiModelProperty(value = "销售价（单位：分）", required = false)
+    @Schema(name = "销售价（单位：分）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer salesPrice;
-    @ApiModelProperty(value = "成本价（单位：分）", required = false)
+    @Schema(name = "成本价（单位：分）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer costPrice;
-    @ApiModelProperty(value = "库存", required = false)
+    @Schema(name = "库存", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer stock;
-    @ApiModelProperty(value = "预警库存", required = false)
+    @Schema(name = "预警库存", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer warnStock;
-    @ApiModelProperty(value  = "SKU规格属性列表", required = true)
+    @Schema(name  = "SKU规格属性列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<AttrCmd> specList;
 
 }

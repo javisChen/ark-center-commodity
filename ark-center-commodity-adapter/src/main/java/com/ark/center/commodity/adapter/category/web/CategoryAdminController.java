@@ -13,13 +13,13 @@ import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -38,39 +38,38 @@ import jakarta.validation.constraints.NotNull;
 public class CategoryAdminController extends BaseController {
     private final CategoryAdminAppService categoryAdminAppService;
 
-    @ApiOperation(value = "创建商品类目")
+    @Operation(summary = "创建商品类目")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateCmd command) {
         return SingleResponse.ok(categoryAdminAppService.createCategory(command));
     }
 
-    @ApiOperation(value = "修改商品类目")
+    @Operation(summary = "修改商品类目")
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) CategoryUpdateCmd reqDTO) {
         categoryAdminAppService.updateCategory(reqDTO);
         return ServerResponse.ok();
     }
-    @ApiOperation(value = "查询商品类目分页列表")
+    @Operation(summary = "查询商品类目分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<CategoryDTO>> pageList(@RequestBody @Validated CategoryPageQry queryDTO) {
         return SingleResponse.ok(categoryAdminAppService.pageList(queryDTO));
     }
 
-    @ApiOperation(value = "查询商品类目树形结构")
+    @Operation(summary = "查询商品类目树形结构")
     @PostMapping("/tree")
     public SingleResponse<TreeDTO<CategoryDTO>> tree(@RequestBody @Validated CategoryPageQry queryDTO) {
         return SingleResponse.ok(categoryAdminAppService.getTree(queryDTO));
     }
 
-    @ApiOperation(value = "删除类目（包括其下所有子分类）")
+    @Operation(summary = "删除类目（包括其下所有子分类）")
     @DeleteMapping
     public ServerResponse remove(@RequestParam Long id) {
         categoryAdminAppService.removeCategoryById(id);
         return ServerResponse.ok();
     }
 
-    @ApiOperation(value = "查询商品类目详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @Operation(summary = "查询商品类目详情")
     @GetMapping("/info")
     public SingleResponse<CategoryDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(categoryAdminAppService.getCategoryInfo(id));

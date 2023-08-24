@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.attr.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,22 +16,22 @@ import java.time.LocalDateTime;
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "AttrTemplateRespDTO对象", description = "商品属性模板")
+@Schema(name = "AttrTemplateRespDTO对象", description = "商品属性模板")
 public class AttrTemplateDTO implements Serializable {
 
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @ApiModelProperty(value = "模板名称", required = true)
+    @Schema(name = "模板名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "规格数量", required = true)
+    @Schema(name = "规格数量", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer specCount;
 
-    @ApiModelProperty(value = "参数数量", required = true)
+    @Schema(name = "参数数量", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer paramCount;
 
-    @ApiModelProperty(value = "创建时间", required = true)
+    @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime gmtCreate;
 
 }

@@ -1,22 +1,22 @@
 package com.ark.center.commodity.client.commodity.command;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@ApiModel(value = "SkuStockReduceCmd", description = "SKU库存扣减对象")
+@Schema(name = "SkuStockReduceCmd", description = "SKU库存扣减对象")
 @Data
 public class SkuStockReduceCmd {
 
-    @ApiModelProperty(value = "SkuId", required = true)
+    @Schema(name = "SkuId", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "SkuId不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "库存扣减数量", required = true)
+    @Schema(name = "库存扣减数量", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "库存扣减数量不能为空")
     @Min(value = 1, message = "库存扣减数量必须大于0")
     private Integer quantity;

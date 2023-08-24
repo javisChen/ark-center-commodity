@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.category.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,16 +16,16 @@ import java.util.List;
  * @since 2022-03-03
  */
 @Data
-@ApiModel(value = "HomeCategoryDTO", description = "HomeCategoryDTO")
+@Schema(name = "HomeCategoryDTO", description = "HomeCategoryDTO")
 public class HomeCategoryDTO implements Serializable {
 
-    @ApiModelProperty(value = "分类id", required = true)
+    @Schema(name = "分类id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long categoryId;
 
-    @ApiModelProperty(value = "分类名称", required = true)
+    @Schema(name = "分类名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String categoryName;
 
-    @ApiModelProperty(value = "类目下的商品", required = true)
+    @Schema(name = "类目下的商品", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SubCommodity> commodities;
 
     @Data

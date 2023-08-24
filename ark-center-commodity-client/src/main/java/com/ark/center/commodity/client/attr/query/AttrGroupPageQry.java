@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.attr.query;
 
 import com.ark.component.dto.PagingQuery;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,19 +16,19 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "AttrGroupPageQueryReqDTO对象", description = "商品属性组")
+@Schema(name = "AttrGroupPageQueryReqDTO对象", description = "商品属性组")
 public class AttrGroupPageQry extends PagingQuery {
 
-    @ApiModelProperty(value = "属性分组名称", required = false)
+    @Schema(name = "属性分组名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "模板ID", required = false)
+    @Schema(name = "模板ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long attrTemplateId;
 
-    @ApiModelProperty(value = "商品类目ID", required = false)
+    @Schema(name = "商品类目ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long categoryId;
 
-    @ApiModelProperty(value = "查询属性组下的属性")
+    @Schema(name = "查询属性组下的属性")
     private Boolean withAttr = false;
 
 }

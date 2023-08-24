@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.attr.command;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
@@ -16,18 +16,18 @@ import java.io.Serializable;
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "AttrGroupUpdateReqDTO对象", description = "商品属性组")
+@Schema(name = "AttrGroupUpdateReqDTO对象", description = "商品属性组")
 public class AttrGroupUpdateCmd implements Serializable {
 
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "属性分组名称", required = true)
+    @Schema(name = "属性分组名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "属性分组名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "模板ID，关联co_attr_template.id", required = true)
+    @Schema(name = "模板ID，关联co_attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "模板ID，关联co_attr_template.id不能为空")
     private Long attrTemplateId;
 

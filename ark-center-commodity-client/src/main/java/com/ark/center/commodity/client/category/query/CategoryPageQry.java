@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.category.query;
 
 import com.ark.component.dto.PagingQuery;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
@@ -15,22 +15,22 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "CategoryPageQueryReqDTO对象", description = "商品类目")
+@Schema(name = "CategoryPageQueryReqDTO对象", description = "商品类目")
 public class CategoryPageQry extends PagingQuery {
 
-    @ApiModelProperty(value = "分类名称")
+    @Schema(name = "分类名称")
     private String name;
 
-    @ApiModelProperty(value = "排序")
+    @Schema(name = "排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "分类等级")
+    @Schema(name = "分类等级")
     private Integer level = 1;
 
-    @ApiModelProperty(value = "上级ID")
+    @Schema(name = "上级ID")
     private Long pid;
 
-    @ApiModelProperty(value = "规格参数模板ID")
+    @Schema(name = "规格参数模板ID")
     private Long attrTemplateId;
 
 }

@@ -1,7 +1,7 @@
 package com.ark.center.commodity.client.attr.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,37 +17,37 @@ import java.util.List;
  * @since 2022-03-08
  */
 @Data
-@ApiModel(value = "AttrRespDTO对象", description = "商品属性")
+@Schema(name = "AttrRespDTO对象", description = "商品属性")
 public class AttrDTO implements Serializable {
 
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @ApiModelProperty(value = "属性名称", required = true)
+    @Schema(name = "属性名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "属性录入方式，enums[INPUT,手工录入,1;SELECT,从选项列表选取,2]", required = true)
+    @Schema(name = "属性录入方式，enums[INPUT,手工录入,1;SELECT,从选项列表选取,2]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer inputType;
 
-    @ApiModelProperty(value = "属性的类型，enums[SPEC,规格,1;PARAM,参数,2]", required = true)
+    @Schema(name = "属性的类型，enums[SPEC,规格,1;PARAM,参数,2]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer type;
 
-    @ApiModelProperty(value = "排序", required = true)
+    @Schema(name = "排序", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer sort;
 
-    @ApiModelProperty(value = "模板ID，关联co_attr_template.id", required = true)
+    @Schema(name = "模板ID，关联co_attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long attrTemplateId;
 
-    @ApiModelProperty(value = "创建时间")
+    @Schema(name = "创建时间")
     private LocalDateTime gmtCreate;
 
-    @ApiModelProperty(value = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", required = true)
+    @Schema(name = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer canManualAdd;
 
-    @ApiModelProperty(value = "属性组ID", required = false)
+    @Schema(name = "属性组ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long attrGroupId;
 
-    @ApiModelProperty(value = "属性可选项列表", required = false)
+    @Schema(name = "属性可选项列表", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<AttrOptionDTO> optionList;
 
 }

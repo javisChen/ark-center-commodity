@@ -11,7 +11,7 @@ import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,32 +34,31 @@ public class CommodityAdminController extends BaseController {
 
     private final CommodityAppService commodityAppService;
 
-    @ApiOperation(value = "创建商品")
+    @Operation(summary = "创建商品")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated CommoditySaveCmd reqDTO) {
         return SingleResponse.ok(commodityAppService.save(reqDTO));
     }
 
-    @ApiOperation(value = "修改商品")
+    @Operation(summary = "修改商品")
     @PostMapping("/update")
     public SingleResponse<Long> update(@RequestBody @Validated CommoditySaveCmd reqDTO) {
         return SingleResponse.ok(commodityAppService.save(reqDTO));
     }
 
-    @ApiOperation(value = "查询分页列表")
+    @Operation(summary = "查询分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<CommodityPageDTO>> pageList(@RequestBody @Validated CommodityPageQry queryDTO) {
         return SingleResponse.ok(commodityAppService.getPageList(queryDTO));
     }
 
-    @ApiOperation(value = "查询详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @Operation(summary = "查询详情")
     @GetMapping("/info")
     public SingleResponse<CommodityDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(commodityAppService.getInfo(id));
     }
 
-    @ApiOperation(value = "查询分页列表")
+    @Operation(summary = "查询分页列表")
     @PostMapping("/search")
     public SingleResponse<SearchDTO> pageList() {
         return SingleResponse.ok(commodityAppService.search());

@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.commodity.command;
 
 import com.ark.component.validator.ValidateGroup;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
@@ -18,70 +18,70 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Data
-@ApiModel(value = "CommoditySaveCommand", description = "商品对象")
+@Schema(name = "CommoditySaveCommand", description = "商品对象")
 public class CommoditySaveCmd implements Serializable {
 
-    @ApiModelProperty(value = "商品名称", required = false)
+    @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @NotBlank(message = "商品ID不能为空", groups = ValidateGroup.Update.class)
     private Long id;
 
-    @ApiModelProperty(value = "商品名称", required = true)
+    @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "商品名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "商品编号", required = true)
+    @Schema(name = "商品编号", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "商品编号不能为空")
     private String code;
 
-    @ApiModelProperty(value = "商品介绍", required = false)
+    @Schema(name = "商品介绍", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String description;
 
-    @ApiModelProperty(value = "品牌id，关联co_brand.id", required = true)
+    @Schema(name = "品牌id，关联co_brand.id", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "品牌id，关联co_brand.id不能为空")
     private Long brandId;
 
-    @ApiModelProperty(value = "分类id，关联co_category.id", required = true)
+    @Schema(name = "分类id，关联co_category.id", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "分类id，关联co_category.id不能为空")
     private Long categoryId;
 
-    @ApiModelProperty(value = "spu主图url", required = false)
+    @Schema(name = "spu主图url", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mainPicture;
 
-    @ApiModelProperty(value = "上下架状态：enums[DOWN,下架,0;UP,上架,1]", required = true)
+    @Schema(name = "上下架状态：enums[DOWN,下架,0;UP,上架,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer shelfStatus = 1;
 
-    @ApiModelProperty(value = "默认展示价格（单位：分）", required = true)
+    @Schema(name = "默认展示价格（单位：分）", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "默认展示价格）不能为空")
     private Integer showPrice;
 
-    @ApiModelProperty(value = "单位（G、KG）", required = true)
+    @Schema(name = "单位（G、KG）", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer unit;
 
-    @ApiModelProperty(value = "商品重量，默认为克(g)", required = true)
+    @Schema(name = "商品重量，默认为克(g)", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer weight;
 
-    @ApiModelProperty(value = "运费模板ID", required = false)
+    @Schema(name = "运费模板ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long freightTemplateId;
 
-    @ApiModelProperty(value = "PC端详情富文本", required = false)
+    @Schema(name = "PC端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String pcDetailHtml;
 
-    @ApiModelProperty(value = "移动端详情富文本", required = false)
+    @Schema(name = "移动端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mobileDetailHtml;
 
-    @ApiModelProperty(value = "SKU列表", required = true)
+    @Schema(name = "SKU列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SkuUpdateCmd> skuList;
 
-    @ApiModelProperty(value = "参数列表", required = true)
+    @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<AttrCmd> paramList;
 
-    @ApiModelProperty(value = "属性项列表", required = true)
+    @Schema(name = "属性项列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<AttrOptionCmd> newAttrOptionList;
 
-    @ApiModelProperty(value = "图片地址列表", required = true)
+    @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> picList;
 
-    @ApiModelProperty(value = "刷新SKU标记", required = false)
+    @Schema(name = "刷新SKU标记", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Boolean flushSku = false;
 
 }

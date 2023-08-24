@@ -11,12 +11,12 @@ import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -35,34 +35,33 @@ public class AttrController extends BaseController {
 
     private final AttrApplicationService attrService;
 
-    @ApiOperation(value = "创建商品属性")
+    @Operation(summary = "创建商品属性")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated AttrSaveCmd reqDTO) {
         return SingleResponse.ok(attrService.createAttr(reqDTO));
     }
 
-    @ApiOperation(value = "修改商品属性")
+    @Operation(summary = "修改商品属性")
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) AttrSaveCmd reqDTO) {
         attrService.updateAttr(reqDTO);
         return ServerResponse.ok();
     }
 
-    @ApiOperation(value = "删除商品属性")
+    @Operation(summary = "删除商品属性")
     @DeleteMapping
     public ServerResponse remove(@RequestParam Long id) {
         attrService.removeByAttrId(id);
         return ServerResponse.ok();
     }
 
-    @ApiOperation(value = "查询商品属性分页列表")
+    @Operation(summary = "查询商品属性分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<AttrDTO>> pageList(@RequestBody @Validated AttrPageQry queryDTO) {
         return SingleResponse.ok(attrService.getAttrPageList(queryDTO));
     }
 
-    @ApiOperation(value = "查询商品属性详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @Operation(summary = "查询商品属性详情")
     @GetMapping("/info")
     public SingleResponse<AttrDTO> getInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(attrService.getAttrInfo(id));

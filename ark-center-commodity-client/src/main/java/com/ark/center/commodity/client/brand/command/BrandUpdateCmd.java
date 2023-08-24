@@ -1,25 +1,25 @@
 package com.ark.center.commodity.client.brand.command;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 
 @Data
 public class BrandUpdateCmd {
 
-    @ApiModelProperty(value = "品牌id", required = true)
+    @Schema(name = "品牌id", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "品牌id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "品牌名称", required = false)
+    @Schema(name = "品牌名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @NotBlank(message = "品牌名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "品牌图片地址", required = false)
+    @Schema(name = "品牌图片地址", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @NotBlank(message = "品牌图片地址不能为空")
     private String imageUrl;
 
-    @ApiModelProperty(value = "首字母", required = false)
+    @Schema(name = "首字母", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @NotBlank(message = "首字母不能为空")
     private String letter;
 

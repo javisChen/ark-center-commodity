@@ -1,6 +1,6 @@
 package com.ark.center.commodity.client.commodity.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,13 +10,13 @@ import lombok.Data;
 @Data
 public class SkuAttrResponse {
 
-    @ApiModelProperty(value = "属性Id", required = false)
+    @Schema(name = "属性Id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long attrId;
 
-    @ApiModelProperty(value = "属性名称", required = false)
+    @Schema(name = "属性名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String attrName;
 
-    @ApiModelProperty(value = "属性值", required = false)
+    @Schema(name = "属性值", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String attrValue;
 
 }

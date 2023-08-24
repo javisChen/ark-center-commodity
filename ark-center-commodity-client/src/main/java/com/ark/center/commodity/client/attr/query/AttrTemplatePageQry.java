@@ -2,7 +2,7 @@ package com.ark.center.commodity.client.attr.query;
 
 import com.ark.component.dto.PagingQuery;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
@@ -15,11 +15,11 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "AttrTemplatePageQueryReqDTO对象", description = "商品属性模板")
+@Schema(name = "AttrTemplatePageQueryReqDTO对象", description = "商品属性模板")
 public class AttrTemplatePageQry extends PagingQuery {
 
 
-    @ApiModelProperty(value = "模板名称")
+    @Schema(name = "模板名称")
     private String name;
 
 }
