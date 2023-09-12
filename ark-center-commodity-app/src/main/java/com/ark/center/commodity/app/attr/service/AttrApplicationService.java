@@ -69,12 +69,12 @@ public class AttrApplicationService {
     }
 
     public AttrTemplateDTO getAttrTemplateInfo(Long attrTemplateId) {
-        AttrTemplate aggregate = attrTemplateRepository.findById(attrTemplateId);
+        AttrTemplate aggregate = attrTemplateRepository.selectById(attrTemplateId);
         return attrTemplateAssembler.toDTO(aggregate);
     }
 
     public void checkTemplateExists(Long attrTemplateId) {
-        AttrTemplate aggregate = attrTemplateRepository.findById(attrTemplateId);
+        AttrTemplate aggregate = attrTemplateRepository.selectById(attrTemplateId);
         ParamsChecker.throwIfIsNull(aggregate, ExceptionFactory.userException("属性模板不存在"));
     }
 
@@ -83,7 +83,7 @@ public class AttrApplicationService {
     }
 
     public Long createAttrGroup(AttrGroupCreateCmd reqDTO) {
-        AttrTemplate attrTemplate = attrTemplateRepository.findById(reqDTO.getAttrTemplateId());
+        AttrTemplate attrTemplate = attrTemplateRepository.selectById(reqDTO.getAttrTemplateId());
         ParamsChecker.throwIfIsNull(attrTemplate, ExceptionFactory.userException("属性模板不存在"));
 
         AttrGroup aggregate = attrGroupAssembler.createCmdToAggregate(reqDTO);
@@ -114,7 +114,7 @@ public class AttrApplicationService {
     }
 
     public AttrGroupDTO getAttrGroupInfo(Long id) {
-        AttrGroup aggregate = attrGroupRepository.findById(id);
+        AttrGroup aggregate = attrGroupRepository.selectById(id);
         return attrGroupAssembler.toDTO(aggregate);
     }
 
@@ -137,7 +137,7 @@ public class AttrApplicationService {
     }
 
     public AttrDTO getAttrInfo(Long id) {
-        Attr attr = attrRepository.findById(id);
+        Attr attr = attrRepository.selectById(id);
         return attrAssembler.toDTO(attr);
     }
 

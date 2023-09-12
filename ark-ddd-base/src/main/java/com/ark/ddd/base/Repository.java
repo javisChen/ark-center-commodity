@@ -6,7 +6,7 @@ public interface Repository<A, ID> {
 
     Long store(A aggregate);
 
-    A findById(ID id);
+    A selectById(ID id);
 
     boolean update(A aggregate);
 

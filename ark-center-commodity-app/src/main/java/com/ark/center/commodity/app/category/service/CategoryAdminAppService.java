@@ -9,7 +9,7 @@ import com.ark.center.commodity.client.category.dto.TreeifyDTO;
 import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.factory.CategoryFactory;
-import com.ark.center.commodity.domain.category.repository.CategoryRepository;
+import com.ark.center.commodity.domain.category.repository.CategoryGateway;
 import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,24 +26,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CategoryAdminAppService {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryGateway categoryGateway;
     private final CategoryFactory categoryFactory;
     private final CategoryAssembler categoryAssembler;
 
     public PageResponse<CategoryDTO> pageList(CategoryPageQry queryDTO) {
-        IPage<Category> page = categoryRepository.pageList(queryDTO);
+        IPage<Category> page = categoryGateway.selectPages(queryDTO);
         return categoryAssembler.toDTO(page);
     }
     public Long createCategory(CategoryCreateCmd command) {
         Category category = categoryFactory.create(command);
-        return categoryRepository.store(category);
+        return categoryGateway.insert(category);
     }
     public void updateCategory(CategoryUpdateCmd reqDTO) {
         Category category = categoryAssembler.updateCmdToCategory(reqDTO);
-        categoryRepository.update(category);
+        categoryGateway.update(category);
     }
     public TreeDTO<CategoryDTO> getTree(CategoryPageQry queryDTO) {
-        List<Category> list = categoryRepository.list(queryDTO);
+        List<Category> list = categoryGateway.selectList(queryDTO);
         List<CategoryDTO> categoryDTOList = categoryAssembler.toDTO(list);
         return treeify(categoryDTOList);
     }
@@ -77,11 +77,11 @@ public class CategoryAdminAppService {
     }
 
     public void removeCategoryById(Long id) {
-        categoryRepository.remove(id);
+        categoryGateway.remove(id);
     }
 
     public CategoryDTO getCategoryInfo(Long id) {
-        Category category = categoryRepository.findById(id);
+        Category category = categoryGateway.findById(id);
         return categoryAssembler.toDTO(category);
     }
 }

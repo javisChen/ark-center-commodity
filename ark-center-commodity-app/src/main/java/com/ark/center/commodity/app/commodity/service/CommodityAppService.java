@@ -1,22 +1,23 @@
 package com.ark.center.commodity.app.commodity.service;
 
-import com.ark.center.commodity.client.commodity.command.CommoditySaveCmd;
+import com.ark.center.commodity.app.commodity.executor.CommodityCreateCmdExe;
+import com.ark.center.commodity.app.commodity.executor.CommodityDetailsQryExe;
+import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.dto.SearchDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
-import com.ark.center.commodity.domain.brand.aggregate.Brand;
-import com.ark.center.commodity.domain.brand.repository.BrandRepository;
-import com.ark.center.commodity.domain.category.aggregate.Category;
-import com.ark.center.commodity.domain.category.repository.CategoryRepository;
-import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
-import com.ark.center.commodity.domain.commodity.assembler.CommodityAssembler;
-import com.ark.center.commodity.domain.commodity.factory.CommodityFactory;
-import com.ark.center.commodity.domain.commodity.repository.CommodityRepository;
+import com.ark.center.commodity.domain.brand.Brand;
+import com.ark.center.commodity.domain.brand.repository.BrandGateway;
+import com.ark.center.commodity.domain.category.repository.CategoryGateway;
+import com.ark.center.commodity.domain.spu.assembler.SpuAssembler;
+import com.ark.center.commodity.domain.spu.factory.CommodityFactory;
+import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,45 +37,48 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommodityAppService {
 
-    private final CommodityRepository commodityRepository;
+    private final SpuGateway spuGateway;
 
     private final CommodityFactory commodityFactory;
 
-    private final CommodityAssembler commodityAssembler;
+    private final SpuAssembler spuAssembler;
 
-    private final BrandRepository brandRepository;
+    private final BrandGateway brandGateway;
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryGateway categoryGateway;
+
+    private final CommodityDetailsQryExe commodityDetailsQryExe;
+
+    private final CommodityCreateCmdExe commodityCreateCmdExe;
 
     @Transactional(rollbackFor = Exception.class)
-    public Long save(CommoditySaveCmd cmd) {
-        Commodity commodity = commodityFactory.create(cmd);
-        return commodityRepository.store(commodity);
+    public Long save(CommodityCreateCmd cmd) {
+        return commodityCreateCmdExe.execute(cmd);
     }
 
-    public PageResponse<CommodityPageDTO> getPageList(CommodityPageQry queryDTO) {
-        IPage<Commodity> pageList = commodityRepository.getPageList(queryDTO);
-        List<Commodity> records = pageList.getRecords();
+    public PageResponse<CommodityPageDTO> queryPageList(CommodityPageQry queryDTO) {
+        IPage<CommodityPageDTO> pages = spuGateway.selectPages(queryDTO);
+        List<CommodityPageDTO> records = pages.getRecords();
         if (CollectionUtils.isEmpty(records)) {
-            return commodityAssembler.toPageResponse(pageList);
+            return PageResponse.of(pages);
         }
 
-        List<Long> brandIds = records.stream().map(Commodity::getBrandId).collect(Collectors.toList());
-        List<Long> categoryIds = records.stream().map(Commodity::getCategoryId).collect(Collectors.toList());
-        Map<Long, String> brandMap = brandRepository.queryByIds(brandIds).stream().collect(Collectors.toMap(Brand::getId, Brand::getName));
-        Map<Long, String> categoryMap = categoryRepository.queryByIds(categoryIds).stream().collect(Collectors.toMap(Category::getId, Category::getName));
+        List<Long> brandIds = records.stream().map(CommodityPageDTO::getBrandId).collect(Collectors.toList());
+        List<Long> categoryIds = records.stream().map(CommodityPageDTO::getCategoryId).collect(Collectors.toList());
+        Map<Long, String> brandMap = brandGateway.selectByIds(brandIds).stream()
+                .collect(Collectors.toMap(Brand::getId, Brand::getName));
+        Map<Long, String> categoryMap = categoryGateway.selectByIds(categoryIds).stream()
+                .collect(Collectors.toMap(com.ark.center.commodity.domain.category.Category::getId, com.ark.center.commodity.domain.category.Category::getName));
 
-        return commodityAssembler.toPageResponse(pageList, brandMap, categoryMap);
+        for (CommodityPageDTO record : records) {
+            record.setBrandName(MapUtils.getString(brandMap, record.getBrandId(), ""));
+            record.setCategoryName(MapUtils.getString(categoryMap, record.getCategoryId(), ""));
+        }
+        return PageResponse.of(pages);
     }
 
     public CommodityDTO getInfo(Long spuId) {
-
-        Commodity commodity = commodityRepository.findById(spuId);
-        CommodityDTO commodityDTO = commodityAssembler.toDTO(commodity);
-
-        Category category = categoryRepository.findById(commodity.getCategoryId());
-        commodityDTO.setCategoryLevelPath(category.getLevelPath());
-        return commodityDTO;
+        return commodityDetailsQryExe.execute(spuId);
     }
 
     public SearchDTO search() {

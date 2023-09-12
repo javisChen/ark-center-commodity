@@ -67,8 +67,8 @@ services:
       - "/Users/chenjiawei/dev/docker/ark/iam:/app/logs/iam"
     env_file:
       - ./env/service-common.env
-    volumes:
-      - "C:\\docker\\ark\\iam:/app/logs/iam"
+#    volumes:
+#      - "C:\\docker\\ark\\iam:/app/logs/iam"
     depends_on:
       - nacos
       - redis

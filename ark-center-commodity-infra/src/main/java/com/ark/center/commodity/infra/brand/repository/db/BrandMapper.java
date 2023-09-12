@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.brand.repository.db;
 
+import com.ark.center.commodity.domain.brand.Brand;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author EOP
  * @since 2022-03-03
  */
-public interface BrandMapper extends BaseMapper<BrandDO> {
+public interface BrandMapper extends BaseMapper<Brand> {
 
 }

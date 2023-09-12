@@ -5,7 +5,7 @@ import com.ark.center.commodity.client.attr.query.AttrTemplatePageQry;
 import com.ark.center.commodity.domain.attr.aggregate.AttrTemplate;
 import com.ark.center.commodity.domain.attr.repository.AttrTemplateRepository;
 import com.ark.center.commodity.infra.attr.convertor.AttrTemplateConvertor;
-import com.ark.center.commodity.infra.attr.repository.db.AttrTemplateDO;
+import com.ark.center.commodity.domain.attr.AttrTemplateDO;
 import com.ark.center.commodity.infra.attr.repository.db.AttrTemplateMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
@@ -52,7 +52,7 @@ public class AttrTemplateRepositoryImpl extends ServiceImpl<AttrTemplateMapper, 
     }
 
     @Override
-    public AttrTemplate findById(Long id) {
+    public AttrTemplate selectById(Long id) {
         AttrTemplateDO brand = getById(id);
         return convertor.toAggregate(brand);
     }

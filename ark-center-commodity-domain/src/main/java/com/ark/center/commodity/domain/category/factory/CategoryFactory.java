@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
 import com.ark.center.commodity.domain.category.aggregate.Category;
 import com.ark.center.commodity.domain.category.assembler.CategoryAssembler;
-import com.ark.center.commodity.domain.category.repository.CategoryRepository;
+import com.ark.center.commodity.domain.category.repository.CategoryGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class CategoryFactory {
 
     private final CategoryAssembler categoryAssembler;
-    private final CategoryRepository categoryRepository;
+    private final CategoryGateway categoryGateway;
 
     public Category create(CategoryCreateCmd createCommand) {
         Category category = categoryAssembler.createCmdToCategory(createCommand);
@@ -23,7 +23,7 @@ public class CategoryFactory {
         if (category.isParentCategory()) {
             levelPath = categoryCode + ".";
         } else {
-            Category parentCategory = categoryRepository.findById(category.getPid());
+            Category parentCategory = categoryGateway.findById(category.getPid());
             levelPath = parentCategory.getLevelPath() + categoryCode + ".";
             level = parentCategory.getLevel() + 1;
         }

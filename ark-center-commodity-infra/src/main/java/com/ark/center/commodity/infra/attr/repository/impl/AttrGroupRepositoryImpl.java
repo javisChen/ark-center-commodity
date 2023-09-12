@@ -4,7 +4,7 @@ import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
 import com.ark.center.commodity.domain.attr.aggregate.AttrGroup;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupRepository;
 import com.ark.center.commodity.infra.attr.convertor.AttrGroupConvertor;
-import com.ark.center.commodity.infra.attr.repository.db.AttrGroupDO;
+import com.ark.center.commodity.domain.attr.AttrGroupDO;
 import com.ark.center.commodity.infra.attr.repository.db.AttrGroupMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.bean.BeanConvertor;
@@ -15,7 +15,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ public class AttrGroupRepositoryImpl extends ServiceImpl<AttrGroupMapper, AttrGr
     }
 
     @Override
-    public AttrGroup findById(Long id) {
+    public AttrGroup selectById(Long id) {
         AttrGroupDO dataObject = getById(id);
         return convertor.toAggregate(dataObject);
     }

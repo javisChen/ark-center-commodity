@@ -2,8 +2,8 @@ package com.ark.center.commodity.infra.commodity.convertor;
 
 import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
-import com.ark.center.commodity.domain.commodity.vo.Attr;
-import com.ark.center.commodity.domain.commodity.vo.Sku;
+import com.ark.center.commodity.domain.spu.vo.Attr;
+import com.ark.center.commodity.domain.spu.vo.Sku;
 import org.mapstruct.Mapper;
 
 import java.util.List;

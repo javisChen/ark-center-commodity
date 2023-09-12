@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.commodity.repository.db;
 
+import com.ark.center.commodity.domain.spu.SpuAttr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author EOP
  * @since 2022-04-22
  */
-public interface SpuAttrMapper extends BaseMapper<SpuAttrDO> {
+public interface SpuAttrMapper extends BaseMapper<SpuAttr> {
 
 }

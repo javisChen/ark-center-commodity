@@ -6,7 +6,7 @@ import com.ark.center.commodity.client.brand.dto.BrandDTO;
 import com.ark.center.commodity.client.brand.query.BrandPageQry;
 import com.ark.center.commodity.domain.brand.aggregate.Brand;
 import com.ark.center.commodity.domain.brand.assembler.BrandAssembler;
-import com.ark.center.commodity.domain.brand.repository.BrandRepository;
+import com.ark.center.commodity.domain.brand.repository.BrandGateway;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
@@ -24,27 +24,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BrandApplicationService {
 
-    private final BrandRepository brandRepository;
+    private final BrandGateway brandGateway;
 
     private final BrandAssembler brandAssembler;
 
     public Long createBrand(BrandCreateCmd reqDTO) {
         Brand aggregate = brandAssembler.createCmdToAggregate(reqDTO);
-        return brandRepository.store(aggregate);
+        return brandGateway.store(aggregate);
     }
 
     public PageResponse<BrandDTO> getPageList(BrandPageQry pageQry) {
-        IPage<Brand> pageList = brandRepository.pageList(pageQry);
+        IPage<Brand> pageList = brandGateway.selectPages(pageQry);
         return brandAssembler.toDTO(pageList);
     }
 
     public void updateBrand(BrandUpdateCmd reqDTO) {
         Brand aggregate = brandAssembler.updateCmdToAggregate(reqDTO);
-        brandRepository.update(aggregate);
+        brandGateway.update(aggregate);
     }
 
     public BrandDTO getBrandInfo(Long brandId) {
-        Brand brand = brandRepository.findById(brandId);
+        Brand brand = brandGateway.findById(brandId);
         return brandAssembler.toDTO(brand);
     }
 }

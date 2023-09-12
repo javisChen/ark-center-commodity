@@ -1,6 +1,7 @@
 package com.ark.center.commodity.infra.attr.repository.db;
 
 
+import com.ark.center.commodity.domain.attr.AttrSpuDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.category.repository.db;
 
+import com.ark.center.commodity.domain.category.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author EOP
  * @since 2022-03-03
  */
-public interface CategoryMapper extends BaseMapper<CategoryDO> {
+public interface CategoryMapper extends BaseMapper<Category> {
 
 }

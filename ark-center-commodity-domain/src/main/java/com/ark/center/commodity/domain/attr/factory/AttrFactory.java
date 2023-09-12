@@ -63,7 +63,7 @@ public class AttrFactory {
         }
         Long attrId = cmd.getId();
         if (attrId != null && attrId > 0L) {
-            Attr attrOldDO = attrRepository.findById(attrId);
+            Attr attrOldDO = attrRepository.selectById(attrId);
             ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
         }
     }

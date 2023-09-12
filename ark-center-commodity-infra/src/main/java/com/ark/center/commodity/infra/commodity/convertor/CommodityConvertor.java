@@ -2,18 +2,17 @@ package com.ark.center.commodity.infra.commodity.convertor;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
-import com.ark.center.commodity.domain.commodity.aggregate.Commodity;
-import com.ark.center.commodity.domain.commodity.vo.Attr;
-import com.ark.center.commodity.domain.commodity.vo.Picture;
-import com.ark.center.commodity.domain.commodity.vo.SalesInfo;
-import com.ark.center.commodity.domain.commodity.vo.Sku;
-import com.ark.center.commodity.infra.commodity.repository.db.SkuDO;
-import com.ark.center.commodity.infra.commodity.repository.db.SpuDO;
-import com.ark.center.commodity.infra.commodity.repository.db.SpuSalesDO;
+import com.ark.center.commodity.domain.spu.Sku;
+import com.ark.center.commodity.domain.spu.Spu;
+import com.ark.center.commodity.domain.spu.aggregate.Commodity;
+import com.ark.center.commodity.domain.spu.vo.Attr;
+import com.ark.center.commodity.domain.spu.vo.Picture;
+import com.ark.center.commodity.domain.spu.vo.SalesInfo;
+import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.component.web.util.bean.BeanConvertor;
-import com.ark.ddd.base.RepositoryConvertor;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
 
@@ -21,22 +20,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class CommodityConvertor extends RepositoryConvertor<Commodity, SpuDO> {
+public interface CommodityConvertor {
 
-    public SpuDO convertToSpuDO(Commodity commodity) {
-        SpuDO spuDO = BeanConvertor.copy(commodity, SpuDO.class);
-        spuDO.setShelfStatus(commodity.getShelfStatus().getValue());
-        spuDO.setVerifyStatus(commodity.getVerifyStatus().getValue());
-        return spuDO;
+    public default Spu convertToSpuDO(Commodity commodity) {
+        Spu spu = BeanConvertor.copy(commodity, Spu.class);
+        spu.setShelfStatus(commodity.getShelfStatus().getValue());
+        spu.setVerifyStatus(commodity.getVerifyStatus().getValue());
+        return spu;
     }
 
-    public SkuDO convertToSkuDO(SpuDO spuDO, Picture picture, Sku sku) {
-        SkuDO skuDO = new SkuDO();
+    CommodityPageDTO toCommodityPageDTO(Spu spu);
+
+    List<CommodityPageDTO> toCommodityPageDTO(List<Spu> spuList);
+
+    public default Sku convertToSkuDO(Spu spu, Picture picture, com.ark.center.commodity.domain.spu.vo.Sku sku) {
+        Sku skuDO = new Sku();
         if (sku.getId() != null && sku.getId() > 0) {
             skuDO.setId(sku.getId());
         }
-        skuDO.setSpuName(spuDO.getName());
-        skuDO.setSpuId(spuDO.getId());
+        skuDO.setSpuName(spu.getName());
+        skuDO.setSpuId(spu.getId());
         skuDO.setCode(sku.getCode());
         skuDO.setSalesPrice(sku.getSalesPrice());
         skuDO.setCostPrice(sku.getCostPrice());
@@ -48,51 +51,50 @@ public class CommodityConvertor extends RepositoryConvertor<Commodity, SpuDO> {
         return skuDO;
     }
 
-    public SalesInfo toSpuSales(SpuSalesDO spuSalesDO) {
-        return new SalesInfo(spuSalesDO.getSpuId(),
-                spuSalesDO.getFreightTemplateId(),
-                spuSalesDO.getPcDetailHtml(),
-                spuSalesDO.getMobileDetailHtml(),
-                JSON.parseArray(spuSalesDO.getParamData(), Attr.class));
+    public default SalesInfo toSpuSales(SpuSales spuSales) {
+        return new SalesInfo(spuSales.getSpuId(),
+                spuSales.getFreightTemplateId(),
+                spuSales.getPcDetailHtml(),
+                spuSales.getMobileDetailHtml(),
+                JSON.parseArray(spuSales.getParamData(), Attr.class));
     }
 
-    public static List<Sku> convertToSku(List<SkuDO> doList) {
-        return doList.stream().map(skuDO -> {
-            List<Attr> specList = JSON.parseArray(skuDO.getSpecData(),
+    public static List<com.ark.center.commodity.domain.spu.vo.Sku> convertToSku(List<Sku> doList) {
+        return doList.stream().map(sku -> {
+            List<Attr> specList = JSON.parseArray(sku.getSpecData(),
                     Attr.class);
-            return new Sku(skuDO.getId(),
-                    skuDO.getCode(),
+            return new com.ark.center.commodity.domain.spu.vo.Sku(sku.getId(),
+                    sku.getCode(),
                     "",
-                    skuDO.getSalesPrice(),
-                    skuDO.getCostPrice(),
-                    skuDO.getStock(),
-                    skuDO.getWarnStock(),
+                    sku.getSalesPrice(),
+                    sku.getCostPrice(),
+                    sku.getStock(),
+                    sku.getWarnStock(),
                     "",
                     specList);
         }).collect(Collectors.toList());
     }
 
-    @Override
-    public Commodity toAggregate(SpuDO dataObject) {
+    public default Commodity toAggregate(Spu dataObject) {
         Commodity commodity = BeanConvertor.copy(dataObject, Commodity.class);
         commodity.setShelfStatus(Commodity.ShelfStatus.getByValue(dataObject.getShelfStatus()));
         commodity.setVerifyStatus(Commodity.VerifyStatus.getByValue(dataObject.getVerifyStatus()));
         return commodity;
     }
 
-    public static List<SkuDTO> convertToSkuDTO(List<SkuDO> skuList) {
+    public static List<SkuDTO> convertToSkuDTO(List<Sku> skuList) {
         List<SkuDTO> skuDTOList = Lists.newArrayListWithCapacity(skuList.size());
-        for (SkuDO skuDO : skuList) {
+        for (Sku sku : skuList) {
             SkuDTO skuRespDTO = new SkuDTO();
-            skuRespDTO.setId(skuDO.getId());
-            skuRespDTO.setSpuName(skuDO.getSpuName());
-            skuRespDTO.setCode(skuDO.getCode());
-            skuRespDTO.setSalesPrice(skuDO.getSalesPrice());
-            skuRespDTO.setCostPrice(skuDO.getCostPrice());
-            skuRespDTO.setStock(skuDO.getStock());
-            skuRespDTO.setWarnStock(skuDO.getWarnStock());
-            skuRespDTO.setSpecList(JSON.parseArray(skuDO.getSpecData(), SkuAttrDTO.class));
-            skuRespDTO.setMainPicture(skuDO.getMainPicture());
+            skuRespDTO.setId(sku.getId());
+            skuRespDTO.setSpuName(sku.getSpuName());
+            skuRespDTO.setCode(sku.getCode());
+            skuRespDTO.setSalesPrice(sku.getSalesPrice());
+            skuRespDTO.setCostPrice(sku.getCostPrice());
+            skuRespDTO.setStock(sku.getStock());
+            skuRespDTO.setWarnStock(sku.getWarnStock());
+            skuRespDTO.setSpecList(JSON.parseArray(sku.getSpecData(), SkuAttrDTO.class));
+            skuRespDTO.setMainPicture(sku.getMainPicture());
             skuDTOList.add(skuRespDTO);
         }
         return skuDTOList;

@@ -1,6 +1,5 @@
 package com.ark.center.commodity.client.commodity.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -30,6 +29,12 @@ public class CommodityPageDTO implements Serializable {
 
     @Schema(name = "分类名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String categoryName;
+
+    @Schema(name = "品牌id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Long brandId;
+
+    @Schema(name = "分类id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Long categoryId;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime gmtCreate;

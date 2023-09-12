@@ -16,4 +16,5 @@ public class AttrCmd {
     private String attrName;
     @Schema(name = "属性值", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String attrValue;
+
 }
