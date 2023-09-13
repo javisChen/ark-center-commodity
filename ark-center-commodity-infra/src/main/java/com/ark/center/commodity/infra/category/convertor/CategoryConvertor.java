@@ -1,11 +1,21 @@
 package com.ark.center.commodity.infra.category.convertor;
 
+import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
+import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
+import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.domain.category.Category;
-import com.ark.ddd.base.RepositoryConvertor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class CategoryConvertor extends RepositoryConvertor<com.ark.center.commodity.domain.category.aggregate.Category, Category> {
+import java.util.List;
 
+@Mapper(componentModel = "spring")
+public interface CategoryConvertor {
 
+    Category toCategory(CategoryUpdateCmd command);
+
+    Category toCategory(CategoryCreateCmd command);
+
+    CategoryDTO toDTO(Category category);
+
+    List<CategoryDTO> toDTO(List<Category> categories);
 }

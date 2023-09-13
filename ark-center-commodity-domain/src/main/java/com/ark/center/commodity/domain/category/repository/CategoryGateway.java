@@ -1,5 +1,6 @@
 package com.ark.center.commodity.domain.category.repository;
 
+import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.domain.category.Category;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -7,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import java.util.List;
 
 public interface CategoryGateway {
-    IPage<Category> selectPages(CategoryPageQry qry);
+    IPage<CategoryDTO> selectPages(CategoryPageQry qry);
 
     Long insert(Category category);
 
@@ -15,7 +16,7 @@ public interface CategoryGateway {
 
     boolean update(Category category);
 
-    List<Category> selectList(CategoryPageQry qry);
+    List<CategoryDTO> selectList(CategoryPageQry qry);
 
     boolean remove(Long categoryId);
 

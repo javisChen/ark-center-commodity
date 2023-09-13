@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.category.repository.impl;
 
+import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.domain.category.repository.CategoryGateway;
 import com.ark.center.commodity.infra.category.convertor.CategoryConvertor;
@@ -23,12 +24,13 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
     private final CategoryConvertor categoryConvertor;
 
     @Override
-    public IPage<Category> selectPages(CategoryPageQry qry) {
+    public IPage<CategoryDTO> selectPages(CategoryPageQry qry) {
         return lambdaQuery()
                 .eq(Objects.nonNull(qry.getLevel()), Category::getLevel, qry.getLevel())
                 .eq(Objects.nonNull(qry.getPid()), Category::getPid, qry.getPid())
                 .orderByDesc(BaseEntity::getGmtCreate)
-                .page(new Page<>(qry.getCurrent(), qry.getSize()));
+                .page(new Page<>(qry.getCurrent(), qry.getSize()))
+                .convert(categoryConvertor::toDTO);
     }
 
     @Override
@@ -50,12 +52,13 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public List<Category> selectList(CategoryPageQry qry) {
-        return lambdaQuery()
+    public List<CategoryDTO> selectList(CategoryPageQry qry) {
+        List<Category> records = lambdaQuery()
                 .eq(Objects.nonNull(qry.getLevel()), Category::getLevel, qry.getLevel())
                 .eq(Objects.nonNull(qry.getPid()), Category::getPid, qry.getPid())
                 .orderByDesc(BaseEntity::getGmtCreate)
                 .list();
+        return categoryConvertor.toDTO(records);
     }
 
     @Override

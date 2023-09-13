@@ -3,21 +3,21 @@ package com.ark.center.commodity.domain.category.assembler;
 import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
 import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
-import com.ark.center.commodity.domain.category.aggregate.Category;
-import com.ark.component.web.util.bean.BeanConvertor;
-import com.ark.ddd.base.BaseAssembler;
-import org.springframework.stereotype.Component;
+import com.ark.center.commodity.domain.category.Category;
+import org.mapstruct.Mapper;
 
-@Component
-public class CategoryAssembler extends BaseAssembler<Category, CategoryDTO> {
+import java.util.List;
 
-    public Category updateCmdToCategory(CategoryUpdateCmd command) {
-        return BeanConvertor.copy(command, Category.class);
-    }
+@Mapper(componentModel = "spring")
+public interface CategoryAssembler {
 
-    public Category createCmdToCategory(CategoryCreateCmd command) {
-        return BeanConvertor.copy(command, Category.class);
-    }
+    Category toCategory(CategoryUpdateCmd command);
+
+    Category toCategory(CategoryCreateCmd command);
+
+    CategoryDTO toDTO(Category category);
+
+    List<CategoryDTO> toDTO(List<Category> categories);
 
 }
 

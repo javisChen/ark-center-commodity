@@ -1,6 +1,5 @@
 package com.ark.center.commodity.infra.commodity.repository.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.attachment.Attachment;
@@ -15,10 +14,8 @@ import com.ark.center.commodity.infra.attr.repository.db.AttrOptionMapper;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
 import com.ark.center.commodity.infra.commodity.convertor.CommodityConvertor;
 import com.ark.center.commodity.infra.commodity.repository.db.*;
-import com.ark.component.cache.CacheService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -52,17 +49,18 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
 
 
 
-    private void assembleSkuList(Commodity commodityRespDTO, Spu spu) {
-        List<com.ark.center.commodity.domain.spu.vo.Sku> skuList = listSkuBySpuId(spu.getId());
-        commodityRespDTO.setSkuList(skuList);
+//    private void assembleSkuList(Commodity commodityRespDTO, Spu spu) {
+//        List<Sku> skuList = listSkuBySpuId(spu.getId());
+//        commodityRespDTO.setSkuList(skuList);
+//
+//    }
 
-    }
-
-    private List<com.ark.center.commodity.domain.spu.vo.Sku> listSkuBySpuId(Long id) {
+    private List<Sku> listSkuBySpuId(Long id) {
         LambdaQueryWrapper<Sku> qw = new LambdaQueryWrapper<>();
         qw.eq(Sku::getSpuId, id);
         List<Sku> doList = skuMapper.selectList(qw);
-        return convertor.convertToSku(doList);
+        return doList;
+//        return convertor.convertToSku(doList);
     }
 
     private void assembleSpuInfo(Commodity commodity, Spu spu) {
@@ -80,7 +78,6 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         commodity.setWeight(spu.getWeight());
         commodity.setPicList(findSpuPictures(spuId));
         commodity.setSalesInfo(findSpuSalesInfo(spuId));
-
     }
 
     private SalesInfo findSpuSalesInfo(Long spuId) {
@@ -95,9 +92,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         if (CollectionUtils.isEmpty(attachments)) {
             return Collections.emptyList();
         }
-        return attachments.stream().map(item -> {
-            return new Picture(item.getUrl(), "");
-        }).collect(Collectors.toList());
+        return attachments.stream().map(item -> new Picture(item.getUrl(), "")).collect(Collectors.toList());
 
     }
 
@@ -109,25 +104,10 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public boolean update(Commodity aggregate) {
-        return false;
-    }
-
-    @Override
-    public boolean remove(Long aLong) {
-        return false;
-    }
-
-    @Override
-    public List<Commodity> queryByIds(List<Long> ids) {
-        return null;
-    }
-
-    @Override
     public IPage<CommodityPageDTO> selectPages(CommodityPageQry queryDTO) {
         LambdaQueryWrapper<Spu> qw = new LambdaQueryWrapper<>();
         qw.orderByDesc(BaseEntity::getGmtModified);
-        Page<Spu> page = spuMapper.selectPage(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()), qw);
+        Page<Spu> page = this.page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()), qw);
         List<Spu> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
             return new Page<>(page.getCurrent(), page.getSize(), page.getTotal());

@@ -116,8 +116,4 @@ public class Category extends BaseEntity {
         }
     }
 
-    @Override
-    public void setId(Long id) {
-        super.setId(id);
-    }
 }

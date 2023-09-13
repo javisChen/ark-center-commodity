@@ -4,7 +4,7 @@ import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.center.commodity.domain.attr.aggregate.Attr;
 import com.ark.center.commodity.domain.attr.repository.AttrRepository;
 import com.ark.center.commodity.domain.attr.vo.AttrOption;
-import com.ark.center.commodity.domain.category.aggregate.Category;
+import com.ark.center.commodity.domain.category.Category;
 import com.ark.center.commodity.domain.category.repository.CategoryGateway;
 import com.ark.center.commodity.infra.attr.convertor.AttrConvertor;
 import com.ark.center.commodity.infra.attr.convertor.AttrOptionConvertor;
@@ -135,7 +135,7 @@ public class AttrRepositoryImpl extends ServiceImpl<AttrMapper, AttrDO> implemen
     public IPage<Attr> pageList(AttrPageQry queryDTO) {
 
         if (queryDTO.getCategoryId() != null) {
-            Category category = Optional.ofNullable(categoryGateway.findById(queryDTO.getCategoryId()))
+            Category category = Optional.ofNullable(categoryGateway.selectById(queryDTO.getCategoryId()))
                     .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(category.getAttrTemplateId());
         }
