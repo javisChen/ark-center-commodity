@@ -16,13 +16,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.commons.collections4.MapUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-MappingConstants.ComponentModel.SPRING
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SpuAssembler {
 
     public default Sku toSku(SkuCmd cmd) {

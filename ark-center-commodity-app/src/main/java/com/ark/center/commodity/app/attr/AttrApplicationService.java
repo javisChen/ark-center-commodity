@@ -98,7 +98,7 @@ public class AttrApplicationService {
         attrGroupGateway.update(aggregate);
     }
 
-    public PageResponse<AttrGroupDTO> getAttrGroupPageList(AttrGroupPageQry queryDTO) {
+    public PageResponse<AttrGroupDTO> queryGroupPages(AttrGroupPageQry queryDTO) {
         IPage<AttrGroup> page = attrGroupGateway.selectPages(queryDTO);
         List<AttrGroup> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
@@ -122,17 +122,10 @@ public class AttrApplicationService {
 
     public Long createAttr(AttrCreateCmd cmd) {
         return attrCreateCmdExe.execute(cmd);
-        Attr attr = attrFactory.create(cmd);
-        // 如果录入方式为[SELECT]，把attr_value先清掉
-        if (attr.isSelectInputType()) {
-            attr.removeOptions();
-        }
-        return attrGateway.store(attr);
     }
 
-    public void updateAttr(AttrCreateCmd reqDTO) {
-        Attr attr = attrFactory.create(reqDTO);
-        attrGateway.store(attr);
+    public Long updateAttr(AttrCreateCmd cmd) {
+        return attrCreateCmdExe.execute(cmd);
     }
 
     public void removeByAttrId(Long id) {
@@ -140,8 +133,7 @@ public class AttrApplicationService {
     }
 
     public AttrDTO getDetails(Long id) {
-        com.ark.center.commodity.domain.attr.Attr attr = attrGateway.selectById(id);
-        return attrAssembler.toDTO(attr);
+        return attrGateway.selectById(id);
     }
 
     public PageResponse<AttrDTO> getAttrPageList(AttrPageQry queryDTO) {

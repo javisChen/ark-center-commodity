@@ -48,8 +48,8 @@ public class AttrGroupController extends BaseController {
 
     @Operation(summary = "查询商品属性组分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<AttrGroupDTO>> getGroupPageList(@RequestBody @Validated AttrGroupPageQry queryDTO) {
-        return SingleResponse.ok(attrService.getAttrGroupPageList(queryDTO));
+    public SingleResponse<PageResponse<AttrGroupDTO>> queryPages(@RequestBody @Validated AttrGroupPageQry queryDTO) {
+        return SingleResponse.ok(attrService.queryGroupPages(queryDTO));
     }
 
     @Operation(summary = "查询商品属性组详情")

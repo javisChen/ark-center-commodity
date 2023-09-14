@@ -2,18 +2,18 @@ package com.ark.center.commodity.app.attr.executor;
 
 import com.ark.center.commodity.client.attr.command.AttrCreateCmd;
 import com.ark.center.commodity.domain.attr.Attr;
+import com.ark.center.commodity.domain.attr.AttrOption;
 import com.ark.center.commodity.domain.attr.assembler.AttrAssembler;
 import com.ark.center.commodity.domain.attr.repository.AttrGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrTemplateGateway;
-import com.ark.center.commodity.domain.attr.vo.AttrOption;
-import com.ark.component.common.ParamsChecker;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -26,36 +26,54 @@ public class AttrCreateCmdExe {
     private final AttrAssembler attrAssembler;
 
     public Long execute(AttrCreateCmd cmd) {
-        doCheck(cmd);
-        Attr aggregate = attrAssembler.toAttr(cmd);
-        fillOptions(aggregate, cmd.getValues());
 
-        // 如果录入方式为[SELECT]，把attr_value先清掉
-        if (aggregate.isSelectInputType()) {
-            aggregate.removeOptions();
-        }
-        return attrGateway.store(attr);
+        preCheck(cmd);
 
-        return aggregate.getId();
+        Attr attr = attrAssembler.toAttr(cmd);
+
+        saveAttr(attr);
+
+        saveOptions(attr, cmd);
+
+        return attr.getId();
     }
 
-
-    private void fillOptions(Attr aggregate, List<String> values) {
-        if (CollectionUtils.isNotEmpty(values)) {
-            List<AttrOption> optionList = new ArrayList<>(values.size());
-            for (String value : values) {
-                AttrOption valueDO = new AttrOption(value, AttrOption.Type.COMMON);
-//                if (spuId != null && spuId > 0) {
-//                    valueDO.setSpuId(spuId);
-//                }
-                optionList.add(valueDO);
-            }
-            aggregate.setOptions(optionList);
+    private void saveAttr(Attr attr) {
+        if (attr.getId() != null) {
+            attrGateway.update(attr);
+        } else {
+            attrGateway.insert(attr);
         }
     }
 
+    private void saveOptions(Attr attr, AttrCreateCmd cmd) {
+        List<AttrOption> options = assembleOptions(attr, cmd.getValues());
 
-    private void doCheck(AttrCreateCmd cmd) {
+        attrGateway.deleteOptions(attr.getId());
+
+        if (attr.isSelectInputType()) {
+            options.forEach(item -> item.setAttrId(attr.getId()));
+            attrGateway.saveOptions(options);
+        }
+    }
+
+    private List<AttrOption> assembleOptions(Attr attr, List<String> values) {
+        if (CollectionUtils.isEmpty(values)) {
+            return Collections.emptyList();
+        }
+        List<AttrOption> optionList = new ArrayList<>(values.size());
+        for (String value : values) {
+            AttrOption valueDO = new AttrOption();
+            valueDO.setAttrId(attr.getId());
+            valueDO.setValue(value);
+            valueDO.setType(AttrOption.Type.COMMON.getValue());
+            optionList.add(valueDO);
+        }
+        return optionList;
+    }
+
+
+    private void preCheck(AttrCreateCmd cmd) {
         Long attrTemplateId = cmd.getAttrTemplateId();
         Long count = attrTemplateGateway.countById(attrTemplateId);
         if (count.equals(0L)) {
@@ -67,11 +85,6 @@ public class AttrCreateCmdExe {
             if (count.equals(0L)) {
                 throw ExceptionFactory.userException("属性组不存在");
             }
-        }
-        Long attrId = cmd.getId();
-        if (attrId != null && attrId > 0L) {
-            Attr attrOldDO = attrGateway.selectById(attrId);
-            ParamsChecker.throwIfIsNull(attrOldDO, ExceptionFactory.userException("属性不存在"));
         }
     }
 
