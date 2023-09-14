@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+MappingConstants.ComponentModel.SPRING
 public interface SkuAssembler {
 
     List<SkuDTO> toSkuDTO(List<Sku> skuList);

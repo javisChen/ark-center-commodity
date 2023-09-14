@@ -2,7 +2,7 @@ package com.ark.center.commodity.domain.spu.gateway;
 
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
-import com.ark.center.commodity.domain.attr.AttrOptionDO;
+import com.ark.center.commodity.domain.attr.AttrOption;
 import com.ark.center.commodity.domain.spu.Spu;
 import com.ark.center.commodity.domain.spu.SpuAttr;
 import com.ark.center.commodity.domain.spu.SpuSales;
@@ -22,7 +22,7 @@ public interface SpuGateway {
 
     void saveAttrs(List<SpuAttr> spuAttrs);
 
-    void saveAttrOptions(List<AttrOptionDO> dos);
+    void saveAttrOptions(List<AttrOption> dos);
 
     Long saveSpu(Spu spu);
 }

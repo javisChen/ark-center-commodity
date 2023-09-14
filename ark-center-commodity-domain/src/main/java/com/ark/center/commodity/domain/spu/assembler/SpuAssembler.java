@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+MappingConstants.ComponentModel.SPRING
 public interface SpuAssembler {
 
     public default Sku toSku(SkuCmd cmd) {

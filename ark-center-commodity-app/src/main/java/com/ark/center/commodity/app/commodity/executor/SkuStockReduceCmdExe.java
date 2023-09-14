@@ -1,7 +1,7 @@
 package com.ark.center.commodity.app.commodity.executor;
 
 import com.ark.center.commodity.client.commodity.command.SkuStockReduceCmd;
-import com.ark.center.commodity.infra.commodity.repository.cache.CommodityCacheConst;
+import com.ark.center.commodity.infra.commodity.gateway.cache.CommodityCacheConst;
 import com.ark.component.cache.CacheService;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.Data;

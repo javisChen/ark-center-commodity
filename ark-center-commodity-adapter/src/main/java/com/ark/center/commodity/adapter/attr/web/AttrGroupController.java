@@ -1,6 +1,6 @@
 package com.ark.center.commodity.adapter.attr.web;
 
-import com.ark.center.commodity.app.attr.service.AttrApplicationService;
+import com.ark.center.commodity.app.attr.AttrApplicationService;
 import com.ark.center.commodity.client.attr.command.AttrGroupCreateCmd;
 import com.ark.center.commodity.client.attr.command.AttrGroupUpdateCmd;
 import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
@@ -11,7 +11,6 @@ import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

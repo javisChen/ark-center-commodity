@@ -47,8 +47,8 @@ public class CommodityAdminController extends BaseController {
 
     @Operation(summary = "查询分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<CommodityPageDTO>> pageList(@RequestBody @Validated CommodityPageQry queryDTO) {
-        return SingleResponse.ok(commodityAppService.queryPageList(queryDTO));
+    public SingleResponse<PageResponse<CommodityPageDTO>> queryPages(@RequestBody @Validated CommodityPageQry queryDTO) {
+        return SingleResponse.ok(commodityAppService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询详情")
@@ -59,7 +59,7 @@ public class CommodityAdminController extends BaseController {
 
     @Operation(summary = "查询分页列表")
     @PostMapping("/search")
-    public SingleResponse<SearchDTO> pageList() {
+    public SingleResponse<SearchDTO> queryPages() {
         return SingleResponse.ok(commodityAppService.search());
     }
 

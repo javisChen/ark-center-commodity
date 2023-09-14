@@ -8,10 +8,8 @@ import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.dto.SearchDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.brand.Brand;
-import com.ark.center.commodity.domain.brand.repository.BrandGateway;
-import com.ark.center.commodity.domain.category.repository.CategoryGateway;
-import com.ark.center.commodity.domain.spu.assembler.SpuAssembler;
-import com.ark.center.commodity.domain.spu.factory.CommodityFactory;
+import com.ark.center.commodity.domain.brand.gateway.BrandGateway;
+import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -39,10 +37,6 @@ public class CommodityAppService {
 
     private final SpuGateway spuGateway;
 
-    private final CommodityFactory commodityFactory;
-
-    private final SpuAssembler spuAssembler;
-
     private final BrandGateway brandGateway;
 
     private final CategoryGateway categoryGateway;
@@ -56,7 +50,7 @@ public class CommodityAppService {
         return commodityCreateCmdExe.execute(cmd);
     }
 
-    public PageResponse<CommodityPageDTO> queryPageList(CommodityPageQry queryDTO) {
+    public PageResponse<CommodityPageDTO> queryPages(CommodityPageQry queryDTO) {
         IPage<CommodityPageDTO> pages = spuGateway.selectPages(queryDTO);
         List<CommodityPageDTO> records = pages.getRecords();
         if (CollectionUtils.isEmpty(records)) {

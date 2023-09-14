@@ -9,15 +9,15 @@ import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@Api(tags = "商品品牌接口")
+@Tag(name = "品牌")
 @Validated
 @RequestMapping("/v1/brand")
 @RestController
@@ -26,26 +26,26 @@ public class BrandController extends BaseController {
 
     private final BrandApplicationService brandApplicationService;
 
-    @Operation(summary = "新建商品")
+    @Operation(summary = "新建品牌")
     @PostMapping("/create")
     public SingleResponse<Long> create(@RequestBody @Validated BrandCreateCmd reqDTO) {
         return SingleResponse.ok(brandApplicationService.createBrand(reqDTO));
     }
 
-    @Operation(summary = "修改商品")
+    @Operation(summary = "修改品牌")
     @PostMapping("/update")
     public ServerResponse update(@RequestBody @Validated BrandUpdateCmd reqDTO) {
         brandApplicationService.updateBrand(reqDTO);
         return ServerResponse.ok();
     }
 
-    @Operation(summary = "查询商品分页列表")
+    @Operation(summary = "查询品牌分页列表")
     @PostMapping("/page")
     public SingleResponse<PageResponse<BrandDTO>> pageList(@RequestBody @Validated BrandPageQry queryDTO) {
         return SingleResponse.ok(brandApplicationService.getPageList(queryDTO));
     }
 
-    @Operation(summary = "查询商品详情")
+    @Operation(summary = "查询品牌详情")
     @GetMapping("/info")
     public SingleResponse<BrandDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(brandApplicationService.getBrandInfo(id));

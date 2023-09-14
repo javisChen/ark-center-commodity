@@ -5,7 +5,7 @@ import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.category.Category;
-import com.ark.center.commodity.domain.category.repository.CategoryGateway;
+import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.Spu;
 import com.ark.center.commodity.domain.spu.assembler.SpuAssembler;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;

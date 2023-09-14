@@ -7,19 +7,19 @@ import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.Spu;
+import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.aggregate.Commodity;
 import com.ark.center.commodity.domain.spu.vo.Attr;
 import com.ark.center.commodity.domain.spu.vo.Picture;
 import com.ark.center.commodity.domain.spu.vo.SalesInfo;
-import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.google.common.collect.Lists;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+MappingConstants.ComponentModel.SPRING
 public interface CommodityConvertor {
 
     public default Spu convertToSpuDO(Commodity commodity) {

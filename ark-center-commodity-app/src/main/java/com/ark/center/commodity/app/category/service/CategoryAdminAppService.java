@@ -9,8 +9,7 @@ import com.ark.center.commodity.client.category.dto.TreeDTO;
 import com.ark.center.commodity.client.category.dto.TreeifyDTO;
 import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.domain.category.Category;
-import com.ark.center.commodity.domain.category.factory.CategoryFactory;
-import com.ark.center.commodity.domain.category.repository.CategoryGateway;
+import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.infra.category.convertor.CategoryConvertor;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,7 +27,6 @@ import java.util.stream.Collectors;
 public class CategoryAdminAppService {
 
     private final CategoryGateway categoryGateway;
-    private final CategoryFactory categoryFactory;
     private final CategoryConvertor categoryConvertor;
 
     public PageResponse<CategoryDTO> pageList(CategoryPageQry queryDTO) {

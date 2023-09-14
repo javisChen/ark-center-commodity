@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+MappingConstants.ComponentModel.SPRING
 public interface CategoryConvertor {
 
     Category toCategory(CategoryUpdateCmd command);

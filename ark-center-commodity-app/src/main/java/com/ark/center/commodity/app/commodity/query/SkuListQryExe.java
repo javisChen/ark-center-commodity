@@ -2,8 +2,8 @@ package com.ark.center.commodity.app.commodity.query;
 
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.client.commodity.query.SkuQry;
+import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
-import com.ark.center.commodity.domain.spu.vo.Sku;
 import com.ark.center.commodity.infra.commodity.convertor.SkuAppConvertor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

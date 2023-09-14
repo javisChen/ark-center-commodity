@@ -2,13 +2,13 @@ package com.ark.center.commodity.infra.commodity.convertor;
 
 import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
+import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.vo.Attr;
-import com.ark.center.commodity.domain.spu.vo.Sku;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+MappingConstants.ComponentModel.SPRING
 public interface SkuAppConvertor {
 
     List<SkuDTO> convertSkuToDTO(List<Sku> skus);

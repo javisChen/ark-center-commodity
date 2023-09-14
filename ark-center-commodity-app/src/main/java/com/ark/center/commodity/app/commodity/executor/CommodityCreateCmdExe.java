@@ -7,16 +7,14 @@ import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.command.SkuCmd;
 import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
-import com.ark.center.commodity.domain.attr.AttrOptionDO;
-import com.ark.center.commodity.domain.attr.vo.AttrOption;
-import com.ark.center.commodity.domain.category.repository.CategoryGateway;
+import com.ark.center.commodity.domain.attr.AttrOption;
 import com.ark.center.commodity.domain.spu.*;
 import com.ark.center.commodity.domain.spu.assembler.SkuAssembler;
 import com.ark.center.commodity.domain.spu.assembler.SpuAssembler;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
-import com.ark.center.commodity.infra.commodity.repository.cache.CommodityCacheConst;
+import com.ark.center.commodity.infra.commodity.gateway.cache.CommodityCacheConst;
 import com.ark.component.cache.CacheService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import lombok.RequiredArgsConstructor;
@@ -113,12 +111,12 @@ public class CommodityCreateCmdExe {
         Long attrId = option.getAttrId();
         List<String> values = option.getValueList();
         Long spuId = spu.getId();
-        List<AttrOptionDO> dos = new ArrayList<>(values.size());
+        List<AttrOption> dos = new ArrayList<>(values.size());
         for (String value : values) {
-            AttrOptionDO valueDO = new AttrOptionDO();
+            AttrOption valueDO = new AttrOption();
             valueDO.setAttrId(attrId);
             valueDO.setValue(value);
-            valueDO.setType(AttrOption.Type.EXCLUSIVE.getValue());
+            valueDO.setType(com.ark.center.commodity.domain.attr.vo.AttrOption.Type.EXCLUSIVE.getValue());
             if (spuId != null && spuId > 0) {
                 valueDO.setSpuId(spuId);
             }
@@ -172,8 +170,8 @@ public class CommodityCreateCmdExe {
         spuGateway.saveSales(sales);
     }
 
-    private Long saveBaseInfo(Spu spu) {
-        return spuGateway.saveSpu(spu);
+    private void saveBaseInfo(Spu spu) {
+        spuGateway.saveSpu(spu);
     }
 
 }
