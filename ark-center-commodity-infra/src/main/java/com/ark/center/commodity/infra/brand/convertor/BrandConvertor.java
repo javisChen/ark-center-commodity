@@ -6,8 +6,9 @@ import com.ark.center.commodity.client.brand.dto.BrandDTO;
 import com.ark.center.commodity.domain.brand.Brand;
 import com.ark.component.dto.PageResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-MappingConstants.ComponentModel.SPRING
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface BrandConvertor {
 
     public PageResponse<BrandDTO> cmdToEntity(PageResponse<Brand> page);

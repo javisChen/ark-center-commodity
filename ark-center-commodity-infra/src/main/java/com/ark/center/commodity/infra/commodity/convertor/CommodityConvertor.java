@@ -15,11 +15,12 @@ import com.ark.center.commodity.domain.spu.vo.SalesInfo;
 import com.ark.component.web.util.bean.BeanConvertor;
 import com.google.common.collect.Lists;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-MappingConstants.ComponentModel.SPRING
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CommodityConvertor {
 
     public default Spu convertToSpuDO(Commodity commodity) {

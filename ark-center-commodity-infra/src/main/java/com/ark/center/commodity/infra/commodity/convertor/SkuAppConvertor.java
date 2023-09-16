@@ -5,10 +5,11 @@ import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.vo.Attr;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-MappingConstants.ComponentModel.SPRING
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SkuAppConvertor {
 
     List<SkuDTO> convertSkuToDTO(List<Sku> skus);

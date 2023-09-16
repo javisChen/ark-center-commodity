@@ -55,8 +55,8 @@ public class AttrController extends BaseController {
 
     @Operation(summary = "查询商品属性分页列表")
     @PostMapping("/page")
-    public SingleResponse<PageResponse<AttrDTO>> pageList(@RequestBody @Validated AttrPageQry queryDTO) {
-        return SingleResponse.ok(attrService.getAttrPageList(queryDTO));
+    public SingleResponse<PageResponse<AttrDTO>> queryPages(@RequestBody @Validated AttrPageQry queryDTO) {
+        return SingleResponse.ok(attrService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询商品属性详情")

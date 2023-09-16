@@ -5,10 +5,11 @@ import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.domain.category.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-MappingConstants.ComponentModel.SPRING
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CategoryConvertor {
 
     Category toCategory(CategoryUpdateCmd command);

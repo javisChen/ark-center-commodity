@@ -1,5 +1,6 @@
 package com.ark.center.commodity.domain.attr.aggregate;
 
+import com.ark.center.commodity.domain.attr.Attr;
 import lombok.Data;
 
 import java.time.LocalDateTime;

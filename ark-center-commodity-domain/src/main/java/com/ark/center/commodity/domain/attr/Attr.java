@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * <p>
@@ -73,13 +72,6 @@ public class Attr extends BaseEntity {
     }
     public boolean isInputType() {
         return inputType.equals(InputType.INPUT.getValue());
-    }
-
-
-    public void removeOptions() {
-        if (CollectionUtils.isNotEmpty(options)) {
-            options.clear();
-        }
     }
 
     @Getter

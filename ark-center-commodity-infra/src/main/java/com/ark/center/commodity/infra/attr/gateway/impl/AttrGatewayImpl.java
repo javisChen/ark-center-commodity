@@ -174,6 +174,6 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
                 .eq(Attr::getType, Attr.Type.PARAM.getValue())
                 .in(Attr::getAttrGroupId, groupIds)
                 .list();
-        return attrConvertor.toAggregate(list);
+        return list;
     }
 }

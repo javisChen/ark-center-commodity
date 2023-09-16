@@ -10,13 +10,12 @@ import com.ark.center.commodity.client.attr.dto.AttrTemplateDTO;
 import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
 import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.center.commodity.client.attr.query.AttrTemplatePageQry;
-import com.ark.center.commodity.domain.attr.aggregate.Attr;
+import com.ark.center.commodity.domain.attr.Attr;
 import com.ark.center.commodity.domain.attr.aggregate.AttrGroup;
 import com.ark.center.commodity.domain.attr.aggregate.AttrTemplate;
 import com.ark.center.commodity.domain.attr.assembler.AttrAssembler;
 import com.ark.center.commodity.domain.attr.assembler.AttrGroupAssembler;
 import com.ark.center.commodity.domain.attr.assembler.AttrTemplateAssembler;
-import com.ark.center.commodity.domain.attr.factory.AttrFactory;
 import com.ark.center.commodity.domain.attr.repository.AttrGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrTemplateGateway;
@@ -52,7 +51,7 @@ public class AttrApplicationService {
     private final AttrTemplateGateway attrTemplateGateway;
     private final AttrAssembler attrAssembler;
     private final AttrGateway attrGateway;
-    private final AttrFactory attrFactory;
+//    private final AttrFactory attrFactory;
     private final AttrCreateCmdExe attrCreateCmdExe;
 
     public Long createAttrTemplate(AttrTemplateCreateCmd reqDTO) {
@@ -106,7 +105,7 @@ public class AttrApplicationService {
         }
         if (queryDTO.getWithAttr()) {
             List<Long> groupIds = CollUtil.map(records, AttrGroup::getId, true);
-            List<com.ark.center.commodity.domain.attr.Attr> attrList = attrGateway.selectByGroupIds(groupIds);
+            List<Attr> attrList = attrGateway.selectByGroupIds(groupIds);
             Map<Long, List<Attr>> attrMap = attrList.stream().collect(Collectors.groupingBy(Attr::getAttrGroupId));
             if (MapUtils.isNotEmpty(attrMap)) {
                 records.forEach(record -> record.setAttrList(attrMap.get(record.getId())));
@@ -136,9 +135,8 @@ public class AttrApplicationService {
         return attrGateway.selectById(id);
     }
 
-    public PageResponse<AttrDTO> getAttrPageList(AttrPageQry queryDTO) {
-        IPage<Attr> page = attrGateway.selectPages(queryDTO);
-
-        return attrAssembler.toDTO(page);
+    public PageResponse<AttrDTO> queryPages(AttrPageQry queryDTO) {
+        IPage<AttrDTO> page = attrGateway.selectPages(queryDTO);
+        return PageResponse.of(page);
     }
 }
