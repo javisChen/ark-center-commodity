@@ -29,11 +29,11 @@ public class BrandApplicationService {
     private final BrandConvertor brandConvertor;
 
     public Long createBrand(BrandCreateCmd reqDTO) {
-        Brand aggregate = brandConvertor.createCmdToAggregate(reqDTO);
-        return brandGateway.insert(aggregate);
+        Brand brand = brandConvertor.toBrand(reqDTO);
+        return brandGateway.insert(brand);
     }
 
-    public PageResponse<BrandDTO> getPageList(BrandPageQry pageQry) {
+    public PageResponse<BrandDTO> queryPages(BrandPageQry pageQry) {
         IPage<BrandDTO> pageList = brandGateway.selectPages(pageQry);
         return PageResponse.of(pageList);
     }

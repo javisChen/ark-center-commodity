@@ -40,14 +40,14 @@ public class BrandController extends BaseController {
     }
 
     @Operation(summary = "查询品牌分页列表")
-    @PostMapping("/page")
-    public SingleResponse<PageResponse<BrandDTO>> pageList(@RequestBody @Validated BrandPageQry queryDTO) {
-        return SingleResponse.ok(brandApplicationService.getPageList(queryDTO));
+    @PostMapping("/pages")
+    public SingleResponse<PageResponse<BrandDTO>> queryPages(@RequestBody @Validated BrandPageQry queryDTO) {
+        return SingleResponse.ok(brandApplicationService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询品牌详情")
-    @GetMapping("/info")
-    public SingleResponse<BrandDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    @GetMapping("/details")
+    public SingleResponse<BrandDTO> details(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(brandApplicationService.getBrandInfo(id));
     }
 
