@@ -1,7 +1,6 @@
 package com.ark.center.commodity.app.brand.service;
 
-import com.ark.center.commodity.client.brand.command.BrandCreateCmd;
-import com.ark.center.commodity.client.brand.command.BrandUpdateCmd;
+import com.ark.center.commodity.client.brand.command.BrandCmd;
 import com.ark.center.commodity.client.brand.dto.BrandDTO;
 import com.ark.center.commodity.client.brand.query.BrandPageQry;
 import com.ark.center.commodity.domain.brand.Brand;
@@ -28,8 +27,12 @@ public class BrandApplicationService {
 
     private final BrandConvertor brandConvertor;
 
-    public Long createBrand(BrandCreateCmd reqDTO) {
-        Brand brand = brandConvertor.toBrand(reqDTO);
+    public Long save(BrandCmd createCmd) {
+        Brand brand = brandConvertor.toBrand(createCmd);
+        if (brand.getId() != null) {
+            brandGateway.update(brand);
+            return brand.getId();
+        }
         return brandGateway.insert(brand);
     }
 
@@ -38,13 +41,9 @@ public class BrandApplicationService {
         return PageResponse.of(pageList);
     }
 
-    public void updateBrand(BrandUpdateCmd reqDTO) {
-        Brand aggregate = brandConvertor.updateCmdToAggregate(reqDTO);
-        brandGateway.update(aggregate);
-    }
-
-    public BrandDTO getBrandInfo(Long brandId) {
+    public BrandDTO queryDetails(Long brandId) {
         Brand brand = brandGateway.selectById(brandId);
         return brandConvertor.toDTO(brand);
     }
+
 }
