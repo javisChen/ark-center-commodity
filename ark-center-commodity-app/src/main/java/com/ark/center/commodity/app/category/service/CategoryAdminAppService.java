@@ -27,13 +27,14 @@ import java.util.stream.Collectors;
 public class CategoryAdminAppService {
 
     private final CategoryGateway categoryGateway;
-    private final CategoryConvertor categoryConvertor;
 
-    public PageResponse<CategoryDTO> pageList(CategoryPageQry queryDTO) {
+    private final CategoryConvertor categoryConvertor;
+    public PageResponse<CategoryDTO> queryPages(CategoryPageQry queryDTO) {
         IPage<CategoryDTO> page = categoryGateway.selectPages(queryDTO);
         return PageResponse.of(page);
     }
-    public Long createCategory(CategoryCreateCmd command) {
+
+    public Long save(CategoryCreateCmd command) {
         Category category = categoryConvertor.toCategory(command);
         String categoryCode = generateCategoryCode();
         String levelPath;
@@ -56,7 +57,7 @@ public class CategoryAdminAppService {
     }
 
     public void updateCategory(CategoryUpdateCmd reqDTO) {
-        com.ark.center.commodity.domain.category.Category category = categoryConvertor.toCategory(reqDTO);
+        Category category = categoryConvertor.toCategory(reqDTO);
         categoryGateway.update(category);
     }
     public TreeDTO<CategoryDTO> getTree(CategoryPageQry queryDTO) {
@@ -96,7 +97,7 @@ public class CategoryAdminAppService {
         categoryGateway.remove(id);
     }
 
-    public CategoryDTO getCategoryInfo(Long id) {
+    public CategoryDTO queryDetails(Long id) {
         Category category = categoryGateway.selectById(id);
         return categoryConvertor.toDTO(category);
     }

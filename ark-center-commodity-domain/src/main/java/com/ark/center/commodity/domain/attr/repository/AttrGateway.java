@@ -12,7 +12,7 @@ public interface AttrGateway {
 
     IPage<AttrDTO> selectPages(AttrPageQry queryDTO);
 
-    List<Attr> selectByGroupIds(List<Long> groupIds);
+    List<AttrDTO> selectByGroupIds(List<Long> groupIds);
 
     AttrDTO selectById(Long attrId);
 

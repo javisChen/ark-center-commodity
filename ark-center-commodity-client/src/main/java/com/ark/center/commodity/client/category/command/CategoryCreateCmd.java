@@ -1,11 +1,10 @@
 package com.ark.center.commodity.client.category.command;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.io.Serializable;
 /**
  * <p>
@@ -19,6 +18,9 @@ import java.io.Serializable;
 @Schema(name = "CategoryCreateCommand", description = "创建商品类目")
 public class CategoryCreateCmd implements Serializable {
 
+    @Schema(name = "分类id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @NotNull(message = "分类id不能为空")
+    private Long id;
     @Schema(name = "分类名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "分类名称不能为空")
     private String name;

@@ -169,11 +169,11 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
     }
 
     @Override
-    public List<Attr> selectByGroupIds(List<Long> groupIds) {
-        List<Attr> list = lambdaQuery()
+    public List<AttrDTO> selectByGroupIds(List<Long> groupIds) {
+        List<Attr> records = lambdaQuery()
                 .eq(Attr::getType, Attr.Type.PARAM.getValue())
                 .in(Attr::getAttrGroupId, groupIds)
                 .list();
-        return list;
+        return attrConvertor.toDTO(records);
     }
 }

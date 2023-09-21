@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Repository<A, ID> {
 
-    Long store(A aggregate);
+    Long insert(A aggregate);
 
     A selectById(ID id);
 

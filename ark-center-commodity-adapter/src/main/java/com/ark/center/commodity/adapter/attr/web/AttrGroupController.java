@@ -1,12 +1,10 @@
 package com.ark.center.commodity.adapter.attr.web;
 
 import com.ark.center.commodity.app.attr.AttrApplicationService;
-import com.ark.center.commodity.client.attr.command.AttrGroupCreateCmd;
-import com.ark.center.commodity.client.attr.command.AttrGroupUpdateCmd;
+import com.ark.center.commodity.client.attr.command.AttrGroupCmd;
 import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
 import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
 import com.ark.component.dto.PageResponse;
-import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
@@ -34,28 +32,21 @@ public class AttrGroupController extends BaseController {
     private final AttrApplicationService attrService;
 
     @Operation(summary = "创建商品属性组")
-    @PostMapping("/create")
-    public SingleResponse<Long> createGroup(@RequestBody @Validated AttrGroupCreateCmd reqDTO) {
-        return SingleResponse.ok(attrService.createAttrGroup(reqDTO));
-    }
-
-    @Operation(summary = "修改商品属性组")
-    @PostMapping("/update")
-    public ServerResponse updateGroup(@RequestBody @Validated AttrGroupUpdateCmd reqDTO) {
-        attrService.updateAttrGroup(reqDTO);
-        return ServerResponse.ok();
+    @PostMapping("/save")
+    public SingleResponse<Long> save(@RequestBody @Validated AttrGroupCmd reqDTO) {
+        return SingleResponse.ok(attrService.saveAttrGroup(reqDTO));
     }
 
     @Operation(summary = "查询商品属性组分页列表")
-    @PostMapping("/page")
+    @PostMapping("/pages")
     public SingleResponse<PageResponse<AttrGroupDTO>> queryPages(@RequestBody @Validated AttrGroupPageQry queryDTO) {
         return SingleResponse.ok(attrService.queryGroupPages(queryDTO));
     }
 
     @Operation(summary = "查询商品属性组详情")
-    @GetMapping("/info")
-    public SingleResponse<AttrGroupDTO> getAttrGroupInfo(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(attrService.getAttrGroupInfo(id));
+    @GetMapping("/details")
+    public SingleResponse<AttrGroupDTO> queryAttrGroupDetails(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+        return SingleResponse.ok(attrService.queryAttrGroupDetails(id));
     }
 
 }

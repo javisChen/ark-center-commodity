@@ -1,7 +1,6 @@
 package com.ark.center.commodity.client.attr.query;
 
 import com.ark.component.dto.PagingQuery;
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +27,7 @@ public class AttrGroupPageQry extends PagingQuery {
     @Schema(name = "商品类目ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long categoryId;
 
-    @Schema(name = "查询属性组下的属性")
-    private Boolean withAttr = false;
+    @Schema(name = "查询属性组下的属性", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Boolean withAttr = true;
 
 }

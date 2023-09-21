@@ -12,9 +12,7 @@ import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +38,8 @@ public class CategoryAdminController extends BaseController {
 
     @Operation(summary = "创建商品类目")
     @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated CategoryCreateCmd command) {
-        return SingleResponse.ok(categoryAdminAppService.createCategory(command));
+    public SingleResponse<Long> save(@RequestBody @Validated CategoryCreateCmd command) {
+        return SingleResponse.ok(categoryAdminAppService.save(command));
     }
 
     @Operation(summary = "修改商品类目")
@@ -51,9 +49,9 @@ public class CategoryAdminController extends BaseController {
         return ServerResponse.ok();
     }
     @Operation(summary = "查询商品类目分页列表")
-    @PostMapping("/page")
-    public SingleResponse<PageResponse<CategoryDTO>> pageList(@RequestBody @Validated CategoryPageQry queryDTO) {
-        return SingleResponse.ok(categoryAdminAppService.pageList(queryDTO));
+    @PostMapping("/pages")
+    public SingleResponse<PageResponse<CategoryDTO>> queryPages(@RequestBody @Validated CategoryPageQry queryDTO) {
+        return SingleResponse.ok(categoryAdminAppService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询商品类目树形结构")
@@ -70,9 +68,9 @@ public class CategoryAdminController extends BaseController {
     }
 
     @Operation(summary = "查询商品类目详情")
-    @GetMapping("/info")
-    public SingleResponse<CategoryDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(categoryAdminAppService.getCategoryInfo(id));
+    @GetMapping("/details")
+    public SingleResponse<CategoryDTO> queryDetails(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+        return SingleResponse.ok(categoryAdminAppService.queryDetails(id));
     }
 
 

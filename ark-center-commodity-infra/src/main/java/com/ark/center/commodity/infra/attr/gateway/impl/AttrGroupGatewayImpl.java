@@ -1,12 +1,12 @@
 package com.ark.center.commodity.infra.attr.gateway.impl;
 
+import com.ark.center.commodity.client.attr.dto.AttrGroupDTO;
 import com.ark.center.commodity.client.attr.query.AttrGroupPageQry;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupGateway;
-import com.ark.center.commodity.infra.attr.convertor.AttrGroupConvertor;
+import com.ark.center.commodity.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.commodity.domain.attr.AttrGroup;
 import com.ark.center.commodity.infra.attr.gateway.db.AttrGroupMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.ark.component.web.util.bean.BeanConvertor;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -15,37 +15,26 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-/**
- * <p>
- * 品牌表 服务实现类
- * </p>
- *
- * @author EOP
- * @since 2022-02-25
- */
 @Component
 @RequiredArgsConstructor
 public class AttrGroupGatewayImpl extends ServiceImpl<AttrGroupMapper, AttrGroup> implements IService<AttrGroup>, AttrGroupGateway {
 
-    private final AttrGroupConvertor convertor;
+    private final AttrGroupConverter converter;
 
     @Override
-    public Long store(com.ark.center.commodity.domain.attr.aggregate.AttrGroup aggregate) {
-        AttrGroup entity = convertor.fromDomain(aggregate);
-        save(entity);
-        return entity.getId();
+    public Long insert(com.ark.center.commodity.domain.attr.AttrGroup attrGroup) {
+        save(attrGroup);
+        return attrGroup.getId();
     }
 
     @Override
-    public com.ark.center.commodity.domain.attr.aggregate.AttrGroup selectById(Long id) {
-        AttrGroup dataObject = getById(id);
-        return convertor.toAggregate(dataObject);
+    public com.ark.center.commodity.domain.attr.AttrGroup selectById(Long id) {
+        return getById(id);
     }
 
     @Override
-    public boolean update(com.ark.center.commodity.domain.attr.aggregate.AttrGroup aggregate) {
-        AttrGroup entity = convertor.fromDomain(aggregate);
-        return updateById(entity);
+    public boolean update(com.ark.center.commodity.domain.attr.AttrGroup aggregate) {
+        return updateById(aggregate);
     }
 
     @Override
@@ -54,17 +43,15 @@ public class AttrGroupGatewayImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
     }
 
     @Override
-    public IPage<com.ark.center.commodity.domain.attr.aggregate.AttrGroup> selectPages(AttrGroupPageQry queryDTO) {
-        if (queryDTO.getCategoryId() != null) {
-//            CategoryDO categoryDO = Optional.ofNullable(categoryAdminService.getById(queryDTO.getCategoryId()))
-//                    .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
-            queryDTO.setAttrTemplateId(queryDTO.getAttrTemplateId());
+    public IPage<AttrGroupDTO> selectPages(AttrGroupPageQry qry) {
+        if (qry.getCategoryId() != null) {
+            qry.setAttrTemplateId(qry.getAttrTemplateId());
         }
         return lambdaQuery()
-                .like(StringUtils.isNotEmpty(queryDTO.getName()), AttrGroup::getName, queryDTO.getName())
-                .eq(AttrGroup::getAttrTemplateId, queryDTO.getAttrTemplateId())
-                .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(item -> BeanConvertor.copy(item, com.ark.center.commodity.domain.attr.aggregate.AttrGroup.class));
+                .like(StringUtils.isNotEmpty(qry.getName()), AttrGroup::getName, qry.getName())
+                .eq(AttrGroup::getAttrTemplateId, qry.getAttrTemplateId())
+                .page(new Page<>(qry.getCurrent(), qry.getSize()))
+                .convert(converter::toDTO);
     }
 
     @Override
