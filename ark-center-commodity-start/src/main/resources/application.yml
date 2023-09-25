@@ -43,6 +43,7 @@ spring:
     import:
       # 指定从nacos取的配置
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+      - nacos:common.yml
 mybatis-plus:
   mapper-locations: classpath:com/ark/center/commodity/infra/*/gateway/db/xml/*.xml
 
