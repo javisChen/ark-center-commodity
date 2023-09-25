@@ -19,7 +19,6 @@ import java.io.Serializable;
 public class CategoryCreateCmd implements Serializable {
 
     @Schema(name = "分类id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @NotNull(message = "分类id不能为空")
     private Long id;
     @Schema(name = "分类名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "分类名称不能为空")

@@ -3,7 +3,6 @@ package com.ark.center.commodity.domain.spu.gateway;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.SkuAttr;
-import com.ark.ddd.base.Repository;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
-import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,35 +33,28 @@ public class AttrController extends BaseController {
     private final AttrApplicationService attrService;
 
     @Operation(summary = "创建商品属性")
-    @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated AttrCreateCmd cmd) {
-        return SingleResponse.ok(attrService.createAttr(cmd));
-    }
-
-    @Operation(summary = "修改商品属性")
-    @PostMapping("/update")
-    public ServerResponse update(@RequestBody @Validated(ValidateGroup.Update.class) AttrCreateCmd reqDTO) {
-        attrService.updateAttr(reqDTO);
-        return ServerResponse.ok();
+    @PostMapping("/save")
+    public SingleResponse<Long> save(@RequestBody @Validated AttrCreateCmd cmd) {
+        return SingleResponse.ok(attrService.saveAttr(cmd));
     }
 
     @Operation(summary = "删除商品属性")
-    @DeleteMapping
+    @DeleteMapping("/remove")
     public ServerResponse remove(@RequestParam Long id) {
         attrService.removeByAttrId(id);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "查询商品属性分页列表")
-    @PostMapping("/page")
+    @PostMapping("/pages")
     public SingleResponse<PageResponse<AttrDTO>> queryPages(@RequestBody @Validated AttrPageQry queryDTO) {
-        return SingleResponse.ok(attrService.queryPages(queryDTO));
+        return SingleResponse.ok(attrService.queryAttrTemplatePages(queryDTO));
     }
 
     @Operation(summary = "查询商品属性详情")
-    @GetMapping("/info")
-    public SingleResponse<AttrDTO> getDetails(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(attrService.getDetails(id));
+    @GetMapping("/details")
+    public SingleResponse<AttrDTO> queryAttrDetails(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+        return SingleResponse.ok(attrService.queryAttrDetails(id));
     }
 
 }

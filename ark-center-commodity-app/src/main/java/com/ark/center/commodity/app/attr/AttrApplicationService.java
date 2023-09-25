@@ -1,7 +1,6 @@
 package com.ark.center.commodity.app.attr;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.ark.center.commodity.app.attr.executor.AttrCreateCmdExe;
 import com.ark.center.commodity.client.attr.command.AttrCreateCmd;
 import com.ark.center.commodity.client.attr.command.AttrGroupCmd;
@@ -20,20 +19,15 @@ import com.ark.center.commodity.domain.attr.repository.AttrTemplateGateway;
 import com.ark.center.commodity.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.commodity.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.component.common.ParamsChecker;
-import com.ark.component.common.util.assemble.AssembleHelper;
+import com.ark.component.common.util.assemble.FieldsAssembler;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -56,7 +50,7 @@ public class AttrApplicationService {
     private final AttrGateway attrGateway;
     private final AttrCreateCmdExe attrCreateCmdExe;
 
-    public Long save(AttrTemplateCreateCmd cmd) {
+    public Long saveAttrTemplate(AttrTemplateCreateCmd cmd) {
         AttrTemplate attrTemplate = attrTemplateConverter.toAttrTemplate(cmd);
         if (attrTemplate.getId() != null) {
             attrTemplateGateway.update(attrTemplate);
@@ -65,13 +59,13 @@ public class AttrApplicationService {
         return attrTemplateGateway.insert(attrTemplate);
     }
 
-    public PageResponse<AttrTemplateDTO> queryPages(AttrTemplatePageQry queryDTO) {
+    public PageResponse<AttrTemplateDTO> queryAttrTemplatePages(AttrTemplatePageQry queryDTO) {
         IPage<AttrTemplateDTO> pages = attrTemplateGateway.selectPages(queryDTO);
         return PageResponse.of(pages);
     }
 
 
-    public AttrTemplateDTO queryDetails(Long attrTemplateId) {
+    public AttrTemplateDTO queryAttrTemplateDetails(Long attrTemplateId) {
         AttrTemplate attrTemplate = attrTemplateGateway.selectById(attrTemplateId);
         return attrTemplateConverter.toDTO(attrTemplate);
     }
@@ -94,40 +88,16 @@ public class AttrApplicationService {
         if (CollectionUtils.isEmpty(records)) {
             return PageResponse.of(pages);
         }
-        if (queryDTO.getWithAttr()) {
-            AssembleHelper.newBuilder(records)
-                            .build()
-                            .execute();
-            fill(records,
-                    AttrGroupDTO::getId,
-                    attrGateway::selectByGroupIds,
-                    AttrDTO::getAttrGroupId,
-                    AttrGroupDTO::setAttrList);
-        }
-        return PageResponse.of(pages);
-    }
 
-    public static <SOURCE, TARGET> void fill(List<SOURCE> records,
-                                             Function<? super SOURCE, Long> sourceIdFunc,
-                                             Function<List<Long>, List<TARGET>> targetQueryFunc,
-                                             Function<? super TARGET, Long> targetIdFunc,
-                                             BiConsumer<SOURCE, List<TARGET>> sourceConsumer) {
-        List<Long> groupIds = CollUtil.map(records, sourceIdFunc, true);
-        if (CollectionUtils.isEmpty(groupIds)) {
-            return;
-        }
-        List<TARGET> targets = targetQueryFunc.apply(groupIds);
-        if (CollectionUtils.isEmpty(targets)) {
-            return;
-        }
-        Map<Long, List<TARGET>> map = targets.stream().collect(Collectors.groupingBy(targetIdFunc));
-        if (MapUtils.isEmpty(map)) {
-            return;
-        }
-        records.forEach(record -> {
-            List<TARGET> targetList = map.get(sourceIdFunc.apply(record));
-            sourceConsumer.accept(record, targetList);
-        });
+        FieldsAssembler.execute(
+                queryDTO.getWithAttr(),
+                records,
+                AttrGroupDTO::getId,
+                AttrGroupDTO::setAttrList,
+                attrGateway::selectByGroupIds,
+                AttrDTO::getAttrGroupId);
+
+        return PageResponse.of(pages);
     }
 
     public AttrGroupDTO queryAttrGroupDetails(Long id) {
@@ -135,7 +105,7 @@ public class AttrApplicationService {
         return attrGroupConverter.toDTO(aggregate);
     }
 
-    public Long createAttr(AttrCreateCmd cmd) {
+    public Long saveAttr(AttrCreateCmd cmd) {
         return attrCreateCmdExe.execute(cmd);
     }
 
@@ -147,11 +117,11 @@ public class AttrApplicationService {
         attrGateway.remove(id);
     }
 
-    public AttrDTO getDetails(Long id) {
+    public AttrDTO queryAttrDetails(Long id) {
         return attrGateway.selectById(id);
     }
 
-    public PageResponse<AttrDTO> queryPages(AttrPageQry queryDTO) {
+    public PageResponse<AttrDTO> queryAttrTemplatePages(AttrPageQry queryDTO) {
         IPage<AttrDTO> page = attrGateway.selectPages(queryDTO);
         return PageResponse.of(page);
     }

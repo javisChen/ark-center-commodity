@@ -49,7 +49,12 @@ public class CategoryAdminAppService {
         category.setCode(categoryCode);
         category.setLevel(level);
         category.setLevelPath(levelPath);
-        return categoryGateway.insert(category);
+        if (category.getId() != null) {
+            categoryGateway.update(category);
+        } else {
+            categoryGateway.insert(category);
+        }
+        return category.getId();
     }
 
     private String generateCategoryCode() {

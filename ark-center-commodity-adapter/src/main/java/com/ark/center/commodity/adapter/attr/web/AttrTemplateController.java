@@ -7,8 +7,8 @@ import com.ark.center.commodity.client.attr.query.AttrTemplatePageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -22,30 +22,31 @@ import org.springframework.web.bind.annotation.*;
  * @author EOP
  * @since 2022-03-05
  */
-@Api(tags = "商品属性")
+@Tag(name = "商品属模板性")
 @Validated
 @RestController
 @RequestMapping("/v1/attr/template")
 @RequiredArgsConstructor
 public class AttrTemplateController extends BaseController {
+
     private final AttrApplicationService attrApplicationService;
 
     @Operation(summary = "创建属性模板")
     @PostMapping("/save")
     public SingleResponse<Long> create(@RequestBody @Validated AttrTemplateCreateCmd reqDTO) {
-        return SingleResponse.ok(attrApplicationService.save(reqDTO));
+        return SingleResponse.ok(attrApplicationService.saveAttrTemplate(reqDTO));
     }
 
     @Operation(summary = "查询属性模板分页列表")
     @PostMapping("/pages")
     public SingleResponse<PageResponse<AttrTemplateDTO>> queryPages(@RequestBody @Validated AttrTemplatePageQry queryDTO) {
-        return SingleResponse.ok(attrApplicationService.queryPages(queryDTO));
+        return SingleResponse.ok(attrApplicationService.queryAttrTemplatePages(queryDTO));
     }
 
     @Operation(summary = "查询属性模板详情")
     @GetMapping("/details")
     public SingleResponse<AttrTemplateDTO> queryDetails(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(attrApplicationService.queryDetails(id));
+        return SingleResponse.ok(attrApplicationService.queryAttrTemplateDetails(id));
     }
 
 
