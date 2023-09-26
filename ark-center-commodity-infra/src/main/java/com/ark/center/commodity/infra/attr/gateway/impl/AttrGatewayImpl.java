@@ -136,8 +136,7 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
                 .eq(Objects.nonNull(queryDTO.getType()), Attr::getType, queryDTO.getType())
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), Attr::getName, queryDTO.getName())
                 .page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(attrConvertor::toDTO)
-                ;
+                .convert(attrConvertor::toDTO);
         List<AttrDTO> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
             return page;

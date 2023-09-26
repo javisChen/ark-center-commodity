@@ -10,10 +10,10 @@ import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.attr.AttrOption;
 import com.ark.center.commodity.domain.spu.*;
 import com.ark.center.commodity.domain.spu.assembler.SkuAssembler;
-import com.ark.center.commodity.domain.spu.assembler.SpuAssembler;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
+import com.ark.center.commodity.infra.commodity.convertor.SpuConverter;
 import com.ark.center.commodity.infra.commodity.gateway.cache.CommodityCacheConst;
 import com.ark.component.cache.CacheService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -33,12 +33,12 @@ public class CommodityCreateCmdExe {
     private final SpuGateway spuGateway;
     private final SkuGateway skuGateway;
     private final AttachmentGateway attachmentGateway;
-    private final SpuAssembler spuAssembler;
+    private final SpuConverter spuConverter;
     private final SkuAssembler skuAssembler;
     private final CacheService cacheService;
 
     public Long execute(CommodityCreateCmd cmd) {
-        Spu spu = spuAssembler.toSpu(cmd);
+        Spu spu = spuConverter.toSpu(cmd);
         // 保存SPU基本信息
         saveBaseInfo(spu);
         // 保存销售信息
@@ -131,12 +131,12 @@ public class CommodityCreateCmdExe {
         if (CollectionUtils.isNotEmpty(records)) {
             spuGateway.batchDeleteAttrs(records);
         }
-
         List<SpuAttr> attrs = cmd.getParamList()
                 .stream()
                 .map(item -> {
                     SpuAttr spuAttr = new SpuAttr();
                     spuAttr.setSpuId(spuId);
+                    spuAttr.setAttrId(item.getAttrId());
                     spuAttr.setAttrValue(item.getAttrValue());
                     return spuAttr;
                 })

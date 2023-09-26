@@ -7,10 +7,11 @@ import com.ark.center.commodity.domain.spu.Spu;
 import com.ark.center.commodity.domain.spu.SpuAttr;
 import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
-import com.ark.center.commodity.infra.attachment.gateway.db.AttachmentMapper;
 import com.ark.center.commodity.infra.attr.gateway.db.AttrOptionMapper;
 import com.ark.center.commodity.infra.commodity.convertor.SpuConverter;
-import com.ark.center.commodity.infra.commodity.gateway.db.*;
+import com.ark.center.commodity.infra.commodity.gateway.db.SpuAttrMapper;
+import com.ark.center.commodity.infra.commodity.gateway.db.SpuMapper;
+import com.ark.center.commodity.infra.commodity.gateway.db.SpuSalesMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,12 +27,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGateway {
 
-    private final SpuConverter convertor;
-    private final SkuMapper skuMapper;
+    private final SpuConverter spuConverter;
     private final SpuSalesMapper spuSalesMapper;
-    private final SkuAttrMapper skuAttrMapper;
     private final SpuAttrMapper spuAttrMapper;
-    private final AttachmentMapper attachmentMapper;
     private final AttrOptionMapper attrOptionMapper;
 
 
@@ -49,7 +47,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         if (CollectionUtils.isEmpty(records)) {
             return new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         }
-        return page.convert(convertor::toCommodityPageDTO);
+        return page.convert(spuConverter::toCommodityPageDTO);
     }
 
     @Override
@@ -93,10 +91,11 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     @Override
     public List<SpuAttr> selectAttrsBySpuId(Long spuId) {
         LambdaQueryWrapper<SpuAttr> qw = new LambdaQueryWrapper<>();
-        qw.select(SpuAttr::getId)
+        qw.select(SpuAttr::getId,
+                        SpuAttr::getAttrId,
+                        SpuAttr::getAttrValue)
                 .eq(SpuAttr::getSpuId, spuId);
-        List<SpuAttr> records = spuAttrMapper.selectList(qw);
-        return records;
+        return spuAttrMapper.selectList(qw);
     }
 
     @Override
