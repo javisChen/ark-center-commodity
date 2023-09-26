@@ -1,6 +1,5 @@
 package com.ark.center.commodity.client.commodity.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -36,6 +35,6 @@ public class SkuDTO implements Serializable {
     @Schema(name = "图片地址", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mainPicture;
     @Schema(name  = "SKU规格属性列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<SkuAttrDTO> specList;
+    private List<AttrDTO> specList;
 
 }

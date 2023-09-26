@@ -16,6 +16,10 @@ public class AttachmentGatewayImpl extends ServiceImpl<AttachmentMapper, Attachm
     @Override
     public List<Attachment> selectByBizTypeAndBizId(String bizType, Long bizId) {
         return lambdaQuery()
+                .select(Attachment::getId,
+                        Attachment::getBizId,
+                        Attachment::getBizType,
+                        Attachment::getUrl)
                 .eq(Attachment::getBizType, bizType)
                 .eq(Attachment::getBizId, bizId)
                 .list();

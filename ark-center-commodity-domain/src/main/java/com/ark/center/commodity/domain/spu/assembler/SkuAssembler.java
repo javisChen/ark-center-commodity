@@ -2,7 +2,7 @@ package com.ark.center.commodity.domain.spu.assembler;
 
 import com.alibaba.fastjson2.JSON;
 import com.ark.center.commodity.client.commodity.command.SkuCmd;
-import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.Spu;
@@ -26,7 +26,7 @@ public interface SkuAssembler {
         skuDTO.setStock(sku.getStock());
         skuDTO.setWarnStock(sku.getWarnStock());
         skuDTO.setMainPicture(sku.getMainPicture());
-        skuDTO.setSpecList(JSON.parseArray(sku.getSpecData(), SkuAttrDTO.class));
+        skuDTO.setSpecList(JSON.parseArray(sku.getSpecData(), AttrDTO.class));
         return skuDTO;
     }
 

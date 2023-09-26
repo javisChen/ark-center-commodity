@@ -1,6 +1,6 @@
 package com.ark.center.commodity.infra.commodity.convertor;
 
-import com.ark.center.commodity.client.commodity.dto.SkuAttrDTO;
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
 import com.ark.center.commodity.domain.spu.vo.Attr;
@@ -14,7 +14,7 @@ public interface SkuAppConvertor {
 
     List<SkuDTO> convertSkuToDTO(List<Sku> skus);
 
-    List<SkuAttrDTO> convertAttrToDTO(List<Attr> skus);
+    List<AttrDTO> convertAttrToDTO(List<Attr> skus);
 //
 //    private static SkuDTO convertSkuToDTO(Sku sku) {
 //        SkuDTO skuDTO = new SkuDTO();

@@ -33,33 +33,27 @@ public class CommodityAdminController extends BaseController {
 
     private final CommodityAppService commodityAppService;
 
-    @Operation(summary = "创建商品")
-    @PostMapping("/create")
-    public SingleResponse<Long> create(@RequestBody @Validated CommodityCreateCmd reqDTO) {
-        return SingleResponse.ok(commodityAppService.save(reqDTO));
-    }
-
-    @Operation(summary = "修改商品")
-    @PostMapping("/update")
-    public SingleResponse<Long> update(@RequestBody @Validated CommodityCreateCmd reqDTO) {
+    @Operation(summary = "保存商品")
+    @PostMapping("/save")
+    public SingleResponse<Long> save(@RequestBody @Validated CommodityCreateCmd reqDTO) {
         return SingleResponse.ok(commodityAppService.save(reqDTO));
     }
 
     @Operation(summary = "查询分页列表")
-    @PostMapping("/page")
+    @PostMapping("/pages")
     public SingleResponse<PageResponse<CommodityPageDTO>> queryPages(@RequestBody @Validated CommodityPageQry queryDTO) {
         return SingleResponse.ok(commodityAppService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询详情")
-    @GetMapping("/info")
-    public SingleResponse<CommodityDTO> info(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(commodityAppService.getInfo(id));
+    @GetMapping("/details")
+    public SingleResponse<CommodityDTO> details(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+        return SingleResponse.ok(commodityAppService.queryDetails(id));
     }
 
     @Operation(summary = "查询分页列表")
     @PostMapping("/search")
-    public SingleResponse<SearchDTO> queryPages() {
+    public SingleResponse<SearchDTO> search() {
         return SingleResponse.ok(commodityAppService.search());
     }
 

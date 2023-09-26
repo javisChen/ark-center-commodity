@@ -9,7 +9,7 @@ import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.center.commodity.infra.attachment.gateway.db.AttachmentMapper;
 import com.ark.center.commodity.infra.attr.gateway.db.AttrOptionMapper;
-import com.ark.center.commodity.infra.commodity.convertor.CommodityConvertor;
+import com.ark.center.commodity.infra.commodity.convertor.SpuConverter;
 import com.ark.center.commodity.infra.commodity.gateway.db.*;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGateway {
 
-    private final CommodityConvertor convertor;
+    private final SpuConverter convertor;
     private final SkuMapper skuMapper;
     private final SpuSalesMapper spuSalesMapper;
     private final SkuAttrMapper skuAttrMapper;
@@ -38,66 +38,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     @Override
     public Spu selectById(Long id) {
         return getById(id);
-//        assembleSpuInfo(commodity, spu);
-//        assembleSkuList(commodity, spu);
-//        return commodity;
     }
-
-
-
-//    private void assembleSkuList(Commodity commodityRespDTO, Spu spu) {
-//        List<Sku> skuList = listSkuBySpuId(spu.getId());
-//        commodityRespDTO.setSkuList(skuList);
-//
-//    }
-
-//    private List<Sku> listSkuBySpuId(Long id) {
-//        LambdaQueryWrapper<Sku> qw = new LambdaQueryWrapper<>();
-//        qw.eq(Sku::getSpuId, id);
-//        List<Sku> doList = skuMapper.selectList(qw);
-//        return doList;
-////        return convertor.convertToSku(doList);
-//    }
-
-//    private void assembleSpuInfo(Commodity commodity, Spu spu) {
-//        Long spuId = spu.getId();
-//        commodity.setId(spuId);
-//        commodity.setName(spu.getName());
-//        commodity.setCode(spu.getCode());
-//        commodity.setDescription(spu.getDescription());
-//        commodity.setBrandId(spu.getBrandId());
-//        commodity.setCategoryId(spu.getCategoryId());
-//        commodity.setMainPicture(spu.getMainPicture());
-//        commodity.setShelfStatus(Commodity.ShelfStatus.getByValue(spu.getShelfStatus()));
-//        commodity.setShowPrice(spu.getShowPrice());
-//        commodity.setUnit(spu.getUnit());
-//        commodity.setWeight(spu.getWeight());
-//        commodity.setPicList(findSpuPictures(spuId));
-//        commodity.setSalesInfo(findSpuSalesInfo(spuId));
-//    }
-//
-//    private SalesInfo findSpuSalesInfo(Long spuId) {
-//        LambdaQueryWrapper<SpuSales> qw = new LambdaQueryWrapper<>();
-//        qw.eq(SpuSales::getSpuId, spuId);
-//        SpuSales spuSales = spuSalesMapper.selectOne(qw);
-//        return convertor.toSpuSales(spuSales);
-//    }
-//
-//    private List<Picture> findSpuPictures(Long spuId) {
-//        List<Attachment> attachments =  listFileByBizTypeAndBizId(AttachmentBizType.SPU_PIC, spuId);
-//        if (CollectionUtils.isEmpty(attachments)) {
-//            return Collections.emptyList();
-//        }
-//        return attachments.stream().map(item -> new Picture(item.getUrl(), "")).collect(Collectors.toList());
-//
-//    }
-//
-//    private List<Attachment> listFileByBizTypeAndBizId(String bizType, Long bizId) {
-//        LambdaQueryWrapper<Attachment> qw = new LambdaQueryWrapper<>();
-//        qw.eq(Attachment::getBizType, bizType)
-//                .eq(Attachment::getBizId, bizId);
-//        return attachmentMapper.selectList(qw);
-//    }
 
     @Override
     public IPage<CommodityPageDTO> selectPages(CommodityPageQry queryDTO) {
@@ -129,16 +70,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public void saveAttrs(List<SpuAttr> spuAttrs) {
-        SpuAttr spuId = spuAttrs.get(0);
-        LambdaQueryWrapper<SpuAttr> qw = new LambdaQueryWrapper<>();
-        qw.select(SpuAttr::getId)
-                .eq(SpuAttr::getSpuId, spuId);
-        List<SpuAttr> records = spuAttrMapper.selectList(qw);
-        // 如果spu原本存在数据，先删除
-        if (records.size() > 0) {
-            spuAttrMapper.deleteBatchIds(spuAttrs);
-        }
+    public void insertAttrs(List<SpuAttr> spuAttrs) {
         spuAttrs.forEach(spuAttrMapper::insert);
     }
 
@@ -149,12 +81,28 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
 
     @Override
     public Long saveSpu(Spu spu) {
-        if (spu.getId() != null) {
-            updateById(spu);
-        } else {
-            save(spu);
-        }
+        save(spu);
         return spu.getId();
+    }
+
+    @Override
+    public boolean updateSpu(Spu spu) {
+        return updateById(spu);
+    }
+
+    @Override
+    public List<SpuAttr> selectAttrsBySpuId(Long spuId) {
+        LambdaQueryWrapper<SpuAttr> qw = new LambdaQueryWrapper<>();
+        qw.select(SpuAttr::getId)
+                .eq(SpuAttr::getSpuId, spuId);
+        List<SpuAttr> records = spuAttrMapper.selectList(qw);
+        return records;
+    }
+
+    @Override
+    public void batchDeleteAttrs(List<SpuAttr> records) {
+        List<Long> ids = records.stream().map(BaseEntity::getId).toList();
+        spuAttrMapper.deleteBatchIds(ids);
     }
 
 }

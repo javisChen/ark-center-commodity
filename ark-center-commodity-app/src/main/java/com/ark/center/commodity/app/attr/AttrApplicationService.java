@@ -16,6 +16,8 @@ import com.ark.center.commodity.domain.attr.AttrTemplate;
 import com.ark.center.commodity.domain.attr.repository.AttrGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrGroupGateway;
 import com.ark.center.commodity.domain.attr.repository.AttrTemplateGateway;
+import com.ark.center.commodity.domain.category.Category;
+import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.commodity.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.component.common.ParamsChecker;
@@ -42,6 +44,7 @@ import java.util.List;
 public class AttrApplicationService {
 
     private final AttrGroupGateway attrGroupGateway;
+    private final CategoryGateway categoryGateway;
     private final AttrGroupConverter attrGroupConverter;
 
     private final AttrTemplateConverter attrTemplateConverter;
@@ -83,12 +86,16 @@ public class AttrApplicationService {
     }
 
     public PageResponse<AttrGroupDTO> queryGroupPages(AttrGroupPageQry queryDTO) {
+        Long categoryId = queryDTO.getCategoryId();
+        if (categoryId != null) {
+            Category category = categoryGateway.selectById(categoryId);
+            queryDTO.setAttrTemplateId(category.getAttrTemplateId());
+        }
         IPage<AttrGroupDTO> pages = attrGroupGateway.selectPages(queryDTO);
         List<AttrGroupDTO> records = pages.getRecords();
         if (CollectionUtils.isEmpty(records)) {
             return PageResponse.of(pages);
         }
-
         FieldsAssembler.execute(
                 queryDTO.getWithAttr(),
                 records,
@@ -96,7 +103,6 @@ public class AttrApplicationService {
                 AttrGroupDTO::setAttrList,
                 attrGateway::selectByGroupIds,
                 AttrDTO::getAttrGroupId);
-
         return PageResponse.of(pages);
     }
 

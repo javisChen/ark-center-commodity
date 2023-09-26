@@ -1,7 +1,5 @@
 package com.ark.center.commodity.client.commodity.dto;
 
-import com.ark.center.commodity.client.attr.dto.AttrDTO;
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
@@ -44,12 +42,12 @@ public class AppCommodityDTO implements Serializable {
     private List<SkuDTO> skuList;
 
     @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<SkuAttrDTO> paramList;
+    private List<AttrDTO> paramList;
 
     @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> picList;
 
     @Schema(name = "规格列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Collection<AttrDTO> attrList;
+    private Collection<com.ark.center.commodity.client.attr.dto.AttrDTO> attrList;
 
 }

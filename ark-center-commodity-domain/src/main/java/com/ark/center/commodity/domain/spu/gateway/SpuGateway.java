@@ -20,9 +20,15 @@ public interface SpuGateway {
 
     void saveSales(SpuSales spuSales);
 
-    void saveAttrs(List<SpuAttr> spuAttrs);
+    void insertAttrs(List<SpuAttr> spuAttrs);
 
     void saveAttrOptions(List<AttrOption> dos);
 
     Long saveSpu(Spu spu);
+
+    boolean updateSpu(Spu spu);
+
+    List<SpuAttr> selectAttrsBySpuId(Long spuId);
+
+    void batchDeleteAttrs(List<SpuAttr> records);
 }

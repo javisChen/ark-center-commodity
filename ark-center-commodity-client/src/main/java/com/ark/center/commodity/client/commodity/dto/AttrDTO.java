@@ -8,7 +8,7 @@ import lombok.Data;
  * @author jc
  */
 @Data
-public class SkuAttrDTO {
+public class AttrDTO {
 
     @Schema(name = "属性Id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long attrId;

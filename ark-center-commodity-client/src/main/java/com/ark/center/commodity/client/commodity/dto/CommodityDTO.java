@@ -1,6 +1,5 @@
 package com.ark.center.commodity.client.commodity.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Data
-@Schema(name = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
+@Schema(name = "CommodityDTO", description = "商品保存DTO")
 public class CommodityDTO implements Serializable {
 
     @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -68,7 +67,7 @@ public class CommodityDTO implements Serializable {
     private List<SkuDTO> skuList;
 
     @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<SkuAttrDTO> paramList;
+    private List<AttrDTO> paramList;
 
     @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> picList;

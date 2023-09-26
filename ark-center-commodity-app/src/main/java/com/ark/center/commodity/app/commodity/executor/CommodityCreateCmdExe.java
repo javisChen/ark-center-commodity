@@ -100,11 +100,10 @@ public class CommodityCreateCmdExe {
 
     private void saveAttrOptions(CommodityCreateCmd cmd, Spu spu) {
         List<AttrOptionCmd> attrOptionList = cmd.getNewAttrOptionList();
-        if (CollectionUtils.isNotEmpty(attrOptionList)) {
-            for (AttrOptionCmd attrOptionReqDTO : attrOptionList) {
-                batchSaveAttrOption(spu, attrOptionReqDTO);
-            }
+        if (CollectionUtils.isEmpty(attrOptionList)) {
+            return;
         }
+        attrOptionList.forEach(attrOptionReqDTO -> batchSaveAttrOption(spu, attrOptionReqDTO));
     }
 
     private void batchSaveAttrOption(Spu spu, AttrOptionCmd option) {
@@ -116,7 +115,7 @@ public class CommodityCreateCmdExe {
             AttrOption valueDO = new AttrOption();
             valueDO.setAttrId(attrId);
             valueDO.setValue(value);
-            valueDO.setType(com.ark.center.commodity.domain.attr.vo.AttrOption.Type.EXCLUSIVE.getValue());
+            valueDO.setType(AttrOption.Type.EXCLUSIVE.getValue());
             if (spuId != null && spuId > 0) {
                 valueDO.setSpuId(spuId);
             }
@@ -127,6 +126,12 @@ public class CommodityCreateCmdExe {
 
     private void saveParams(CommodityCreateCmd cmd, Spu spu) {
         Long spuId = spu.getId();
+        List<SpuAttr> records = spuGateway.selectAttrsBySpuId(spuId);
+        // 如果spu原本存在数据，先删除
+        if (CollectionUtils.isNotEmpty(records)) {
+            spuGateway.batchDeleteAttrs(records);
+        }
+
         List<SpuAttr> attrs = cmd.getParamList()
                 .stream()
                 .map(item -> {
@@ -136,7 +141,7 @@ public class CommodityCreateCmdExe {
                     return spuAttr;
                 })
                 .toList();
-        spuGateway.saveAttrs(attrs);
+        spuGateway.insertAttrs(attrs);
     }
 
     private void savePictures(CommodityCreateCmd cmd, Spu spu) {
@@ -170,8 +175,13 @@ public class CommodityCreateCmdExe {
         spuGateway.saveSales(sales);
     }
 
-    private void saveBaseInfo(Spu spu) {
-        spuGateway.saveSpu(spu);
+    private Long saveBaseInfo(Spu spu) {
+        if (spu.getId() != null) {
+            spuGateway.updateSpu(spu);
+        } else {
+            spuGateway.saveSpu(spu);
+        }
+        return spu.getId();
     }
 
 }

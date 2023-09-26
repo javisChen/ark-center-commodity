@@ -70,11 +70,9 @@ public class CommodityAppService {
         }
         return PageResponse.of(pages);
     }
-
-    public CommodityDTO getInfo(Long spuId) {
+    public CommodityDTO queryDetails(Long spuId) {
         return commodityDetailsQryExe.execute(spuId);
     }
-
     public SearchDTO search() {
         return null;
     }

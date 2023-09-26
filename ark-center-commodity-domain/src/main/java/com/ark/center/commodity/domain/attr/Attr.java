@@ -70,9 +70,6 @@ public class Attr extends BaseEntity {
     public boolean isSelectInputType() {
         return inputType.equals(InputType.SELECT.getValue());
     }
-    public boolean isInputType() {
-        return inputType.equals(InputType.INPUT.getValue());
-    }
 
     @Getter
     @AllArgsConstructor

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @since 2022-03-05
  */
 @Data
-@Schema(name = "CommodityPageRespDTO对象", description = "CommodityPageRespDTO")
+@Schema(name = "CommodityPageDTO", description = "CommodityPageDTO")
 public class CommodityPageDTO implements Serializable {
 
     @Schema(name = "商品ID", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -44,9 +44,6 @@ public class AttrGroupGatewayImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
 
     @Override
     public IPage<AttrGroupDTO> selectPages(AttrGroupPageQry qry) {
-        if (qry.getCategoryId() != null) {
-            qry.setAttrTemplateId(qry.getAttrTemplateId());
-        }
         return lambdaQuery()
                 .like(StringUtils.isNotEmpty(qry.getName()), AttrGroup::getName, qry.getName())
                 .eq(AttrGroup::getAttrTemplateId, qry.getAttrTemplateId())
