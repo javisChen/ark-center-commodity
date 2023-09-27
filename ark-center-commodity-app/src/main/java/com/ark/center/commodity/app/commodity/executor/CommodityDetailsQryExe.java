@@ -1,12 +1,13 @@
 package com.ark.center.commodity.app.commodity.executor;
 
+import com.alibaba.fastjson2.JSON;
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
-import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.Spu;
-import com.ark.center.commodity.domain.spu.SpuAttr;
+import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
@@ -42,20 +43,18 @@ public class CommodityDetailsQryExe {
 
         assembleSkus(commodityDTO);
 
-        assembleAttrs(commodityDTO);
+        assembleSales(commodityDTO);
 
         assembleOthers(spu, commodityDTO);
 
         return commodityDTO;
     }
 
-    private void assembleAttrs(CommodityDTO commodityDTO) {
+    private void assembleSales(CommodityDTO commodityDTO) {
+        SpuSales sales = spuGateway.selectSalesBySpuId(commodityDTO.getId());
         FieldsAssembler.execute(commodityDTO,
                 CommodityDTO::getId,
-                CommodityDTO::setParamList, id -> {
-                    List<SpuAttr> attrs = spuGateway.selectAttrsBySpuId(id);
-                    return spuConverter.toAttrDTO(attrs);
-                });
+                CommodityDTO::setParamList, id -> JSON.parseArray(sales.getParamData(), AttrDTO.class));
     }
 
     private void assembleOthers(Spu spu, CommodityDTO commodityDTO) {
@@ -67,13 +66,7 @@ public class CommodityDetailsQryExe {
     private void assembleSkus(CommodityDTO commodityDTO) {
         FieldsAssembler.execute(commodityDTO,
                 CommodityDTO::getId,
-                CommodityDTO::setSkuList, spuId -> {
-                    List<SkuDTO> skus = skuGateway.selectBySpuId(spuId);
-                    for (SkuDTO skuDTO : skus) {
-                        skuDTO.setSpecList();
-                    }
-                    return skuDTOS;
-                });
+                CommodityDTO::setSkuList, skuGateway::selectBySpuId);
     }
 
     private void assemblePics(CommodityDTO commodityDTO) {

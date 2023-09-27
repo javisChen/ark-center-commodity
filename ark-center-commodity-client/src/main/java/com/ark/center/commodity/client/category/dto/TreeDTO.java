@@ -1,6 +1,5 @@
 package com.ark.center.commodity.client.category.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -25,6 +24,7 @@ public class TreeDTO<T> implements Serializable {
     @Data
     public static class Node<T> {
         private Long id;
+        private String code;
         private String name;
         private Long pid;
         private List<Node<T>> nodes;
@@ -33,6 +33,13 @@ public class TreeDTO<T> implements Serializable {
             this.id = id;
             this.name = name;
             this.pid = pid;
+        }
+
+        public Node(Long id, String name, Long pid, String code) {
+            this.id = id;
+            this.name = name;
+            this.pid = pid;
+            this.code = code;
         }
 
     }

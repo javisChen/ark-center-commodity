@@ -104,4 +104,12 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         spuAttrMapper.deleteBatchIds(ids);
     }
 
+    @Override
+    public SpuSales selectSalesBySpuId(Long spuId) {
+        LambdaQueryWrapper<SpuSales> qw = new LambdaQueryWrapper<>();
+        qw.eq(SpuSales::getSpuId, spuId)
+                .last("limit 1");
+        return spuSalesMapper.selectOne(qw);
+    }
+
 }

@@ -41,7 +41,7 @@ public interface SkuAssembler {
         sku.setCostPrice(skuCmd.getCostPrice());
         sku.setStock(skuCmd.getStock());
         sku.setWarnStock(skuCmd.getWarnStock());
-        sku.setSpecData(sku.getSpecData());
+        sku.setSpecData(JSON.toJSONString(skuCmd.getSpecList()));
         sku.setId(skuCmd.getId());
         return sku;
     }

@@ -88,7 +88,8 @@ public class CategoryAdminAppService {
                                                  List<S> sourceList,
                                                  List<TreeDTO.Node<S>> nodes) {
         for (S sourceItem : sourceList) {
-            TreeDTO.Node<S> node = new TreeDTO.Node<>(sourceItem.getId(), sourceItem.getName(), sourceItem.getPid());
+            TreeDTO.Node<S> node = new TreeDTO.Node<>(sourceItem.getId(), sourceItem.getName(),
+                    sourceItem.getPid(), sourceItem.getCode());
             List<S> list = pidMap.get(sourceItem.getId());
             if (CollectionUtil.isNotEmpty(list)) {
                 node.setNodes(Lists.newArrayListWithCapacity(list.size()));

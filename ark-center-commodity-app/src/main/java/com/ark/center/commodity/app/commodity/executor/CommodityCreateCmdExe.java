@@ -47,7 +47,7 @@ public class CommodityCreateCmdExe {
         savePictures(cmd, spu);
         // 保存参数属性
         saveParams(cmd, spu);
-        // 保存属性项
+        // 保存属性可选项
         saveAttrOptions(cmd, spu);
         // 保存Sku
         saveSku(cmd, spu);
@@ -116,9 +116,7 @@ public class CommodityCreateCmdExe {
             valueDO.setAttrId(attrId);
             valueDO.setValue(value);
             valueDO.setType(AttrOption.Type.EXCLUSIVE.getValue());
-            if (spuId != null && spuId > 0) {
-                valueDO.setSpuId(spuId);
-            }
+            valueDO.setSpuId(spuId);
             dos.add(valueDO);
         }
         spuGateway.saveAttrOptions(dos);

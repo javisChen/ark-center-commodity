@@ -7,6 +7,8 @@ public class TreeifyDTO {
 
     private String name;
 
+    private String code;
+
     private Long id;
 
     private Integer sort;
