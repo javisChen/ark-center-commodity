@@ -12,6 +12,13 @@ spring:
     # 当出现同名Bean的时候，允许后面的定义覆盖前面的定义
     allow-bean-definition-overriding: true
   # 微服务配置
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
   cloud:
     nacos:
       discovery:

@@ -4,18 +4,16 @@ import com.ark.center.commodity.app.commodity.service.CommodityAppService;
 import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
-import com.ark.center.commodity.client.commodity.dto.SearchDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -49,12 +47,6 @@ public class CommodityAdminController extends BaseController {
     @GetMapping("/details")
     public SingleResponse<CommodityDTO> details(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(commodityAppService.queryDetails(id));
-    }
-
-    @Operation(summary = "查询分页列表")
-    @PostMapping("/search")
-    public SingleResponse<SearchDTO> search() {
-        return SingleResponse.ok(commodityAppService.search());
     }
 
 }

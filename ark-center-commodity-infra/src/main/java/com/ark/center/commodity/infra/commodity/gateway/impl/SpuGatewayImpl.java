@@ -32,7 +32,6 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     private final SpuAttrMapper spuAttrMapper;
     private final AttrOptionMapper attrOptionMapper;
 
-
     @Override
     public Spu selectById(Long id) {
         return getById(id);

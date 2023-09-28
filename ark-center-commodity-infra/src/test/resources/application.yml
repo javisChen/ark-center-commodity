@@ -1,0 +1,13 @@
+spring:
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+  cloud:
+    nacos:
+      config:
+        import-check:
+          enabled: false

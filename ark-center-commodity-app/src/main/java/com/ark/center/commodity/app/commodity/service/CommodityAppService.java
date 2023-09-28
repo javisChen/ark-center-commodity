@@ -1,18 +1,21 @@
 package com.ark.center.commodity.app.commodity.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.ark.center.commodity.app.commodity.executor.CommodityCreateCmdExe;
 import com.ark.center.commodity.app.commodity.executor.CommodityDetailsQryExe;
 import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
-import com.ark.center.commodity.client.commodity.dto.SearchDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.brand.Brand;
 import com.ark.center.commodity.domain.brand.gateway.BrandGateway;
 import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
+import com.ark.center.commodity.infra.commodity.gateway.es.CommodityDoc;
+import com.ark.center.commodity.infra.commodity.gateway.es.CommodityRepository;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -45,6 +48,8 @@ public class CommodityAppService {
 
     private final CommodityCreateCmdExe commodityCreateCmdExe;
 
+    private final CommodityRepository commodityRepository;
+
     @Transactional(rollbackFor = Exception.class)
     public Long save(CommodityCreateCmd cmd) {
         return commodityCreateCmdExe.execute(cmd);
@@ -73,7 +78,19 @@ public class CommodityAppService {
     public CommodityDTO queryDetails(Long spuId) {
         return commodityDetailsQryExe.execute(spuId);
     }
-    public SearchDTO search() {
-        return null;
+    public List<CommodityDoc> search() {
+        Iterable<CommodityDoc> all = commodityRepository.findAll();
+        return Lists.newArrayList(all);
+    }
+
+    public void initES() {
+        CommodityPageQry queryDTO = new CommodityPageQry();
+        queryDTO.setSize(99999);
+        PageResponse<CommodityPageDTO> response = queryPages(queryDTO);
+        for (CommodityPageDTO record : response.getRecords()) {
+            CommodityDoc target = new CommodityDoc();
+            BeanUtil.copyProperties(record, target);
+            commodityRepository.save(target);
+        }
     }
 }

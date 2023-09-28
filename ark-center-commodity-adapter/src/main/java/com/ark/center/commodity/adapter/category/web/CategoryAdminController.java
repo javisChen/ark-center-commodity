@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryAdminController extends BaseController {
+
     private final CategoryAdminAppService categoryAdminAppService;
 
     @Operation(summary = "创建商品分类")
