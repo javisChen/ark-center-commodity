@@ -1,4 +1,4 @@
-FROM openjdk:11-oraclelinux8
+FROM openjdk:17-oraclelinux8
 WORKDIR /app
 COPY ./target/ark-center-commodity.jar /app
 EXPOSE 8080
