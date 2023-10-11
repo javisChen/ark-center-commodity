@@ -1,6 +1,5 @@
 package com.ark.center.commodity.client.category.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -36,6 +35,7 @@ public class HomeCategoryDTO implements Serializable {
         private String spuName;
 
         private String picUrl;
+
     }
 
 }

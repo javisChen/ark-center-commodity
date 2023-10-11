@@ -66,7 +66,7 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
         Category category = getById(categoryId);
         if (category != null) {
             return lambdaUpdate()
-                    .likeRight(Category::getLevelPath, category.getCode())
+                    .likeRight(Category::getLevelPath, category.getId())
                     .remove();
         }
         return false;
@@ -76,6 +76,13 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<Category> selectByIds(List<Long> ids) {
         return lambdaQuery()
                 .in(BaseEntity::getId, ids)
+                .list();
+    }
+
+    @Override
+    public List<Category> selectByLevelPath(String levelPath) {
+        return lambdaQuery()
+                .likeRight(Category::getLevelPath, levelPath)
                 .list();
     }
 

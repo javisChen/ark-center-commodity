@@ -17,7 +17,7 @@ spring:
       repositories:
         enabled: true
   elasticsearch:
-    uris: http://localhost:9200
+    uris: http://es.ark.com:9200
     username: elastic
   cloud:
     nacos:

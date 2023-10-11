@@ -3,7 +3,6 @@ package com.ark.center.commodity.app.category.service;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.ark.center.commodity.client.category.command.CategoryCreateCmd;
-import com.ark.center.commodity.client.category.command.CategoryUpdateCmd;
 import com.ark.center.commodity.client.category.dto.CategoryDTO;
 import com.ark.center.commodity.client.category.dto.TreeDTO;
 import com.ark.center.commodity.client.category.dto.TreeifyDTO;
@@ -29,6 +28,7 @@ public class CategoryAdminAppService {
     private final CategoryGateway categoryGateway;
 
     private final CategoryConvertor categoryConvertor;
+
     public PageResponse<CategoryDTO> queryPages(CategoryPageQry queryDTO) {
         IPage<CategoryDTO> page = categoryGateway.selectPages(queryDTO);
         return PageResponse.of(page);
@@ -36,39 +36,40 @@ public class CategoryAdminAppService {
 
     public Long save(CategoryCreateCmd command) {
         Category category = categoryConvertor.toCategory(command);
-        String categoryCode = generateCategoryCode();
-        String levelPath;
-        int level = 1;
-        if (category.getPid() == null || category.getPid().equals(0L)) {
-            levelPath = categoryCode + ".";
-        } else {
-            Category parentCategory = categoryGateway.selectById(category.getPid());
-            levelPath = parentCategory.getLevelPath() + categoryCode + ".";
-            level = parentCategory.getLevel() + 1;
-        }
-        category.setCode(categoryCode);
-        category.setLevel(level);
-        category.setLevelPath(levelPath);
-        if (category.getId() != null) {
+        if (category.getId() == null) {
+            category.setCode(generateCategoryCode());
+            categoryGateway.insert(category);
+            // 默认层级路径是 -> "id."
+            String levelPath = category.getId() + ".";
+            int level = 1;
+            // 如果非根节点的话，取上级的层级信息计算出当前的层级信息
+            if (!isRootCategory(category)) {
+                Category parentCategory = categoryGateway.selectById(category.getPid());
+                levelPath = parentCategory.getLevelPath() + levelPath;
+                level = parentCategory.getLevel() + 1;
+            }
+            category.setLevel(level);
+            category.setLevelPath(levelPath);
             categoryGateway.update(category);
         } else {
-            categoryGateway.insert(category);
+            categoryGateway.update(category);
         }
         return category.getId();
+    }
+
+    private boolean isRootCategory(Category category) {
+        return category.getPid() == null || category.getPid().equals(0L);
     }
 
     private String generateCategoryCode() {
         return RandomUtil.randomString(8);
     }
 
-    public void updateCategory(CategoryUpdateCmd reqDTO) {
-        Category category = categoryConvertor.toCategory(reqDTO);
-        categoryGateway.update(category);
-    }
     public TreeDTO<CategoryDTO> getTree(CategoryPageQry queryDTO) {
         List<CategoryDTO> list = categoryGateway.selectList(queryDTO);
         return treeify(list);
     }
+
     public <S extends TreeifyDTO> TreeDTO<S> treeify(List<S> sourceList) {
         Map<Long, List<S>> groupByParentMap = sourceList.stream()
                 .collect(Collectors.groupingBy(S::getPid));
@@ -84,7 +85,7 @@ public class CategoryAdminAppService {
         return treeDTO;
     }
 
-    private<S extends TreeifyDTO>  void fillTree(Map<Long, List<S>> pidMap,
+    private <S extends TreeifyDTO> void fillTree(Map<Long, List<S>> pidMap,
                                                  List<S> sourceList,
                                                  List<TreeDTO.Node<S>> nodes) {
         for (S sourceItem : sourceList) {

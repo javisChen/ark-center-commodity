@@ -111,4 +111,11 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         return spuSalesMapper.selectOne(qw);
     }
 
+    @Override
+    public List<Spu> selectByCategoryIds(List<Long> categoryIds) {
+        return lambdaQuery()
+                .in(Spu::getCategoryId, categoryIds)
+                .list();
+    }
+
 }

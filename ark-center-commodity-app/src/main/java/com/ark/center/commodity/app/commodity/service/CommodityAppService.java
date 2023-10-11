@@ -3,17 +3,23 @@ package com.ark.center.commodity.app.commodity.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.ark.center.commodity.app.commodity.executor.CommodityCreateCmdExe;
 import com.ark.center.commodity.app.commodity.executor.CommodityDetailsQryExe;
+import com.ark.center.commodity.client.category.dto.CategoryDTO;
+import com.ark.center.commodity.client.category.dto.HomeCategoryDTO;
+import com.ark.center.commodity.client.category.query.CategoryPageQry;
 import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.dto.CommodityDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.brand.Brand;
 import com.ark.center.commodity.domain.brand.gateway.BrandGateway;
+import com.ark.center.commodity.domain.category.Category;
 import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
+import com.ark.center.commodity.domain.spu.Spu;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
 import com.ark.center.commodity.infra.commodity.gateway.es.CommodityDoc;
 import com.ark.center.commodity.infra.commodity.gateway.es.CommodityRepository;
 import com.ark.component.dto.PageResponse;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +28,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,5 +99,34 @@ public class CommodityAppService {
             BeanUtil.copyProperties(record, target);
             commodityRepository.save(target);
         }
+    }
+
+    /**
+     * 这个实现比较随意，不会考虑性能问题哈
+     */
+    public List<HomeCategoryDTO> queryHomeCategories() {
+        CategoryPageQry qry = new CategoryPageQry();
+        qry.setLevel(1);
+        List<HomeCategoryDTO> result = new ArrayList<>();
+        List<CategoryDTO> categoryDTOS = categoryGateway.selectList(qry);
+        for (CategoryDTO categoryDTO : categoryDTOS) {
+            HomeCategoryDTO dto = new HomeCategoryDTO();
+            dto.setCategoryId(categoryDTO.getId());
+            dto.setCategoryName(categoryDTO.getName());
+            List<Category> subCategories = categoryGateway.selectByLevelPath(categoryDTO.getLevelPath());
+            if (CollectionUtils.isNotEmpty(subCategories)) {
+                List<Long> ids = subCategories.stream().map(BaseEntity::getId).toList();
+                List<Spu> spuList = spuGateway.selectByCategoryIds(ids);
+                dto.setCommodities(spuList.stream().map(e -> {
+                    HomeCategoryDTO.SubCommodity commodity = new HomeCategoryDTO.SubCommodity();
+                    commodity.setPicUrl(e.getMainPicture());
+                    commodity.setSpuId(e.getId());
+                    commodity.setSpuName(e.getName());
+                    return commodity;
+                }).toList());
+            }
+            result.add(dto);
+        }
+        return result;
     }
 }

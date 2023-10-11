@@ -1,6 +1,7 @@
 package com.ark.center.commodity.adapter.commodity.web;
 
 import com.ark.center.commodity.app.commodity.service.CommodityAppService;
+import com.ark.center.commodity.client.category.dto.HomeCategoryDTO;
 import com.ark.center.commodity.infra.commodity.gateway.es.CommodityDoc;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
@@ -8,6 +9,7 @@ import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,13 @@ public class CommodityController extends BaseController {
     @PostMapping("/search")
     public MultiResponse<CommodityDoc> search() {
         List<CommodityDoc> search = commodityAppService.search();
+        return MultiResponse.ok(search);
+    }
+
+    @Operation(summary = "查询首页分类")
+    @GetMapping("/categories")
+    public MultiResponse<HomeCategoryDTO> homeCategories() {
+        List<HomeCategoryDTO> search = commodityAppService.queryHomeCategories();
         return MultiResponse.ok(search);
     }
 

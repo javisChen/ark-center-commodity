@@ -42,6 +42,9 @@ public class CategoryDTO extends TreeifyDTO implements Serializable {
     @Schema(name = "上级ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long pid;
 
+    @Schema(name = "层级路径", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String levelPath;
+
     @Schema(name = "规格参数模板ID", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long attrTemplateId;
 

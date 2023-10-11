@@ -1,7 +1,6 @@
 package com.ark.center.commodity.client.category.query;
 
 import com.ark.component.dto.PagingQuery;
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +24,7 @@ public class CategoryPageQry extends PagingQuery {
     private Integer sort;
 
     @Schema(name = "分类等级")
-    private Integer level = 1;
+    private Integer level;
 
     @Schema(name = "上级ID")
     private Long pid;

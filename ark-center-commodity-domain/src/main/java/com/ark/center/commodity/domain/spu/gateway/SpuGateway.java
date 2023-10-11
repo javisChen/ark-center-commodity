@@ -33,4 +33,6 @@ public interface SpuGateway {
     void batchDeleteAttrs(List<SpuAttr> records);
 
     SpuSales selectSalesBySpuId(Long spuId);
+
+    List<Spu> selectByCategoryIds(List<Long> categoryIds);
 }

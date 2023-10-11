@@ -19,6 +19,7 @@ import com.ark.component.cache.CacheService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class CommodityCreateCmdExe {
     private final CacheService cacheService;
 
     public Long execute(CommodityCreateCmd cmd) {
-        Spu spu = spuConverter.toSpu(cmd);
+        Spu spu = toSpu(cmd);
         // 保存SPU基本信息
         saveBaseInfo(spu);
         // 保存销售信息
@@ -52,6 +53,13 @@ public class CommodityCreateCmdExe {
         // 保存Sku
         saveSku(cmd, spu);
         return spu.getId();
+    }
+
+    @NotNull
+    private Spu toSpu(CommodityCreateCmd cmd) {
+        Spu spu = spuConverter.toSpu(cmd);
+        spu.setMainPicture(cmd.getPicList().get(0));
+        return spu;
     }
 
     private void saveSku(CommodityCreateCmd cmd, Spu spu) {

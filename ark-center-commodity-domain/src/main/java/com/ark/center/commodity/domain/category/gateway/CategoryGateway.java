@@ -21,4 +21,6 @@ public interface CategoryGateway {
     boolean remove(Long categoryId);
 
     List<Category> selectByIds(List<Long> ids);
+
+    List<Category> selectByLevelPath(String levelPath);
 }
