@@ -7,6 +7,7 @@ import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.Spu;
+import com.ark.center.commodity.domain.spu.SpuAttr;
 import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
@@ -45,9 +46,18 @@ public class CommodityDetailsQryExe {
 
         assembleSales(commodityDTO);
 
+        assembleAttrs(commodityDTO);
+
         assembleOthers(spu, commodityDTO);
 
         return commodityDTO;
+    }
+
+    private void assembleAttrs(CommodityDTO commodityDTO) {
+        List<SpuAttr> spuAttrs = spuGateway.selectAttrsBySpuId(commodityDTO.getId());
+        FieldsAssembler.execute(commodityDTO,
+                CommodityDTO::getId,
+                CommodityDTO::setAttrList, id -> spuConverter.toAttrDTO(spuAttrs));
     }
 
     private void assembleSales(CommodityDTO commodityDTO) {

@@ -94,7 +94,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
                         SpuAttr::getAttrId,
                         SpuAttr::getAttrValue)
                 .eq(SpuAttr::getSpuId, spuId);
-        return spuAttrMapper.selectList(qw);
+        return spuAttrMapper.selectBySpuId(spuId);
     }
 
     @Override

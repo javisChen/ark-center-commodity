@@ -58,6 +58,8 @@ public class CommodityCreateCmdExe {
     @NotNull
     private Spu toSpu(CommodityCreateCmd cmd) {
         Spu spu = spuConverter.toSpu(cmd);
+        // 暂时取第一个sku的销售价格来做展示
+        spu.setShowPrice(cmd.getSkuList().get(0).getSalesPrice());
         spu.setMainPicture(cmd.getPicList().get(0));
         return spu;
     }

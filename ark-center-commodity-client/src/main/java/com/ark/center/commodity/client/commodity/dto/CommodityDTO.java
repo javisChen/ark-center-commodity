@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * @since 2022-03-05
  */
 @Data
-@Schema(name = "CommodityDTO", description = "商品保存DTO")
+@Schema(name = "CommodityDTO", description = "CommodityDTO")
 public class CommodityDTO implements Serializable {
 
     @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -71,5 +72,8 @@ public class CommodityDTO implements Serializable {
 
     @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> picList;
+
+    @Schema(name = "规格列表", requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<AttrDTO> attrList;
 
 }

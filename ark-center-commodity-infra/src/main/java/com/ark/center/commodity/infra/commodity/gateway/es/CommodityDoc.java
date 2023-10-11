@@ -19,6 +19,8 @@ public class CommodityDoc {
 
     private String name;
 
+    private String description;
+
     private String brandName;
 
     private String categoryName;
@@ -26,6 +28,8 @@ public class CommodityDoc {
     private Long brandId;
 
     private Long categoryId;
+
+    private Long showPrice;
 
     @Field(index = false,
             store = true,

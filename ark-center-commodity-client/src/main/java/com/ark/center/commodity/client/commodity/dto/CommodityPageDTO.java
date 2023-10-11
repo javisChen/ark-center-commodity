@@ -24,6 +24,9 @@ public class CommodityPageDTO implements Serializable {
     @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
+    @Schema(name = "商品介绍", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String description;
+
     @Schema(name = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String brandName;
 
@@ -35,6 +38,9 @@ public class CommodityPageDTO implements Serializable {
 
     @Schema(name = "分类id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long categoryId;
+
+    @Schema(name = "展示价格", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Integer showPrice;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime gmtCreate;
