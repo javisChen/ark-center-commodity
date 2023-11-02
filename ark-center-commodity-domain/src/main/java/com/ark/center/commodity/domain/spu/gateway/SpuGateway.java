@@ -1,5 +1,6 @@
 package com.ark.center.commodity.domain.spu.gateway;
 
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.attr.AttrOption;
@@ -28,9 +29,9 @@ public interface SpuGateway {
 
     boolean updateSpu(Spu spu);
 
-    List<SpuAttr> selectAttrsBySpuId(Long spuId);
+    List<AttrDTO> selectAttrsBySpuId(Long spuId);
 
-    void batchDeleteAttrs(List<SpuAttr> records);
+    void batchDeleteAttrs(List<Long> records);
 
     SpuSales selectSalesBySpuId(Long spuId);
 

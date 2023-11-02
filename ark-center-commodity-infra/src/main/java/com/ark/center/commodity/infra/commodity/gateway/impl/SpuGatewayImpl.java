@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.commodity.gateway.impl;
 
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.CommodityPageDTO;
 import com.ark.center.commodity.client.commodity.query.CommodityPageQry;
 import com.ark.center.commodity.domain.attr.AttrOption;
@@ -88,19 +89,14 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public List<SpuAttr> selectAttrsBySpuId(Long spuId) {
-        LambdaQueryWrapper<SpuAttr> qw = new LambdaQueryWrapper<>();
-        qw.select(SpuAttr::getId,
-                        SpuAttr::getAttrId,
-                        SpuAttr::getAttrValue)
-                .eq(SpuAttr::getSpuId, spuId);
-        return spuAttrMapper.selectBySpuId(spuId);
+    public List<AttrDTO> selectAttrsBySpuId(Long spuId) {
+        List<AttrDTO> attrDTOS = spuAttrMapper.selectBySpuId(spuId);
+        return attrDTOS;
     }
 
     @Override
-    public void batchDeleteAttrs(List<SpuAttr> records) {
-        List<Long> ids = records.stream().map(BaseEntity::getId).toList();
-        spuAttrMapper.deleteBatchIds(ids);
+    public void batchDeleteAttrs(List<Long> records) {
+        spuAttrMapper.deleteBatchIds(records);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.ark.center.commodity.client.commodity.command.AttrCmd;
 import com.ark.center.commodity.client.commodity.command.AttrOptionCmd;
 import com.ark.center.commodity.client.commodity.command.CommodityCreateCmd;
 import com.ark.center.commodity.client.commodity.command.SkuCmd;
+import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.attr.AttrOption;
@@ -46,7 +47,7 @@ public class CommodityCreateCmdExe {
         saveSalesInfo(spu, cmd);
         // 保存图片
         savePictures(cmd, spu);
-        // 保存参数属性
+        // 保存参数属性['-
         saveParams(cmd, spu);
         // 保存属性可选项
         saveAttrOptions(cmd, spu);
@@ -134,10 +135,11 @@ public class CommodityCreateCmdExe {
 
     private void saveParams(CommodityCreateCmd cmd, Spu spu) {
         Long spuId = spu.getId();
-        List<SpuAttr> records = spuGateway.selectAttrsBySpuId(spuId);
+        List<AttrDTO> records = spuGateway.selectAttrsBySpuId(spuId);
         // 如果spu原本存在数据，先删除
         if (CollectionUtils.isNotEmpty(records)) {
-            spuGateway.batchDeleteAttrs(records);
+            List<Long> ids = records.stream().map(AttrDTO::getAttrId).toList();
+            spuGateway.batchDeleteAttrs(ids);
         }
         List<SpuAttr> attrs = cmd.getParamList()
                 .stream()

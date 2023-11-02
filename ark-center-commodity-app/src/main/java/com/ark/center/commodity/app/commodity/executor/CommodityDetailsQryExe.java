@@ -7,10 +7,10 @@ import com.ark.center.commodity.domain.attachment.Attachment;
 import com.ark.center.commodity.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.commodity.domain.category.gateway.CategoryGateway;
 import com.ark.center.commodity.domain.spu.Spu;
-import com.ark.center.commodity.domain.spu.SpuAttr;
 import com.ark.center.commodity.domain.spu.SpuSales;
 import com.ark.center.commodity.domain.spu.gateway.SkuGateway;
 import com.ark.center.commodity.domain.spu.gateway.SpuGateway;
+import com.ark.center.commodity.domain.spu.service.SpuService;
 import com.ark.center.commodity.infra.commodity.AttachmentBizType;
 import com.ark.center.commodity.infra.commodity.convertor.SpuConverter;
 import com.ark.component.common.util.assemble.FieldsAssembler;
@@ -26,6 +26,7 @@ import java.util.List;
 public class CommodityDetailsQryExe {
 
     private final SpuGateway spuGateway;
+    private final SpuService spuService;
     private final SpuConverter spuConverter;
     private final SkuGateway skuGateway;
     private final CategoryGateway categoryGateway;
@@ -54,10 +55,10 @@ public class CommodityDetailsQryExe {
     }
 
     private void assembleAttrs(CommodityDTO commodityDTO) {
-        List<SpuAttr> spuAttrs = spuGateway.selectAttrsBySpuId(commodityDTO.getId());
         FieldsAssembler.execute(commodityDTO,
                 CommodityDTO::getId,
-                CommodityDTO::setAttrList, id -> spuConverter.toAttrDTO(spuAttrs));
+                CommodityDTO::setAttrList,
+                spuService::queryAttrs);
     }
 
     private void assembleSales(CommodityDTO commodityDTO) {

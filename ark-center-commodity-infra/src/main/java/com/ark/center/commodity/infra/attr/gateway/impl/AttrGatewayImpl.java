@@ -1,6 +1,7 @@
 package com.ark.center.commodity.infra.attr.gateway.impl;
 
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
+import com.ark.center.commodity.client.attr.dto.AttrOptionDTO;
 import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.center.commodity.domain.attr.repository.AttrGateway;
 import com.ark.center.commodity.domain.category.Category;
@@ -92,7 +93,7 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
 
     @Override
     public void deleteOptions(Long attrId) {
-        List<AttrOption> records = selectOptionsByAttrId(attrId);
+        List<AttrOption> records = selectOptions(attrId);
         if (CollectionUtils.isNotEmpty(records)) {
             List<Long> ids = records.stream().map(BaseEntity::getId).sorted().toList();
             LambdaUpdateWrapper<AttrOption> wrapper = Wrappers
@@ -103,11 +104,26 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
     }
 
     @Override
-    public List<AttrOption> selectOptionsByAttrId(Long attrId) {
+    public List<AttrOption> selectOptions(Long attrId) {
         LambdaQueryWrapper<AttrOption> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(BaseEntity::getId)
                 .eq(AttrOption::getAttrId, attrId);
         return attrOptionMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public List<AttrOptionDTO> selectOptions(List<Long> attrIds) {
+        if (CollectionUtils.isEmpty(attrIds)) {
+            return Collections.emptyList();
+        }
+        LambdaQueryWrapper<AttrOption> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(BaseEntity::getId,
+                        AttrOption::getType,
+                        AttrOption::getValue)
+                .eq(AttrOption::getType, Attr.Type.SPEC)
+                .in(AttrOption::getAttrId, attrIds);
+        List<AttrOption> attrOptions = attrOptionMapper.selectList(queryWrapper);
+        return attrConvertor.toOptionDTO(attrOptions);
     }
 
     @Override

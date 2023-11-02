@@ -17,11 +17,6 @@ public class SkuStockReduceCmdExe {
 
     private final CacheService cacheService;
 
-    /**
-     * 库存扣减步骤
-     * 1.利用Redis工作线程单线程机制，先从
-     * @param cmdList
-     */
     public void execute(List<SkuStockReduceCmd> cmdList) {
         for (SkuStockReduceCmd cmd : cmdList) {
             Long quantity = Long.valueOf(cmd.getQuantity());

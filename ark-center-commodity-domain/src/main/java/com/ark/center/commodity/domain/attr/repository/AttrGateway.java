@@ -1,6 +1,7 @@
 package com.ark.center.commodity.domain.attr.repository;
 
 import com.ark.center.commodity.client.attr.dto.AttrDTO;
+import com.ark.center.commodity.client.attr.dto.AttrOptionDTO;
 import com.ark.center.commodity.client.attr.query.AttrPageQry;
 import com.ark.center.commodity.domain.attr.Attr;
 import com.ark.center.commodity.domain.attr.AttrOption;
@@ -25,5 +26,7 @@ public interface AttrGateway {
 
     boolean remove(Long id);
 
-    List<AttrOption> selectOptionsByAttrId(Long attrId);
+    List<AttrOption> selectOptions(Long attrId);
+
+    List<AttrOptionDTO> selectOptions(List<Long> attrIds);
 }
