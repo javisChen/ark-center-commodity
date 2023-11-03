@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -74,6 +73,6 @@ public class CommodityDTO implements Serializable {
     private List<String> picList;
 
     @Schema(name = "规格列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<AttrDTO> attrList;
+    private List<AttrDTO> specList;
 
 }

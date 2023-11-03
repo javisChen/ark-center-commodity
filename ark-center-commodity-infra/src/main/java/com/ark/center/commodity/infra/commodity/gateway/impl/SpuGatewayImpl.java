@@ -78,20 +78,29 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public Long saveSpu(Spu spu) {
+    public void saveSpu(Spu spu) {
         save(spu);
-        return spu.getId();
+        spu.getId();
     }
 
     @Override
-    public boolean updateSpu(Spu spu) {
-        return updateById(spu);
+    public void updateSpu(Spu spu) {
+        updateById(spu);
     }
 
     @Override
-    public List<AttrDTO> selectAttrsBySpuId(Long spuId) {
-        List<AttrDTO> attrDTOS = spuAttrMapper.selectBySpuId(spuId);
-        return attrDTOS;
+    public List<SpuAttr> selectAttrsBySpuId(Long spuId) {
+        LambdaQueryWrapper<SpuAttr> qw = new LambdaQueryWrapper<>();
+        qw.select(SpuAttr::getId,
+                        SpuAttr::getAttrId,
+                        SpuAttr::getAttrValue)
+                .eq(SpuAttr::getSpuId, spuId);
+        return spuAttrMapper.selectList(qw);
+    }
+
+    @Override
+    public List<AttrDTO> selectSpecs(Long spuId) {
+        return spuAttrMapper.selectSpuSpecs(spuId);
     }
 
     @Override

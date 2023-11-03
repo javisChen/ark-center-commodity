@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface SpuAttrMapper extends BaseMapper<SpuAttr> {
 
-    List<AttrDTO> selectBySpuId(@Param("spuId") Long spuId);
+    List<AttrDTO> selectSpuSpecs(@Param("spuId") Long spuId);
 }

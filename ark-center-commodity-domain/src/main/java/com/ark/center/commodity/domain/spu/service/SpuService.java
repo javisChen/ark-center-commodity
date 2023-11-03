@@ -17,8 +17,11 @@ public class SpuService {
     private final SpuGateway spuGateway;
     private final AttrGateway attrGateway;
 
-    public List<AttrDTO> queryAttrs(Long spuId) {
-        List<AttrDTO> attrDTOS = spuGateway.selectAttrsBySpuId(spuId);
+    /**
+     * 查询Spu规格
+     */
+    public List<AttrDTO> querySpecs(Long spuId) {
+        List<AttrDTO> attrDTOS = spuGateway.selectSpecs(spuId);
         FieldsAssembler.execute(attrDTOS,
                 AttrDTO::getAttrId,
                 AttrDTO::setOptionList,

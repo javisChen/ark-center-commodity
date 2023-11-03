@@ -47,18 +47,18 @@ public class CommodityDetailsQryExe {
 
         assembleSales(commodityDTO);
 
-        assembleAttrs(commodityDTO);
+        assembleSpecs(commodityDTO);
 
         assembleOthers(spu, commodityDTO);
 
         return commodityDTO;
     }
 
-    private void assembleAttrs(CommodityDTO commodityDTO) {
+    private void assembleSpecs(CommodityDTO commodityDTO) {
         FieldsAssembler.execute(commodityDTO,
                 CommodityDTO::getId,
-                CommodityDTO::setAttrList,
-                spuService::queryAttrs);
+                CommodityDTO::setSpecList,
+                spuService::querySpecs);
     }
 
     private void assembleSales(CommodityDTO commodityDTO) {
