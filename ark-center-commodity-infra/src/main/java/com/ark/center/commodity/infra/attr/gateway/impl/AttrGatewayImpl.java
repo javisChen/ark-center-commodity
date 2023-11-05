@@ -118,9 +118,11 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
         }
         LambdaQueryWrapper<AttrOption> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(BaseEntity::getId,
+                        AttrOption::getAttrId,
                         AttrOption::getType,
+                        AttrOption::getSpuId,
                         AttrOption::getValue)
-                .eq(AttrOption::getType, Attr.Type.SPEC)
+                .eq(AttrOption::getType, Attr.Type.SPEC.getValue())
                 .in(AttrOption::getAttrId, attrIds);
         List<AttrOption> attrOptions = attrOptionMapper.selectList(queryWrapper);
         return attrConvertor.toOptionDTO(attrOptions);
