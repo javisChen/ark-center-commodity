@@ -1,5 +1,6 @@
 package com.ark.center.commodity.infra.commodity.convertor;
 
+import com.alibaba.fastjson2.JSON;
 import com.ark.center.commodity.client.commodity.dto.AttrDTO;
 import com.ark.center.commodity.client.commodity.dto.SkuDTO;
 import com.ark.center.commodity.domain.spu.Sku;
@@ -13,6 +14,20 @@ import java.util.List;
 public interface SkuAppConvertor {
 
     List<SkuDTO> convertSkuToDTO(List<Sku> skus);
+    default SkuDTO convertSkuToDTO(Sku sku) {
+        SkuDTO skuDTO = new SkuDTO();
+        skuDTO.setId(sku.getId());
+        skuDTO.setCode(sku.getCode());
+        skuDTO.setSpuName(sku.getSpuName());
+        skuDTO.setSalesPrice(sku.getSalesPrice());
+        skuDTO.setCostPrice(sku.getCostPrice());
+        skuDTO.setStock(sku.getStock());
+        skuDTO.setWarnStock(sku.getWarnStock());
+        skuDTO.setMainPicture(sku.getMainPicture());
+        skuDTO.setSpecList(JSON.parseArray(sku.getSpecData(), AttrDTO.class));
+        return skuDTO;
+
+    };
 
     List<AttrDTO> convertAttrToDTO(List<Attr> skus);
 //
