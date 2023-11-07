@@ -22,9 +22,9 @@ import java.util.List;
 )
 public interface SkuApi {
 
-    @Operation(summary = "SKU-列表查询")
+    @Operation(summary = "批量查询")
     @PostMapping("/list")
-    MultiResponse<SkuDTO> listSku(@RequestBody SkuQry qry);
+    MultiResponse<SkuDTO> querySkus(@RequestBody SkuQry qry);
 
     @Operation(summary = "SKU-扣减库存")
     @PostMapping("/stock/reduce")

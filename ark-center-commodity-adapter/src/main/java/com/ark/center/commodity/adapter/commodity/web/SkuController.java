@@ -7,11 +7,12 @@ import com.ark.center.commodity.client.commodity.query.SkuQry;
 import com.ark.center.commodity.client.commodity.rpc.SkuApi;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
  * @author EOP
  * @since 2022-03-03
  */
-@Api(tags = "SKU接口")
+@Tag(name = "Sku", description = "Sku管理接口")
 @Validated
 @RestController
 @RequestMapping("/v1/sku")
@@ -34,7 +35,7 @@ public class SkuController implements SkuApi {
     private final SkuAppService skuAppService;
 
     @Override
-    public MultiResponse<SkuDTO> listSku(SkuQry qry) {
+    public MultiResponse<SkuDTO> querySkus(SkuQry qry) {
         return MultiResponse.ok(skuAppService.querySkuList(qry));
     }
 
