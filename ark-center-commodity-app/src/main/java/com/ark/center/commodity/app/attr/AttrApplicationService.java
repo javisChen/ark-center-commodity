@@ -100,8 +100,8 @@ public class AttrApplicationService {
                 queryDTO.getWithAttr(),
                 records,
                 AttrGroupDTO::getId,
-                AttrGroupDTO::setAttrList,
                 attrGateway::selectByGroupIds,
+                AttrGroupDTO::setAttrList,
                 AttrDTO::getAttrGroupId);
         return PageResponse.of(pages);
     }
