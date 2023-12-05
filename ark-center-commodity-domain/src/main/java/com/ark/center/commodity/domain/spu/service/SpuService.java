@@ -24,8 +24,8 @@ public class SpuService {
         List<AttrDTO> attrDTOS = spuGateway.selectSpecs(spuId);
         FieldsAssembler.execute(attrDTOS,
                 AttrDTO::getAttrId,
-                AttrDTO::setOptionList,
                 attrGateway::selectOptions,
+                AttrDTO::setOptionList,
                 AttrOptionDTO::getAttrId);
         return attrDTOS;
     }
