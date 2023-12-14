@@ -1,0 +1,15 @@
+version: '3'
+services:
+  commodity:
+    container_name: ark-center-commodity
+    image: ark-center-commodity:1.0.0
+    restart: always
+    ports:
+      - "8083:8083"
+    env_file:
+      - start.env
+    networks:
+      - "compose_default"
+networks:
+  compose_default:
+    external: true

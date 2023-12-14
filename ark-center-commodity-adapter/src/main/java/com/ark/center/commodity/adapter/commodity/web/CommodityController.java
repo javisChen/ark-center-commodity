@@ -8,7 +8,6 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -49,7 +48,8 @@ public class CommodityController extends BaseController {
 
     @Operation(summary = "查询详情")
     @GetMapping("/details")
-    public SingleResponse<CommodityDTO> details(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
+    public SingleResponse<CommodityDTO> details(@RequestParam(required = false)
+                                                    @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(commodityAppService.queryDetails(id));
     }
 
