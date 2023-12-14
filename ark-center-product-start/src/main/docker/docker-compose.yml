@@ -1,0 +1,15 @@
+version: '3'
+services:
+  product:
+    container_name: ark-center-product
+    image: ark-center-product:1.0.0
+    restart: always
+    ports:
+      - "8083:8083"
+    env_file:
+      - start.env
+    networks:
+      - "compose_default"
+networks:
+  compose_default:
+    external: true

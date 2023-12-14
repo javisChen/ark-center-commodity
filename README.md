@@ -5,16 +5,16 @@
 
 ## Docker Build
 ```shell
-docker build -f ./ark-center-commodity-start/Dockerfile -t ark-center-commodity:v1 ./ark-center-commodity-start
+docker build -f ./ark-center-product-start/Dockerfile -t ark-center-product:v1 ./ark-center-product-start
 ```
 ## Docker Run
 ```shell
-docker run -p 8083:8083 --name ark-center-commodity -d \
+docker run -p 8083:8083 --name ark-center-product -d \
 -e NACOS_DISCOVERY_IP=172.24.80.20 \
 -e NACOS_DISCOVERY_SERVER_ADDR=172.24.80.20:8848 \
 -e NACOS_CONFIG_SERVER_ADDR=172.24.80.20:8848 \
 -e SYS_OPT=-DSpring.profiles.active=dev \
-ark-center-commodity:v1
+ark-center-product:v1
 ```
 
 # 软件架构
@@ -23,11 +23,11 @@ ark-center-commodity:v1
 
 | 组件名称                         | 描述           | 版本    |
 |------------------------------|--------------|-------|
-| ark-center-commodity-acl     | 防腐层          | 1.0.0 |
-| ark-center-commodity-api     | 开放接口层        | 1.0.0 |
-| ark-center-commodity-manager | 通用业务处理层      | 1.0.0 |
-| ark-center-commodity-service | 具体业务以及内部访问转发 | 1.0.0 |
-| ark-center-commodity-start   | 启动层          | 1.0.0 |
+| ark-center-product-acl     | 防腐层          | 1.0.0 |
+| ark-center-product-api     | 开放接口层        | 1.0.0 |
+| ark-center-product-manager | 通用业务处理层      | 1.0.0 |
+| ark-center-product-service | 具体业务以及内部访问转发 | 1.0.0 |
+| ark-center-product-start   | 启动层          | 1.0.0 |
 
 
 ## 使用说明

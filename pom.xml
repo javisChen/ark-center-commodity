@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ark.center</groupId>
-    <artifactId>ark-center-commodity</artifactId>
+    <artifactId>ark-center-product</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>ark-ddd-base</module>
-        <module>ark-center-commodity-client</module>
-        <module>ark-center-commodity-domain</module>
-        <module>ark-center-commodity-infra</module>
-        <module>ark-center-commodity-app</module>
-        <module>ark-center-commodity-adapter</module>
-        <module>ark-center-commodity-start</module>
+        <module>ark-center-product-client</module>
+        <module>ark-center-product-domain</module>
+        <module>ark-center-product-infra</module>
+        <module>ark-center-product-app</module>
+        <module>ark-center-product-adapter</module>
+        <module>ark-center-product-start</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -45,35 +45,35 @@
             </dependency>
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-api</artifactId>
+                <artifactId>ark-center-product-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-client</artifactId>
+                <artifactId>ark-center-product-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-infra</artifactId>
+                <artifactId>ark-center-product-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-app</artifactId>
+                <artifactId>ark-center-product-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-commodity-adapter</artifactId>
+                <artifactId>ark-center-product-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-product-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
