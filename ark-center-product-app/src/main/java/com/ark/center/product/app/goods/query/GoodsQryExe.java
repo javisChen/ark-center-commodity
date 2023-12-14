@@ -33,6 +33,7 @@ public class GoodsQryExe {
 
         GoodsBuildProfiles profiles = new GoodsBuildProfiles();
         profiles.setWithPictures(true);
+        profiles.setWithSaleInfo(false);
 
         List<GoodsDTO> goods = goodsBuilder.build(pages.getRecords(), profiles);
         return PageResponse.of(pages.getCurrent(), pages.getSize(), pages.getTotal(), goods);
@@ -44,7 +45,6 @@ public class GoodsQryExe {
         Assert.notNull(spu, () -> ExceptionFactory.userException("商品不存在"));
 
         GoodsBuildProfiles profiles = new GoodsBuildProfiles();
-        profiles.setWithPictures(true);
         return goodsBuilder.build(spu, profiles);
     }
 

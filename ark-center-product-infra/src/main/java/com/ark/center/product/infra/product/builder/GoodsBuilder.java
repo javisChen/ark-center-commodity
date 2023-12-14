@@ -73,7 +73,7 @@ public class GoodsBuilder {
                 goodsDTOS,
                 GoodsDTO::getBrandId,
                 brandGateway::selectByIds,
-                (goodsDTO, brands) -> goodsDTO.setCategoryName(brands.get(0).getName()),
+                (goodsDTO, brands) -> goodsDTO.setBrandName(brands.get(0).getName()),
                 BaseEntity::getId
         );
     }
@@ -104,8 +104,10 @@ public class GoodsBuilder {
                 GoodsDTO::getCategoryId,
                 categoryGateway::selectByIds,
                 (goodsDTO, categories) -> {
-                    goodsDTO.setCategoryLevelPath(categories.get(0).getLevelPath());
-                    goodsDTO.setCategoryName(categories.get(0).getName());
+                    if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(categories)) {
+                        goodsDTO.setCategoryLevelPath(categories.get(0).getLevelPath());
+                        goodsDTO.setCategoryName(categories.get(0).getName());
+                    }
                 },
                 BaseEntity::getId
         );
