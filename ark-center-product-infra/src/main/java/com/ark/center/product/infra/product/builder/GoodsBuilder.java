@@ -9,13 +9,12 @@ import com.ark.center.product.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.product.domain.brand.gateway.BrandGateway;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
-import com.ark.center.product.domain.spu.SpuSales;
 import com.ark.center.product.domain.spu.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.domain.spu.service.SpuService;
 import com.ark.center.product.infra.product.AttachmentBizType;
 import com.ark.center.product.infra.product.convertor.SpuConverter;
-import com.ark.component.common.util.assemble.FieldsAssembler;
+import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -51,85 +50,86 @@ public class GoodsBuilder {
             return Collections.emptyList();
         }
 
-        List<GoodsDTO> goodsDTO = spuConverter.toGoodsDTO(records);
+        List<GoodsDTO> goodsDTOS = spuConverter.toGoodsDTO(records);
 
-        assembleNames(profiles, goodsDTO);
+        DataProcessor<GoodsDTO> dataProcessor = new DataProcessor<>(goodsDTOS);
 
-        assemblePics(profiles, goodsDTO);
+        assembleNames(profiles, dataProcessor);
 
-        assembleSkus(profiles, goodsDTO);
+        assemblePics(profiles, dataProcessor, goodsDTOS);
 
-        assembleSales(profiles, goodsDTO);
+        assembleSkus(profiles, dataProcessor);
 
-        assembleSpecs(profiles, goodsDTO);
+        assembleSales(profiles, dataProcessor);
 
-        assembleOthers(profiles, goodsDTO);
+        assembleSpecs(profiles, dataProcessor);
 
-        return goodsDTO;
+        assembleCategoryInfo(profiles, dataProcessor, goodsDTOS);
+
+        return goodsDTOS;
     }
 
-    private void assembleNames(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTOS) {
-        FieldsAssembler.execute(
-                goodsDTOS,
-                GoodsDTO::getBrandId,
-                brandGateway::selectByIds,
-                (goodsDTO, brands) -> goodsDTO.setBrandName(brands.get(0).getName()),
-                BaseEntity::getId
-        );
+    private void assembleNames(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
+
+        dataProcessor.keySelect(GoodsDTO::getBrandId)
+                .query(brandGateway::selectByIds)
+                .keyBy(BaseEntity::getId)
+                .object()
+                .process((goods, brand) -> goods.setBrandName(brand.getName()));
+
     }
 
-    private void assembleSpecs(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTOS) {
-        FieldsAssembler.execute(
-                goodsDTOS,
-                GoodsDTO::getId,
-                spuService::querySpecs,
-                GoodsDTO::setSpecs,
-                AttrDTO::getSpuId
-        );
+    private void assembleSpecs(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
+
+        dataProcessor.keySelect(GoodsDTO::getId)
+                .query(spuService::querySpecs)
+                .keyBy(AttrDTO::getSpuId)
+                .collection()
+                .process(GoodsDTO::setSpecs);
+
     }
 
-    private void assembleSales(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTOS) {
+    private void assembleSales(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
         if (profiles.getWithSaleInfo()) {
-            GoodsDTO goodsDTO = goodsDTOS.get(0);
-            SpuSales sales = spuGateway.selectSalesBySpuId(goodsDTO.getId());
-            FieldsAssembler.execute(goodsDTO,
-                    GoodsDTO::getId,
-                    GoodsDTO::setParams, id -> JSON.parseArray(sales.getParamData(), AttrDTO.class));
+            dataProcessor.keySelect(GoodsDTO::getId)
+                    .query(spuGateway::selectSalesBySpuIds)
+                    .keyBy(BaseEntity::getId)
+                    .object()
+                    .process((goodsDTO, spuSales) -> goodsDTO.setParams(JSON.parseArray(spuSales.getParamData(), AttrDTO.class)));
         }
     }
 
-    private void assembleOthers(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTOS) {
-        FieldsAssembler.execute(
-                goodsDTOS,
-                GoodsDTO::getCategoryId,
-                categoryGateway::selectByIds,
-                (goodsDTO, categories) -> {
-                    if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(categories)) {
-                        goodsDTO.setCategoryLevelPath(categories.get(0).getLevelPath());
-                        goodsDTO.setCategoryName(categories.get(0).getName());
-                    }
-                },
-                BaseEntity::getId
-        );
+    private void assembleCategoryInfo(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor, List<GoodsDTO> goodsDTOS) {
+        dataProcessor
+                .keySelect(GoodsDTO::getCategoryId)
+                .query(categoryGateway::selectByIds)
+                .keyBy(BaseEntity::getId)
+                .object()
+                .process((goods, category) -> {
+                    goods.setCategoryLevelPath(category.getLevelPath());
+                    goods.setCategoryName(category.getName());
+                });
     }
 
-    private void assembleSkus(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTO) {
-        FieldsAssembler.execute(goodsDTO,
-                GoodsDTO::getId,
-                skuGateway::selectBySpuIds,
-                GoodsDTO::setSkus,
-                SkuDTO::getSpuId);
+    private void assembleSkus(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
+
+        dataProcessor
+                .keySelect(GoodsDTO::getId)
+                .query(skuGateway::selectBySpuIds)
+                .keyBy(SkuDTO::getSpuId)
+                .collection()
+                .process(GoodsDTO::setSkus);
+
     }
 
-    private void assemblePics(GoodsBuildProfiles profiles, List<GoodsDTO> goodsDTO) {
-        FieldsAssembler.execute(
-                profiles.getWithPictures(),
-                goodsDTO,
-                GoodsDTO::getId,
-                spuIds -> attachmentGateway.selectByBizTypeAndBizIds(AttachmentBizType.SPU_PIC, spuIds),
-                (goodsDTO1, attachments) -> goodsDTO1.setPictures(attachments.stream().map(Attachment::getUrl).toList()),
-                Attachment::getBizId
-        );
+    private void assemblePics(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor, List<GoodsDTO> goodsDTO) {
+
+        dataProcessor
+                .keySelect(GoodsDTO::getId)
+                .query(goodsIds -> attachmentGateway.selectByBizTypeAndBizIds(AttachmentBizType.SPU_PIC, goodsIds))
+                .keyBy(Attachment::getBizId)
+                .collection()
+                .process((goodsDTO1, attachments) -> goodsDTO1.setPictures(attachments.stream().map(Attachment::getUrl).toList()));
     }
 
     public GoodsDTO build(Spu spu, GoodsBuildProfiles profiles) {

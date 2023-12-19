@@ -36,5 +36,7 @@ public interface SpuGateway {
 
     SpuSales selectSalesBySpuId(Long spuId);
 
+    List<SpuSales> selectSalesBySpuIds(List<Long> spuIds);
+
     List<Spu> selectByCategoryIds(List<Long> categoryIds);
 }

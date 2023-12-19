@@ -109,6 +109,13 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
+    public List<SpuSales> selectSalesBySpuIds(List<Long> spuIds) {
+        LambdaQueryWrapper<SpuSales> qw = new LambdaQueryWrapper<>();
+        qw.in(SpuSales::getSpuId, spuIds);
+        return spuSalesMapper.selectList(qw);
+    }
+
+    @Override
     public List<Spu> selectByCategoryIds(List<Long> categoryIds) {
         return lambdaQuery()
                 .in(Spu::getCategoryId, categoryIds)

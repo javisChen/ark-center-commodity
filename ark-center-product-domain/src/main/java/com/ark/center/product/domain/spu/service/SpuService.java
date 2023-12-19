@@ -18,12 +18,12 @@ public class SpuService {
     private final SpuGateway spuGateway;
     private final AttrGateway attrGateway;
 
-    /**
-     * 查询Spu规格
-     */
-    public List<AttrDTO> querySpecs(Long spuId) {
-        return querySpecs(Lists.newArrayList(spuId));
-    }
+//    /**
+//     * 查询Spu规格
+//     */
+//    public List<AttrDTO> querySpecs(Long spuId) {
+//        return querySpecs(Lists.newArrayList(spuId));
+//    }
 
     /**
      * 查询Spu规格
