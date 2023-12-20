@@ -21,7 +21,7 @@ import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.component.common.ParamsChecker;
-import com.ark.component.common.util.assemble.FieldsAssembler;
+import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -96,13 +96,14 @@ public class AttrApplicationService {
         if (CollectionUtils.isEmpty(records)) {
             return PageResponse.of(pages);
         }
-        FieldsAssembler.execute(
-                queryDTO.getWithAttr(),
-                records,
-                AttrGroupDTO::getId,
-                attrGateway::selectByGroupIds,
-                AttrGroupDTO::setAttrList,
-                AttrDTO::getAttrGroupId);
+        if (queryDTO.getWithAttr()) {
+            DataProcessor.create(records)
+                    .keySelect(AttrGroupDTO::getId)
+                    .query(attrGateway::selectByGroupIds)
+                    .keyBy(AttrDTO::getAttrGroupId)
+                    .collection()
+                    .process(AttrGroupDTO::setAttrList);
+        }
         return PageResponse.of(pages);
     }
 

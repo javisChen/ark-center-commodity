@@ -32,8 +32,8 @@ public class GoodsAdminController extends BaseController {
 
     @Operation(summary = "保存商品")
     @PostMapping("/save")
-    public SingleResponse<Long> save(@RequestBody @Validated GoodsCmd reqDTO) {
-        return SingleResponse.ok(goodsAppService.save(reqDTO));
+    public SingleResponse<Long> save(@RequestBody @Validated GoodsCmd cmd) {
+        return SingleResponse.ok(goodsAppService.save(cmd));
     }
 
     @Operation(summary = "查询分页列表")
