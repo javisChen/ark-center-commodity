@@ -39,12 +39,17 @@ public class AttachmentGatewayImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     @Override
     public void deleteByIds(List<Long> ids) {
-        removeByIds(ids);
+        removeByIds(ids.stream().sorted().toList());
     }
 
     @Override
     public void insert(Attachment attachment) {
         save(attachment);
+    }
+
+    @Override
+    public void batchInsert(List<Attachment> attachments) {
+        this.saveBatch(attachments, 500);
     }
 
 }

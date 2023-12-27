@@ -40,8 +40,8 @@ public class AttrUpdateCmd implements Serializable {
     @NotNull(message = "排序不能为空")
     private Integer sort;
 
-    @Schema(name = "模板ID，关联co_attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "模板ID，关联co_attr_template.id不能为空")
+    @Schema(name = "模板ID，关联attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "模板ID，关联attr_template.id不能为空")
     private Long attrTemplateId;
 
     @Schema(name = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", requiredMode = Schema.RequiredMode.REQUIRED)

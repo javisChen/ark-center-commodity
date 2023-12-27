@@ -27,9 +27,6 @@ public class CategoryDTO extends TreeifyDTO implements Serializable {
     @Schema(name = "分类编码", requiredMode = Schema.RequiredMode.REQUIRED)
     private String code;
 
-    @Schema(name = "商品数量", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private Integer commodityCount;
-
     @Schema(name = "是否显示 enums[NO,否,0;YES,是,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer isShow;
 

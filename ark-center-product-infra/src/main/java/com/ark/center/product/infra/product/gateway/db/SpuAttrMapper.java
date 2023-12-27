@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.product.gateway.db;
 
-import com.ark.center.product.client.goods.dto.AttrDTO;
+import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.domain.spu.SpuAttr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface SpuAttrMapper extends BaseMapper<SpuAttr> {
 
-    List<AttrDTO> selectSpuSpecs(@Param("spuIds") List<Long> spuIds);
+    List<GoodsAttrDTO> selectSpuSpecs(@Param("spuIds") List<Long> spuIds);
 }

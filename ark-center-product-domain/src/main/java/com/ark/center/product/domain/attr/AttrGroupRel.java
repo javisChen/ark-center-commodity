@@ -16,18 +16,18 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_group_rel")
+@TableName("attr_group_rel")
 public class AttrGroupRel extends BaseEntity {
 
 
     /**
-     * 属性ID，关联co_attr.id
+     * 属性ID，关联attr.id
      */
     @TableField("attr_id")
     private Long attrId;
 
     /**
-     * 属性组ID，关联co_attr_group.id
+     * 属性组ID，关联attr_group.id
      */
     @TableField("attr_group_id")
     private Long attrGroupId;

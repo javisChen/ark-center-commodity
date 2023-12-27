@@ -15,12 +15,12 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_spu_attr")
+@TableName("spu_attr")
 public class SpuAttr extends BaseEntity {
 
 
     /**
-     * spuId，关联co_spu.id
+     * spuId，关联spu.id
      */
     @TableField("spu_id")
     private Long spuId;

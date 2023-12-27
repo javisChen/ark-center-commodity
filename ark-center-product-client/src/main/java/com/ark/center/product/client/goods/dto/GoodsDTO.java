@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,10 +31,10 @@ public class GoodsDTO implements Serializable {
     @Schema(name = "商品介绍", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String description;
 
-    @Schema(name = "品牌id，关联co_brand.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "品牌id，关联brand.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long brandId;
 
-    @Schema(name = "分类id，关联co_category.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "分类id，关联category.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long categoryId;
 
     @Schema(name = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -64,21 +65,24 @@ public class GoodsDTO implements Serializable {
     private Long freightTemplateId;
 
     @Schema(name = "PC端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String pcDetailHtml;
+    private String pcRichText;
 
     @Schema(name = "移动端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String mobileDetailHtml;
+    private String mobileRichText;
 
     @Schema(name = "SKU列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<SkuDTO> skus;
 
     @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<AttrDTO> params;
+    private List<GoodsAttrDTO> params;
 
     @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> pictures;
 
     @Schema(name = "规格列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<AttrDTO> specs;
+    private List<GoodsAttrDTO> specs;
+
+    @Schema(name = "商品创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    private LocalDateTime createTime;
 
 }

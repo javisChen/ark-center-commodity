@@ -12,14 +12,17 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SpuConverter {
 
+    @Mapping(target = "pcRichText", ignore = true)
+    @Mapping(target = "mobileRichText", ignore = true)
     @Mapping(target = "specs", ignore = true)
     @Mapping(target = "skus", ignore = true)
     @Mapping(target = "pictures", ignore = true)
-    @Mapping(target = "pcDetailHtml", ignore = true)
     @Mapping(target = "params", ignore = true)
-    @Mapping(target = "mobileDetailHtml", ignore = true)
     @Mapping(target = "freightTemplateId", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
+    @Mapping(target = "categoryName", ignore = true)
     @Mapping(target = "categoryLevelPath", ignore = true)
+    @Mapping(target = "brandName", ignore = true)
     GoodsDTO toGoodsDTO(Spu spu);
 
     List<GoodsDTO> toGoodsDTO(List<Spu> spu);

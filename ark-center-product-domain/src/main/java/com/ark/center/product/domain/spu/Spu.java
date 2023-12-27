@@ -20,7 +20,7 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_spu")
+@TableName("spu")
 public class Spu extends BaseEntity {
 
     /**
@@ -85,13 +85,13 @@ public class Spu extends BaseEntity {
 
 
     /**
-     * 品牌id，关联co_brand.id
+     * 品牌id，关联brand.id
      */
     @TableField("brand_id")
     private Long brandId;
 
     /**
-     * 分类id，关联co_category.id
+     * 分类id，关联category.id
      */
     @TableField("category_id")
     private Long categoryId;

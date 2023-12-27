@@ -1,6 +1,6 @@
 package com.ark.center.product.domain.spu.gateway;
 
-import com.ark.center.product.client.goods.dto.AttrDTO;
+import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.domain.attr.AttrOption;
 import com.ark.center.product.domain.spu.Spu;
@@ -18,7 +18,7 @@ public interface SpuGateway {
 
     void insert(Spu spu);
 
-    void saveSales(SpuSales spuSales);
+    void saveSpuSales(SpuSales spuSales);
 
     void insertAttrs(List<SpuAttr> spuAttrs);
 
@@ -30,7 +30,7 @@ public interface SpuGateway {
 
     List<SpuAttr> selectAttrsBySpuId(Long spuId);
 
-    List<AttrDTO> selectSpecs(List<Long> spuIds);
+    List<GoodsAttrDTO> selectSpecs(List<Long> spuIds);
 
     void batchDeleteAttrs(List<Long> records);
 
@@ -39,4 +39,6 @@ public interface SpuGateway {
     List<SpuSales> selectSalesBySpuIds(List<Long> spuIds);
 
     List<Spu> selectByCategoryIds(List<Long> categoryIds);
+
+    boolean updateSpuSales(SpuSales sales);
 }

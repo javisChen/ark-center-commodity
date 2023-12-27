@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "ProductQry", description = "商品查询")
 public class GoodsQry extends PagingQuery {
 
-    @Schema(name = "SpuId，关联co_spu.id")
+    @Schema(name = "SpuId，关联spu.id")
     private Long spuId;
 
     @Schema(name = "spu编码")

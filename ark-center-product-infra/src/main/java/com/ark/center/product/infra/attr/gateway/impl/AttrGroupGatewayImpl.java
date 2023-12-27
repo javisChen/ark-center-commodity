@@ -2,7 +2,7 @@ package com.ark.center.product.infra.attr.gateway.impl;
 
 import com.ark.center.product.client.attr.dto.AttrGroupDTO;
 import com.ark.center.product.client.attr.query.AttrGroupPageQry;
-import com.ark.center.product.domain.attr.repository.AttrGroupGateway;
+import com.ark.center.product.domain.attr.gateway.AttrGroupGateway;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.domain.attr.AttrGroup;
 import com.ark.center.product.infra.attr.gateway.db.AttrGroupMapper;

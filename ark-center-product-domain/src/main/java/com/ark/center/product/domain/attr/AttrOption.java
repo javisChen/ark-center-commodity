@@ -20,18 +20,18 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_option")
+@TableName("attr_option")
 public class AttrOption extends BaseEntity {
 
 
     /**
-     * 商品属性ID，关联co_attr.id
+     * 商品属性ID，关联attr.id
      */
     @TableField("attr_id")
     private Long attrId;
 
     /**
-     * 关联co_spu.id
+     * 关联spu.id
      */
     @TableField("spu_id")
     private Long spuId;

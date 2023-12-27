@@ -37,6 +37,6 @@ public class SkuDTO implements Serializable {
     @Schema(name = "图片地址", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String mainPicture;
     @Schema(name  = "SKU规格属性列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<AttrDTO> specs;
+    private List<GoodsAttrDTO> specs;
 
 }

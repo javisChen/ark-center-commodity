@@ -26,8 +26,8 @@ public class AttrGroupUpdateCmd implements Serializable {
     @NotBlank(message = "属性分组名称不能为空")
     private String name;
 
-    @Schema(name = "模板ID，关联co_attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "模板ID，关联co_attr_template.id不能为空")
+    @Schema(name = "模板ID，关联attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "模板ID，关联attr_template.id不能为空")
     private Long attrTemplateId;
 
 }

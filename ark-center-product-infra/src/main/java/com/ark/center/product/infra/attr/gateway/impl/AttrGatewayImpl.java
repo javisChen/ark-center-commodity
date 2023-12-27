@@ -3,7 +3,7 @@ package com.ark.center.product.infra.attr.gateway.impl;
 import com.ark.center.product.client.attr.dto.AttrDTO;
 import com.ark.center.product.client.attr.dto.AttrOptionDTO;
 import com.ark.center.product.client.attr.query.AttrPageQry;
-import com.ark.center.product.domain.attr.repository.AttrGateway;
+import com.ark.center.product.domain.attr.gateway.AttrGateway;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.infra.attr.convertor.AttrConvertor;

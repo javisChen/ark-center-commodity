@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_group")
+@TableName("attr_group")
 public class AttrGroup extends BaseEntity {
 
 
@@ -26,7 +26,7 @@ public class AttrGroup extends BaseEntity {
     private String name;
 
     /**
-     * 模板ID，关联co_attr_template.id
+     * 模板ID，关联attr_template.id
      */
     @TableField("attr_template_id")
     private Long attrTemplateId;

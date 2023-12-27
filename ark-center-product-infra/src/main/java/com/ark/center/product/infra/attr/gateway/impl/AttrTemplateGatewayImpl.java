@@ -3,7 +3,7 @@ package com.ark.center.product.infra.attr.gateway.impl;
 
 import com.ark.center.product.client.attr.dto.AttrTemplateDTO;
 import com.ark.center.product.client.attr.query.AttrTemplatePageQry;
-import com.ark.center.product.domain.attr.repository.AttrTemplateGateway;
+import com.ark.center.product.domain.attr.gateway.AttrTemplateGateway;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.center.product.domain.attr.AttrTemplate;
 import com.ark.center.product.infra.attr.gateway.db.AttrTemplateMapper;

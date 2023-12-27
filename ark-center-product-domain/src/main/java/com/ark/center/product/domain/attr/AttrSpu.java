@@ -16,18 +16,18 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_spu")
+@TableName("attr_spu")
 public class AttrSpu extends BaseEntity {
 
 
     /**
-     * 商品属性ID，关联co_attr.id
+     * 商品属性ID，关联attr.id
      */
     @TableField("attr_id")
     private Long attrId;
 
     /**
-     * SPU ID，关联co_spu.id
+     * SPU ID，关联spu.id
      */
     @TableField("spu_id")
     private Long spuId;

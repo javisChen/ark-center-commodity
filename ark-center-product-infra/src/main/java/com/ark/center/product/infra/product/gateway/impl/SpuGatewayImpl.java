@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.product.gateway.impl;
 
-import com.ark.center.product.client.goods.dto.AttrDTO;
+import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.domain.attr.AttrOption;
 import com.ark.center.product.domain.spu.Spu;
@@ -48,15 +48,8 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public void saveSales(SpuSales spuSales) {
-        LambdaQueryWrapper<SpuSales> qw = new LambdaQueryWrapper<>();
-        qw.select(BaseEntity::getId)
-                .eq(SpuSales::getSpuId, spuSales.getSpuId());
-        if (spuSalesMapper.selectOne(qw) != null) {
-            spuSalesMapper.updateById(spuSales);
-        } else {
-            spuSalesMapper.insert(spuSales);
-        }
+    public void saveSpuSales(SpuSales spuSales) {
+        spuSalesMapper.insert(spuSales);
     }
 
     @Override
@@ -91,7 +84,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     }
 
     @Override
-    public List<AttrDTO> selectSpecs(List<Long> spuIds) {
+    public List<GoodsAttrDTO> selectSpecs(List<Long> spuIds) {
         return spuAttrMapper.selectSpuSpecs(spuIds);
     }
 
@@ -120,6 +113,11 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
         return lambdaQuery()
                 .in(Spu::getCategoryId, categoryIds)
                 .list();
+    }
+
+    @Override
+    public boolean updateSpuSales(SpuSales sales) {
+        return spuSalesMapper.updateById(sales) > 0;
     }
 
 }

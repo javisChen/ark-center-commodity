@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr_template")
+@TableName("attr_template")
 public class AttrTemplate extends BaseEntity {
 
 

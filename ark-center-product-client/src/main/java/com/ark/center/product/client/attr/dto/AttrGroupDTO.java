@@ -25,7 +25,7 @@ public class AttrGroupDTO implements Serializable {
     @Schema(name = "属性分组名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @Schema(name = "模板ID，关联co_attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "模板ID，关联attr_template.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long attrTemplateId;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -28,12 +28,12 @@ public class GoodsCmd implements Serializable {
     @Schema(name = "商品介绍", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String description;
 
-    @Schema(name = "品牌id，关联co_brand.id", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "品牌id，关联co_brand.id不能为空")
+    @Schema(name = "品牌id，关联brand.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "品牌id，关联brand.id不能为空")
     private Long brandId;
 
-    @Schema(name = "分类id，关联co_category.id", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "分类id，关联co_category.id不能为空")
+    @Schema(name = "分类id，关联category.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "分类id，关联category.id不能为空")
     private Long categoryId;
 
     @Schema(name = "spu主图url", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -56,13 +56,13 @@ public class GoodsCmd implements Serializable {
     private Long freightTemplateId;
 
     @Schema(name = "PC端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String pcDetailHtml;
+    private String pcRichText;
 
     @Schema(name = "移动端详情富文本", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String mobileDetailHtml;
+    private String mobileRichText;
 
-    @Schema(name = "SKU列表", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<SkuCmd> skuList;
+    @Schema(name = "SKU集合", requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<SkuCmd> skus;
 
     @Schema(name = "参数列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<AttrCmd> params;
@@ -73,7 +73,7 @@ public class GoodsCmd implements Serializable {
     @Schema(name = "图片地址列表", requiredMode = Schema.RequiredMode.REQUIRED)
     private List<String> pictures;
 
-    @Schema(name = "刷新SKU标记", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private Boolean flushSku = false;
+//    @Schema(name = "重置SKU标识，为true的话将会清空当前SPU的所有SKU；false=否，true=是", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+//    private Boolean resetSku = false;
 
 }

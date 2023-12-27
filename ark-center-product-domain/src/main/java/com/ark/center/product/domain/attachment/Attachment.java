@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attachment")
+@TableName("func_attachment")
 public class Attachment extends BaseEntity {
 
 

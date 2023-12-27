@@ -10,7 +10,7 @@ public class SkuCmd {
     
     @Schema(name = "skuId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
-    @Schema(name = "商品重量，默认为克(g)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "sku编码", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String code;
     @Schema(name = "销售价（单位：分）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer salesPrice;

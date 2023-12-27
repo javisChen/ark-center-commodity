@@ -13,4 +13,6 @@ public interface AttachmentGateway {
     void deleteByIds(List<Long> ids);
 
     void insert(Attachment attachment);
+
+    void batchInsert(List<Attachment> attachments);
 }

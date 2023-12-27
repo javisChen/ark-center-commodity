@@ -14,12 +14,12 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_spu_sales")
+@TableName("spu_sales")
 public class SpuSales extends BaseEntity {
 
 
     /**
-     * spuId，关联co_spu.id
+     * spuId，关联spu.id
      */
     @TableField("spu_id")
     private Long spuId;
@@ -33,14 +33,14 @@ public class SpuSales extends BaseEntity {
     /**
      * PC端商品介绍富文本
      */
-    @TableField("pc_detail_html")
-    private String pcDetailHtml;
+    @TableField("pc_rich_text")
+    private String pcRichText;
 
     /**
      * 移动端商品介绍富文本
      */
-    @TableField("mobile_detail_html")
-    private String mobileDetailHtml;
+    @TableField("mobile_rich_text")
+    private String mobileRichText;
 
     /**
      * 参数属性JSON

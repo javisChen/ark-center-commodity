@@ -3,7 +3,7 @@ package com.ark.center.product.app.goods.service;
 import com.ark.center.product.app.goods.query.SkuListQryExe;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.client.goods.query.SkuQry;
-import com.ark.center.product.client.stock.command.StockDecreaseCmd;
+import com.ark.center.product.client.inventory.command.StockLockCmd;
 import com.ark.component.dto.ServerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class SkuAppService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public ServerResponse decreaseStock(List<StockDecreaseCmd> cmd) {
+    public ServerResponse decreaseStock(List<StockLockCmd> cmd) {
         return ServerResponse.ok();
     }
 }

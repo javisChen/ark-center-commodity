@@ -16,7 +16,7 @@ import lombok.*;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_category")
+@TableName("category")
 @NoArgsConstructor
 public class Category extends BaseEntity {
 
@@ -31,12 +31,6 @@ public class Category extends BaseEntity {
      */
     @TableField("`code`")
     private String code;
-
-    /**
-     * 商品数量
-     */
-    @TableField("commodity_count")
-    private Integer commodityCount;
 
     /**
      * 是否显示 enums[NO,否,0;YES,是,1]

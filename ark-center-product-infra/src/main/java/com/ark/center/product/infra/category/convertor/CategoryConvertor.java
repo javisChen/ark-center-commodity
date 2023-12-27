@@ -20,7 +20,6 @@ public interface CategoryConvertor {
     @Mapping(target = "gmtModified", ignore = true)
     @Mapping(target = "gmtCreate", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    @Mapping(target = "commodityCount", ignore = true)
     @Mapping(target = "code", ignore = true)
     Category toCategory(CategoryUpdateCmd command);
 

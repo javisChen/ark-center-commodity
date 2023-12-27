@@ -20,7 +20,7 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("co_attr")
+@TableName("attr")
 public class Attr extends BaseEntity {
 
 
@@ -49,13 +49,13 @@ public class Attr extends BaseEntity {
     private Integer sort;
 
     /**
-     * 模板ID，关联co_attr_template.id
+     * 模板ID，关联attr_template.id
      */
     @TableField("attr_template_id")
     private Long attrTemplateId;
 
     /**
-     * 属性组ID，关联co_attr_group.id
+     * 属性组ID，关联attr_group.id
      */
     @TableField("attr_group_id")
     private Long attrGroupId;

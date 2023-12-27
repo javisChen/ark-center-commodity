@@ -20,7 +20,7 @@ public class AttrOptionDTO implements Serializable {
     @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @Schema(name = "商品属性ID，关联co_attr.id", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "商品属性ID，关联attr.id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long attrId;
 
     @Schema(name = "选项值内容", requiredMode = Schema.RequiredMode.REQUIRED)
