@@ -18,7 +18,7 @@ public class InventoryAppService {
 
     @Transactional(rollbackFor = Throwable.class)
     public SingleResponse<StockLockDTO> lock(StockLockCmd cmd) {
-        return SingleResponse.ok(inventoryService.lockStock(cmd));
+        return SingleResponse.ok(inventoryLockCmdExe.execute(cmd));
     }
 
 }

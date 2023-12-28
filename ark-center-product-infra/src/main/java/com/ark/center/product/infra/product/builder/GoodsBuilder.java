@@ -9,6 +9,7 @@ import com.ark.center.product.domain.brand.gateway.BrandGateway;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
+import com.ark.center.product.domain.spu.SpuSales;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.domain.spu.service.SpuService;
 import com.ark.center.product.infra.product.AttachmentBizType;
@@ -92,7 +93,7 @@ public class GoodsBuilder {
         if (profiles.getWithSaleInfo()) {
             dataProcessor.keySelect(GoodsDTO::getId)
                     .query(spuGateway::selectSalesBySpuIds)
-                    .keyBy(BaseEntity::getId)
+                    .keyBy(SpuSales::getSpuId)
                     .object()
                     .process((goodsDTO, spuSales) -> goodsDTO.setParams(spuAssembler.toGoodsAttr(spuSales.getParamData())));
         }

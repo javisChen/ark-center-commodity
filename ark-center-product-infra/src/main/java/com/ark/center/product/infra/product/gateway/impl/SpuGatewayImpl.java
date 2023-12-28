@@ -6,14 +6,16 @@ import com.ark.center.product.domain.attr.AttrOption;
 import com.ark.center.product.domain.spu.Spu;
 import com.ark.center.product.domain.spu.SpuAttr;
 import com.ark.center.product.domain.spu.SpuSales;
+import com.ark.center.product.domain.spu.assembler.SpuAssembler;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.infra.attr.gateway.db.AttrOptionMapper;
-import com.ark.center.product.domain.spu.assembler.SpuAssembler;
 import com.ark.center.product.infra.product.gateway.db.SpuAttrMapper;
 import com.ark.center.product.infra.product.gateway.db.SpuMapper;
 import com.ark.center.product.infra.product.gateway.db.SpuSalesMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -117,7 +119,9 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
 
     @Override
     public boolean updateSpuSales(SpuSales sales) {
-        return spuSalesMapper.updateById(sales) > 0;
+        LambdaUpdateWrapper<SpuSales> update = Wrappers.lambdaUpdate(SpuSales.class);
+        update.eq(SpuSales::getSpuId, sales.getSpuId());
+        return spuSalesMapper.update(sales, update) > 0;
     }
 
 }

@@ -23,11 +23,11 @@ local start = 2
 
 for i = 1, #KEYS do
     local hashKey = KEYS[i];
-    availableField = ARGV[start];
+    availableField = string.sub(ARGV[start], 2, -2);
     availableValue = ARGV[start + 1];
-    lockedField = ARGV[start + 2];
+    lockedField = string.sub(ARGV[start + 2], 2, -2);
     lockedValue = ARGV[start + 3];
-    soldField = ARGV[start + 4];
+    soldField = string.sub(ARGV[start + 4], 2, -2);
     soldValue = ARGV[start + 5];
     start = start + 6;
     redis.call('hmset', hashKey, availableField, availableValue, lockedField, lockedValue, soldField, soldValue);

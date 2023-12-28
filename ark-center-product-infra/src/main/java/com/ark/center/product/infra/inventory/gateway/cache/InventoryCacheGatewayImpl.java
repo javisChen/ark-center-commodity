@@ -81,18 +81,18 @@ public class InventoryCacheGatewayImpl implements InventoryCacheGateway, Initial
 
     @Override
     public Long decrAvailableStock(Long skuId, Long quantity) {
-        return redisCacheService.decrement(buildStockCacheKey(skuId), quantity);
+        return redisCacheService.hIncrBy(buildStockCacheKey(skuId), HASH_KEY_AVAILABLE_STOCK, -quantity);
     }
 
     @Override
     public Long incrAvailableStock(Long skuId, Long quantity) {
-        return redisCacheService.increment(buildStockCacheKey(skuId), quantity);
+        return redisCacheService.hIncrBy(buildStockCacheKey(skuId), HASH_KEY_AVAILABLE_STOCK, quantity);
     }
 
     @Override
     public void delStock(List<Inventory> inventories) {
         List<String> keys = inventories.stream().map(inventory -> buildStockCacheKey(inventory.getSkuId())).toList();
-        redisCacheService.delele(keys);
+        redisCacheService.del(keys);
     }
 
     private String buildStockCacheKey(Long skuId) {
