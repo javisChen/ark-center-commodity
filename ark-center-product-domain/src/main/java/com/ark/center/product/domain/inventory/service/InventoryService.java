@@ -1,11 +1,14 @@
 package com.ark.center.product.domain.inventory.service;
 
+import cn.hutool.core.collection.IterUtil;
 import com.ark.center.product.client.inventory.command.StockLockCmd;
 import com.ark.center.product.client.inventory.dto.StockLockDTO;
 import com.ark.center.product.domain.inventory.Inventory;
 import com.ark.center.product.domain.inventory.gateway.InventoryCacheGateway;
 import com.ark.center.product.domain.inventory.gateway.InventoryGateway;
 import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.ark.component.web.util.separate.DataSeparator;
+import com.ark.component.web.util.separate.SeparateResult;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,46 +35,77 @@ public class InventoryService {
     private final InventoryCacheGateway inventoryCacheGateway;
 
     /**
-     * 入库
+     * 保存库存
+     * 根据SkuId
      */
     public void save(List<Inventory> inventories) {
         List<Long> skuIds = inventories.stream().map(Inventory::getSkuId).toList();
         List<Inventory> originalInventories = inventoryGateway.selectBySkuIds(skuIds);
-        List<Inventory> newInventories = Lists.newArrayListWithCapacity(originalInventories.size());
-        List<Inventory> updateInventories = Lists.newArrayListWithCapacity(originalInventories.size());
 
         if (CollectionUtils.isEmpty(originalInventories)) {
-            newInventories.addAll(inventories);
-        } else {
-            Map<Long, Inventory> originalInventoryMap = originalInventories.stream().collect(Collectors.toMap(Inventory::getSkuId, Function.identity()));
-            for (Inventory inventory : inventories) {
-                if (originalInventoryMap.containsKey(inventory.getSkuId())) {
-                    updateInventories.add(inventory);
-                } else {
-                    newInventories.add(inventory);
-                }
+            executeSave(inventories);
+            return;
+        }
+
+        // 区分出新增/更新的数据
+        SeparateResult<Inventory> result = DataSeparator.separate(inventories, originalInventories, Inventory::getSkuId);
+
+        List<Inventory> inserts = result.getInserts();
+        List<Inventory> updates = result.getUpdates();
+
+        // todo 下面的存储存在缓存与DB的一致性问题，后续优化
+        if (CollectionUtils.isNotEmpty(inserts)) {
+            executeSave(inserts);
+        }
+
+        if (CollectionUtils.isNotEmpty(updates)) {
+            executeUpdateAvailable(updates);
+        }
+
+    }
+
+    private <T, KEY> InsertUpdateResult<T> getInsertUpdate(List<T> inventories, List<T> originalInventories, Function<T, KEY> keyFunc) {
+        // 新库存
+        List<T> newInventories = Lists.newArrayListWithCapacity(inventories.size());
+        // 待更新库存
+        List<T> updateInventories = Lists.newArrayListWithCapacity(inventories.size());
+
+        Map<KEY, T> originalInventoryMap = IterUtil.toMap(originalInventories, keyFunc);
+        for (T inventory : inventories) {
+            if (originalInventoryMap.containsKey(keyFunc.apply(inventory))) {
+                updateInventories.add(inventory);
+            } else {
+                newInventories.add(inventory);
             }
         }
+        return new InsertUpdateResult<T>(newInventories, updateInventories);
+    }
 
-        if (CollectionUtils.isNotEmpty(newInventories)) {
-            inventoryGateway.insert(newInventories);
-            inventoryCacheGateway.saveStock(newInventories);
+    private record InsertUpdateResult<T>(List<T> newInventories, List<T> updateInventories) {
+    }
+
+    public <T, K> Map<K, T> test(List<T> list, Function<? super T, ? extends K> keyMapper) {
+        return list.stream()
+                .collect(Collectors.toMap(keyMapper, Function.identity()));
+    }
+
+    private void executeUpdateAvailable(List<Inventory> updateInventories) {
+        for (Inventory inventory : updateInventories) {
+            inventoryGateway.updateAvailableStock(inventory);
         }
+        inventoryCacheGateway.updateAvailableStock(updateInventories);
+    }
 
-        if (CollectionUtils.isNotEmpty(updateInventories)) {
-            for (Inventory inventory : updateInventories) {
-                inventoryGateway.updateAvailableStock(inventory);
-            }
-            inventoryCacheGateway.updateAvailableStock(updateInventories);
-        }
-
+    private void executeSave(List<Inventory> inventories) {
+        inventoryGateway.save(inventories);
+        inventoryCacheGateway.save(inventories);
     }
 
     /**
      * 入库
      */
     public void lockStock(List<Inventory> inventories) {
-        inventoryGateway.insert(inventories);
+        inventoryGateway.save(inventories);
     }
 
     /**
@@ -159,7 +193,6 @@ public class InventoryService {
 
         // 删除库存操作记录
         inventoryGateway.deleteRecords(ids);
-
 
     }
 }

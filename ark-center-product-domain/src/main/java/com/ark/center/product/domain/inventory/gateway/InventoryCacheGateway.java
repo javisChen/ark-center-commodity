@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InventoryCacheGateway {
 
-    void saveStock(List<Inventory> inventories);
+    void save(List<Inventory> inventories);
 
     Long decrAvailableStock(Long skuId, Long quantity);
 

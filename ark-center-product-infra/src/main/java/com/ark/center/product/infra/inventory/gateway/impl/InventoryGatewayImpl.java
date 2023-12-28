@@ -22,7 +22,7 @@ public class InventoryGatewayImpl extends ServiceImpl<InventoryMapper, Inventory
 
 
     @Override
-    public void insert(List<Inventory> inventories) {
+    public void save(List<Inventory> inventories) {
         saveBatch(inventories);
     }
 

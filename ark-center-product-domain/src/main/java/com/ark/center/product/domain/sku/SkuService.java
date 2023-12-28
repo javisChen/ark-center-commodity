@@ -29,11 +29,10 @@ public class SkuService {
 
     public void saveSku(GoodsCmd cmd, Spu spu) {
 
-        boolean skuCombinationHasChanged = checkSkuCombination(cmd);
+        checkSkuCombination(cmd);
 
         List<Sku> skus = saveSkus(cmd, spu);
 
-        // 保存库存
         saveInventory(spu.getId(), skus);
     }
 

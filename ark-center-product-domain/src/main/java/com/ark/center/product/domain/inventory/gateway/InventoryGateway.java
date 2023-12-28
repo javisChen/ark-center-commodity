@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InventoryGateway {
 
-    void insert(List<Inventory> inventories);
+    void save(List<Inventory> inventories);
 
     List<Inventory> selectBySpuId(Long spuId);
 

@@ -38,7 +38,7 @@ public class InventoryCacheGatewayImpl implements InventoryCacheGateway, Initial
 
 
     @Override
-    public void saveStock(List<Inventory> inventories) {
+    public void save(List<Inventory> inventories) {
 
         List<Object> args = Lists.newArrayList(expires);
         List<String> keys = Lists.newArrayList();
@@ -70,8 +70,13 @@ public class InventoryCacheGatewayImpl implements InventoryCacheGateway, Initial
             args.add(Objects.requireNonNullElse(inventory.getAvailableStock(), 0));
         }
 
-        RedisScript<Long> redisScript = luaScriptManager.find(LuaScriptManager.SCRIPT_UPDATE_STOCK);
-        redisCacheService.executeScript(redisScript, keys, args);
+        try {
+            RedisScript<Long> redisScript = luaScriptManager.find(LuaScriptManager.SCRIPT_UPDATE_STOCK);
+            redisCacheService.executeScript(redisScript, keys, args);
+        } catch (Exception e) {
+            log.error("Update available stock fail", e);
+            throw e;
+        }
     }
 
     @Override

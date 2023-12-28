@@ -20,7 +20,7 @@ public class InventoryCacheGatewayImplTest {
         List<Inventory> inventories = new ArrayList<>();
         inventories.add(getInventory(1L, 15, 20, 25));
         inventories.add(getInventory(2L, 10, 15, 20));
-        inventoryCacheGateway.saveStock(inventories);
+        inventoryCacheGateway.save(inventories);
     }
 
     private Inventory getInventory(long skuId, Integer available, Integer locked, Integer sold) {
