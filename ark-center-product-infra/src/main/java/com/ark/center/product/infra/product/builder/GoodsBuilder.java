@@ -1,6 +1,5 @@
 package com.ark.center.product.infra.product.builder;
 
-import com.alibaba.fastjson2.JSON;
 import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
@@ -13,7 +12,7 @@ import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.domain.spu.service.SpuService;
 import com.ark.center.product.infra.product.AttachmentBizType;
-import com.ark.center.product.infra.product.convertor.SpuConverter;
+import com.ark.center.product.domain.spu.assembler.SpuAssembler;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
@@ -34,7 +33,7 @@ public class GoodsBuilder {
 
     private final SpuService spuService;
 
-    private final SpuConverter spuConverter;
+    private final SpuAssembler spuAssembler;
 
     private final SkuGateway skuGateway;
 
@@ -50,7 +49,7 @@ public class GoodsBuilder {
             return Collections.emptyList();
         }
 
-        List<GoodsDTO> goodsDTOS = spuConverter.toGoodsDTO(records);
+        List<GoodsDTO> goodsDTOS = spuAssembler.toGoodsDTO(records);
 
         DataProcessor<GoodsDTO> dataProcessor = new DataProcessor<>(goodsDTOS);
 
@@ -95,7 +94,7 @@ public class GoodsBuilder {
                     .query(spuGateway::selectSalesBySpuIds)
                     .keyBy(BaseEntity::getId)
                     .object()
-                    .process((goodsDTO, spuSales) -> goodsDTO.setParams(JSON.parseArray(spuSales.getParamData(), GoodsAttrDTO.class)));
+                    .process((goodsDTO, spuSales) -> goodsDTO.setParams(spuAssembler.toGoodsAttr(spuSales.getParamData())));
         }
     }
 

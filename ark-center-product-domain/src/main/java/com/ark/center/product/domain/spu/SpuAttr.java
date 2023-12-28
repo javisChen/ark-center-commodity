@@ -32,6 +32,12 @@ public class SpuAttr extends BaseEntity {
     private Long attrId;
 
     /**
+     * 属性名称（冗余）
+     */
+    @TableField("attr_name")
+    private String attrName;
+
+    /**
      * 属性值（冗余）
      */
     @TableField("attr_value")

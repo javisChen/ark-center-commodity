@@ -1,8 +1,11 @@
-package com.ark.center.product.infra.product.convertor;
+package com.ark.center.product.domain.spu.assembler;
 
+import com.ark.center.product.client.goods.command.AttrCmd;
 import com.ark.center.product.client.goods.command.GoodsCmd;
+import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.domain.spu.Spu;
+import com.ark.center.product.domain.spu.SpuAttr;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -10,7 +13,7 @@ import org.mapstruct.MappingConstants;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SpuConverter {
+public interface SpuAssembler {
 
     @Mapping(target = "pcRichText", ignore = true)
     @Mapping(target = "mobileRichText", ignore = true)
@@ -35,5 +38,9 @@ public interface SpuConverter {
     @Mapping(target = "gmtCreate", ignore = true)
     @Mapping(target = "creator", ignore = true)
     Spu toSpu(GoodsCmd cmd);
+
+    List<SpuAttr> toSpuAttr(List<AttrCmd> attrCmd);
+
+    List<GoodsAttrDTO> toGoodsAttr(List<SpuAttr> params);
 
 }

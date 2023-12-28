@@ -1,18 +1,17 @@
 package com.ark.center.product.app.goods.executor;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.product.client.goods.command.AttrOptionCmd;
 import com.ark.center.product.client.goods.command.GoodsCmd;
 import com.ark.center.product.domain.attachment.Attachment;
 import com.ark.center.product.domain.attachment.gateway.AttachmentGateway;
 import com.ark.center.product.domain.attr.AttrOption;
+import com.ark.center.product.domain.sku.SkuService;
 import com.ark.center.product.domain.spu.Spu;
 import com.ark.center.product.domain.spu.SpuAttr;
 import com.ark.center.product.domain.spu.SpuSales;
+import com.ark.center.product.domain.spu.assembler.SpuAssembler;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
-import com.ark.center.product.domain.sku.SkuService;
 import com.ark.center.product.infra.product.AttachmentBizType;
-import com.ark.center.product.infra.product.convertor.SpuConverter;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -28,7 +27,7 @@ public class GoodsCmdExe {
     private final SkuService skuService;
     private final SpuGateway spuGateway;
     private final AttachmentGateway attachmentGateway;
-    private final SpuConverter spuConverter;
+    private final SpuAssembler spuAssembler;
 
     public Long execute(GoodsCmd cmd) {
         Spu spu = toSpu(cmd);
@@ -49,7 +48,7 @@ public class GoodsCmdExe {
 
     @NotNull
     private Spu toSpu(GoodsCmd cmd) {
-        Spu spu = spuConverter.toSpu(cmd);
+        Spu spu = spuAssembler.toSpu(cmd);
         // 暂时取第一个sku的销售价格来做展示
         spu.setShowPrice(cmd.getSkus().get(0).getSalesPrice());
         spu.setMainPicture(cmd.getPictures().get(0));
@@ -83,10 +82,9 @@ public class GoodsCmdExe {
 
     private void saveParams(GoodsCmd cmd, Spu spu) {
         Long spuId = spu.getId();
-        List<SpuAttr> records = spuGateway.selectAttrsBySpuId(spuId);
 
         // 先尝试清除原本的SPU参数属性
-        attemptClearSpuParams(records);
+        attemptClearSpuParams(spuId);
 
         List<SpuAttr> attrs = cmd.getParams()
                 .stream()
@@ -94,6 +92,7 @@ public class GoodsCmdExe {
                     SpuAttr spuAttr = new SpuAttr();
                     spuAttr.setSpuId(spuId);
                     spuAttr.setAttrId(item.getAttrId());
+                    spuAttr.setAttrName(item.getAttrName());
                     spuAttr.setAttrValue(item.getAttrValue());
                     return spuAttr;
                 })
@@ -101,10 +100,11 @@ public class GoodsCmdExe {
         spuGateway.insertAttrs(attrs);
     }
 
-    private void attemptClearSpuParams(List<SpuAttr> records) {
+    private void attemptClearSpuParams(Long spuId) {
+        List<SpuAttr> params = spuGateway.selectAttrsBySpuId(spuId);
         // 如果spu原本存在数据，先删除
-        if (CollectionUtils.isNotEmpty(records)) {
-            List<Long> ids = records.stream().map(SpuAttr::getAttrId).toList();
+        if (CollectionUtils.isNotEmpty(params)) {
+            List<Long> ids = params.stream().map(SpuAttr::getAttrId).sorted().toList();
             spuGateway.batchDeleteAttrs(ids);
         }
     }
@@ -146,7 +146,7 @@ public class GoodsCmdExe {
         sales.setFreightTemplateId(cmd.getFreightTemplateId());
         sales.setPcRichText(cmd.getPcRichText());
         sales.setMobileRichText(cmd.getMobileRichText());
-        sales.setParamData(JSONObject.toJSONString(cmd.getParams()));
+        sales.setParamData(spuAssembler.toSpuAttr(cmd.getParams()));
         boolean updated = spuGateway.updateSpuSales(sales);
         if (!updated) {
             spuGateway.saveSpuSales(sales);

@@ -1,6 +1,6 @@
 package com.ark.center.product.domain.sku;
 
-import com.ark.center.product.domain.sku.typehandler.AttrTypeHandler;
+import com.ark.center.product.domain.sku.typehandler.SkuAttrTypeHandler;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -75,7 +75,7 @@ public class Sku extends BaseEntity {
     /**
      * 规格属性JSON
      */
-    @TableField(value = "specs", typeHandler = AttrTypeHandler.class)
+    @TableField(value = "specs", typeHandler = SkuAttrTypeHandler.class)
     private List<SkuAttr> specs;
 
 }

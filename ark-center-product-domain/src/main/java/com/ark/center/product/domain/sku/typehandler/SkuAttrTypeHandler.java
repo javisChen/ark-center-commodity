@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AttrTypeHandler extends BaseTypeHandler<List<SkuAttr>> {
+public class SkuAttrTypeHandler extends BaseTypeHandler<List<SkuAttr>> {
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<SkuAttr> parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, JSON.toJSONString(parameter));

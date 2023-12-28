@@ -8,7 +8,7 @@ import com.ark.center.product.domain.spu.SpuAttr;
 import com.ark.center.product.domain.spu.SpuSales;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.infra.attr.gateway.db.AttrOptionMapper;
-import com.ark.center.product.infra.product.convertor.SpuConverter;
+import com.ark.center.product.domain.spu.assembler.SpuAssembler;
 import com.ark.center.product.infra.product.gateway.db.SpuAttrMapper;
 import com.ark.center.product.infra.product.gateway.db.SpuMapper;
 import com.ark.center.product.infra.product.gateway.db.SpuSalesMapper;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGateway {
 
-    private final SpuConverter spuConverter;
+    private final SpuAssembler spuAssembler;
     private final SpuSalesMapper spuSalesMapper;
     private final SpuAttrMapper spuAttrMapper;
     private final AttrOptionMapper attrOptionMapper;

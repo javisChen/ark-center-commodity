@@ -1,9 +1,14 @@
 package com.ark.center.product.domain.spu;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import com.ark.center.product.domain.sku.typehandler.SpuAttrTypeHandler;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
+
 /**
  * <p>
  * spu销售属性
@@ -45,7 +50,7 @@ public class SpuSales extends BaseEntity {
     /**
      * 参数属性JSON
      */
-    @TableField("param_data")
-    private String paramData;
+    @TableField(value = "param_data", typeHandler = SpuAttrTypeHandler.class)
+    private List<SpuAttr> paramData;
 
 }

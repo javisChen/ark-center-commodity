@@ -40,7 +40,6 @@ public class GoodsQryExe {
     }
 
     public GoodsDTO queryDetails(Long spuId) {
-
         Spu spu = spuGateway.selectById(spuId);
         Assert.notNull(spu, () -> ExceptionFactory.userException("商品不存在"));
 
