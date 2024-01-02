@@ -11,6 +11,7 @@ local seconds = ARGV[1];
 local availableField;
 local availableValue;
 
+
 -- 已锁定库存
 local lockedField;
 local lockedValue;

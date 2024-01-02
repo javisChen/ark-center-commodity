@@ -3,11 +3,10 @@ package com.ark.center.product.adapter.inventory.inner;
 import com.ark.center.product.app.stock.InventoryAppService;
 import com.ark.center.product.client.inventory.InventoryApi;
 import com.ark.center.product.client.inventory.command.StockLockCmd;
-import com.ark.center.product.client.inventory.dto.StockLockDTO;
 import com.ark.center.product.client.inventory.dto.StockQuantityDTO;
 import com.ark.center.product.client.inventory.query.StockQuantityQry;
 import com.ark.component.dto.MultiResponse;
-import com.ark.component.dto.SingleResponse;
+import com.ark.component.dto.ServerResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,7 @@ public class InventoryInnerController implements InventoryApi {
     }
 
     @Override
-    public SingleResponse<StockLockDTO> lock(StockLockCmd cmd) {
+    public ServerResponse lock(StockLockCmd cmd) {
         return inventoryAppService.lock(cmd);
     }
 }

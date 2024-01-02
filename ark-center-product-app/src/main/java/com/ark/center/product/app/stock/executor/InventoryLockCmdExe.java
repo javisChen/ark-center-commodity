@@ -1,7 +1,6 @@
 package com.ark.center.product.app.stock.executor;
 
 import com.ark.center.product.client.inventory.command.StockLockCmd;
-import com.ark.center.product.client.inventory.dto.StockLockDTO;
 import com.ark.center.product.domain.inventory.service.InventoryService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,8 @@ public class InventoryLockCmdExe {
     /**
      * todo 需要优化，目前是比较简单的实现
      */
-    public StockLockDTO execute(StockLockCmd cmd) {
-        return inventoryService.lockStock(cmd);
+    public void execute(StockLockCmd cmd) {
+        inventoryService.lockStock(cmd);
     }
 
 }

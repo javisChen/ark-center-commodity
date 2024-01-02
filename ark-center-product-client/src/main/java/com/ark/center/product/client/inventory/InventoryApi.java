@@ -1,11 +1,10 @@
 package com.ark.center.product.client.inventory;
 
 import com.ark.center.product.client.inventory.command.StockLockCmd;
-import com.ark.center.product.client.inventory.dto.StockLockDTO;
 import com.ark.center.product.client.inventory.dto.StockQuantityDTO;
 import com.ark.center.product.client.inventory.query.StockQuantityQry;
 import com.ark.component.dto.MultiResponse;
-import com.ark.component.dto.SingleResponse;
+import com.ark.component.dto.ServerResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -33,5 +32,5 @@ public interface InventoryApi {
 
     @Operation(summary = "库存扣减")
     @PostMapping("/lock")
-    SingleResponse<StockLockDTO> lock(@RequestBody @Validated StockLockCmd cmd);
+    ServerResponse lock(@RequestBody @Validated StockLockCmd cmd);
 }

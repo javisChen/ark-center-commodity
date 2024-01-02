@@ -6,6 +6,7 @@ import com.ark.center.product.client.inventory.dto.StockLockDTO;
 import com.ark.center.product.domain.inventory.Inventory;
 import com.ark.center.product.domain.inventory.gateway.InventoryCacheGateway;
 import com.ark.center.product.domain.inventory.gateway.InventoryGateway;
+import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.util.separate.DataSeparator;
 import com.ark.component.web.util.separate.SeparateResult;
@@ -72,13 +73,6 @@ public class InventoryService {
     }
 
     /**
-     * 入库
-     */
-    public void lockStock(List<Inventory> inventories) {
-        inventoryGateway.save(inventories);
-    }
-
-    /**
      * 锁定库存
      * 1.先从缓存中尝试扣减可用库存
      * 2.创建异步任务
@@ -98,8 +92,7 @@ public class InventoryService {
         if (decrFailureSkuId != null) {
             // 返还库存
             returnStock(decrSuccessfulSkuIds);
-            result.setResult(false);
-            result.setSkuId(decrFailureSkuId.getSkuId());
+            throw ExceptionFactory.userException(decrFailureSkuId.getSkuId() + "库存不足");
         }
         return result;
     }
