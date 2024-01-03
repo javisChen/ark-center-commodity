@@ -55,8 +55,7 @@ public class SkuDoc {
             type = FieldType.Keyword)
     private Integer showPrice;
 
-    @Field(
-            docValues = false)
+    @Field()
     private List<String> pictures;
 
     @Field(
