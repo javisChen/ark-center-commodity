@@ -39,8 +39,8 @@ public class GoodsAdminController extends BaseController {
     }
 
     @Operation(summary = "保存商品")
-    @PostMapping("/shelf/up")
-    public ServerResponse upShelf(@RequestBody @Validated GoodsShelfCmd cmd) {
+    @PostMapping("/shelf")
+    public ServerResponse updateShelf(@RequestBody @Validated GoodsShelfCmd cmd) {
         goodsAppService.shelf(cmd);
         return SingleResponse.ok();
     }

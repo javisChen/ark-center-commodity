@@ -1,5 +1,7 @@
 package com.ark.center.product.app.goods.event;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.IterUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
@@ -38,10 +40,12 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
 
         Spu spu = spuGateway.selectById(spuId);
 
+        List<SkuDTO> skus = skuGateway.selectBySpuId(spuId);
+
         if (shelfStatus.equals(ShelfStatus.DOWN)) {
-            goodsRepository.deleteById(spuId);
+            List<Long> ids = CollUtil.map(skus, SkuDTO::getId, true);
+            goodsRepository.deleteAllById(ids);
         } else if (shelfStatus.equals(ShelfStatus.UP)) {
-            List<SkuDTO> skus = skuGateway.selectBySpuId(spuId);
             List<SkuDoc> skuDocs = skus.stream().map(sku -> {
                 SkuDoc skuDoc = new SkuDoc();
                 skuDoc.setSkuId(sku.getId());
@@ -53,7 +57,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryId(0L);
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
-                skuDoc.setGmtCreate(spu.getGmtCreate());
+//                skuDoc.setGmtCreate(spu.getGmtCreate());
+                skuDoc.setGmtModified(spu.getGmtModified());
                 skuDoc.setAttrs(getSpecs(sku));
                 return skuDoc;
             }).toList();

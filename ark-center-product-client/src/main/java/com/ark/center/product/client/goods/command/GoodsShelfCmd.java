@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class GoodsShelfCmd implements Serializable {
 
     @Schema(name = "商品ID", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "商品ID不能为空")
+    @NotNull(message = "商品ID不能为空")
     private Long id;
 
     @Schema(name = "上下架 0-下架 1-上架", requiredMode = Schema.RequiredMode.REQUIRED)

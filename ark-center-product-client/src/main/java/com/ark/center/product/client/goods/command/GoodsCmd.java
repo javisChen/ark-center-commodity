@@ -14,7 +14,7 @@ import java.util.List;
 public class GoodsCmd implements Serializable {
 
     @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @NotBlank(message = "商品ID不能为空", groups = ValidateGroup.Update.class)
+    @NotNull(message = "商品ID不能为空")
     private Long id;
 
     @Schema(name = "商品名称", requiredMode = Schema.RequiredMode.REQUIRED)
