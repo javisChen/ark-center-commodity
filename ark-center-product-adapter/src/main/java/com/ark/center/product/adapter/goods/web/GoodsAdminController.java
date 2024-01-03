@@ -2,9 +2,11 @@ package com.ark.center.product.adapter.goods.web;
 
 import com.ark.center.product.app.goods.service.GoodsAppService;
 import com.ark.center.product.client.goods.command.GoodsCmd;
+import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.component.dto.PageResponse;
+import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.annotations.Api;
@@ -34,6 +36,13 @@ public class GoodsAdminController extends BaseController {
     @PostMapping("/save")
     public SingleResponse<Long> save(@RequestBody @Validated GoodsCmd cmd) {
         return SingleResponse.ok(goodsAppService.save(cmd));
+    }
+
+    @Operation(summary = "保存商品")
+    @PostMapping("/shelf/up")
+    public ServerResponse upShelf(@RequestBody @Validated GoodsShelfCmd cmd) {
+        goodsAppService.shelf(cmd);
+        return SingleResponse.ok();
     }
 
     @Operation(summary = "查询分页列表")

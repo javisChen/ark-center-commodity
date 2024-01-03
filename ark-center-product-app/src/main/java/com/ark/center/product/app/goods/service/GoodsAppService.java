@@ -2,19 +2,21 @@ package com.ark.center.product.app.goods.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.ark.center.product.app.goods.executor.GoodsCmdExe;
+import com.ark.center.product.app.goods.executor.GoodsShelfCmdExe;
 import com.ark.center.product.app.goods.query.GoodsQryExe;
 import com.ark.center.product.client.category.dto.CategoryDTO;
 import com.ark.center.product.client.category.dto.HomeCategoryDTO;
 import com.ark.center.product.client.category.query.CategoryPageQry;
 import com.ark.center.product.client.goods.command.GoodsCmd;
+import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
-import com.ark.center.product.infra.product.gateway.es.CommodityRepository;
-import com.ark.center.product.infra.product.gateway.es.GoodsDoc;
+import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
+import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
@@ -46,7 +48,9 @@ public class GoodsAppService {
 
     private final GoodsCmdExe goodsCmdExe;
 
-    private final CommodityRepository commodityRepository;
+    private final GoodsShelfCmdExe goodsShelfCmdExe;
+
+    private final GoodsRepository goodsRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public Long save(GoodsCmd cmd) {
@@ -59,8 +63,8 @@ public class GoodsAppService {
     public GoodsDTO queryDetails(Long spuId) {
         return goodsQryExe.queryDetails(spuId);
     }
-    public List<GoodsDoc> search() {
-        Iterable<GoodsDoc> all = commodityRepository.findAll();
+    public List<SkuDoc> search() {
+        Iterable<SkuDoc> all = goodsRepository.findAll();
         return Lists.newArrayList(all);
     }
 
@@ -72,9 +76,9 @@ public class GoodsAppService {
         queryDTO.setSize(99999);
         PageResponse<GoodsDTO> response = queryPages(queryDTO);
         for (GoodsDTO record : response.getRecords()) {
-            GoodsDoc target = new GoodsDoc();
+            SkuDoc target = new SkuDoc();
             BeanUtil.copyProperties(record, target);
-            commodityRepository.save(target);
+            goodsRepository.save(target);
         }
     }
 
@@ -105,5 +109,9 @@ public class GoodsAppService {
             result.add(dto);
         }
         return result;
+    }
+
+    public void shelf(GoodsShelfCmd cmd) {
+        goodsShelfCmdExe.execute(cmd);
     }
 }

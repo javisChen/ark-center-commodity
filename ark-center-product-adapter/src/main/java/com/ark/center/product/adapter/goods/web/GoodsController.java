@@ -3,7 +3,7 @@ package com.ark.center.product.adapter.goods.web;
 import com.ark.center.product.app.goods.service.GoodsAppService;
 import com.ark.center.product.client.category.dto.HomeCategoryDTO;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
-import com.ark.center.product.infra.product.gateway.es.GoodsDoc;
+import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -34,8 +34,8 @@ public class GoodsController extends BaseController {
 
     @Operation(summary = "查询分页列表")
     @PostMapping("/search")
-    public MultiResponse<GoodsDoc> search() {
-        List<GoodsDoc> search = goodsAppService.search();
+    public MultiResponse<SkuDoc> search() {
+        List<SkuDoc> search = goodsAppService.search();
         return MultiResponse.ok(search);
     }
 

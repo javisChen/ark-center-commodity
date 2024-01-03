@@ -43,6 +43,7 @@ public class GoodsCmdExe {
         saveExclusiveAttrOptions(cmd, spu);
         // 保存Sku
         saveSku(cmd, spu);
+
         return spu.getId();
     }
 

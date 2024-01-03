@@ -2,7 +2,6 @@ package com.ark.center.product.infra.canal;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
-import com.alibaba.otter.canal.common.utils.AddressUtils;
 import com.alibaba.otter.canal.protocol.Message;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ public class CanalClientHandler implements ApplicationRunner {
     public void run() {
         log.info("canal-client started");
         // 创建链接
-        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),
+        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress("canal",
                 11111), "example", "", "");
         int batchSize = 1000;
         int emptyCount = 0;
@@ -70,15 +69,16 @@ public class CanalClientHandler implements ApplicationRunner {
             try {
                 rowChage = RowChange.parseFrom(entry.getStoreValue());
             } catch (Exception e) {
-                throw new RuntimeException("ERROR ## parser of eromanga-event has an error , data:" + entry.toString(),
+                throw new RuntimeException("ERROR ## parser of eromanga-event has an error , data:" + entry,
                         e);
             }
 
             EventType eventType = rowChage.getEventType();
-            System.out.println(String.format("================&gt; binlog[%s:%s] , name[%s,%s] , eventType : %s",
-                    entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),
-                    entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),
-                    eventType));
+            Header header = entry.getHeader();
+            System.out.printf("================&gt; binlog[%s:%s] , name[%s,%s] , eventType : %s%n",
+                    header.getLogfileName(), header.getLogfileOffset(),
+                    header.getSchemaName(), header.getTableName(),
+                    eventType);
 
             for (RowData rowData : rowChage.getRowDatasList()) {
                 if (eventType == EventType.DELETE) {

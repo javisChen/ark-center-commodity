@@ -98,24 +98,6 @@ public class Spu extends BaseEntity {
 
     @Getter
     @AllArgsConstructor
-    public enum ShelfStatus implements BasicEnums {
-        DOWN(0, "下架"),
-        UP(1, "上架"),
-        ;
-        private final Integer value;
-        private final String text;
-
-        public static ShelfStatus getByValue(Integer value) {
-            return EnumUtils.getByValue(values(), value);
-        }
-
-        public static String getText(Integer value) {
-            return EnumUtils.getTextByValue(values(), value);
-        }
-    }
-
-    @Getter
-    @AllArgsConstructor
     public enum VerifyStatus implements BasicEnums {
         NO_CHECK(0, "未审核"),
         CHECK_PASS(1, "审核通过"),

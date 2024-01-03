@@ -1,7 +1,7 @@
 package com.ark.center.product;
 
-import com.ark.center.product.infra.product.gateway.es.GoodsDoc;
-import com.ark.center.product.infra.product.gateway.es.CommodityRepository;
+import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
+import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,11 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class EsTest {
 
     @Autowired
-    private CommodityRepository commodityRepository;
+    private GoodsRepository goodsRepository;
 
     @Test
     public void test() {
-        Iterable<GoodsDoc> all = commodityRepository.findAll();
+        Iterable<SkuDoc> all = goodsRepository.findAll();
         System.out.println(all);
     }
 }
