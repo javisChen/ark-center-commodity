@@ -1,6 +1,5 @@
 package com.ark.center.product.app.goods.event;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,8 +56,9 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryId(0L);
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
-                LocalDateTime updateTime = spu.getUpdateTime();
-                skuDoc.setUpdateTime(updateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
+                // ES默认时区是UTC
+                skuDoc.setCreateTime(toUTC(spu.getCreateTime()));
+                skuDoc.setUpdateTime(toUTC(spu.getUpdateTime()));
                 skuDoc.setAttrs(getSpecs(sku));
                 return skuDoc;
             }).toList();
@@ -69,11 +68,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         }
     }
 
-    public static void main(String[] args) {
-        LocalDateTime now1 = LocalDateTime.now();
-        LocalDateTime localDateTime = LocalDateTimeUtil.ofUTC(now1.toInstant(ZoneOffset.UTC));
-        System.out.println(localDateTime);
-        System.out.println(now1.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
+    private LocalDateTime toUTC(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
     }
 
     private List<AttrDoc> getSpecs(SkuDTO sku) {
