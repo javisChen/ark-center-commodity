@@ -28,7 +28,7 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
         return lambdaQuery()
                 .eq(Objects.nonNull(qry.getLevel()), Category::getLevel, qry.getLevel())
                 .eq(Objects.nonNull(qry.getPid()), Category::getPid, qry.getPid())
-                .orderByDesc(BaseEntity::getGmtCreate)
+                .orderByDesc(BaseEntity::getCreateTime)
                 .page(new Page<>(qry.getCurrent(), qry.getSize()))
                 .convert(categoryConvertor::toDTO);
     }
@@ -56,7 +56,7 @@ public class CategoryGatewayImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> records = lambdaQuery()
                 .eq(Objects.nonNull(qry.getLevel()), Category::getLevel, qry.getLevel())
                 .eq(Objects.nonNull(qry.getPid()), Category::getPid, qry.getPid())
-                .orderByDesc(BaseEntity::getGmtCreate)
+                .orderByDesc(BaseEntity::getCreateTime)
                 .list();
         return categoryConvertor.toDTO(records);
     }

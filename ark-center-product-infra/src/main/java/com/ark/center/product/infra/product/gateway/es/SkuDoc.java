@@ -58,17 +58,16 @@ public class SkuDoc {
     @Field()
     private List<String> pictures;
 
-//    @Field(
-//            index = false,
-//            store = true,
-//            type = FieldType.Date,
-//            format = DateFormat.date_hour_minute_second_millis)
-//    private LocalDateTime gmtCreate;
+    @Field(
+            index = false,
+            type = FieldType.Date,
+            format = DateFormat.date_hour_minute_second_millis)
+    private LocalDateTime createTime;
 
     @Field(
             type = FieldType.Date,
             format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime gmtModified;
+    private LocalDateTime updateTime;
 
 
     @Field(

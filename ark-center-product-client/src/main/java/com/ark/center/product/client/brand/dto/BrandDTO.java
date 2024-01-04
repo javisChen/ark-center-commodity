@@ -24,6 +24,6 @@ public class BrandDTO {
     private Integer sort;
 
     @Schema(name = "创建时间")
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
 }

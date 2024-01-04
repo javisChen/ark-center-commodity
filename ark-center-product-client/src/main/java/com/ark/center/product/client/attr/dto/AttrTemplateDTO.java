@@ -31,6 +31,6 @@ public class AttrTemplateDTO implements Serializable {
     private Integer paramCount;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
 }

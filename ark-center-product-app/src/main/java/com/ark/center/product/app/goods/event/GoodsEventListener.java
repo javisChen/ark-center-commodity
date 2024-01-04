@@ -1,7 +1,6 @@
 package com.ark.center.product.app.goods.event;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.IterUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
@@ -57,8 +56,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryId(0L);
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
-//                skuDoc.setGmtCreate(spu.getGmtCreate());
-                skuDoc.setGmtModified(spu.getGmtModified());
+//                skuDoc.setCreateTime(spu.getCreateTime());
+                skuDoc.setUpdateTime(spu.getUpdateTime());
                 skuDoc.setAttrs(getSpecs(sku));
                 return skuDoc;
             }).toList();

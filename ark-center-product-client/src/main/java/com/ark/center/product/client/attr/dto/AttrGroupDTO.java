@@ -29,7 +29,7 @@ public class AttrGroupDTO implements Serializable {
     private Long attrTemplateId;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
     @Schema(name = "属性列表", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<AttrDTO> attrList;

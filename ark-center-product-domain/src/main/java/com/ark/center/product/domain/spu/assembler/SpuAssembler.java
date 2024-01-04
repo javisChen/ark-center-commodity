@@ -34,8 +34,8 @@ public interface SpuAssembler {
     @Mapping(target = "sales", ignore = true)
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "gmtModified", ignore = true)
-    @Mapping(target = "gmtCreate", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
     Spu toSpu(GoodsCmd cmd);
 

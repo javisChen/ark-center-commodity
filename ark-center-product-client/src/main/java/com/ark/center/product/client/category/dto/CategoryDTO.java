@@ -49,6 +49,6 @@ public class CategoryDTO extends TreeifyDTO implements Serializable {
     private Integer level;
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
 }

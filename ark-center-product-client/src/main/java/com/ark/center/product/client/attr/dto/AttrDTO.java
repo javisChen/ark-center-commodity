@@ -38,7 +38,7 @@ public class AttrDTO implements Serializable {
     private Long attrTemplateId;
 
     @Schema(name = "创建时间")
-    private LocalDateTime gmtCreate;
+    private LocalDateTime createTime;
 
     @Schema(name = "是否支持手动新增，enums[NO,不支持,0;YES,支持,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer canManualAdd;

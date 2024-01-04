@@ -40,7 +40,7 @@ public class SpuGatewayImpl extends ServiceImpl<SpuMapper, Spu> implements SpuGa
     @Override
     public Page<Spu> selectPages(GoodsQry queryDTO) {
         LambdaQueryWrapper<Spu> qw = new LambdaQueryWrapper<>();
-        qw.orderByDesc(BaseEntity::getGmtModified);
+        qw.orderByDesc(BaseEntity::getUpdateTime);
         return this.page(new Page<>(queryDTO.getCurrent(), queryDTO.getSize()), qw);
     }
 

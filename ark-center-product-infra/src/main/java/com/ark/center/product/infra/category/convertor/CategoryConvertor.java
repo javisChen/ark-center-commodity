@@ -17,8 +17,8 @@ public interface CategoryConvertor {
     @Mapping(target = "levelPath", ignore = true)
     @Mapping(target = "level", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "gmtModified", ignore = true)
-    @Mapping(target = "gmtCreate", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
     @Mapping(target = "code", ignore = true)
     Category toCategory(CategoryUpdateCmd command);
