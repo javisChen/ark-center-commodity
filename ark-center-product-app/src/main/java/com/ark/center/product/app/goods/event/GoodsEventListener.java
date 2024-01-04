@@ -1,6 +1,6 @@
 package com.ark.center.product.app.goods.event;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,8 +45,7 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         List<SkuDTO> skus = skuGateway.selectBySpuId(spuId);
 
         if (shelfStatus.equals(ShelfStatus.DOWN)) {
-            List<Long> ids = CollUtil.map(skus, SkuDTO::getId, true);
-            goodsRepository.deleteAllById(ids);
+            goodsRepository.deleteAllById(skus.stream().map(SkuDTO::getId).toList());
         } else if (shelfStatus.equals(ShelfStatus.UP)) {
             List<SkuDoc> skuDocs = skus.stream().map(sku -> {
                 SkuDoc skuDoc = new SkuDoc();
@@ -56,8 +58,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryId(0L);
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
-//                skuDoc.setCreateTime(spu.getCreateTime());
-                skuDoc.setUpdateTime(spu.getUpdateTime());
+                LocalDateTime updateTime = spu.getUpdateTime();
+                skuDoc.setUpdateTime(updateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
                 skuDoc.setAttrs(getSpecs(sku));
                 return skuDoc;
             }).toList();
@@ -65,6 +67,13 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         } else {
             // todo
         }
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime now1 = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTimeUtil.ofUTC(now1.toInstant(ZoneOffset.UTC));
+        System.out.println(localDateTime);
+        System.out.println(now1.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
     }
 
     private List<AttrDoc> getSpecs(SkuDTO sku) {
