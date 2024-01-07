@@ -1,5 +1,6 @@
 package com.ark.center.product.app.goods.event;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
@@ -14,8 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,9 +56,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryId(0L);
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
-                // ES默认时区是UTC
-                skuDoc.setCreateTime(toUTC(spu.getCreateTime()));
-                skuDoc.setUpdateTime(toUTC(spu.getUpdateTime()));
+                skuDoc.setCreateTime(ZonedDateTime.of(spu.getCreateTime(), ZoneId.systemDefault()));
+                skuDoc.setUpdateTime(ZonedDateTime.of(spu.getUpdateTime(), ZoneId.systemDefault()));
                 skuDoc.setAttrs(getSpecs(sku));
                 return skuDoc;
             }).toList();
@@ -66,6 +65,11 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         } else {
             // todo
         }
+    }
+
+    public static void main(String[] args) {
+        ZonedDateTime instant = LocalDateTime.now().atZone(ZoneId.of("+08:00"));
+        System.out.println(instant);
     }
 
     private LocalDateTime toUTC(LocalDateTime localDateTime) {

@@ -19,6 +19,7 @@ spring:
   elasticsearch:
     uris: http://es.ark.com:9200
     username: elastic
+    connection-timeout: 1m
   cloud:
     nacos:
       discovery:

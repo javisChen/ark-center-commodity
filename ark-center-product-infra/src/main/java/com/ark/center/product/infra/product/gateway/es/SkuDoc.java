@@ -1,6 +1,7 @@
 package com.ark.center.product.infra.product.gateway.es;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -8,7 +9,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -58,16 +61,19 @@ public class SkuDoc {
     @Field()
     private List<String> pictures;
 
+    /**
+     * 使用ZonedDateTime，序列化的时间格式会带上时区，例如2023-09-27T17:23:54.000+08:00。这样ES会自动根据时区来识别时间
+     */
     @Field(
             index = false,
             type = FieldType.Date,
-            format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime createTime;
+            format = DateFormat.date_time)
+    private ZonedDateTime createTime;
 
     @Field(
             type = FieldType.Date,
-            format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime updateTime;
+            format = DateFormat.date_time)
+    private ZonedDateTime updateTime;
 
 
     @Field(
