@@ -1,0 +1,44 @@
+### id查询
+DELETE {{es}}/sku
+
+### 全量查询
+GET {{es}}/sku/_search
+
+### match: 自动分词后再进行检索
+GET {{es}}/sku/_search
+Content-Type: application/json
+
+{
+  "_source": ["skuName"],
+  "query": {
+    "match": {
+      "skuName": "红米4.0"
+    }
+  }
+}
+
+### match_phrese:不会分词，把查询值当成一个整体
+GET {{es}}/sku/_search
+Content-Type: application/json
+
+{
+  "_source": ["skuName"],
+  "query": {
+    "match_phrase": {
+      "skuName": "红米4.0"
+    }
+  }
+}
+
+### match_phrese:不会分词，把查询值当成一个整体
+GET {{es}}/sku/_search
+Content-Type: application/json
+
+{
+  "_source": ["skuName"],
+  "query": {
+    "multi_match": {
+      "skuName": "红米4.0"
+    }
+  }
+}

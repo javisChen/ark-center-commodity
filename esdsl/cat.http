@@ -1,0 +1,17 @@
+### 查看cat所有endpoints
+GET {{es}}/_cat
+
+### 查看nodes
+GET {{es}}/_cat/nodes
+
+### 查看health
+GET {{es}}/_cat/health
+
+### 查看master
+GET {{es}}/_cat/master
+
+### 查看所有index
+GET {{es}}/_cat/indices
+
+### 查看所有index
+GET {{es}}/_cat/shards

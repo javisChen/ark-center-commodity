@@ -112,7 +112,7 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
     }
 
     @Override
-    public List<AttrOptionDTO> selectOptions(List<Long> attrIds) {
+    public List<AttrOptionDTO> selectOptions(List<Long> attrIds, List<Long> spuIds, AttrOption.Type optionType) {
         if (CollectionUtils.isEmpty(attrIds)) {
             return Collections.emptyList();
         }
@@ -122,8 +122,9 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
                         AttrOption::getType,
                         AttrOption::getSpuId,
                         AttrOption::getValue)
-                .eq(AttrOption::getType, Attr.Type.SPEC.getValue())
-                .in(AttrOption::getAttrId, attrIds);
+                .eq(AttrOption::getType, optionType.getValue())
+                .in(AttrOption::getAttrId, attrIds)
+                .in(AttrOption::getSpuId, spuIds);
         List<AttrOption> attrOptions = attrOptionMapper.selectList(queryWrapper);
         return attrConvertor.toOptionDTO(attrOptions);
     }

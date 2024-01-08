@@ -1,26 +1,21 @@
 package com.ark.center.product.infra.product.gateway.es;
 
 import lombok.RequiredArgsConstructor;
-import org.elasticsearch.client.ElasticsearchClient;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.IdsQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.document.Document;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.*;
+import org.springframework.data.elasticsearch.core.query.ByQueryResponse;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
 
     private final ElasticsearchTemplate elasticsearchTemplate;
@@ -54,11 +49,11 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         IndexOperations indexOperations = elasticsearchTemplate.indexOps(SkuDoc.class);
         if (!indexOperations.exists()) {
-            boolean b = indexOperations.createWithMapping();
-            System.out.println("sku index created" + b);
+            boolean created = indexOperations.createWithMapping();
+            log.info("sku index created {}", created);
         }
     }
 }

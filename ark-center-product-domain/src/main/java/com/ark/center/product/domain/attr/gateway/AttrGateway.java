@@ -28,5 +28,5 @@ public interface AttrGateway {
 
     List<AttrOption> selectOptions(Long attrId);
 
-    List<AttrOptionDTO> selectOptions(List<Long> attrIds);
+    List<AttrOptionDTO> selectOptions(List<Long> attrIds, List<Long> spuIds, AttrOption.Type optionType);
 }

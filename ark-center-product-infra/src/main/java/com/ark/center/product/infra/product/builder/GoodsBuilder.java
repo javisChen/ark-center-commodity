@@ -5,6 +5,7 @@ import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.domain.attachment.Attachment;
 import com.ark.center.product.domain.attachment.gateway.AttachmentGateway;
+import com.ark.center.product.domain.attr.AttrOption;
 import com.ark.center.product.domain.brand.gateway.BrandGateway;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
@@ -80,9 +81,8 @@ public class GoodsBuilder {
     }
 
     private void assembleSpecs(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
-
         dataProcessor.keySelect(GoodsDTO::getId)
-                .query(spuService::querySpecs)
+                .query(spuIds -> spuService.querySpecWithOptions(spuIds, AttrOption.Type.EXCLUSIVE))
                 .keyBy(GoodsAttrDTO::getSpuId)
                 .collection()
                 .process(GoodsDTO::setSpecs);

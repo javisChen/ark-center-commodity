@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Sku", description = "Sku管理接口")
 @Validated
 @RestController
-@RequestMapping("/v1/inner/sku")
 @RequiredArgsConstructor
 @Slf4j
 public class SkuController implements SkuApi {

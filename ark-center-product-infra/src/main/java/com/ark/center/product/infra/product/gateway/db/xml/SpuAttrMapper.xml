@@ -6,8 +6,8 @@
 
         select
         cs.id as spuId,
-        ca.id as attr_id,
-        ca.name as attr_name
+        ca.id as attrId,
+        ca.name as attrName
         from attr ca
         inner join attr_template cat on ca.attr_template_id = cat.id
         inner join category cc on cc.attr_template_id = cat.id

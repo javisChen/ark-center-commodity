@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        name = "${ark.center.commodity.service.name:commodity}",
-        path = "/v1/inner/sku",
-        url = "${ark.center.commodity.service.uri:}",
+        name = "${ark.center.product.service.name:product}",
+        path = "/v1/inner",
+        url = "${ark.center.product.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
 public interface SkuApi {
 
     @Operation(summary = "批量查询")
-    @PostMapping("/list")
+    @PostMapping("/skus")
     MultiResponse<SkuDTO> querySkus(@RequestBody SkuQry qry);
 
 }

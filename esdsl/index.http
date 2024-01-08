@@ -1,0 +1,66 @@
+### 删除索引
+DELETE {{es}}/sku
+
+### 新建索引
+PUT {{es}}/sku
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "username": {
+        "type": "long"
+      },
+      "brandName": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "categoryId": {
+        "type": "long"
+      },
+      "categoryName": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "createTime": {
+        "type": "date",
+        "index": false,
+        "format": "date_time"
+      },
+      "pictures": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "showPrice": {
+        "type": "keyword"
+      },
+      "skuId": {
+        "type": "keyword"
+      },
+      "skuName": {
+        "type": "keyword"
+      },
+      "spuId": {
+        "type": "keyword"
+      },
+      "updateTime": {
+        "type": "date",
+        "format": "date_time"
+      }
+    }
+  }
+}
+
+### 查看索引
+GET {{es}}/sku
+
+### 查看Mappings
+
+GET {{es}}/sku/_mappings
