@@ -11,6 +11,7 @@ import com.ark.center.product.client.goods.command.GoodsCmd;
 import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
+import com.ark.center.product.client.search.query.SearchQry;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
@@ -63,8 +64,8 @@ public class GoodsAppService {
     public GoodsDTO queryDetails(Long spuId) {
         return goodsQryExe.queryDetails(spuId);
     }
-    public List<SkuDoc> search() {
-        Iterable<SkuDoc> all = goodsRepository.findAll();
+    public List<SkuDoc> search(SearchQry searchQry) {
+        Iterable<SkuDoc> all = goodsRepository.search(searchQry);
         return Lists.newArrayList(all);
     }
 

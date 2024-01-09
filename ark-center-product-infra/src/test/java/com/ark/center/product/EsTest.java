@@ -1,7 +1,6 @@
 package com.ark.center.product;
 
 import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
-import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,5 @@ public class EsTest {
 
     @Test
     public void test() {
-        Iterable<SkuDoc> all = goodsRepository.findAll();
-        System.out.println(all);
     }
 }

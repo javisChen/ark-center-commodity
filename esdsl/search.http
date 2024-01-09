@@ -9,7 +9,9 @@ GET {{es}}/sku/_search
 Content-Type: application/json
 
 {
-  "_source": ["skuName"],
+  "_source": [
+    "skuName"
+  ],
   "query": {
     "match": {
       "skuName": "红米4.0"
@@ -22,7 +24,9 @@ GET {{es}}/sku/_search
 Content-Type: application/json
 
 {
-  "_source": ["skuName"],
+  "_source": [
+    "skuName"
+  ],
   "query": {
     "match_phrase": {
       "skuName": "红米4.0"
@@ -35,10 +39,197 @@ GET {{es}}/sku/_search
 Content-Type: application/json
 
 {
-  "_source": ["skuName"],
+  "_source": [
+    "skuName"
+  ],
   "query": {
     "multi_match": {
       "skuName": "红米4.0"
     }
   }
+}
+
+### match_phrese:不会分词，把查询值当成一个整体
+GET {{es}}/sku/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "multi_match": {
+      "skuName": "红米4.0"
+    }
+  }
+}
+
+
+### 查询
+GET {{es}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "skuName": "米"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "showPrice": {
+              "gte": 1000
+            }
+          }
+        },
+        {
+          "term": {
+            "categoryId": "1566616161236848642"
+          }
+        },
+        {
+          "terms": {
+            "brandId": [
+              "1523326203994103809"
+            ]
+          }
+        },
+        {
+          "nested": {
+            "path": "attrs",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "terms": {
+                      "attrs.attrId": [
+                        "1706958257767624705",
+                        "1706958003538276354"
+                      ]
+                    }
+                  },
+                  {
+                    "terms": {
+                      "attrs.attrValue": [
+                        "晴雪"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "showPrice": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 1,
+  "size": 1,
+  "highlight": {
+    "fields": {
+      "skuName": {
+      }
+    },
+    "pre_tags": "<b>",
+    "post_tags": "</b>"
+  }
+}
+
+### 聚合信息
+GET {{es}}/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "nested": {
+            "path": "attrs",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "term": {
+                      "attrs.attrId": {
+                        "value": "1706957820544987138"
+                      }
+                    },
+                    "terms": {
+                      "attrs.attrValue": [
+                        "12GB+256GB"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 聚合
+GET /sku/_search
+{
+"query": {
+"match_all": {}
+},
+"aggs": {
+"brand_agg": {
+"terms": {
+"field": "brandId"
+},
+"aggs": {
+"brand_name_agg": {
+"terms": {
+"field": "brandName",
+"size": 10
+}
+}
+}
+},
+"category_agg": {
+"terms": {
+"field": "categoryId"
+}
+},
+"attr_agg": {
+"nested": {
+"path": "attrs"
+},
+"aggs": {
+"attr_id_agg": {
+"terms": {
+"field": "attrs.attrId"
+},
+"aggs": {
+"attr_name_agg": {
+"terms": {
+"field": "attrs.attrName"
+},
+"aggs": {
+"attr_value_agg": {
+"terms": {
+"field": "attrs.attrValue"
+}
+}
+}
+}
+}
+}
+}
+}
+}
 }

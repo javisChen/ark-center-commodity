@@ -1,7 +1,8 @@
 package com.ark.center.product.app.goods.event;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.ark.center.product.client.goods.dto.SkuDTO;
+import com.ark.center.product.domain.brand.gateway.BrandGateway;
+import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.sku.gateway.SkuGateway;
 import com.ark.center.product.domain.spu.ShelfStatus;
 import com.ark.center.product.domain.spu.Spu;
@@ -15,7 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +35,8 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
     private final GoodsRepository goodsRepository;
     private final SkuGateway skuGateway;
     private final SpuGateway spuGateway;
+    private final CategoryGateway categoryGateway;
+    private final BrandGateway brandGateway;
 
     public void onApplicationEvent(@NotNull GoodsShelfOnChangedEvent event) {
         log.info("Goods [{}] status has changed ", event.getSpuId());
@@ -50,10 +55,10 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setSkuId(sku.getId());
                 skuDoc.setSpuId(sku.getSpuId());
                 skuDoc.setSkuName(sku.getName());
-                skuDoc.setBrandName("");
-                skuDoc.setCategoryName("");
-                skuDoc.setBrandId(spuId);
-                skuDoc.setCategoryId(0L);
+                skuDoc.setBrandName(brandGateway.selectById(spu.getBrandId()).getName());
+                skuDoc.setCategoryName(categoryGateway.selectById(spu.getCategoryId()).getName());
+                skuDoc.setBrandId(spu.getBrandId());
+                skuDoc.setCategoryId(spu.getCategoryId());
                 skuDoc.setShowPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
                 skuDoc.setCreateTime(ZonedDateTime.of(spu.getCreateTime(), ZoneId.systemDefault()));

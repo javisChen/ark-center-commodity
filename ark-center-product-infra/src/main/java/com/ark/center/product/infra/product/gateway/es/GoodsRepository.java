@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.product.gateway.es;
 
-import org.springframework.data.repository.CrudRepository;
+import com.ark.center.product.client.search.query.SearchQry;
 
 import java.util.List;
 
@@ -13,6 +13,5 @@ public interface GoodsRepository {
 
     void deleteAllById(List<Long> list);
 
-    Iterable<SkuDoc> findAll();
-
+    Iterable<SkuDoc> search(SearchQry searchQry);
 }

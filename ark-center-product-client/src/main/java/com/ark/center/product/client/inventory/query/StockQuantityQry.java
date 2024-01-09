@@ -11,6 +11,7 @@ import java.util.List;
 public class StockQuantityQry {
 
     @Size(max = 1000, message = "每次限制获取1000条SKU信息")
+    @Schema(name = "skuId集合")
     private List<Long> skuIds;
 
 }
