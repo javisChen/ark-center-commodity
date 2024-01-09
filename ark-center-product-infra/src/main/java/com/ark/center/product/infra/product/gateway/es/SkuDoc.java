@@ -28,10 +28,10 @@ public class SkuDoc {
     @Field(type = FieldType.Text, analyzer = "ik_smart")
     private String skuName;
 
-    @Field(type = FieldType.Keyword, index = false, docValues = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String brandName;
 
-    @Field(type = FieldType.Keyword, index = false, docValues = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String categoryName;
 
     @Field(type = FieldType.Long)

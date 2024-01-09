@@ -26,7 +26,7 @@ public class SearchQry extends PagingQuery {
     private Long categoryId;
 
     @Schema(name = "brandId", description = "品牌id")
-    private List<Long> brandIds;
+    private String brandIds;
 
     @Schema(name = "specs",
             description = "规格，以^分隔每组规格，以_分隔规格id和value，以||分隔多个value，格式attrId_attrValueA||attrValueB^attrId_attrValue^attrId_attrValue")

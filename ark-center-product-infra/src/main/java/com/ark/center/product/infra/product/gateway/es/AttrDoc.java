@@ -10,7 +10,7 @@ public class AttrDoc {
     @Field(type = FieldType.Long)
     private Long attrId;
 
-    @Field(index = false, type = FieldType.Keyword, docValues = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String attrName;
 
     @Field(type = FieldType.Keyword)
