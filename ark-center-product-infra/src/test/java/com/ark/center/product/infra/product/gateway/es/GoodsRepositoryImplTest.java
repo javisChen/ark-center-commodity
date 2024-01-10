@@ -5,7 +5,7 @@ import com.ark.center.product.client.search.query.SearchQry;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class GoodsRepositoryImplTest {
 
@@ -13,9 +13,11 @@ class GoodsRepositoryImplTest {
 
     @Test
     void buildAttrQuery() {
-        String input = "8_||蓝^9_32G^10_256";
-        Query query = goodsRepository.buildAttrQuery(input);
-        System.out.println(query.toString());
+        String input = "8_红||蓝^9_32G^10_256";
+        List<Query> query = goodsRepository.buildAttrQuery(input);
+        for (Query nestedQuery : query) {
+            System.out.println(nestedQuery);
+        }
     }
 
     @Test

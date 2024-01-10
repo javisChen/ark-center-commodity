@@ -101,6 +101,6 @@ public class CanalClientHandler implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        new Thread(this::run).start();
+        // new Thread(this::run).start();
     }
 }

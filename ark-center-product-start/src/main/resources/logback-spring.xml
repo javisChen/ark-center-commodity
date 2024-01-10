@@ -7,4 +7,8 @@
     <!-- Nacos Config -->
     <logger name="com.alibaba.cloud.nacos.configdata" level="DEBUG"/>
 
+    <!-- ES底层RestClient使用tracer这个logger来记录发送ES的请求和响应详细数据，
+         为了方便调试DSL线打开，不需要的话可以注释掉。 -->
+    <logger name="tracer" level="TRACE"/>
+
 </configuration>

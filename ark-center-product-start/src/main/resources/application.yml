@@ -65,6 +65,12 @@ management:
   metrics:
     tags:
       application: ark-center-product
+#logging:
+#  level:
+#    org:
+#      elasticsearch:
+#        client: trace
+#    tracer: trace
 ---
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
 spring:

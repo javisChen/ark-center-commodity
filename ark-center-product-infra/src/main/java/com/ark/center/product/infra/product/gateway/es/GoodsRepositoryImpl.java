@@ -6,7 +6,6 @@ import co.elastic.clients.json.JsonData;
 import com.ark.center.product.client.search.query.SearchQry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -121,9 +119,12 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
             String[] array = StringUtils.splitByWholeSeparatorPreserveAllTokens(brandIds, "^");
             bool.filter(builder -> builder.terms(mc -> mc
                     .field("brandId")
-                    .terms(new TermsQueryField.Builder().value(Arrays.stream(array)
-                            .map(FieldValue::of)
-                            .toList()).build())
+                    .terms(TermsQueryField.of(
+                            fn -> fn.value(Arrays.stream(array)
+                                    .map(FieldValue::of)
+                                    .toList())
+                            )
+                    )
             ));
         }
 
@@ -155,32 +156,25 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
         }
 
         if (StringUtils.isNotBlank(specs)) {
-            bool.filter(builder -> builder
-                    .nested(nestedBuilder ->
-                            nestedBuilder
-                                    .path("attrs")
-                                    .query(buildAttrQuery(specs))
-                    ));
+            bool.filter(buildAttrQuery(specs));
         }
         return bool.build()._toQuery();
     }
 
     /**
-     * 以^分隔每组规格，以_分隔规格id和value，以||分隔多个value，格式attrId_attrValueA||attrValueB^attrId_attrValue^attrId_attrValue
-     *
-     * @param specs
-     * @return
+     * 以^分隔每组规格，以_分隔规格id和value，以||分隔多个value
+     * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"8"}}},{"terms":{"attrs.attrValue":["红","蓝"]}}]}}}}
+     * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"9"}}},{"terms":{"attrs.attrValue":["32G"]}}]}}}}
+     * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"10"}}},{"terms":{"attrs.attrValue":["256"]}}]}}}}
+     * @param specs 格式attrId_attrValueA||attrValueB^attrId_attrValue^attrId_attrValue
+     * @return Query
      */
-    public co.elastic.clients.elasticsearch._types.query_dsl.Query buildAttrQuery(String specs) {
-
-        BoolQuery.Builder attrsBuilder = new BoolQuery.Builder();
+    public List<co.elastic.clients.elasticsearch._types.query_dsl.Query> buildAttrQuery(String specs) {
         String[] attrGroup = StringUtils.splitByWholeSeparator(specs, "^");
         if (ArrayUtils.isEmpty(attrGroup)) {
-            return attrsBuilder.build()._toQuery();
+            return null;
         }
-        List<Long> attrIdList = new ArrayList<>(attrGroup.length);
-        // 这里预估会出现多选的情况，初始容量给大一倍防止自动扩容的情况。
-        List<String> attrValueList = new ArrayList<>(attrGroup.length * 2);
+        List<co.elastic.clients.elasticsearch._types.query_dsl.Query> nestedQueries = new ArrayList<>();
         for (String attr : attrGroup) {
             String[] idAndValue = StringUtils.splitByWholeSeparator(attr, "_");
             if (idAndValue.length != 2) {
@@ -192,36 +186,35 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
                 continue;
             }
             String[] values = StringUtils.splitByWholeSeparator(attrValue, "||");
-            attrIdList.add(Long.valueOf(attrId));
-            Collections.addAll(attrValueList, values);
+
+            NestedQuery.Builder nestedBuilder = new NestedQuery.Builder();
+            nestedBuilder
+                    .path("attrs")
+                    .query(builder -> {
+                        BoolQuery.Builder attrsBuilder = new BoolQuery.Builder();
+                        attrsBuilder
+                                .must(mustBuilder -> {
+                                    mustBuilder.term(termsBuilder -> termsBuilder
+                                            .field("attrs.attrId")
+                                            .value(attrId)
+                                    );
+                                    return mustBuilder;
+                                })
+                                .must(mustBuilder -> {
+                                    mustBuilder.terms(termsBuilder -> termsBuilder
+                                            .field("attrs.attrValue")
+                                            .terms(TermsQueryField.of(fn -> fn.value(Arrays.stream(values)
+                                                            .map(FieldValue::of).toList())
+                                                    )
+                                            )
+                                    );
+                                    return mustBuilder;
+                                });
+                        return builder.bool(attrsBuilder.build());
+                    });
+            nestedQueries.add(nestedBuilder.build()._toQuery());
         }
-        attrsBuilder
-                .filter(builder -> {
-                    if (CollectionUtils.isNotEmpty(attrIdList)) {
-                        builder.terms(termsBuilder -> termsBuilder
-                                .field("attrs.attrId")
-                                .terms(TermsQueryField.of(fn -> fn.value(attrIdList.stream()
-                                                .map(FieldValue::of).toList())
-                                        )
-                                )
-                        );
-                    }
-                    return builder;
-                })
-                .filter(builder -> {
-                            if (CollectionUtils.isNotEmpty(attrIdList) && CollectionUtils.isNotEmpty(attrValueList)) {
-                                builder.terms(termsBuilder -> termsBuilder
-                                        .field("attrs.attrValue")
-                                        .terms(TermsQueryField.of(fn -> fn.value(attrValueList.stream()
-                                                        .map(FieldValue::of).toList())
-                                                )
-                                        )
-                                );
-                            }
-                            return builder;
-                        }
-                );
-        return attrsBuilder.build()._toQuery();
+        return nestedQueries;
     }
 
     @Override

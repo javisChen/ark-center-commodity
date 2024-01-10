@@ -101,13 +101,12 @@ Content-Type: application/json
             "path": "attrs",
             "query": {
               "bool": {
-                "filter": [
+                "must": [
                   {
-                    "terms": {
-                      "attrs.attrId": [
-                        "1706958257767624705",
-                        "1706958003538276354"
-                      ]
+                    "term": {
+                      "attrs.attrId": {
+                        "value": 1706958003538276354
+                      }
                     }
                   },
                   {
