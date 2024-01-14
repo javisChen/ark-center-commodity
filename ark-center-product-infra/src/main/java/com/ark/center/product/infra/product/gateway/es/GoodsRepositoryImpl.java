@@ -103,11 +103,11 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     }
 
     private co.elastic.clients.elasticsearch._types.query_dsl.Query buildQuery(SearchQry searchQry) {
-        String brandIds = searchQry.getBrandIds();
-        Long categoryId = searchQry.getCategoryId();
+        String brand = searchQry.getBrand();
+        Long categoryId = searchQry.getCategory();
         String keyword = searchQry.getKeyword();
         String priceRange = searchQry.getPriceRange();
-        String specs = searchQry.getSpecs();
+        String specs = searchQry.getAttrs();
 
         BoolQuery.Builder bool = new BoolQuery.Builder();
 
@@ -115,8 +115,8 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
             bool.must(builder -> builder.match(mc -> mc.field("skuName").query(keyword)));
         }
 
-        if (StringUtils.isNotBlank(brandIds)) {
-            String[] array = StringUtils.splitByWholeSeparatorPreserveAllTokens(brandIds, "^");
+        if (StringUtils.isNotBlank(brand)) {
+            String[] array = StringUtils.splitByWholeSeparatorPreserveAllTokens(brand, "^");
             bool.filter(builder -> builder.terms(mc -> mc
                     .field("brandId")
                     .terms(TermsQueryField.of(

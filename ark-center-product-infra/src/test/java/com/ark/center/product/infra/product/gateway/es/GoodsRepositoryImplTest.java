@@ -24,10 +24,10 @@ class GoodsRepositoryImplTest {
     void buildNativeQueryBuilder() {
         SearchQry searchQry = new SearchQry();
         searchQry.setKeyword("米");
-        searchQry.setBrandIds("1^2^3^4");
-        searchQry.setCategoryId(1L);
+        searchQry.setbIds("1^2^3^4");
+        searchQry.setCategory(1L);
         String input = "8_||蓝^9_32G^10_256";
-        searchQry.setSpecs(input);
+        searchQry.setAttrs(input);
         NativeQuery query = goodsRepository.buildNativeQueryBuilder(searchQry);
         System.out.println(query.getQuery().toString());
     }
