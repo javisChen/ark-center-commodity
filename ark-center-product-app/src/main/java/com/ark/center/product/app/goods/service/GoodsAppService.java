@@ -17,7 +17,7 @@ import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.client.search.dto.AggDTO;
-import com.ark.center.product.client.search.dto.SkuSearchResultDTO;
+import com.ark.center.product.client.search.dto.SearchResultDTO;
 import com.ark.center.product.client.search.query.SearchQry;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
@@ -80,11 +80,14 @@ public class GoodsAppService {
         return goodsQryExe.queryDetails(spuId);
     }
 
-    public SkuSearchResultDTO search(SearchQry searchQry) {
+    public SearchResultDTO search(SearchQry searchQry) {
+        SearchResultDTO resultDTO = new SearchResultDTO();
         SearchHits<SkuDoc> searchHits = goodsRepository.search(searchQry);
-        SkuSearchResultDTO skuSearchResultDTO = new SkuSearchResultDTO();
         List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
-        skuSearchResultDTO.setSkus(goodsSearchAssembler.toDTO(hits));
+        if (CollectionUtils.isEmpty(hits)) {
+            return resultDTO;
+        }
+        resultDTO.setSkus(goodsSearchAssembler.toDTO(hits));
 
         if (searchHits.hasAggregations()) {
             List<AggDTO> agg = new ArrayList<>();
@@ -146,9 +149,9 @@ public class GoodsAppService {
             }
             agg.add(brandAggDTO);
             agg.add(categoryAggDTO);
-            skuSearchResultDTO.setAgg(agg);
+            resultDTO.setAgg(agg);
         }
-        return skuSearchResultDTO;
+        return resultDTO;
     }
 
     /**
