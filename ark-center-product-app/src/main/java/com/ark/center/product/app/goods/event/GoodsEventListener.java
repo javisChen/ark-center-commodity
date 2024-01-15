@@ -59,7 +59,7 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setCategoryName(categoryGateway.selectById(spu.getCategoryId()).getName());
                 skuDoc.setBrandId(spu.getBrandId());
                 skuDoc.setCategoryId(spu.getCategoryId());
-                skuDoc.setShowPrice(sku.getSalesPrice());
+                skuDoc.setSalesPrice(sku.getSalesPrice());
                 skuDoc.setPictures(Collections.singletonList(spu.getMainPicture()));
                 skuDoc.setCreateTime(ZonedDateTime.of(spu.getCreateTime(), ZoneId.systemDefault()));
                 skuDoc.setUpdateTime(ZonedDateTime.of(spu.getUpdateTime(), ZoneId.systemDefault()));

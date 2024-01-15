@@ -51,7 +51,7 @@ public class GoodsCmdExe {
     private Spu toSpu(GoodsCmd cmd) {
         Spu spu = spuAssembler.toSpu(cmd);
         // 暂时取第一个sku的销售价格来做展示
-        spu.setShowPrice(cmd.getSkus().get(0).getSalesPrice());
+//        spu.setSalesPrice(cmd.getSkus().get(0).getSalesPrice());
         spu.setMainPicture(cmd.getPictures().get(0));
         return spu;
     }

@@ -52,8 +52,8 @@ public class GoodsDTO implements Serializable {
     @Schema(name = "上下架状态：enums[DOWN,下架,0;UP,上架,1]", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer shelfStatus = 1;
 
-    @Schema(name = "默认展示价格（单位：分）", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer showPrice;
+    @Schema(name = "销售价格（单位：分）", requiredMode = Schema.RequiredMode.REQUIRED)
+    private Integer salesPrice;
 
     @Schema(name = "单位（G、KG）", requiredMode = Schema.RequiredMode.REQUIRED)
     private Integer unit;

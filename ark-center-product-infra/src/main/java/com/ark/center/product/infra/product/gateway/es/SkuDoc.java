@@ -41,7 +41,7 @@ public class SkuDoc {
     private Long categoryId;
 
     @Field(type = FieldType.Keyword)
-    private Integer showPrice;
+    private Integer salesPrice;
 
     @Field()
     private List<String> pictures;

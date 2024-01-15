@@ -66,12 +66,6 @@ public class Spu extends BaseEntity {
     private Integer sales;
 
     /**
-     * 默认展示价格（单位：分）
-     */
-    @TableField("show_price")
-    private Integer showPrice;
-
-    /**
      * 单位
      */
     @TableField("unit")

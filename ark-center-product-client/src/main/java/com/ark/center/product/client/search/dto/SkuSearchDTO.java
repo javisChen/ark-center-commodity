@@ -18,7 +18,7 @@ public class SkuSearchDTO {
 
     private Long categoryId;
 
-    private Integer showPrice;
+    private Integer salesPrice;
 
     private List<String> pictures;
 
