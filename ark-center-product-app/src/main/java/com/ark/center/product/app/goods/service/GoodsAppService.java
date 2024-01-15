@@ -100,8 +100,8 @@ public class GoodsAppService {
                 AggDTO.Option option = new AggDTO.Option();
                 Aggregate aggregate = bucket.aggregations().get(GoodsRepositoryImpl.BRAND_NAME_AGG_KEY);
                 StringTermsBucket brandNameBucket = aggregate.sterms().buckets().array().get(0);
-                option.setName(brandNameBucket.key().stringValue());
-                option.setValue(bucket.keyAsString());
+                option.setLabel(brandNameBucket.key().stringValue());
+                option.setValue(String.valueOf(bucket.key()));
                 brandAggOptions.add(option);
             }
 
@@ -116,8 +116,8 @@ public class GoodsAppService {
                 AggDTO.Option option = new AggDTO.Option();
                 Aggregate aggregate = bucket.aggregations().get(GoodsRepositoryImpl.CATEGORY_NAME_AGG_KEY);
                 StringTermsBucket brandNameBucket = aggregate.sterms().buckets().array().get(0);
-                option.setName(brandNameBucket.key().stringValue());
-                option.setValue(bucket.keyAsString());
+                option.setLabel(brandNameBucket.key().stringValue());
+                option.setValue(String.valueOf(bucket.key()));
                 categoryAggOptions.add(option);
             }
             categoryAggDTO.setOptions(categoryAggOptions);
@@ -130,7 +130,7 @@ public class GoodsAppService {
                 StringTermsBucket attrNameBucket = attrIdBucket.aggregations().get(GoodsRepositoryImpl.ATTR_NAME_AGG_KEY).sterms().buckets().array().get(0);
                 AggDTO attrAggDTO = new AggDTO();
                 attrAggDTO.setId(attrIdBucket.key());
-                attrAggDTO.setName(attrNameBucket.key().stringValue());
+                attrAggDTO.setLabel(attrNameBucket.key().stringValue());
                 attrAggDTO.setType("attrs");
                 attrAggDTO.setOptions(attrNameBucket.aggregations().get(GoodsRepositoryImpl.ATTR_VALUE_AGG_KEY)
                         .sterms()
@@ -139,7 +139,7 @@ public class GoodsAppService {
                             AggDTO.Option option = new AggDTO.Option();
                             String value = item.key().stringValue();
                             option.setValue(value);
-                            option.setName(value);
+                            option.setLabel(value);
                             return option;
                         }).toList());
                 agg.add(attrAggDTO);

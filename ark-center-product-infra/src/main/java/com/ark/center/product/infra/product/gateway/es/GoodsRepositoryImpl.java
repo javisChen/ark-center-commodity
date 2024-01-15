@@ -109,7 +109,7 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
                 .aggregations(ATTR_NAME_AGG_KEY, attrNameAgg));
         return nativeQueryBuilder
                 .withAggregation(BRAND_AGG_KEY, brandIdAgg)
-                .withAggregation(CATEGORY_AGG_KEY, categoryIdAgg)
+                .withAggregation(CATEGORY_AGG_KEY , categoryIdAgg)
                 .withAggregation(ATTR_AGG_KEY, Aggregation.of(fn -> fn
                         .nested(nested -> nested.path("attrs"))
                         .aggregations(ATTR_ID_AGG_KEY, attrAgg)));

@@ -9,7 +9,7 @@ public class AggDTO {
 
     private Long id;
 
-    private String name;
+    private String label;
 
     private String type;
 
@@ -18,7 +18,7 @@ public class AggDTO {
     @Data
     public static class Option {
 
-        private String name;
+        private String label;
 
         private String value;
     }
