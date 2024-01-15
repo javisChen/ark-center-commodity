@@ -5,7 +5,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SearchDTO {
+public class SkuSearchResultDTO {
 
     List<SkuSearchDTO> skus;
+
+    /**
+     * 聚合信息
+     */
+    List<AggDTO> agg;
 }

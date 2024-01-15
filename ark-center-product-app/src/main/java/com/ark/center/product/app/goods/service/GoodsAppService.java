@@ -1,6 +1,11 @@
 package com.ark.center.product.app.goods.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.LongTermsBucket;
+import co.elastic.clients.elasticsearch._types.aggregations.NestedAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import com.ark.center.product.app.goods.assembler.GoodsSearchAssembler;
 import com.ark.center.product.app.goods.executor.GoodsCmdExe;
 import com.ark.center.product.app.goods.executor.GoodsShelfCmdExe;
 import com.ark.center.product.app.goods.query.GoodsQryExe;
@@ -11,23 +16,30 @@ import com.ark.center.product.client.goods.command.GoodsCmd;
 import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
+import com.ark.center.product.client.search.dto.AggDTO;
+import com.ark.center.product.client.search.dto.SkuSearchResultDTO;
 import com.ark.center.product.client.search.query.SearchQry;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.domain.spu.Spu;
 import com.ark.center.product.domain.spu.gateway.SpuGateway;
 import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
+import com.ark.center.product.infra.product.gateway.es.GoodsRepositoryImpl;
 import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregation;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -53,6 +65,8 @@ public class GoodsAppService {
 
     private final GoodsRepository goodsRepository;
 
+    private final GoodsSearchAssembler goodsSearchAssembler;
+
     @Transactional(rollbackFor = Exception.class)
     public Long save(GoodsCmd cmd) {
         return goodsCmdExe.execute(cmd);
@@ -61,12 +75,80 @@ public class GoodsAppService {
     public PageResponse<GoodsDTO> queryPages(GoodsQry goodsQry) {
         return goodsQryExe.queryPages(goodsQry);
     }
+
     public GoodsDTO queryDetails(Long spuId) {
         return goodsQryExe.queryDetails(spuId);
     }
-    public List<SkuDoc> search(SearchQry searchQry) {
-        Iterable<SkuDoc> all = goodsRepository.search(searchQry);
-        return Lists.newArrayList(all);
+
+    public SkuSearchResultDTO search(SearchQry searchQry) {
+        SearchHits<SkuDoc> searchHits = goodsRepository.search(searchQry);
+        SkuSearchResultDTO skuSearchResultDTO = new SkuSearchResultDTO();
+        List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
+        skuSearchResultDTO.setSkus(goodsSearchAssembler.toDTO(hits));
+
+        if (searchHits.hasAggregations()) {
+            List<AggDTO> agg = new ArrayList<>();
+            ElasticsearchAggregations aggregations = ((ElasticsearchAggregations) searchHits.getAggregations());
+            Map<String, ElasticsearchAggregation> aggregationsAsMap = aggregations.aggregationsAsMap();
+
+            ElasticsearchAggregation brandAgg = aggregationsAsMap.get(GoodsRepositoryImpl.BRAND_AGG_KEY);
+            AggDTO brandAggDTO = new AggDTO();
+            brandAggDTO.setType("brand");
+            List<LongTermsBucket> brandIdBuckets = brandAgg.aggregation().getAggregate().lterms().buckets().array();
+            List<AggDTO.Option> brandAggOptions = new ArrayList<>(brandIdBuckets.size());
+            for (LongTermsBucket bucket : brandIdBuckets) {
+                AggDTO.Option option = new AggDTO.Option();
+                Aggregate aggregate = bucket.aggregations().get(GoodsRepositoryImpl.BRAND_NAME_AGG_KEY);
+                StringTermsBucket brandNameBucket = aggregate.sterms().buckets().array().get(0);
+                option.setName(brandNameBucket.key().stringValue());
+                option.setValue(bucket.keyAsString());
+                brandAggOptions.add(option);
+            }
+
+            brandAggDTO.setOptions(brandAggOptions);
+
+            ElasticsearchAggregation categoryAgg = aggregationsAsMap.get(GoodsRepositoryImpl.CATEGORY_AGG_KEY);
+            AggDTO categoryAggDTO = new AggDTO();
+            categoryAggDTO.setType("category");
+            List<LongTermsBucket> categoryIdBuckets = categoryAgg.aggregation().getAggregate().lterms().buckets().array();
+            List<AggDTO.Option> categoryAggOptions = new ArrayList<>(brandIdBuckets.size());
+            for (LongTermsBucket bucket : categoryIdBuckets) {
+                AggDTO.Option option = new AggDTO.Option();
+                Aggregate aggregate = bucket.aggregations().get(GoodsRepositoryImpl.CATEGORY_NAME_AGG_KEY);
+                StringTermsBucket brandNameBucket = aggregate.sterms().buckets().array().get(0);
+                option.setName(brandNameBucket.key().stringValue());
+                option.setValue(bucket.keyAsString());
+                categoryAggOptions.add(option);
+            }
+            categoryAggDTO.setOptions(categoryAggOptions);
+
+
+            ElasticsearchAggregation attrAgg = aggregationsAsMap.get(GoodsRepositoryImpl.ATTR_AGG_KEY);
+            NestedAggregate attrBuckets = attrAgg.aggregation().getAggregate().nested();
+            List<LongTermsBucket> attrIdBuckets = attrBuckets.aggregations().get(GoodsRepositoryImpl.ATTR_ID_AGG_KEY).lterms().buckets().array();
+            for (LongTermsBucket attrIdBucket : attrIdBuckets) {
+                StringTermsBucket attrNameBucket = attrIdBucket.aggregations().get(GoodsRepositoryImpl.ATTR_NAME_AGG_KEY).sterms().buckets().array().get(0);
+                AggDTO attrAggDTO = new AggDTO();
+                attrAggDTO.setId(attrIdBucket.key());
+                attrAggDTO.setName(attrNameBucket.key().stringValue());
+                attrAggDTO.setType("attrs");
+                attrAggDTO.setOptions(attrNameBucket.aggregations().get(GoodsRepositoryImpl.ATTR_VALUE_AGG_KEY)
+                        .sterms()
+                        .buckets()
+                        .array().stream().toList().stream().map(item -> {
+                            AggDTO.Option option = new AggDTO.Option();
+                            String value = item.key().stringValue();
+                            option.setValue(value);
+                            option.setName(value);
+                            return option;
+                        }).toList());
+                agg.add(attrAggDTO);
+            }
+            agg.add(brandAggDTO);
+            agg.add(categoryAggDTO);
+            skuSearchResultDTO.setAgg(agg);
+        }
+        return skuSearchResultDTO;
     }
 
     /**

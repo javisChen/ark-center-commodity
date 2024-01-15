@@ -3,8 +3,8 @@ package com.ark.center.product.adapter.goods.web;
 import com.ark.center.product.app.goods.service.GoodsAppService;
 import com.ark.center.product.client.category.dto.HomeCategoryDTO;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
+import com.ark.center.product.client.search.dto.SkuSearchResultDTO;
 import com.ark.center.product.client.search.query.SearchQry;
-import com.ark.center.product.infra.product.gateway.es.SkuDoc;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -35,9 +35,9 @@ public class GoodsController extends BaseController {
 
     @Operation(summary = "查询分页列表")
     @GetMapping("/search")
-    public MultiResponse<SkuDoc> search(SearchQry searchQry) {
-        List<SkuDoc> search = goodsAppService.search(searchQry);
-        return MultiResponse.ok(search);
+    public SingleResponse<SkuSearchResultDTO> search(SearchQry searchQry) {
+        SkuSearchResultDTO search = goodsAppService.search(searchQry);
+        return SingleResponse.ok(search);
     }
 
     @Operation(summary = "查询首页分类")

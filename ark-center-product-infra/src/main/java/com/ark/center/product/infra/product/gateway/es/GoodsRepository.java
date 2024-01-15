@@ -1,6 +1,7 @@
 package com.ark.center.product.infra.product.gateway.es;
 
 import com.ark.center.product.client.search.query.SearchQry;
+import org.springframework.data.elasticsearch.core.SearchHits;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface GoodsRepository {
 
     void deleteAllById(List<Long> list);
 
-    Iterable<SkuDoc> search(SearchQry searchQry);
+    SearchHits<SkuDoc> search(SearchQry searchQry);
 }

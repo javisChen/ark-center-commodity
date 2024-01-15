@@ -179,56 +179,80 @@ Content-Type: application/json
   }
 }
 
-# 聚合
-GET /sku/_search
+
+### 聚合
+GET {{es}}/sku/_search
+Content-Type: application/json
+
 {
-"query": {
-"match_all": {}
-},
-"aggs": {
-"brand_agg": {
-"terms": {
-"field": "brandId"
-},
-"aggs": {
-"brand_name_agg": {
-"terms": {
-"field": "brandName",
-"size": 10
-}
-}
-}
-},
-"category_agg": {
-"terms": {
-"field": "categoryId"
-}
-},
-"attr_agg": {
-"nested": {
-"path": "attrs"
-},
-"aggs": {
-"attr_id_agg": {
-"terms": {
-"field": "attrs.attrId"
-},
-"aggs": {
-"attr_name_agg": {
-"terms": {
-"field": "attrs.attrName"
-},
-"aggs": {
-"attr_value_agg": {
-"terms": {
-"field": "attrs.attrValue"
-}
-}
-}
-}
-}
-}
-}
-}
-}
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "skuName": {
+              "query": "米"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "size": 20,
+  "sort": [
+    {
+      "salesPrice": {
+        "mode": "min",
+        "order": "asc"
+      }
+    }
+  ],
+  "track_scores": false,
+  "version": true,
+  "aggs": {
+    "brand_agg": {
+      "terms": {
+        "field": "brandId"
+      },
+      "aggs": {
+        "brand_name_agg": {
+          "terms": {
+            "field": "brandName",
+            "size": 10
+          }
+        }
+      }
+    },
+    "category_agg": {
+      "terms": {
+        "field": "categoryId"
+      }
+    },
+    "attr_agg": {
+      "nested": {
+        "path": "attrs"
+      },
+      "aggs": {
+        "attr_id_agg": {
+          "terms": {
+            "field": "attrs.attrId"
+          },
+          "aggs": {
+            "attr_name_agg": {
+              "terms": {
+                "field": "attrs.attrName"
+              },
+              "aggs": {
+                "attr_value_agg": {
+                  "terms": {
+                    "field": "attrs.attrValue"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

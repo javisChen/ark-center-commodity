@@ -8,43 +8,23 @@ Content-Type: application/json
 {
   "mappings": {
     "properties": {
-      "username": {
-        "type": "long"
+      "skuName": {
+        "type": "text",
+        "analyzer": "ik_smart"
       },
       "brandName": {
         "type": "keyword",
-        "index": false,
-        "doc_values": false
-      },
-      "categoryId": {
-        "type": "long"
-      },
-      "categoryName": {
-        "type": "keyword",
-        "index": false,
-        "doc_values": false
+        "index": false
       },
       "createTime": {
         "type": "date",
-        "index": false,
-        "format": "date_time"
+        "format": "date_time",
+        "index": false
       },
-      "pictures": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
+      "brandId": {
+        "type": "long"
       },
-      "showPrice": {
-        "type": "keyword"
-      },
-      "skuId": {
-        "type": "keyword"
-      },
-      "skuName": {
+      "salesPrice": {
         "type": "keyword"
       },
       "spuId": {
@@ -53,6 +33,42 @@ Content-Type: application/json
       "updateTime": {
         "type": "date",
         "format": "date_time"
+      },
+      "_class": {
+        "type": "keyword",
+        "doc_values": false,
+        "index": false
+      },
+      "categoryName": {
+        "type": "keyword",
+        "index": false
+      },
+      "skuId": {
+        "type": "keyword",
+        "index": true
+      },
+      "categoryId": {
+        "type": "long"
+      },
+      "attrs": {
+        "type": "nested",
+        "properties": {
+          "attrId": {
+            "type": "long"
+          },
+          "_class": {
+            "type": "keyword",
+            "doc_values": false,
+            "index": false
+          },
+          "attrValue": {
+            "type": "keyword"
+          },
+          "attrName": {
+            "type": "keyword",
+            "index": false
+          }
+        }
       }
     }
   }

@@ -1,7 +1,12 @@
 package com.ark.center.product.infra.product.gateway.es;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
-import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.NestedQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.TermsQueryField;
 import co.elastic.clients.json.JsonData;
 import com.ark.center.product.client.search.query.SearchQry;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +20,6 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.IndexOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.ByQueryResponse;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
@@ -35,6 +39,15 @@ import java.util.List;
 public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
 
     private final ElasticsearchTemplate elasticsearchTemplate;
+
+   public final static String BRAND_NAME_AGG_KEY = "brand_name_agg";
+   public final static String CATEGORY_NAME_AGG_KEY = "category_name_agg";
+   public final static String ATTR_VALUE_AGG_KEY = "attr_value_agg";
+   public final static String ATTR_NAME_AGG_KEY = "attr_name_agg";
+   public final static String BRAND_AGG_KEY = "brand_agg";
+   public final static String CATEGORY_AGG_KEY = "category_agg";
+   public final static String ATTR_AGG_KEY = "attr_agg";
+   public final static String ATTR_ID_AGG_KEY = "attr_id_agg";
 
     @Override
     public void saveAll(Iterable<SkuDoc> docs) {
@@ -59,27 +72,62 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     }
 
     @Override
-    public Iterable<SkuDoc> search(SearchQry searchQry) {
+    public SearchHits<SkuDoc> search(SearchQry searchQry) {
         NativeQuery nativeQueryBuilder = buildNativeQueryBuilder(searchQry);
         log.info("Search dsl -> {}", nativeQueryBuilder.getQuery());
-        SearchHits<SkuDoc> search = elasticsearchTemplate.search(nativeQueryBuilder, SkuDoc.class);
-        return search.stream().map(SearchHit::getContent).toList();
+        return elasticsearchTemplate.search(nativeQueryBuilder, SkuDoc.class);
     }
 
     public NativeQuery buildNativeQueryBuilder(SearchQry searchQry) {
-        return new NativeQueryBuilder()
+        NativeQueryBuilder nativeQueryBuilder = new NativeQueryBuilder()
                 .withQuery(buildQuery(searchQry))
                 .withPageable(buildPageable(searchQry))
                 .withSort(buildSort(searchQry))
-                .withHighlightQuery(buildHighlightQuery(searchQry))
-                .build();
+                .withHighlightQuery(buildHighlightQuery(searchQry));
+        return buildAggregation(nativeQueryBuilder).build();
+    }
+
+    private NativeQueryBuilder buildAggregation(NativeQueryBuilder nativeQueryBuilder) {
+        // brand
+        Aggregation brandNameAgg = Aggregation.of(sub -> sub.terms(TermsAggregation.of(terms -> terms.field("brandName"))));
+        Aggregation brandIdAgg = Aggregation.of(
+                fn -> fn.terms(TermsAggregation.of(terms -> terms.field("brandId")))
+                        .aggregations(BRAND_NAME_AGG_KEY, brandNameAgg));
+
+        // category
+        Aggregation categoryNameAgg = Aggregation.of(sub -> sub.terms(TermsAggregation.of(terms -> terms.field("categoryName"))));
+        Aggregation categoryIdAgg = Aggregation.of(
+                fn -> fn.terms(TermsAggregation.of(terms -> terms.field("categoryId")))
+                        .aggregations(CATEGORY_NAME_AGG_KEY, categoryNameAgg));
+
+        // attr
+        Aggregation attrValueAgg = Aggregation.of(sub2 -> sub2.terms(TermsAggregation.of(terms -> terms.field("attrs.attrValue"))));
+        Aggregation attrNameAgg = Aggregation.of(sub -> sub.terms(TermsAggregation.of(terms -> terms.field("attrs.attrName")))
+                .aggregations(ATTR_VALUE_AGG_KEY, attrValueAgg));
+        Aggregation attrAgg = Aggregation.of(agg -> agg
+                .terms(TermsAggregation.of(terms -> terms.field("attrs.attrId")))
+                .aggregations(ATTR_NAME_AGG_KEY, attrNameAgg));
+        return nativeQueryBuilder
+                .withAggregation(BRAND_AGG_KEY, brandIdAgg)
+                .withAggregation(CATEGORY_AGG_KEY, categoryIdAgg)
+                .withAggregation(ATTR_AGG_KEY, Aggregation.of(fn -> fn
+                        .nested(nested -> nested.path("attrs"))
+                        .aggregations(ATTR_ID_AGG_KEY, attrAgg)));
+    }
+
+    private Aggregation buildAggregation(String key) {
+        TermsAggregation termsAggregation = TermsAggregation.of(fn -> fn.field(key));
+        Aggregation aggregation = Aggregation.of(fn -> {
+            return fn.terms(termsAggregation).aggregations("brand_name_agg", buildAggregation("brandName"));
+        });
+        return aggregation;
     }
 
     private Sort buildSort(SearchQry searchQry) {
         String sortField = searchQry.getSortField();
         String sortDirection = searchQry.getSortDirection();
         if (StringUtils.isNotBlank(sortField)) {
-            if (StringUtils.isNotBlank(sortDirection)) {
+            if (StringUtils.isBlank(sortDirection)) {
                 return Sort.by(Sort.Direction.DESC, sortField);
             }
             return Sort.by(Sort.Direction.valueOf(sortDirection.toUpperCase()), sortField);
@@ -120,9 +168,9 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
             bool.filter(builder -> builder.terms(mc -> mc
                     .field("brandId")
                     .terms(TermsQueryField.of(
-                            fn -> fn.value(Arrays.stream(array)
-                                    .map(FieldValue::of)
-                                    .toList())
+                                    fn -> fn.value(Arrays.stream(array)
+                                            .map(FieldValue::of)
+                                            .toList())
                             )
                     )
             ));
@@ -166,6 +214,7 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
      * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"8"}}},{"terms":{"attrs.attrValue":["红","蓝"]}}]}}}}
      * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"9"}}},{"terms":{"attrs.attrValue":["32G"]}}]}}}}
      * {"nested":{"path":"attrs","query":{"bool":{"must":[{"term":{"attrs.attrId":{"value":"10"}}},{"terms":{"attrs.attrValue":["256"]}}]}}}}
+     *
      * @param specs 格式attrId_attrValueA||attrValueB^attrId_attrValue^attrId_attrValue
      * @return Query
      */
