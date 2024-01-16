@@ -17,6 +17,7 @@ import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.client.search.dto.AggDTO;
 import com.ark.center.product.client.search.dto.SearchResultDTO;
+import com.ark.center.product.client.search.dto.SkuSearchDTO;
 import com.ark.center.product.client.search.query.SearchQry;
 import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
@@ -86,7 +87,8 @@ public class GoodsAppService {
             return resultDTO;
         }
         List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
-        resultDTO.setSkus(goodsSearchAssembler.toDTO(hits));
+        List<SkuSearchDTO> skus = goodsSearchAssembler.toDTO(searchHits);
+        resultDTO.setSkus(skus);
         if (searchHits.hasAggregations()) {
             List<AggDTO> agg = new ArrayList<>();
             ElasticsearchAggregations aggregations = ((ElasticsearchAggregations) searchHits.getAggregations());

@@ -144,8 +144,8 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
         HighlightField field = new HighlightField("skuName");
         fields.add(field);
         Highlight highlight = new Highlight(HighlightParameters.builder()
+                .withPreTags("<b style=\"color: red\">")
                 .withPostTags("</b>")
-                .withPreTags("<b>")
                 .build(), fields);
         return new HighlightQuery(highlight, null);
     }
