@@ -54,11 +54,4 @@ public class GoodsController extends BaseController {
         return SingleResponse.ok(goodsAppService.queryDetails(id));
     }
 
-    @Operation(summary = "初始化数据到ES")
-    @PostMapping("/init")
-    public ServerResponse init() {
-        goodsAppService.initES();
-        return ServerResponse.ok();
-    }
-
 }

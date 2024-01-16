@@ -1,6 +1,5 @@
 package com.ark.center.product.app.goods.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.LongTermsBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.NestedAggregate;
@@ -83,12 +82,11 @@ public class GoodsAppService {
     public SearchResultDTO search(SearchQry searchQry) {
         SearchResultDTO resultDTO = new SearchResultDTO();
         SearchHits<SkuDoc> searchHits = goodsRepository.search(searchQry);
-        List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
-        if (CollectionUtils.isEmpty(hits)) {
+        if (!searchHits.hasSearchHits()) {
             return resultDTO;
         }
+        List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
         resultDTO.setSkus(goodsSearchAssembler.toDTO(hits));
-
         if (searchHits.hasAggregations()) {
             List<AggDTO> agg = new ArrayList<>();
             ElasticsearchAggregations aggregations = ((ElasticsearchAggregations) searchHits.getAggregations());
@@ -152,20 +150,6 @@ public class GoodsAppService {
             resultDTO.setAgg(agg);
         }
         return resultDTO;
-    }
-
-    /**
-     * todo 临时方法
-     */
-    public void initES() {
-        GoodsQry queryDTO = new GoodsQry();
-        queryDTO.setSize(99999);
-        PageResponse<GoodsDTO> response = queryPages(queryDTO);
-        for (GoodsDTO record : response.getRecords()) {
-            SkuDoc target = new SkuDoc();
-            BeanUtil.copyProperties(record, target);
-            goodsRepository.save(target);
-        }
     }
 
     /**
