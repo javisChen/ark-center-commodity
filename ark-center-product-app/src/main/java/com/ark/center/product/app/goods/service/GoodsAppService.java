@@ -32,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregation;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregations;
-import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +85,6 @@ public class GoodsAppService {
         if (!searchHits.hasSearchHits()) {
             return resultDTO;
         }
-        List<SkuDoc> hits = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
         List<SkuSearchDTO> skus = goodsSearchAssembler.toDTO(searchHits);
         resultDTO.setSkus(skus);
         if (searchHits.hasAggregations()) {
