@@ -19,7 +19,7 @@ import java.util.List;
  */
 @FeignClient(
         name = "${ark.center.commodity.service.name:commodity}",
-        path = "/v1/inner/inventory",
+        path = "/v1/inventory",
         url = "${ark.center.commodity.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
@@ -27,7 +27,7 @@ import java.util.List;
 public interface InventoryApi {
 
     @Operation(summary = "查询商品库存数量")
-    @PostMapping("/stock")
+    @PostMapping("/quantity")
     MultiResponse<List<StockQuantityDTO>> queryStockQuantity(@Validated @RequestBody StockQuantityQry qry);
 
     @Operation(summary = "库存扣减")

@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Sku", description = "Sku管理接口")
 @Validated
 @RestController
-@RequestMapping("/v1/inner")
+@RequestMapping("/v1/skus")
 @RequiredArgsConstructor
 @Slf4j
-public class SkuInnerController implements SkuApi {
+public class SkuController implements SkuApi {
 
     private final SkuAppService skuAppService;
 

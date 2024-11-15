@@ -9,6 +9,7 @@ public class StockQuantityDTO {
 
     @Schema(name = "skuId", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long skuId;
-    @Schema(name = "属性值", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+
+    @Schema(name = "库存量", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Integer stock;
 }
