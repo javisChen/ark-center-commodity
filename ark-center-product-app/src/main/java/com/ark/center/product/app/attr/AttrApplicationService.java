@@ -1,6 +1,7 @@
 package com.ark.center.product.app.attr;
 
 
+import cn.hutool.core.lang.Assert;
 import com.ark.center.product.app.attr.executor.AttrCreateCmdExe;
 import com.ark.center.product.client.attr.command.AttrCreateCmd;
 import com.ark.center.product.client.attr.command.AttrGroupCmd;
@@ -20,7 +21,6 @@ import com.ark.center.product.domain.category.Category;
 import com.ark.center.product.domain.category.gateway.CategoryGateway;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
-import com.ark.component.common.ParamsChecker;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
@@ -75,7 +75,7 @@ public class AttrApplicationService {
 
     public Long saveAttrGroup(AttrGroupCmd cmd) {
         AttrTemplate attrTemplate = attrTemplateGateway.selectById(cmd.getAttrTemplateId());
-        ParamsChecker.throwIfIsNull(attrTemplate, ExceptionFactory.userException("属性模板不存在"));
+        Assert.notNull(attrTemplate, ExceptionFactory.userExceptionSupplier("属性模板不存在"));
         com.ark.center.product.domain.attr.AttrGroup attrGroup = attrGroupConverter.toAttrGroup(cmd);
         if (attrGroup.getId() != null) {
             attrGroupGateway.update(attrGroup);
