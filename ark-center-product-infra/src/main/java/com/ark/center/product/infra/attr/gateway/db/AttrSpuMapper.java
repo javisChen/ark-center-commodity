@@ -1,7 +1,7 @@
 package com.ark.center.product.infra.attr.gateway.db;
 
 
-import com.ark.center.product.domain.attr.AttrSpu;
+import com.ark.center.product.infra.attr.AttrSpu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

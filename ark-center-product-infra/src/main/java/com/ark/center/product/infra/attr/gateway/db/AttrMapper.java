@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.attr.gateway.db;
 
-import com.ark.center.product.domain.attr.Attr;
+import com.ark.center.product.infra.attr.Attr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

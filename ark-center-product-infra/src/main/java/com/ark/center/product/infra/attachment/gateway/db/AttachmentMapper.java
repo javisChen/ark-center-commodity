@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.attachment.gateway.db;
 
-import com.ark.center.product.domain.attachment.Attachment;
+import com.ark.center.product.infra.attachment.Attachment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

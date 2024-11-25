@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.category.gateway.db;
 
-import com.ark.center.product.domain.category.Category;
+import com.ark.center.product.infra.category.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.List;
+
 @Data
 public class AttrDoc {
 
@@ -15,4 +17,7 @@ public class AttrDoc {
 
     @Field(type = FieldType.Keyword)
     private String attrValue;
+
+    @Field(type = FieldType.Nested)
+    private List<AttrOptionDoc> optionList;
 }

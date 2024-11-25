@@ -12,13 +12,13 @@ import com.ark.center.product.client.attr.dto.AttrTemplateDTO;
 import com.ark.center.product.client.attr.query.AttrGroupPageQry;
 import com.ark.center.product.client.attr.query.AttrPageQry;
 import com.ark.center.product.client.attr.query.AttrTemplatePageQry;
-import com.ark.center.product.domain.attr.AttrGroup;
-import com.ark.center.product.domain.attr.AttrTemplate;
-import com.ark.center.product.domain.attr.gateway.AttrGateway;
-import com.ark.center.product.domain.attr.gateway.AttrGroupGateway;
-import com.ark.center.product.domain.attr.gateway.AttrTemplateGateway;
-import com.ark.center.product.domain.category.Category;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
+import com.ark.center.product.infra.attr.AttrGroup;
+import com.ark.center.product.infra.attr.AttrTemplate;
+import com.ark.center.product.infra.attr.gateway.AttrGateway;
+import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
+import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
+import com.ark.center.product.infra.category.Category;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.component.common.util.assemble.DataProcessor;
@@ -44,7 +44,7 @@ import java.util.List;
 public class AttrApplicationService {
 
     private final AttrGroupGateway attrGroupGateway;
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
     private final AttrGroupConverter attrGroupConverter;
 
     private final AttrTemplateConverter attrTemplateConverter;
@@ -76,7 +76,7 @@ public class AttrApplicationService {
     public Long saveAttrGroup(AttrGroupCmd cmd) {
         AttrTemplate attrTemplate = attrTemplateGateway.selectById(cmd.getAttrTemplateId());
         Assert.notNull(attrTemplate, ExceptionFactory.userExceptionSupplier("属性模板不存在"));
-        com.ark.center.product.domain.attr.AttrGroup attrGroup = attrGroupConverter.toAttrGroup(cmd);
+        AttrGroup attrGroup = attrGroupConverter.toAttrGroup(cmd);
         if (attrGroup.getId() != null) {
             attrGroupGateway.update(attrGroup);
         } else {
@@ -88,7 +88,7 @@ public class AttrApplicationService {
     public PageResponse<AttrGroupDTO> queryGroupPages(AttrGroupPageQry queryDTO) {
         Long categoryId = queryDTO.getCategoryId();
         if (categoryId != null) {
-            Category category = categoryGateway.selectById(categoryId);
+            Category category = categoryService.getById(categoryId);
             queryDTO.setAttrTemplateId(category.getAttrTemplateId());
         }
         IPage<AttrGroupDTO> pages = attrGroupGateway.selectPages(queryDTO);

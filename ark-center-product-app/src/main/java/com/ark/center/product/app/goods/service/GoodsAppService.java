@@ -19,10 +19,10 @@ import com.ark.center.product.client.search.dto.AggDTO;
 import com.ark.center.product.client.search.dto.SearchResultDTO;
 import com.ark.center.product.client.search.dto.SkuSearchDTO;
 import com.ark.center.product.client.search.query.SearchQry;
-import com.ark.center.product.domain.category.Category;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
-import com.ark.center.product.domain.spu.Spu;
-import com.ark.center.product.domain.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.category.Category;
+import com.ark.center.product.infra.category.service.CategoryService;
+import com.ark.center.product.infra.spu.Spu;
+import com.ark.center.product.infra.spu.gateway.SpuGateway;
 import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
 import com.ark.center.product.infra.product.gateway.es.GoodsRepositoryImpl;
 import com.ark.center.product.infra.product.gateway.es.SkuDoc;
@@ -54,7 +54,7 @@ public class GoodsAppService {
 
     private final SpuGateway spuGateway;
 
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
 
     private final GoodsQryExe goodsQryExe;
 
@@ -66,7 +66,7 @@ public class GoodsAppService {
 
     private final GoodsSearchAssembler goodsSearchAssembler;
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public Long save(GoodsCmd cmd) {
         return goodsCmdExe.execute(cmd);
     }
@@ -159,12 +159,12 @@ public class GoodsAppService {
         CategoryPageQry qry = new CategoryPageQry();
         qry.setLevel(1);
         List<HomeCategoryDTO> result = new ArrayList<>();
-        List<CategoryDTO> categoryDTOS = categoryGateway.selectList(qry);
+        List<CategoryDTO> categoryDTOS = categoryService.selectList(qry);
         for (CategoryDTO categoryDTO : categoryDTOS) {
             HomeCategoryDTO dto = new HomeCategoryDTO();
             dto.setCategoryId(categoryDTO.getId());
             dto.setCategoryName(categoryDTO.getName());
-            List<Category> subCategories = categoryGateway.selectByLevelPath(categoryDTO.getLevelPath());
+            List<Category> subCategories = categoryService.selectByLevelPath(categoryDTO.getLevelPath());
             if (CollectionUtils.isNotEmpty(subCategories)) {
                 List<Long> ids = subCategories.stream().map(BaseEntity::getId).toList();
                 List<Spu> spuList = spuGateway.selectByCategoryIds(ids);

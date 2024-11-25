@@ -1,15 +1,18 @@
 package com.ark.center.product.app.goods.event;
 
+import com.ark.center.product.app.goods.query.GoodsQryExe;
+import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
-import com.ark.center.product.domain.brand.gateway.BrandGateway;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
-import com.ark.center.product.domain.sku.gateway.SkuGateway;
-import com.ark.center.product.domain.spu.ShelfStatus;
-import com.ark.center.product.domain.spu.Spu;
-import com.ark.center.product.domain.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.brand.gateway.BrandGateway;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.product.gateway.es.AttrDoc;
+import com.ark.center.product.infra.product.gateway.es.AttrOptionDoc;
 import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
 import com.ark.center.product.infra.product.gateway.es.SkuDoc;
+import com.ark.center.product.infra.sku.SkuService;
+import com.ark.center.product.infra.spu.ShelfStatus;
+import com.ark.center.product.infra.spu.Spu;
+import com.ark.center.product.infra.spu.gateway.SpuGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +25,7 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 
+
 /**
  * 商品事件监听
  *
@@ -33,19 +37,22 @@ import java.util.List;
 public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChangedEvent> {
 
     private final GoodsRepository goodsRepository;
-    private final SkuGateway skuGateway;
+    private final SkuService skuService;
     private final SpuGateway spuGateway;
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
     private final BrandGateway brandGateway;
+    private final GoodsQryExe goodsQryExe;
 
     public void onApplicationEvent(@NotNull GoodsShelfOnChangedEvent event) {
-        log.info("Goods [{}] status has changed ", event.getSpuId());
+        log.info("Goods [{}] status has been changed ", event.getSpuId());
         Long spuId = event.getSpuId();
         ShelfStatus shelfStatus = event.getShelfStatus();
 
         Spu spu = spuGateway.selectById(spuId);
 
-        List<SkuDTO> skus = skuGateway.selectBySpuId(spuId);
+        GoodsDTO goodsDTO = goodsQryExe.queryDetails(spuId);
+
+        List<SkuDTO> skus = goodsDTO.getSkus();
 
         if (shelfStatus.equals(ShelfStatus.DOWN)) {
             goodsRepository.deleteAllById(skus.stream().map(SkuDTO::getId).toList());
@@ -56,7 +63,7 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
                 skuDoc.setSpuId(sku.getSpuId());
                 skuDoc.setSkuName(sku.getName());
                 skuDoc.setBrandName(brandGateway.selectById(spu.getBrandId()).getName());
-                skuDoc.setCategoryName(categoryGateway.selectById(spu.getCategoryId()).getName());
+                skuDoc.setCategoryName(categoryService.selectById(spu.getCategoryId()).getName());
                 skuDoc.setBrandId(spu.getBrandId());
                 skuDoc.setCategoryId(spu.getCategoryId());
                 skuDoc.setSalesPrice(sku.getSalesPrice());
@@ -87,6 +94,12 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
             attrDoc.setAttrId(attr.getAttrId());
             attrDoc.setAttrName(attr.getAttrName());
             attrDoc.setAttrValue(attr.getAttrValue());
+            List<AttrOptionDoc> optionDocs = attr.getOptionList().stream().map(option -> {
+                AttrOptionDoc attrOptionDoc = new AttrOptionDoc();
+                attrOptionDoc.setValue(option.getValue());
+                return attrOptionDoc;
+            }).toList();
+            attrDoc.setOptionList(optionDocs);
             return attrDoc;
         }).toList();
     }

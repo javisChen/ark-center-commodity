@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.product.gateway.db;
 
-import com.ark.center.product.domain.spu.SpuSales;
+import com.ark.center.product.infra.spu.SpuSales;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

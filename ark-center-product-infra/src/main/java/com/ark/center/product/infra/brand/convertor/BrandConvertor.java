@@ -2,7 +2,7 @@ package com.ark.center.product.infra.brand.convertor;
 
 import com.ark.center.product.client.brand.command.BrandCmd;
 import com.ark.center.product.client.brand.dto.BrandDTO;
-import com.ark.center.product.domain.brand.Brand;
+import com.ark.center.product.infra.brand.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

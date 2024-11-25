@@ -7,8 +7,8 @@ import com.ark.center.product.client.category.dto.CategoryDTO;
 import com.ark.center.product.client.category.dto.TreeDTO;
 import com.ark.center.product.client.category.dto.TreeifyDTO;
 import com.ark.center.product.client.category.query.CategoryPageQry;
-import com.ark.center.product.domain.category.Category;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
+import com.ark.center.product.infra.category.Category;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.category.convertor.CategoryConvertor;
 import com.ark.component.dto.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,12 +25,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CategoryAdminAppService {
 
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
 
     private final CategoryConvertor categoryConvertor;
 
     public PageResponse<CategoryDTO> queryPages(CategoryPageQry queryDTO) {
-        IPage<CategoryDTO> page = categoryGateway.selectPages(queryDTO);
+        IPage<CategoryDTO> page = categoryService.selectPages(queryDTO);
         return PageResponse.of(page);
     }
 
@@ -38,21 +38,21 @@ public class CategoryAdminAppService {
         Category category = categoryConvertor.toCategory(command);
         if (category.getId() == null) {
             category.setCode(generateCategoryCode());
-            categoryGateway.insert(category);
+            categoryService.insert(category);
             // 默认层级路径是 -> "id."
             String levelPath = category.getId() + ".";
             int level = 1;
             // 如果非根节点的话，取上级的层级信息计算出当前的层级信息
             if (!isRootCategory(category)) {
-                Category parentCategory = categoryGateway.selectById(category.getPid());
+                Category parentCategory = categoryService.selectById(category.getPid());
                 levelPath = parentCategory.getLevelPath() + levelPath;
                 level = parentCategory.getLevel() + 1;
             }
             category.setLevel(level);
             category.setLevelPath(levelPath);
-            categoryGateway.update(category);
+            categoryService.update(category);
         } else {
-            categoryGateway.update(category);
+            categoryService.update(category);
         }
         return category.getId();
     }
@@ -66,7 +66,7 @@ public class CategoryAdminAppService {
     }
 
     public TreeDTO<CategoryDTO> getTree(CategoryPageQry queryDTO) {
-        List<CategoryDTO> list = categoryGateway.selectList(queryDTO);
+        List<CategoryDTO> list = categoryService.selectList(queryDTO);
         return treeify(list);
     }
 
@@ -101,11 +101,11 @@ public class CategoryAdminAppService {
     }
 
     public void removeCategoryById(Long id) {
-        categoryGateway.remove(id);
+        categoryService.remove(id);
     }
 
     public CategoryDTO queryDetails(Long id) {
-        Category category = categoryGateway.selectById(id);
+        Category category = categoryService.selectById(id);
         return categoryConvertor.toDTO(category);
     }
 }

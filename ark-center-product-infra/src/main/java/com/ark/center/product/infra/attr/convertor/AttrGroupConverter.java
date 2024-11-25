@@ -2,7 +2,7 @@ package com.ark.center.product.infra.attr.convertor;
 
 import com.ark.center.product.client.attr.command.AttrGroupCmd;
 import com.ark.center.product.client.attr.dto.AttrGroupDTO;
-import com.ark.center.product.domain.attr.AttrGroup;
+import com.ark.center.product.infra.attr.AttrGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

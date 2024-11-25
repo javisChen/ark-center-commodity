@@ -2,9 +2,9 @@ package com.ark.center.product.app.goods.executor;
 
 import com.ark.center.product.app.goods.event.GoodsShelfOnChangedEvent;
 import com.ark.center.product.client.goods.command.GoodsShelfCmd;
-import com.ark.center.product.domain.spu.ShelfStatus;
-import com.ark.center.product.domain.spu.Spu;
-import com.ark.center.product.domain.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.spu.ShelfStatus;
+import com.ark.center.product.infra.spu.Spu;
+import com.ark.center.product.infra.spu.gateway.SpuGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

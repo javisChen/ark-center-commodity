@@ -3,13 +3,13 @@ package com.ark.center.product.infra.attr.gateway.impl;
 import com.ark.center.product.client.attr.dto.AttrDTO;
 import com.ark.center.product.client.attr.dto.AttrOptionDTO;
 import com.ark.center.product.client.attr.query.AttrPageQry;
-import com.ark.center.product.domain.attr.gateway.AttrGateway;
-import com.ark.center.product.domain.category.Category;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
+import com.ark.center.product.infra.attr.gateway.AttrGateway;
+import com.ark.center.product.infra.category.Category;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.attr.convertor.AttrConvertor;
-import com.ark.center.product.domain.attr.Attr;
+import com.ark.center.product.infra.attr.Attr;
 import com.ark.center.product.infra.attr.gateway.db.AttrMapper;
-import com.ark.center.product.domain.attr.AttrOption;
+import com.ark.center.product.infra.attr.AttrOption;
 import com.ark.center.product.infra.attr.gateway.db.AttrOptionMapper;
 import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IService<Attr>, AttrGateway {
 
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
     private final AttrOptionMapper attrOptionMapper;
     private final AttrConvertor attrConvertor;
 
@@ -122,9 +122,10 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
                         AttrOption::getType,
                         AttrOption::getSpuId,
                         AttrOption::getValue)
-                .eq(AttrOption::getType, optionType.getValue())
+//                 .eq(AttrOption::getType, optionType.getValue())
                 .in(AttrOption::getAttrId, attrIds)
-                .in(AttrOption::getSpuId, spuIds);
+//                .in(AttrOption::getSpuId, spuIds)
+        ;
         List<AttrOption> attrOptions = attrOptionMapper.selectList(queryWrapper);
         return attrConvertor.toOptionDTO(attrOptions);
     }
@@ -145,7 +146,7 @@ public class AttrGatewayImpl extends ServiceImpl<AttrMapper, Attr> implements IS
     public IPage<AttrDTO> selectPages(AttrPageQry queryDTO) {
 
         if (queryDTO.getCategoryId() != null) {
-            Category category = Optional.ofNullable(categoryGateway.selectById(queryDTO.getCategoryId()))
+            Category category = Optional.ofNullable(categoryService.selectById(queryDTO.getCategoryId()))
                     .orElseThrow(() -> ExceptionFactory.userException("商品类目不存在"));
             queryDTO.setAttrTemplateId(category.getAttrTemplateId());
         }

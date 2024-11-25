@@ -6,14 +6,16 @@ import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.search.dto.SearchResultDTO;
 import com.ark.center.product.client.search.query.SearchQry;
 import com.ark.component.dto.MultiResponse;
-import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class GoodsController extends BaseController {
     @Operation(summary = "查询详情")
     @GetMapping("/details")
     public SingleResponse<GoodsDTO> details(@RequestParam(required = false)
-                                                    @NotNull(message = "id不能为空") Long id) {
+                                            @NotNull(message = "id不能为空") Long id) {
         return SingleResponse.ok(goodsAppService.queryDetails(id));
     }
 

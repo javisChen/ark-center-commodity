@@ -2,9 +2,9 @@ package com.ark.center.product.infra.attr.gateway.impl;
 
 import com.ark.center.product.client.attr.dto.AttrGroupDTO;
 import com.ark.center.product.client.attr.query.AttrGroupPageQry;
-import com.ark.center.product.domain.attr.gateway.AttrGroupGateway;
+import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
-import com.ark.center.product.domain.attr.AttrGroup;
+import com.ark.center.product.infra.attr.AttrGroup;
 import com.ark.center.product.infra.attr.gateway.db.AttrGroupMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -22,18 +22,18 @@ public class AttrGroupGatewayImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
     private final AttrGroupConverter converter;
 
     @Override
-    public Long insert(com.ark.center.product.domain.attr.AttrGroup attrGroup) {
+    public Long insert(AttrGroup attrGroup) {
         save(attrGroup);
         return attrGroup.getId();
     }
 
     @Override
-    public com.ark.center.product.domain.attr.AttrGroup selectById(Long id) {
+    public AttrGroup selectById(Long id) {
         return getById(id);
     }
 
     @Override
-    public boolean update(com.ark.center.product.domain.attr.AttrGroup aggregate) {
+    public boolean update(AttrGroup aggregate) {
         return updateById(aggregate);
     }
 

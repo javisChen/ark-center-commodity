@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.product.gateway.db;
 
-import com.ark.center.product.domain.sku.SkuAttr;
+import com.ark.center.product.infra.sku.SkuAttr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -2,7 +2,7 @@ package com.ark.center.product.infra.attr.convertor;
 
 import com.ark.center.product.client.attr.command.AttrTemplateCreateCmd;
 import com.ark.center.product.client.attr.dto.AttrTemplateDTO;
-import com.ark.center.product.domain.attr.AttrTemplate;
+import com.ark.center.product.infra.attr.AttrTemplate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

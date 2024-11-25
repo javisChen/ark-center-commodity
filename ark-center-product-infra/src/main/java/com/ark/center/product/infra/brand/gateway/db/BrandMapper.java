@@ -1,6 +1,6 @@
 package com.ark.center.product.infra.brand.gateway.db;
 
-import com.ark.center.product.domain.brand.Brand;
+import com.ark.center.product.infra.brand.Brand;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

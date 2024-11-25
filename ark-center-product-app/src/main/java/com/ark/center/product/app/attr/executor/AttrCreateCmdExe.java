@@ -1,12 +1,12 @@
 package com.ark.center.product.app.attr.executor;
 
 import com.ark.center.product.client.attr.command.AttrCreateCmd;
-import com.ark.center.product.domain.attr.Attr;
-import com.ark.center.product.domain.attr.AttrOption;
-import com.ark.center.product.domain.attr.assembler.AttrAssembler;
-import com.ark.center.product.domain.attr.gateway.AttrGateway;
-import com.ark.center.product.domain.attr.gateway.AttrGroupGateway;
-import com.ark.center.product.domain.attr.gateway.AttrTemplateGateway;
+import com.ark.center.product.infra.attr.Attr;
+import com.ark.center.product.infra.attr.AttrOption;
+import com.ark.center.product.infra.attr.assembler.AttrAssembler;
+import com.ark.center.product.infra.attr.gateway.AttrGateway;
+import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
+import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;

@@ -1,7 +1,7 @@
 package com.ark.center.product.app.stock.executor;
 
 import com.ark.center.product.client.inventory.command.StockLockCmd;
-import com.ark.center.product.domain.inventory.service.InventoryService;
+import com.ark.center.product.infra.inventory.service.InventoryService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

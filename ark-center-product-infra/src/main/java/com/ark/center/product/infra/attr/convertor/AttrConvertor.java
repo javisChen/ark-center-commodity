@@ -2,8 +2,8 @@ package com.ark.center.product.infra.attr.convertor;
 
 import com.ark.center.product.client.attr.dto.AttrDTO;
 import com.ark.center.product.client.attr.dto.AttrOptionDTO;
-import com.ark.center.product.domain.attr.Attr;
-import com.ark.center.product.domain.attr.AttrOption;
+import com.ark.center.product.infra.attr.Attr;
+import com.ark.center.product.infra.attr.AttrOption;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

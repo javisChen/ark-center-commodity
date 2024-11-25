@@ -1,6 +1,6 @@
 package com.ark.center.product.app.goods.event;
 
-import com.ark.center.product.domain.spu.ShelfStatus;
+import com.ark.center.product.infra.spu.ShelfStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

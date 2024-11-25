@@ -2,8 +2,8 @@ package com.ark.center.product.infra.brand.gateway.impl;
 
 import com.ark.center.product.client.brand.dto.BrandDTO;
 import com.ark.center.product.client.brand.query.BrandPageQry;
-import com.ark.center.product.domain.brand.Brand;
-import com.ark.center.product.domain.brand.gateway.BrandGateway;
+import com.ark.center.product.infra.brand.Brand;
+import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.brand.convertor.BrandConvertor;
 import com.ark.center.product.infra.brand.gateway.db.BrandMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;

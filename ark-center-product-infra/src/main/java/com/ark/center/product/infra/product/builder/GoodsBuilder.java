@@ -3,18 +3,18 @@ package com.ark.center.product.infra.product.builder;
 import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
-import com.ark.center.product.domain.attachment.Attachment;
-import com.ark.center.product.domain.attachment.gateway.AttachmentGateway;
-import com.ark.center.product.domain.attr.AttrOption;
-import com.ark.center.product.domain.brand.gateway.BrandGateway;
-import com.ark.center.product.domain.category.gateway.CategoryGateway;
-import com.ark.center.product.domain.spu.Spu;
-import com.ark.center.product.domain.sku.gateway.SkuGateway;
-import com.ark.center.product.domain.spu.SpuSales;
-import com.ark.center.product.domain.spu.gateway.SpuGateway;
-import com.ark.center.product.domain.spu.service.SpuService;
+import com.ark.center.product.infra.attachment.Attachment;
+import com.ark.center.product.infra.attachment.gateway.AttachmentGateway;
+import com.ark.center.product.infra.attr.AttrOption;
+import com.ark.center.product.infra.brand.gateway.BrandGateway;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.product.AttachmentBizType;
-import com.ark.center.product.domain.spu.assembler.SpuAssembler;
+import com.ark.center.product.infra.sku.SkuService;
+import com.ark.center.product.infra.spu.Spu;
+import com.ark.center.product.infra.spu.SpuSales;
+import com.ark.center.product.infra.spu.assembler.SpuAssembler;
+import com.ark.center.product.infra.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.spu.service.SpuService;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
@@ -37,9 +37,9 @@ public class GoodsBuilder {
 
     private final SpuAssembler spuAssembler;
 
-    private final SkuGateway skuGateway;
+    private final SkuService skuService;
 
-    private final CategoryGateway categoryGateway;
+    private final CategoryService categoryService;
 
     private final AttachmentGateway attachmentGateway;
 
@@ -102,7 +102,7 @@ public class GoodsBuilder {
     private void assembleCategoryInfo(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor, List<GoodsDTO> goodsDTOS) {
         dataProcessor
                 .keySelect(GoodsDTO::getCategoryId)
-                .query(categoryGateway::selectByIds)
+                .query(categoryService::selectByIds)
                 .keyBy(BaseEntity::getId)
                 .object()
                 .process((goods, category) -> {
@@ -115,7 +115,7 @@ public class GoodsBuilder {
 
         dataProcessor
                 .keySelect(GoodsDTO::getId)
-                .query(skuGateway::selectBySpuIds)
+                .query(skuService::selectBySpuIds)
                 .keyBy(SkuDTO::getSpuId)
                 .collection()
                 .process(GoodsDTO::setSkus);
@@ -133,6 +133,6 @@ public class GoodsBuilder {
     }
 
     public GoodsDTO build(Spu spu, GoodsBuildProfiles profiles) {
-        return build(Lists.newArrayList(spu), profiles).get(0);
+        return build(Lists.newArrayList(spu), profiles).getFirst();
     }
 }

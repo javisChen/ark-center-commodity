@@ -3,7 +3,7 @@ package com.ark.center.product.infra.category.convertor;
 import com.ark.center.product.client.category.command.CategoryCreateCmd;
 import com.ark.center.product.client.category.command.CategoryUpdateCmd;
 import com.ark.center.product.client.category.dto.CategoryDTO;
-import com.ark.center.product.domain.category.Category;
+import com.ark.center.product.infra.category.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
