@@ -85,4 +85,7 @@ public class GoodsDTO implements Serializable {
     @Schema(name = "商品创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
+    @Schema(name = "商品更新时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    private LocalDateTime updateTime;
+
 }
