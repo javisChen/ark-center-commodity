@@ -9,12 +9,11 @@ import com.ark.center.product.infra.attr.AttrOption;
 import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.product.AttachmentBizType;
+import com.ark.center.product.infra.product.service.SpuService;
 import com.ark.center.product.infra.sku.SkuService;
 import com.ark.center.product.infra.spu.Spu;
 import com.ark.center.product.infra.spu.SpuSales;
 import com.ark.center.product.infra.spu.assembler.SpuAssembler;
-import com.ark.center.product.infra.spu.gateway.SpuGateway;
-import com.ark.center.product.infra.spu.service.SpuService;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
@@ -30,8 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class GoodsBuilder {
-
-    private final SpuGateway spuGateway;
 
     private final SpuService spuService;
 
@@ -92,7 +89,7 @@ public class GoodsBuilder {
     private void assembleSales(GoodsBuildProfiles profiles, DataProcessor<GoodsDTO> dataProcessor) {
         if (profiles.getWithSaleInfo()) {
             dataProcessor.keySelect(GoodsDTO::getId)
-                    .query(spuGateway::selectSalesBySpuIds)
+                    .query(spuService::selectSalesBySpuIds)
                     .keyBy(SpuSales::getSpuId)
                     .object()
                     .process((goodsDTO, spuSales) -> goodsDTO.setParams(spuAssembler.toGoodsAttr(spuSales.getParamData())));

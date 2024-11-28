@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.infra.spu.Spu;
-import com.ark.center.product.infra.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.product.service.SpuService;
 import com.ark.center.product.infra.product.builder.GoodsBuildProfiles;
 import com.ark.center.product.infra.product.builder.GoodsBuilder;
 import com.ark.component.dto.PageResponse;
@@ -20,12 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GoodsQryExe {
 
-    private final SpuGateway spuGateway;
+    private final SpuService spuService;
 
     private final GoodsBuilder goodsBuilder;
 
     public PageResponse<GoodsDTO> queryPages(GoodsQry goodsQry) {
-        Page<Spu> pages = spuGateway.selectPages(goodsQry);
+        Page<Spu> pages = spuService.selectPages(goodsQry);
         List<Spu> records = pages.getRecords();
         if (CollectionUtils.isEmpty(records)) {
             return PageResponse.of(new Page<>(pages.getCurrent(), pages.getSize()));
@@ -40,7 +40,7 @@ public class GoodsQryExe {
     }
 
     public GoodsDTO queryDetails(Long spuId) {
-        Spu spu = spuGateway.selectById(spuId);
+        Spu spu = spuService.selectById(spuId);
         Assert.notNull(spu, () -> ExceptionFactory.userException("商品不存在"));
 
         GoodsBuildProfiles profiles = new GoodsBuildProfiles();

@@ -1,7 +1,8 @@
 package com.ark.center.product.infra.product.gateway.es;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import com.ark.center.product.client.search.query.SearchQry;
+import com.ark.center.product.client.search.query.SearchQuery;
+import com.ark.center.product.infra.product.es.GoodsRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 
@@ -22,13 +23,13 @@ class GoodsRepositoryImplTest {
 
     @Test
     void buildNativeQueryBuilder() {
-        SearchQry searchQry = new SearchQry();
-        searchQry.setKeyword("米");
-        searchQry.setBrand("1^2^3^4");
-        searchQry.setCategory(1L);
+        SearchQuery searchQuery = new SearchQuery();
+        searchQuery.setKeyword("米");
+        searchQuery.setBrand("1^2^3^4");
+        searchQuery.setCategory(1L);
         String input = "8_||蓝^9_32G^10_256";
-        searchQry.setAttrs(input);
-        NativeQuery query = goodsRepository.buildNativeQueryBuilder(searchQry);
+        searchQuery.setAttrs(input);
+        NativeQuery query = goodsRepository.buildNativeQueryBuilder(searchQuery);
         System.out.println(query.getQuery().toString());
     }
 }

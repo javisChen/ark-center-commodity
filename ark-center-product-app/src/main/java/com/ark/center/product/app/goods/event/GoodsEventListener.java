@@ -5,14 +5,14 @@ import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.category.service.CategoryService;
-import com.ark.center.product.infra.product.gateway.es.AttrDoc;
-import com.ark.center.product.infra.product.gateway.es.AttrOptionDoc;
-import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
-import com.ark.center.product.infra.product.gateway.es.SkuDoc;
+import com.ark.center.product.infra.product.es.doc.AttrDoc;
+import com.ark.center.product.infra.product.es.doc.AttrOptionDoc;
+import com.ark.center.product.infra.product.es.GoodsRepository;
+import com.ark.center.product.infra.product.es.doc.SkuDoc;
 import com.ark.center.product.infra.sku.SkuService;
 import com.ark.center.product.infra.spu.ShelfStatus;
 import com.ark.center.product.infra.spu.Spu;
-import com.ark.center.product.infra.spu.gateway.SpuGateway;
+import com.ark.center.product.infra.product.service.SpuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
 
     private final GoodsRepository goodsRepository;
     private final SkuService skuService;
-    private final SpuGateway spuGateway;
+    private final SpuService spuService;
     private final CategoryService categoryService;
     private final BrandGateway brandGateway;
     private final GoodsQryExe goodsQryExe;
@@ -48,7 +48,7 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         Long spuId = event.getSpuId();
         ShelfStatus shelfStatus = event.getShelfStatus();
 
-        Spu spu = spuGateway.selectById(spuId);
+        Spu spu = spuService.selectById(spuId);
 
         GoodsDTO goodsDTO = goodsQryExe.queryDetails(spuId);
 

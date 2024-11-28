@@ -1,4 +1,4 @@
-package com.ark.center.product.infra.product.gateway.db;
+package com.ark.center.product.infra.product.db;
 
 import com.ark.center.product.infra.sku.Sku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

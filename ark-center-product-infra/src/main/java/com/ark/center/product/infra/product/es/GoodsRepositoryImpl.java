@@ -1,4 +1,4 @@
-package com.ark.center.product.infra.product.gateway.es;
+package com.ark.center.product.infra.product.es;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
@@ -8,7 +8,8 @@ import co.elastic.clients.elasticsearch._types.query_dsl.NestedQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermsQueryField;
 import co.elastic.clients.json.JsonData;
-import com.ark.center.product.client.search.query.SearchQry;
+import com.ark.center.product.client.search.query.SearchQuery;
+import com.ark.center.product.infra.product.es.doc.SkuDoc;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -68,22 +69,21 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     public void deleteAllById(List<Long> list) {
         Query idsQuery = elasticsearchTemplate.idsQuery(list.stream().map(Object::toString).toList());
         ByQueryResponse delete = elasticsearchTemplate.delete(idsQuery, SkuDoc.class);
-        System.out.println(delete);
     }
 
     @Override
-    public SearchHits<SkuDoc> search(SearchQry searchQry) {
-        NativeQuery nativeQueryBuilder = buildNativeQueryBuilder(searchQry);
+    public SearchHits<SkuDoc> search(SearchQuery searchQuery) {
+        NativeQuery nativeQueryBuilder = buildNativeQueryBuilder(searchQuery);
         log.info("Search dsl -> {}", nativeQueryBuilder.getQuery());
         return elasticsearchTemplate.search(nativeQueryBuilder, SkuDoc.class);
     }
 
-    public NativeQuery buildNativeQueryBuilder(SearchQry searchQry) {
+    public NativeQuery buildNativeQueryBuilder(SearchQuery searchQuery) {
         NativeQueryBuilder nativeQueryBuilder = new NativeQueryBuilder()
-                .withQuery(buildQuery(searchQry))
-                .withPageable(buildPageable(searchQry))
-                .withSort(buildSort(searchQry))
-                .withHighlightQuery(buildHighlightQuery(searchQry));
+                .withQuery(buildQuery(searchQuery))
+                .withPageable(buildPageable(searchQuery))
+                .withSort(buildSort(searchQuery))
+                .withHighlightQuery(buildHighlightQuery(searchQuery));
         return buildAggregation(nativeQueryBuilder).build();
     }
 
@@ -115,17 +115,9 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
                         .aggregations(ATTR_ID_AGG_KEY, attrAgg)));
     }
 
-    private Aggregation buildAggregation(String key) {
-        TermsAggregation termsAggregation = TermsAggregation.of(fn -> fn.field(key));
-        Aggregation aggregation = Aggregation.of(fn -> {
-            return fn.terms(termsAggregation).aggregations("brand_name_agg", buildAggregation("brandName"));
-        });
-        return aggregation;
-    }
-
-    private Sort buildSort(SearchQry searchQry) {
-        String sortField = searchQry.getSortField();
-        String sortDirection = searchQry.getSortDirection();
+    private Sort buildSort(SearchQuery searchQuery) {
+        String sortField = searchQuery.getSortField();
+        String sortDirection = searchQuery.getSortDirection();
         if (StringUtils.isNotBlank(sortField)) {
             if (StringUtils.isBlank(sortDirection)) {
                 return Sort.by(Sort.Direction.DESC, sortField);
@@ -135,11 +127,11 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
         return Sort.by(Sort.Direction.DESC, "updateTime");
     }
 
-    private PageRequest buildPageable(SearchQry searchQry) {
-        return PageRequest.of(searchQry.getCurrent() - 1, searchQry.getSize());
+    private PageRequest buildPageable(SearchQuery searchQuery) {
+        return PageRequest.of(searchQuery.getCurrent() - 1, searchQuery.getSize());
     }
 
-    private HighlightQuery buildHighlightQuery(SearchQry searchQry) {
+    private HighlightQuery buildHighlightQuery(SearchQuery searchQuery) {
         List<HighlightField> fields = new ArrayList<>();
         HighlightField field = new HighlightField("skuName");
         fields.add(field);
@@ -150,12 +142,12 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
         return new HighlightQuery(highlight, null);
     }
 
-    private co.elastic.clients.elasticsearch._types.query_dsl.Query buildQuery(SearchQry searchQry) {
-        String brand = searchQry.getBrand();
-        Long categoryId = searchQry.getCategory();
-        String keyword = searchQry.getKeyword();
-        String priceRange = searchQry.getPriceRange();
-        String specs = searchQry.getAttrs();
+    private co.elastic.clients.elasticsearch._types.query_dsl.Query buildQuery(SearchQuery searchQuery) {
+        String brand = searchQuery.getBrand();
+        Long categoryId = searchQuery.getCategory();
+        String keyword = searchQuery.getKeyword();
+        String priceRange = searchQuery.getPriceRange();
+        String specs = searchQuery.getAttrs();
 
         BoolQuery.Builder bool = new BoolQuery.Builder();
 

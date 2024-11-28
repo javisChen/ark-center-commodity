@@ -1,4 +1,4 @@
-package com.ark.center.product.infra.product.gateway.db;
+package com.ark.center.product.infra.product.db;
 
 import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.infra.spu.SpuAttr;

@@ -38,20 +38,11 @@
             </dependency>
 
             <dependency>
-                <groupId>com.ark.ddd</groupId>
-                <artifactId>ark-ddd-base</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-product-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-product-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-product-domain</artifactId>
@@ -75,6 +66,14 @@
                 <artifactId>ark-center-product-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!-- MQ -->
+            <dependency>
+                <groupId>com.ark.mq</groupId>
+                <artifactId>ark-component-mq-integration-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

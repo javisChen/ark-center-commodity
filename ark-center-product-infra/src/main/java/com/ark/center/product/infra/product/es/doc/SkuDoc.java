@@ -1,4 +1,4 @@
-package com.ark.center.product.infra.product.gateway.es;
+package com.ark.center.product.infra.product.es.doc;
 
 
 import lombok.Data;

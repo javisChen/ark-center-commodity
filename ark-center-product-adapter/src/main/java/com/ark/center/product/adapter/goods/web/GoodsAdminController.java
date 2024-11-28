@@ -1,6 +1,6 @@
 package com.ark.center.product.adapter.goods.web;
 
-import com.ark.center.product.app.goods.service.GoodsAppService;
+import com.ark.center.product.app.goods.service.GoodsQueryService;
 import com.ark.center.product.client.goods.command.GoodsCmd;
 import com.ark.center.product.client.goods.command.GoodsShelfCmd;
 import com.ark.center.product.client.goods.dto.GoodsDTO;
@@ -30,31 +30,31 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class GoodsAdminController extends BaseController {
 
-    private final GoodsAppService goodsAppService;
+    private final GoodsQueryService goodsQueryService;
 
     @Operation(summary = "保存商品")
     @PostMapping("/save")
     public SingleResponse<Long> save(@RequestBody @Validated GoodsCmd cmd) {
-        return SingleResponse.ok(goodsAppService.save(cmd));
+        return SingleResponse.ok(goodsQueryService.save(cmd));
     }
 
     @Operation(summary = "保存商品")
     @PostMapping("/shelf")
     public ServerResponse updateShelf(@RequestBody @Validated GoodsShelfCmd cmd) {
-        goodsAppService.shelf(cmd);
+        goodsQueryService.shelf(cmd);
         return SingleResponse.ok();
     }
 
     @Operation(summary = "查询分页列表")
     @PostMapping("/pages")
     public SingleResponse<PageResponse<GoodsDTO>> queryPages(@RequestBody @Validated GoodsQry queryDTO) {
-        return SingleResponse.ok(goodsAppService.queryPages(queryDTO));
+        return SingleResponse.ok(goodsQueryService.queryPages(queryDTO));
     }
 
     @Operation(summary = "查询详情")
     @GetMapping("/details")
     public SingleResponse<GoodsDTO> details(@RequestParam(required = false) @NotNull(message = "id不能为空") Long id) {
-        return SingleResponse.ok(goodsAppService.queryDetails(id));
+        return SingleResponse.ok(goodsQueryService.queryDetails(id));
     }
 
 }

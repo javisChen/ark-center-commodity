@@ -8,13 +8,10 @@ import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.infra.attr.gateway.AttrGateway;
 import com.ark.center.product.infra.inventory.Inventory;
 import com.ark.center.product.infra.inventory.service.InventoryService;
-import com.ark.center.product.infra.product.gateway.db.SkuAttrMapper;
-import com.ark.center.product.infra.product.gateway.db.SkuMapper;
+import com.ark.center.product.infra.product.db.SkuMapper;
 import com.ark.center.product.infra.sku.assembler.SkuAssembler;
 import com.ark.center.product.infra.spu.Spu;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,6 @@ public class SkuService extends ServiceImpl<SkuMapper, Sku> {
 
     private final SkuAssembler skuAssembler;
     private final InventoryService inventoryService;
-    private final SkuAttrMapper skuAttrMapper;
     private final AttrGateway attrGateway;
 
     public List<Sku> queryByIds(List<Long> ids) {
@@ -85,20 +81,6 @@ public class SkuService extends ServiceImpl<SkuMapper, Sku> {
         }
 
         List<Long> skuIds = skuList.stream().map(BaseEntity::getId).sorted().collect(Collectors.toList());
-
-        deleteAttrsBySkuIds(skuIds);
-    }
-
-    public void deleteAttrsBySkuIds(List<Long> skuIds) {
-        LambdaQueryWrapper<SkuAttr> qw = Wrappers.lambdaQuery(SkuAttr.class)
-                .select(BaseEntity::getId)
-                .in(SkuAttr::getSkuId, skuIds);
-        List<SkuAttr> skuAttrs = skuAttrMapper.selectList(qw);
-        if (CollectionUtils.isEmpty(skuAttrs)) {
-            return;
-        }
-        List<Long> ids = skuAttrs.stream().map(BaseEntity::getId).sorted().toList();
-        skuAttrMapper.deleteBatchIds(ids);
     }
 
     public void update(Sku sku) {
@@ -112,9 +94,6 @@ public class SkuService extends ServiceImpl<SkuMapper, Sku> {
         if (skuIsChanged(cmd, originalSkus)) {
             // todo 把当前的SKU记录到历史表里面
             List<Long> skuIds = originalSkus.stream().map(SkuDTO::getId).toList();
-
-            // 清除SKU属性值
-            deleteAttrsBySkuIds(skuIds);
 
             // 清除SKU
             removeByIds(skuIds);

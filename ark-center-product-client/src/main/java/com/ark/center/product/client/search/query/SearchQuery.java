@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(name = "SearchQry", description = "搜索模型")
-public class SearchQry extends PagingQuery {
+public class SearchQuery extends PagingQuery {
 
     @Schema(name = "keyword", description = "关键字")
     private String keyword;

@@ -1,6 +1,6 @@
 package com.ark.center.product;
 
-import com.ark.center.product.infra.product.gateway.es.GoodsRepository;
+import com.ark.center.product.infra.product.es.GoodsRepository;
 import com.ark.component.cache.redis.RedisCacheService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
