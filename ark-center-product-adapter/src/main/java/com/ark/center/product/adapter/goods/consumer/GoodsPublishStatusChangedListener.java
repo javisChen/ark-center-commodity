@@ -1,8 +1,8 @@
 package com.ark.center.product.adapter.goods.consumer;
 
 import com.ark.center.product.app.goods.query.GoodsQryExe;
+import com.ark.center.product.app.goods.service.GoodsCommandHandler;
 import com.ark.center.product.client.common.ProductConst;
-import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.mq.GoodsChangedEventDTO;
 import com.ark.center.product.infra.product.es.GoodsEsSynchronizer;
 import com.ark.center.product.infra.product.service.SpuService;
@@ -30,6 +30,7 @@ public class GoodsPublishStatusChangedListener extends SimpleMessageHandler<Good
     private final GoodsEsSynchronizer goodsEsSynchronizer;
     private final SpuService spuService;
     private final GoodsQryExe goodsQryExe;
+    private final GoodsCommandHandler goodsCommandHandler;
 
     @Override
     protected void handleMessage(String msgId, String sendId, GoodsChangedEventDTO eventDTO, Object o) {
@@ -37,9 +38,7 @@ public class GoodsPublishStatusChangedListener extends SimpleMessageHandler<Good
         Long spuId = eventDTO.getSpuId();
         try {
 
-            GoodsDTO goodsDTO = goodsQryExe.queryDetails(spuId);
-
-            goodsEsSynchronizer.handleGoodsChangedEvent(goodsDTO);
+            goodsCommandHandler.handleGoodsChangedEvent(eventDTO);
 
             log.info("Goods {} has been synchronized successfully", spuId);
         } catch (Exception e) {

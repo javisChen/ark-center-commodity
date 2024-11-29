@@ -32,34 +32,33 @@ public class GoodsEsSynchronizer {
 
         if (shelfStatus.equals(ShelfStatus.DOWN.getValue())) {
             goodsRepository.deleteAllById(skus.stream().map(SkuDTO::getId).toList());
-        } else if (shelfStatus.equals(ShelfStatus.UP.getValue())) {
-            List<SkuDoc> skuDocs = skus.stream().map(sku -> {
-                SkuDoc skuDoc = new SkuDoc();
-                skuDoc.setSkuId(sku.getId());
-                skuDoc.setSpuId(sku.getSpuId());
-                skuDoc.setSkuName(sku.getName());
-                skuDoc.setBrandName(brandGateway.selectById(goodsDTO.getBrandId()).getName());
-                skuDoc.setCategoryName(categoryService.selectById(goodsDTO.getCategoryId()).getName());
-                skuDoc.setBrandId(goodsDTO.getBrandId());
-                skuDoc.setCategoryId(goodsDTO.getCategoryId());
-                skuDoc.setSalesPrice(sku.getSalesPrice());
-                skuDoc.setPictures(Collections.singletonList(goodsDTO.getMainPicture()));
-                skuDoc.setCreateTime(ZonedDateTime.of(goodsDTO.getCreateTime(), ZoneId.systemDefault()));
-                skuDoc.setUpdateTime(ZonedDateTime.of(goodsDTO.getUpdateTime(), ZoneId.systemDefault()));
-                skuDoc.setAttrs(convertAttrs(sku));
-                return skuDoc;
-            }).toList();
-            goodsRepository.saveAll(skuDocs);
+            return;
         }
+
+        List<SkuDoc> skuDocs = skus.stream().map(sku -> {
+            SkuDoc skuDoc = new SkuDoc();
+            skuDoc.setSkuId(sku.getId());
+            skuDoc.setSpuId(sku.getSpuId());
+            skuDoc.setSkuName(sku.getName());
+            skuDoc.setBrandName(brandGateway.selectById(goodsDTO.getBrandId()).getName());
+            skuDoc.setCategoryName(categoryService.selectById(goodsDTO.getCategoryId()).getName());
+            skuDoc.setBrandId(goodsDTO.getBrandId());
+            skuDoc.setCategoryId(goodsDTO.getCategoryId());
+            skuDoc.setSalesPrice(sku.getSalesPrice());
+            skuDoc.setPictures(Collections.singletonList(goodsDTO.getMainPicture()));
+            skuDoc.setCreateTime(ZonedDateTime.of(goodsDTO.getCreateTime(), ZoneId.systemDefault()));
+            skuDoc.setUpdateTime(ZonedDateTime.of(goodsDTO.getUpdateTime(), ZoneId.systemDefault()));
+            skuDoc.setAttrs(convertAttrs(sku));
+            return skuDoc;
+        }).toList();
+
+        goodsRepository.saveAll(skuDocs);
+
     }
 
     public static void main(String[] args) {
         ZonedDateTime instant = LocalDateTime.now().atZone(ZoneId.of("+08:00"));
         System.out.println(instant);
-    }
-
-    private LocalDateTime toUTC(LocalDateTime localDateTime) {
-        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
     }
 
     private List<AttrDoc> convertAttrs(SkuDTO sku) {

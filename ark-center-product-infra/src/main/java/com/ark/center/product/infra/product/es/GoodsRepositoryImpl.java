@@ -14,17 +14,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.ByQueryResponse;
-import org.springframework.data.elasticsearch.core.query.HighlightQuery;
-import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
@@ -33,26 +33,35 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
 
+    public final static String BRAND_NAME_AGG_KEY = "brand_name_agg";
+    public final static String CATEGORY_NAME_AGG_KEY = "category_name_agg";
+    public final static String ATTR_VALUE_AGG_KEY = "attr_value_agg";
+    public final static String ATTR_NAME_AGG_KEY = "attr_name_agg";
+    public final static String BRAND_AGG_KEY = "brand_agg";
+    public final static String CATEGORY_AGG_KEY = "category_agg";
+    public final static String ATTR_AGG_KEY = "attr_agg";
+    public final static String ATTR_ID_AGG_KEY = "attr_id_agg";
+    
     private final ElasticsearchTemplate elasticsearchTemplate;
-
-   public final static String BRAND_NAME_AGG_KEY = "brand_name_agg";
-   public final static String CATEGORY_NAME_AGG_KEY = "category_name_agg";
-   public final static String ATTR_VALUE_AGG_KEY = "attr_value_agg";
-   public final static String ATTR_NAME_AGG_KEY = "attr_name_agg";
-   public final static String BRAND_AGG_KEY = "brand_agg";
-   public final static String CATEGORY_AGG_KEY = "category_agg";
-   public final static String ATTR_AGG_KEY = "attr_agg";
-   public final static String ATTR_ID_AGG_KEY = "attr_id_agg";
+    private final ElasticsearchOperations elasticsearchOperations;
 
     @Override
     public void saveAll(Iterable<SkuDoc> docs) {
-        elasticsearchTemplate.save(docs);
+
+        List<IndexQuery> queries = StreamSupport.stream(docs.spliterator(), false)
+                .map(product -> new IndexQueryBuilder()
+                        .withObject(product)
+                        .build())
+                .toList();
+
+        elasticsearchOperations.bulkIndex(queries, Product.class);
     }
 
     @Override
@@ -68,13 +77,15 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     @Override
     public void deleteAllById(List<Long> list) {
         Query idsQuery = elasticsearchTemplate.idsQuery(list.stream().map(Object::toString).toList());
-        ByQueryResponse delete = elasticsearchTemplate.delete(idsQuery, SkuDoc.class);
+        elasticsearchTemplate.delete(idsQuery, SkuDoc.class);
     }
 
     @Override
     public SearchHits<SkuDoc> search(SearchQuery searchQuery) {
         NativeQuery nativeQueryBuilder = buildNativeQueryBuilder(searchQuery);
-        log.info("Search dsl -> {}", nativeQueryBuilder.getQuery());
+        if (log.isDebugEnabled()) {
+            log.info("Search DSL -> {}", nativeQueryBuilder.getQuery());
+        }
         return elasticsearchTemplate.search(nativeQueryBuilder, SkuDoc.class);
     }
 
@@ -109,7 +120,7 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
                 .aggregations(ATTR_NAME_AGG_KEY, attrNameAgg));
         return nativeQueryBuilder
                 .withAggregation(BRAND_AGG_KEY, brandIdAgg)
-                .withAggregation(CATEGORY_AGG_KEY , categoryIdAgg)
+                .withAggregation(CATEGORY_AGG_KEY, categoryIdAgg)
                 .withAggregation(ATTR_AGG_KEY, Aggregation.of(fn -> fn
                         .nested(nested -> nested.path("attrs"))
                         .aggregations(ATTR_ID_AGG_KEY, attrAgg)));
