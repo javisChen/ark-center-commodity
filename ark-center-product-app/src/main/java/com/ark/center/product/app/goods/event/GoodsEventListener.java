@@ -11,6 +11,7 @@ import com.ark.center.product.infra.product.es.doc.AttrDoc;
 import com.ark.center.product.infra.product.es.doc.AttrOptionDoc;
 import com.ark.center.product.infra.product.service.SpuService;
 import com.ark.center.product.infra.spu.ShelfStatus;
+import com.ark.component.context.core.ServiceContext;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.SendConfirm;
 import com.ark.component.mq.SendResult;
@@ -48,10 +49,12 @@ public class GoodsEventListener implements ApplicationListener<GoodsShelfOnChang
         log.info("Goods [{}] status has been changed ", event.getSpuId());
         Long spuId = event.getSpuId();
         ShelfStatus shelfStatus = event.getShelfStatus();
-
         GoodsChangedEventDTO goodsChangedEventDTO = new GoodsChangedEventDTO(spuId, shelfStatus.getValue());
+
+        String traceId = ServiceContext.getTraceId();
         messageTemplate.asyncSend(ProductConst.TOPIC_PRODUCT, ProductConst.TAG_GOODS_PUBLISH_STATUS_CHANGED,
-                MsgBody.of(goodsChangedEventDTO),
+                MsgBody.of(traceId, goodsChangedEventDTO),
+
                 new SendConfirm() {
                     @Override
                     public void onSuccess(SendResult sendResult) {

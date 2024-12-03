@@ -22,7 +22,6 @@ public interface SpuAssembler {
     @Mapping(target = "pictures", ignore = true)
     @Mapping(target = "params", ignore = true)
     @Mapping(target = "freightTemplateId", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "categoryName", ignore = true)
     @Mapping(target = "categoryLevelPath", ignore = true)
     @Mapping(target = "brandName", ignore = true)

@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -24,7 +23,10 @@ import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.*;
+import org.springframework.data.elasticsearch.core.query.HighlightQuery;
+import org.springframework.data.elasticsearch.core.query.IndexQuery;
+import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
@@ -48,7 +50,7 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
     public final static String CATEGORY_AGG_KEY = "category_agg";
     public final static String ATTR_AGG_KEY = "attr_agg";
     public final static String ATTR_ID_AGG_KEY = "attr_id_agg";
-    
+
     private final ElasticsearchTemplate elasticsearchTemplate;
     private final ElasticsearchOperations elasticsearchOperations;
 
@@ -61,7 +63,7 @@ public class GoodsRepositoryImpl implements GoodsRepository, InitializingBean {
                         .build())
                 .toList();
 
-        elasticsearchOperations.bulkIndex(queries, Product.class);
+        elasticsearchOperations.bulkIndex(queries, SkuDoc.class);
     }
 
     @Override

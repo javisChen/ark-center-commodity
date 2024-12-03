@@ -56,6 +56,6 @@ public class SkuDoc {
     private ZonedDateTime updateTime;
 
     @Field(type = FieldType.Nested)
-    private List<AttrDoc> attrs;
+    private List<SkuAttrDoc> attrs;
 
 }

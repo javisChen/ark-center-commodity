@@ -4,8 +4,7 @@ import com.ark.center.product.client.goods.dto.GoodsDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.category.service.CategoryService;
-import com.ark.center.product.infra.product.es.doc.AttrDoc;
-import com.ark.center.product.infra.product.es.doc.AttrOptionDoc;
+import com.ark.center.product.infra.product.es.doc.SkuAttrDoc;
 import com.ark.center.product.infra.product.es.doc.SkuDoc;
 import com.ark.center.product.infra.spu.ShelfStatus;
 import lombok.AllArgsConstructor;
@@ -61,18 +60,12 @@ public class GoodsEsSynchronizer {
         System.out.println(instant);
     }
 
-    private List<AttrDoc> convertAttrs(SkuDTO sku) {
+    private List<SkuAttrDoc> convertAttrs(SkuDTO sku) {
         return sku.getSpecs().stream().map(attr -> {
-            AttrDoc attrDoc = new AttrDoc();
+            SkuAttrDoc attrDoc = new SkuAttrDoc();
             attrDoc.setAttrId(attr.getAttrId());
             attrDoc.setAttrName(attr.getAttrName());
             attrDoc.setAttrValue(attr.getAttrValue());
-            List<AttrOptionDoc> optionDocs = attr.getOptionList().stream().map(option -> {
-                AttrOptionDoc attrOptionDoc = new AttrOptionDoc();
-                attrOptionDoc.setValue(option.getValue());
-                return attrOptionDoc;
-            }).toList();
-            attrDoc.setOptionList(optionDocs);
             return attrDoc;
         }).toList();
     }

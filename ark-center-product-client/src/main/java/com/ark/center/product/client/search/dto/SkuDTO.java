@@ -22,4 +22,6 @@ public class SkuDTO {
 
     private List<String> pictures;
 
+    private List<SkuAttrDTO> attrs;
+
 }

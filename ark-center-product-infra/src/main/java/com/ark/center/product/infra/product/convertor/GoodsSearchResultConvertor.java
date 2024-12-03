@@ -6,8 +6,10 @@ import co.elastic.clients.elasticsearch._types.aggregations.NestedAggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import com.ark.center.product.client.search.dto.AggDTO;
 import com.ark.center.product.client.search.dto.GoodsSearchDTO;
+import com.ark.center.product.client.search.dto.SkuAttrDTO;
 import com.ark.center.product.client.search.dto.SkuDTO;
 import com.ark.center.product.infra.product.es.GoodsRepositoryImpl;
+import com.ark.center.product.infra.product.es.doc.SkuAttrDoc;
 import com.ark.center.product.infra.product.es.doc.SkuDoc;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
@@ -21,6 +23,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GoodsSearchResultConvertor {
@@ -47,6 +50,14 @@ public interface GoodsSearchResultConvertor {
         skuDTO.setCategoryId(skuDoc.getCategoryId());
         skuDTO.setSalesPrice(skuDoc.getSalesPrice());
         skuDTO.setPictures(skuDoc.getPictures());
+        List<SkuAttrDTO> attrDTOList = skuDoc.getAttrs().stream().map(s -> {
+            SkuAttrDTO skuAttrDTO = new SkuAttrDTO();
+            skuAttrDTO.setAttrId(s.getAttrId());
+            skuAttrDTO.setAttrName(s.getAttrName());
+            skuAttrDTO.setAttrValue(s.getAttrValue());
+            return skuAttrDTO;
+        }).toList();
+        skuDTO.setAttrs(attrDTOList);
         return skuDTO;
     }
 

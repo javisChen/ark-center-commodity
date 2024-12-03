@@ -33,8 +33,8 @@ public class GoodsPublishStatusChangedListener extends SimpleMessageHandler<Good
     private final GoodsCommandHandler goodsCommandHandler;
 
     @Override
-    protected void handleMessage(String msgId, String sendId, GoodsChangedEventDTO eventDTO, Object o) {
-        log.info("Received [PayOrderCreated] message -> msgId = {}, sendId = {}, eventDTO = {}", msgId, sendId, eventDTO);
+    protected void handleMessage(String msgId, String bizKey, GoodsChangedEventDTO eventDTO, Object o) {
+        log.info("Received [GoodsPublishStatusChanged] message -> msgId = {}, bizKey = {}, eventDTO = {}", msgId, bizKey, eventDTO);
         Long spuId = eventDTO.getSpuId();
         try {
 
@@ -46,4 +46,5 @@ public class GoodsPublishStatusChangedListener extends SimpleMessageHandler<Good
             throw e;
         }
     }
+
 }
