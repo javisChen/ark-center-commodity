@@ -10,7 +10,7 @@ import java.util.List;
 
 class GoodsRepositoryImplTest {
 
-    GoodsRepositoryImpl goodsRepository = new GoodsRepositoryImpl(null);
+    GoodsRepositoryImpl goodsRepository = new GoodsRepositoryImpl(null, null);
 
     @Test
     void buildAttrQuery() {
