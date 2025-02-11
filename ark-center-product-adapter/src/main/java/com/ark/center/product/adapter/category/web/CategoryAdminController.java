@@ -9,8 +9,9 @@ import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
  * @author EOP
  * @since 2022-03-03
  */
-@Api(tags = "商品分类接口")
+@Tags({
+        @Tag(name = "商品分类服务", description = "商品分类服务"),
+})
 @Validated
 @RestController
 @RequestMapping("/v1/admin/category")

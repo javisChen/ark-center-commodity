@@ -5,7 +5,6 @@ import com.ark.center.product.client.goods.command.GoodsCmd;
 import com.ark.center.product.client.goods.command.SkuCmd;
 import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
-import com.ark.center.product.infra.attr.gateway.AttrGateway;
 import com.ark.center.product.infra.inventory.Inventory;
 import com.ark.center.product.infra.inventory.service.InventoryService;
 import com.ark.center.product.infra.product.db.SkuMapper;
@@ -29,7 +28,6 @@ public class SkuService extends ServiceImpl<SkuMapper, Sku> {
 
     private final SkuAssembler skuAssembler;
     private final InventoryService inventoryService;
-    private final AttrGateway attrGateway;
 
     public List<Sku> queryByIds(List<Long> ids) {
         return listByIds(ids);

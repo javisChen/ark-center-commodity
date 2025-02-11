@@ -4,9 +4,9 @@ import com.ark.center.product.client.attr.command.AttrCreateCmd;
 import com.ark.center.product.infra.attr.Attr;
 import com.ark.center.product.infra.attr.AttrOption;
 import com.ark.center.product.infra.attr.assembler.AttrAssembler;
-import com.ark.center.product.infra.attr.gateway.AttrGateway;
 import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
 import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
+import com.ark.center.product.infra.attr.gateway.impl.AttrService;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -22,7 +22,7 @@ public class AttrCreateCmdExe {
 
     private final AttrTemplateGateway attrTemplateGateway;
     private final AttrGroupGateway attrGroupGateway;
-    private final AttrGateway attrGateway;
+    private final AttrService attrService;
     private final AttrAssembler attrAssembler;
 
     public Long execute(AttrCreateCmd cmd) {
@@ -40,20 +40,20 @@ public class AttrCreateCmdExe {
 
     private void saveAttr(Attr attr) {
         if (attr.getId() != null) {
-            attrGateway.update(attr);
+            attrService.update(attr);
         } else {
-            attrGateway.insert(attr);
+            attrService.save(attr);
         }
     }
 
     private void saveOptions(Attr attr, AttrCreateCmd cmd) {
         List<AttrOption> options = assembleOptions(attr, cmd.getValues());
 
-        attrGateway.deleteOptions(attr.getId());
+        attrService.deleteOptions(attr.getId());
 
         if (attr.isSelectInputType()) {
             options.forEach(item -> item.setAttrId(attr.getId()));
-            attrGateway.saveOptions(options);
+            attrService.saveOptions(options);
         }
     }
 

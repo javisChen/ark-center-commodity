@@ -14,13 +14,13 @@ import com.ark.center.product.client.attr.query.AttrPageQry;
 import com.ark.center.product.client.attr.query.AttrTemplatePageQry;
 import com.ark.center.product.infra.attr.AttrGroup;
 import com.ark.center.product.infra.attr.AttrTemplate;
-import com.ark.center.product.infra.attr.gateway.AttrGateway;
-import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
-import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
-import com.ark.center.product.infra.category.Category;
-import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
+import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
+import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
+import com.ark.center.product.infra.attr.gateway.impl.AttrService;
+import com.ark.center.product.infra.category.Category;
+import com.ark.center.product.infra.category.service.CategoryService;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.exception.ExceptionFactory;
@@ -50,7 +50,7 @@ public class AttrApplicationService {
     private final AttrTemplateConverter attrTemplateConverter;
     private final AttrTemplateGateway attrTemplateGateway;
 
-    private final AttrGateway attrGateway;
+    private final AttrService attrService;
     private final AttrCreateCmdExe attrCreateCmdExe;
 
     public Long saveAttrTemplate(AttrTemplateCreateCmd cmd) {
@@ -99,7 +99,7 @@ public class AttrApplicationService {
         if (queryDTO.getWithAttr()) {
             DataProcessor.create(records)
                     .keySelect(AttrGroupDTO::getId)
-                    .query(attrGateway::selectByGroupIds)
+                    .query(attrService::selectByGroupIds)
                     .keyBy(AttrDTO::getAttrGroupId)
                     .collection()
                     .process(AttrGroupDTO::setAttrList);
@@ -121,15 +121,15 @@ public class AttrApplicationService {
     }
 
     public void removeByAttrId(Long id) {
-        attrGateway.remove(id);
+        attrService.remove(id);
     }
 
     public AttrDTO queryAttrDetails(Long id) {
-        return attrGateway.selectById(id);
+        return attrService.selectById(id);
     }
 
     public PageResponse<AttrDTO> queryAttrTemplatePages(AttrPageQry queryDTO) {
-        IPage<AttrDTO> page = attrGateway.selectPages(queryDTO);
+        IPage<AttrDTO> page = attrService.selectPages(queryDTO);
         return PageResponse.of(page);
     }
 }

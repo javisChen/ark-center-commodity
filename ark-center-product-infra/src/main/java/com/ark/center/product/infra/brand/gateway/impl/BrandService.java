@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BrandGatewayImpl extends ServiceImpl<BrandMapper, Brand> implements IService<Brand>, BrandGateway {
+public class BrandService extends ServiceImpl<BrandMapper, Brand> implements IService<Brand>, BrandGateway {
 
     private final BrandConvertor brandConvertor;
 
@@ -28,8 +28,7 @@ public class BrandGatewayImpl extends ServiceImpl<BrandMapper, Brand> implements
         return lambdaQuery()
                 .like(StringUtils.isNotEmpty(queryDTO.getName()), Brand::getName, queryDTO.getName())
                 .page(new PageDTO<>(queryDTO.getCurrent(), queryDTO.getSize()))
-                .convert(brandConvertor::toDTO)
-                ;
+                .convert(brandConvertor::toDTO);
     }
 
     public Long insert(Brand brand) {

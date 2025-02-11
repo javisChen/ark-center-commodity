@@ -4,15 +4,14 @@ import com.ark.center.product.client.attr.dto.AttrOptionDTO;
 import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.query.GoodsQry;
 import com.ark.center.product.infra.attr.AttrOption;
-import com.ark.center.product.infra.attr.gateway.AttrGateway;
 import com.ark.center.product.infra.attr.gateway.db.AttrOptionMapper;
+import com.ark.center.product.infra.attr.gateway.impl.AttrService;
 import com.ark.center.product.infra.product.db.SpuAttrMapper;
 import com.ark.center.product.infra.product.db.SpuMapper;
 import com.ark.center.product.infra.product.db.SpuSalesMapper;
 import com.ark.center.product.infra.spu.Spu;
 import com.ark.center.product.infra.spu.SpuAttr;
 import com.ark.center.product.infra.spu.SpuSales;
-import com.ark.center.product.infra.spu.assembler.SpuAssembler;
 import com.ark.component.common.util.assemble.DataProcessor;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -29,11 +28,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpuService extends ServiceImpl<SpuMapper, Spu> {
 
-    private final SpuAssembler spuAssembler;
     private final SpuSalesMapper spuSalesMapper;
     private final SpuAttrMapper spuAttrMapper;
     private final AttrOptionMapper attrOptionMapper;
-    private final AttrGateway attrGateway;
+    private final AttrService attrService;
     
     public Spu selectById(Long id) {
         return getById(id);
@@ -119,7 +117,7 @@ public class SpuService extends ServiceImpl<SpuMapper, Spu> {
         List<GoodsAttrDTO> goodsAttrDTOS = selectSpecs(spuIds);
         DataProcessor.create(goodsAttrDTOS)
                 .keySelect(GoodsAttrDTO::getAttrId)
-                .query(attrs -> attrGateway.selectOptions(attrs, spuIds, optionType))
+                .query(attrs -> attrService.selectOptions(attrs, spuIds, optionType))
                 .keyBy(AttrOptionDTO::getAttrId)
                 .collection()
                 .process(GoodsAttrDTO::setOptionList);
