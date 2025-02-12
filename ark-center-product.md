@@ -127,7 +127,8 @@ ark-center-product/
 
 ## 1. API定义 (client层)
 
-```java:ark-center-product-client/src/main/java/com/ark/center/product/client/product/ProductQueryApi.java
+```java
+
 package com.ark.center.product.client.product;
 
 import com.ark.center.product.client.product.dto.ProductDTO;
@@ -156,7 +157,8 @@ public interface ProductQueryApi {
 }
 ```
 
-```java:ark-center-product-client/src/main/java/com/ark/center/product/client/product/dto/ProductDTO.java
+```java
+
 package com.ark.center.product.client.product.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -176,7 +178,8 @@ public class ProductDTO {
 }
 ```
 
-```java:ark-center-product-client/src/main/java/com/ark/center/product/client/product/query/ProductQuery.java
+```java
+
 package com.ark.center.product.client.product.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -194,7 +197,8 @@ public class ProductQuery {
 
 ## 2. Controller实现 (adapter层)
 
-```java:ark-center-product-adapter/src/main/java/com/ark/center/product/adapter/product/web/ProductController.java
+```java
+
 package com.ark.center.product.adapter.product.web;
 
 import com.ark.center.product.app.product.ProductQueryService;
@@ -218,14 +222,17 @@ public class ProductController implements ProductQueryApi {
 }
 ```
 
-## 3. 业务逻辑处理 (app层)
+## 3. 流程编排 (app层)
 
-```java:ark-center-product-app/src/main/java/com/ark/center/product/app/product/ProductQueryService.java
+```java
+
 package com.ark.center.product.app.product;
 
 import com.ark.center.product.client.product.dto.ProductDTO;
 import com.ark.center.product.client.product.query.ProductQuery;
 import com.ark.center.product.infra.product.service.ProductService;
+import com.ark.center.product.infra.inventory.service.InventoryService;
+import com.ark.center.product.infra.price.service.PriceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -234,20 +241,109 @@ import org.springframework.stereotype.Service;
 public class ProductQueryService {
     
     private final ProductService productService;
+    private final InventoryService inventoryService;
+    private final PriceService priceService;
     
     public ProductDTO getProduct(ProductQuery query) {
-        return productService.getProduct(query.getId());
+        // 1. 获取商品基本信息
+        ProductDTO product = productService.getProductBase(query.getId());
+        if (product == null) {
+            return null;
+        }
+        
+        // 2. 获取并设置库存信息
+        Long stock = inventoryService.getStock(query.getId());
+        product.setStock(stock);
+        
+        // 3. 获取并设置价格信息（可能包含促销价等）
+        Long price = priceService.getCurrentPrice(query.getId());
+        product.setPrice(price);
+        
+        return product;
     }
 }
 ```
 
 ## 4. 基础设施实现 (infra层)
 
-```java:ark-center-product-infra/src/main/java/com/ark/center/product/infra/product/service/ProductService.java
+### 4.1 Repository 实现
+```java
+package com.ark.center.product.infra.product.repository;
+
+import com.ark.center.product.domain.product.Product;
+import com.ark.center.product.infra.product.dao.ProductMapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class ProductRepository {
+    
+    private final ProductMapper productMapper;
+    private final RedisTemplate<String, Product> redisTemplate;
+    
+    private static final String CACHE_KEY = "product:info:";
+    
+    public Product selectById(Long id) {
+        // 1. 查询缓存
+        String key = CACHE_KEY + id;
+        Product product = redisTemplate.opsForValue().get(key);
+        if (product != null) {
+            return product;
+        }
+        
+        // 2. 查询数据库
+        product = productMapper.selectById(id);
+        
+        // 3. 写入缓存
+        if (product != null) {
+            redisTemplate.opsForValue().set(key, product, 1, TimeUnit.HOURS);
+        }
+        
+        return product;
+    }
+    
+    public List<Product> selectByIds(List<Long> ids) {
+        // 1. 批量查询缓存
+        List<String> keys = ids.stream()
+            .map(id -> CACHE_KEY + id)
+            .collect(Collectors.toList());
+            
+        List<Product> products = redisTemplate.opsForValue().multiGet(keys);
+        
+        // 2. 查询未命中的数据
+        List<Long> missIds = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i) == null) {
+                missIds.add(ids.get(i));
+            }
+        }
+        
+        if (!missIds.isEmpty()) {
+            List<Product> dbProducts = productMapper.selectBatchIds(missIds);
+            // 3. 写入缓存
+            for (Product product : dbProducts) {
+                String key = CACHE_KEY + product.getId();
+                redisTemplate.opsForValue().set(key, product, 1, TimeUnit.HOURS);
+            }
+            // 4. 合并结果
+            products.addAll(dbProducts);
+        }
+        
+        return products;
+    }
+}
+```
+
+### 4.2 Service 实现
+```java
 package com.ark.center.product.infra.product.service;
 
 import com.ark.center.product.client.product.dto.ProductDTO;
+import com.ark.center.product.domain.product.Product;
 import com.ark.center.product.infra.product.repository.ProductRepository;
+import com.ark.center.product.infra.product.convertor.ProductConvertor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -256,23 +352,114 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     
     private final ProductRepository productRepository;
+    private final ProductConvertor productConvertor;
+    private final ProductValidator productValidator;
     
-    public ProductDTO getProduct(Long id) {
-        // 实际业务逻辑省略
-        return new ProductDTO();
+    public ProductDTO getProductBase(Long id) {
+        // 1. 参数校验
+        productValidator.validateId(id);
+        
+        // 2. 查询商品
+        Product product = productRepository.selectById(id);
+        if (product == null) {
+            return null;
+        }
+        
+        // 3. 业务规则校验
+        productValidator.validateStatus(product);
+        
+        // 4. 业务处理
+        enrichProductInfo(product);
+        
+        // 5. 转换并返回DTO
+        return productConvertor.toDTO(product);
+    }
+    
+    public List<ProductDTO> getProductList(List<Long> ids) {
+        // 1. 参数校验
+        productValidator.validateIds(ids);
+        
+        // 2. 批量查询
+        List<Product> products = productRepository.selectByIds(ids);
+        
+        // 3. 业务规则过滤
+        products = products.stream()
+            .filter(product -> productValidator.isValid(product))
+            .collect(Collectors.toList());
+            
+        // 4. 业务处理
+        products.forEach(this::enrichProductInfo);
+        
+        // 5. 批量转换
+        return productConvertor.toDTO(products);
+    }
+    
+    private void enrichProductInfo(Product product) {
+        // 补充商品其他信息
+        product.calculateSaleInfo();
+        product.updateHotScore();
+        // ...其他业务逻辑
     }
 }
 ```
 
-```java:ark-center-product-infra/src/main/java/com/ark/center/product/infra/product/repository/ProductRepository.java
-package com.ark.center.product.infra.product.repository;
+主要职责划分：
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+1. Repository:
+   - 封装数据访问细节
+   - 管理缓存
+   - 提供统一的数据访问接口
+   - 不包含业务逻辑
 
-@Repository
+2. Service:
+   - 实现具体业务逻辑
+   - 参数校验和业务规则校验
+   - 调用 Repository 访问数据
+   - 数据转换和组装
+   - 处理业务异常
+
+```java
+
+package com.ark.center.product.infra.inventory.service;
+
+@Service
 @RequiredArgsConstructor
-public class ProductRepository {
-    // 数据访问实现省略
+public class InventoryService {
+    
+    private final InventoryRepository inventoryRepository;
+    
+    public Long getStock(Long productId) {
+        // 1. 查询实时库存
+        Inventory inventory = inventoryRepository.selectByProductId(productId);
+        if (inventory == null) {
+            return 0L;
+        }
+        
+        // 2. 计算可用库存
+        return inventory.getTotalStock() - inventory.getLockStock();
+    }
 }
-``` 
+
+package com.ark.center.product.infra.price.service;
+
+@Service
+@RequiredArgsConstructor
+public class PriceService {
+    
+    private final PriceRepository priceRepository;
+    private final PromotionService promotionService;
+    
+    public Long getCurrentPrice(Long productId) {
+        // 1. 获取商品基础价格
+        Price price = priceRepository.selectByProductId(productId);
+        if (price == null) {
+            throw new BusinessException("商品价格不存在");
+        }
+        
+        // 2. 计算促销价格
+        Long promotionPrice = promotionService.calculatePromotionPrice(productId, price.getPrice());
+        
+        // 3. 返回最终价格
+        return promotionPrice != null ? promotionPrice : price.getPrice();
+    }
+}
