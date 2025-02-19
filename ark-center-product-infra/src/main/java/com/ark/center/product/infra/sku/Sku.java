@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "sku", autoResultMap = true)
+@TableName(value = "pro_sku", autoResultMap = true)
 public class Sku extends BaseEntity {
 
 

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("inventory_record")
+@TableName("pro_inventory_record")
 @Builder
 public class InventoryRecord extends BaseEntity {
 

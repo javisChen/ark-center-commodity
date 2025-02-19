@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("spu_attr")
+@TableName("pro_spu_attr")
 public class SpuAttr extends BaseEntity {
 
 

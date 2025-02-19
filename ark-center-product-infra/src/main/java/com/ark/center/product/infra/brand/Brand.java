@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("brand")
+@TableName("pro_brand")
 public class Brand extends BaseEntity {
 
     /**

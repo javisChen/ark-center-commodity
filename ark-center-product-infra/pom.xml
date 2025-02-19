@@ -49,6 +49,11 @@
 
         <dependency>
             <groupId>com.ark.center</groupId>
+            <artifactId>ark-center-auth-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ark.center</groupId>
             <artifactId>ark-center-product-domain</artifactId>
         </dependency>
 

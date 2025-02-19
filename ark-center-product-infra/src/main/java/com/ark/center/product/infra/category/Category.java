@@ -16,7 +16,7 @@ import lombok.*;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("category")
+@TableName("pro_category")
 @NoArgsConstructor
 public class Category extends BaseEntity {
 

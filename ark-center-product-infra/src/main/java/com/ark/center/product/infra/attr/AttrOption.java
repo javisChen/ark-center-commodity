@@ -20,7 +20,7 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("attr_option")
+@TableName("pro_attr_option")
 public class AttrOption extends BaseEntity {
 
 

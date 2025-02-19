@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 
 @MapperScan(basePackages = {
-        "com.ark.center.product.infra.*.gateway.db",
+        "com.ark.center.*.infra.*.gateway.db",
 })
 @SpringBootApplication(
-        scanBasePackages = "com.ark.center.product",
+        scanBasePackages = "com.ark.center.*",
         exclude = {ErrorMvcAutoConfiguration.class})
 public class Application {
 

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("attr_group")
+@TableName("pro_attr_group")
 public class AttrGroup extends BaseEntity {
 
 

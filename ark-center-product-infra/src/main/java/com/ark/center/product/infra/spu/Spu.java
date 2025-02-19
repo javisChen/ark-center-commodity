@@ -20,7 +20,7 @@ import lombok.Getter;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("spu")
+@TableName("pro_spu")
 public class Spu extends BaseEntity {
 
     /**

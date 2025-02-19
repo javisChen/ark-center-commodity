@@ -42,14 +42,19 @@ ark-center-product/
 
 ### adapter层
 - 位置：`adapter/{module}/web/`
-- 职责：接收外部HTTP请求
-- 命名规范：`{Module}Controller`
+- 职责：接收外部信息
+
 - 依赖：app层的CommandHandler和QueryService
+- 包含：
+  - `web/` - 处理HTTP请求
+    - `{Module}AdminController` - 处理管理端HTTP请求
+    - `{Module}ClientController` - 处理用户端HTTP请求
+  - `consumer/` - 消费MQ消息
 
 ### app层
 - 位置：`app/{module}/`
 - 职责：业务流程编排
-- 包含组件：
+- 包含：
   - `{Module}CommandHandler` - 处理命令
   - `{Module}QueryService` - 处理查询
   - `executor/` - 复杂命令的执行器
@@ -60,21 +65,12 @@ ark-center-product/
 - 职责：定义对外API接口
 - 包含：
   - `api/` - API接口定义
-  - `common/` - 通用定义（常量、枚举等）
-  - `[module]/` - 业务模块
     - `[Module]CommandApi.java` - 命令API定义
     - `[Module]QueryApi.java` - 查询API定义
     - `command/` - 命令对象
     - `query/` - 查询对象
     - `dto/` - 数据传输对象
-
-### domain层
-- 位置：`domain/{module}/`
-- 职责：领域模型和核心业务规则
-- 包含：
-  - 领域对象
-  - 领域服务
-  - 领域事件
+  - `common/` - 通用定义（常量、枚举等）
 
 ### infra层
 - 位置：`infra/{module}/`
@@ -85,37 +81,21 @@ ark-center-product/
   - `convertor/` - 对象转换器
   - `dao/` - 数据访问对象
 
-## 3. 命名规范
-- Controller层：`{Module}Controller`
-- 命令处理：`{Module}CommandHandler`
-- 查询服务：`{Module}QueryService`
-- 命令对象：`{Module}{Action}Cmd`
-- 查询对象：`{Module}PageQry`
-- DTO对象：`{Module}DTO`
-- 网关接口：`{Module}Gateway`
-- 网关实现：`{Module}Service`
-
-## 4. 依赖规则
+## 依赖规则
 - adapter层 → app层
 - app层 → domain层
 - app层 → infra层
 - infra层 → domain层
 - client层被其他层依赖
-
-## 5. 设计模式
-- CQRS模式：命令和查询分离
-- Command Execute模式：复杂命令使用专门的执行器
-- Gateway模式：通过网关接口访问外部资源
-- DTO模式：数据传输对象在层间传递
-
-## 6. 开发流程
+- 
+## 开发流程
 1. 在client层定义接口、命令和查询对象
 2. 在client层定义API接口（@FeignClient）
 3. 在adapter层实现API接口
 4. 在app层编排业务流程
 5. 在infra层实现基础设施代码
 
-## 7. 代码规范
+## 代码规范
 - 所有的外部请求都必须通过adapter层进入系统
 - 复杂的命令处理应该使用专门的执行器(Command Executor)
 - 查询和命令必须分离
@@ -128,7 +108,6 @@ ark-center-product/
 ## 1. API定义 (client层)
 
 ```java
-
 package com.ark.center.product.client.product;
 
 import com.ark.center.product.client.product.dto.ProductDTO;
@@ -158,28 +137,82 @@ public interface ProductQueryApi {
 ```
 
 ```java
-
 package com.ark.center.product.client.product.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 @Schema(description = "商品信息")
 public class ProductDTO {
-    @Schema(description = "商品ID")
+    @Schema(
+        description = "商品ID",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "1",
+        title = "商品ID",
+        accessMode = Schema.AccessMode.READ_ONLY
+    )
+    @NotNull(message = "商品ID不能为空")
     private Long id;
     
-    @Schema(description = "商品名称")
+    @Schema(
+        description = "商品名称",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "iPhone 15",
+        title = "商品名称"
+    )
+    @NotBlank(message = "商品名称不能为空")
     private String name;
     
-    @Schema(description = "商品价格(分)")
+    @Schema(
+        description = "商品价格(分)",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "699900",
+        title = "商品价格"
+    )
+    @NotNull(message = "商品价格不能为空")
     private Long price;
+
+    @Schema(
+        description = "商品类型",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "PHYSICAL",
+        defaultValue = "PHYSICAL",
+        allowableValues = {"PHYSICAL", "VIRTUAL"},
+        enumAsRef = true,
+        implementation = ProductType.class,
+        title = "商品类型"
+    )
+    @NotNull(message = "商品类型不能为空")
+    private ProductType productType;
+    
+    @Schema(
+        description = "商品状态",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "ON_SHELF",
+        defaultValue = "DRAFT",
+        allowableValues = {"DRAFT", "ON_SHELF", "OFF_SHELF"},
+        enumAsRef = true,
+        implementation = ProductStatus.class,
+        title = "商品状态"
+    )
+    @NotNull(message = "商品状态不能为空")
+    private ProductStatus status;
+    
+    @Schema(
+        description = "商品库存",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+        example = "100",
+        title = "商品库存",
+        accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private Long stock;
 }
 ```
 
 ```java
-
 package com.ark.center.product.client.product.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -189,16 +222,31 @@ import lombok.Data;
 @Data
 @Schema(description = "商品查询参数")
 public class ProductQuery {
+    @Schema(
+        description = "商品ID",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        example = "1",
+        title = "商品ID"
+    )
     @NotNull(message = "商品ID不能为空")
-    @Schema(description = "商品ID")
     private Long id;
+    
+    @Schema(
+        description = "商品类型",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+        example = "PHYSICAL",
+        allowableValues = {"PHYSICAL", "VIRTUAL"},
+        enumAsRef = true,
+        implementation = ProductType.class,
+        title = "商品类型"
+    )
+    private ProductType productType;
 }
 ```
 
 ## 2. Controller实现 (adapter层)
 
 ```java
-
 package com.ark.center.product.adapter.product.web;
 
 import com.ark.center.product.app.product.ProductQueryService;
@@ -225,7 +273,6 @@ public class ProductController implements ProductQueryApi {
 ## 3. 流程编排 (app层)
 
 ```java
-
 package com.ark.center.product.app.product;
 
 import com.ark.center.product.client.product.dto.ProductDTO;

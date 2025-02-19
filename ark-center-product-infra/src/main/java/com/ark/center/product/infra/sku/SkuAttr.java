@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sku_attr")
+@TableName("pro_sku_attr")
 public class SkuAttr extends BaseEntity {
 
     /**
