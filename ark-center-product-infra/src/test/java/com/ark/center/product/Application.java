@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 
 @MapperScan(basePackages = {
-        "com.ark.center.*.infra.*.gateway.db",
+        "com.ark.center.*.infra.*.repository.db",
 })
 @SpringBootApplication(
         scanBasePackages = "com.ark.center.*",

@@ -53,7 +53,7 @@ spring:
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
       - nacos:common.yml
 mybatis-plus:
-  mapper-locations: classpath:com/ark/center/*/infra/*/gateway/db/xml/*.xml,classpath:com/ark/center/*/infra/*/db/xml/*.xml
+  mapper-locations: classpath:com/ark/center/*/infra/*/repository/db/xml/*.xml,classpath:com/ark/center/*/infra/*/db/xml/*.xml
 management:
   endpoints:
     web:
