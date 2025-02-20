@@ -7,7 +7,7 @@ import com.ark.center.product.client.goods.dto.GoodsAttrDTO;
 import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.infra.inventory.Inventory;
 import com.ark.center.product.infra.inventory.service.InventoryService;
-import com.ark.center.product.infra.product.db.SkuMapper;
+import com.ark.center.product.infra.product.repository.db.SkuMapper;
 import com.ark.center.product.infra.sku.assembler.SkuAssembler;
 import com.ark.center.product.infra.spu.Spu;
 import com.ark.component.orm.mybatis.base.BaseEntity;

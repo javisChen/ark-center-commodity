@@ -2,7 +2,7 @@ package com.ark.center.member.app.member.service;
 
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
 import com.ark.center.member.client.member.common.RegisterType;
-import com.ark.center.member.infra.member.dao.entity.Member;
+import com.ark.center.member.infra.member.Member;
 import com.ark.center.member.infra.member.service.MemberService;
 import com.ark.center.member.infra.member.service.register.RegisterStrategy;
 import com.ark.component.exception.BizException;

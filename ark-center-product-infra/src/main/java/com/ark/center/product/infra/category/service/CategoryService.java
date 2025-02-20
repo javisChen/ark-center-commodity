@@ -4,7 +4,7 @@ import com.ark.center.product.client.category.dto.CategoryDTO;
 import com.ark.center.product.client.category.query.CategoryPageQry;
 import com.ark.center.product.infra.category.Category;
 import com.ark.center.product.infra.category.convertor.CategoryConvertor;
-import com.ark.center.product.infra.category.gateway.db.CategoryMapper;
+import com.ark.center.product.infra.category.repository.db.CategoryMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

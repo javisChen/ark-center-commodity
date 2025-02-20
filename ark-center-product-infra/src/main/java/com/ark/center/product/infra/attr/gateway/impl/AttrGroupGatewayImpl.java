@@ -5,7 +5,7 @@ import com.ark.center.product.client.attr.query.AttrGroupPageQry;
 import com.ark.center.product.infra.attr.gateway.AttrGroupGateway;
 import com.ark.center.product.infra.attr.convertor.AttrGroupConverter;
 import com.ark.center.product.infra.attr.AttrGroup;
-import com.ark.center.product.infra.attr.gateway.db.AttrGroupMapper;
+import com.ark.center.product.infra.attr.repository.db.AttrGroupMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

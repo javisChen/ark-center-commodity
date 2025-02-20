@@ -5,7 +5,7 @@ import com.ark.center.product.client.brand.query.BrandPageQry;
 import com.ark.center.product.infra.brand.Brand;
 import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.brand.convertor.BrandConvertor;
-import com.ark.center.product.infra.brand.gateway.db.BrandMapper;
+import com.ark.center.product.infra.brand.repository.db.BrandMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;

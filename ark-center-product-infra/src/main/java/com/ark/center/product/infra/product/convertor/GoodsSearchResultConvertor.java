@@ -8,9 +8,8 @@ import com.ark.center.product.client.search.dto.AggDTO;
 import com.ark.center.product.client.search.dto.GoodsSearchDTO;
 import com.ark.center.product.client.search.dto.SkuAttrDTO;
 import com.ark.center.product.client.search.dto.SkuDTO;
-import com.ark.center.product.infra.product.es.GoodsRepositoryImpl;
-import com.ark.center.product.infra.product.es.doc.SkuAttrDoc;
-import com.ark.center.product.infra.product.es.doc.SkuDoc;
+import com.ark.center.product.infra.product.repository.es.GoodsRepositoryImpl;
+import com.ark.center.product.infra.product.repository.es.doc.SkuDoc;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.Mapper;
@@ -23,7 +22,6 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GoodsSearchResultConvertor {

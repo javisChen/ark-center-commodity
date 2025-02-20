@@ -2,13 +2,10 @@ package com.ark.center.product.app.goods.event;
 
 import com.ark.center.product.app.goods.query.GoodsQryExe;
 import com.ark.center.product.client.common.ProductConst;
-import com.ark.center.product.client.goods.dto.SkuDTO;
 import com.ark.center.product.client.goods.mq.GoodsChangedEventDTO;
 import com.ark.center.product.infra.brand.gateway.BrandGateway;
 import com.ark.center.product.infra.category.service.CategoryService;
-import com.ark.center.product.infra.product.es.GoodsRepository;
-import com.ark.center.product.infra.product.es.doc.AttrDoc;
-import com.ark.center.product.infra.product.es.doc.AttrOptionDoc;
+import com.ark.center.product.infra.product.repository.es.GoodsRepository;
 import com.ark.center.product.infra.product.service.SpuService;
 import com.ark.center.product.infra.spu.ShelfStatus;
 import com.ark.component.context.core.ServiceContext;
@@ -21,11 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
 
 
 /**

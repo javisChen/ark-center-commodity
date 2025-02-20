@@ -2,7 +2,7 @@ package com.ark.center.product.infra.product.gateway.es;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.ark.center.product.client.search.query.SearchQuery;
-import com.ark.center.product.infra.product.es.GoodsRepositoryImpl;
+import com.ark.center.product.infra.product.repository.es.GoodsRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 

@@ -6,7 +6,7 @@ import com.ark.center.product.client.attr.query.AttrTemplatePageQry;
 import com.ark.center.product.infra.attr.gateway.AttrTemplateGateway;
 import com.ark.center.product.infra.attr.convertor.AttrTemplateConverter;
 import com.ark.center.product.infra.attr.AttrTemplate;
-import com.ark.center.product.infra.attr.gateway.db.AttrTemplateMapper;
+import com.ark.center.product.infra.attr.repository.db.AttrTemplateMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;

@@ -4,7 +4,7 @@ import com.ark.center.product.app.goods.query.GoodsQryExe;
 import com.ark.center.product.app.goods.service.GoodsCommandHandler;
 import com.ark.center.product.client.common.ProductConst;
 import com.ark.center.product.client.goods.mq.GoodsChangedEventDTO;
-import com.ark.center.product.infra.product.es.GoodsEsSynchronizer;
+import com.ark.center.product.infra.product.repository.es.GoodsEsSynchronizer;
 import com.ark.center.product.infra.product.service.SpuService;
 import com.ark.component.mq.MQType;
 import com.ark.component.mq.core.annotations.MQMessageListener;

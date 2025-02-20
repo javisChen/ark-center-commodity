@@ -2,7 +2,7 @@ package com.ark.center.product.infra.attachment.gateway.impl;
 
 import com.ark.center.product.infra.attachment.Attachment;
 import com.ark.center.product.infra.attachment.gateway.AttachmentGateway;
-import com.ark.center.product.infra.attachment.gateway.db.AttachmentMapper;
+import com.ark.center.product.infra.attachment.repository.db.AttachmentMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

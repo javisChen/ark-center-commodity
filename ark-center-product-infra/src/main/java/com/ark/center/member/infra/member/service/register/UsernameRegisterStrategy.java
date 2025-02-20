@@ -3,9 +3,9 @@ package com.ark.center.member.infra.member.service.register;
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
 import com.ark.center.member.client.member.common.IdentityType;
 import com.ark.center.member.client.member.common.RegisterType;
-import com.ark.center.member.infra.member.dao.entity.Member;
-import com.ark.center.member.infra.member.dao.entity.MemberAuth;
 import com.ark.center.member.infra.member.service.MemberAuthService;
+import com.ark.center.member.infra.member.service.MemberLevelRecordService;
+import com.ark.center.member.infra.member.service.MemberLevelService;
 import com.ark.center.member.infra.member.service.MemberService;
 import com.ark.component.security.base.password.PasswordService;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,10 @@ public class UsernameRegisterStrategy extends AbstractRegisterStrategy {
 
     public UsernameRegisterStrategy(MemberService memberService, 
             MemberAuthService memberAuthService,
-            PasswordService passwordService) {
-        super(memberService, memberAuthService, passwordService);
+            PasswordService passwordService,
+            MemberLevelService memberLevelService,
+            MemberLevelRecordService memberLevelRecordService) {
+        super(memberService, memberAuthService, passwordService, memberLevelService, memberLevelRecordService);
     }
 
     @Override
@@ -38,15 +40,4 @@ public class UsernameRegisterStrategy extends AbstractRegisterStrategy {
     protected void doValidate(MemberRegisterCommand command) {
         // 用户名注册不需要额外的验证
     }
-
-    @Override
-    protected void doRegisterMember(MemberRegisterCommand command, Member member) {
-        // 不需要设置额外的会员信息，使用父类生成的默认昵称
-    }
-    
-    @Override
-    protected void doCreateMemberAuth(MemberRegisterCommand command, MemberAuth auth) {
-        auth.setIdentityType(getIdentityType());
-        auth.setIdentifier(getIdentifier(command));
-    }
-} 
+}
