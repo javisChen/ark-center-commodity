@@ -14,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
@@ -85,30 +85,30 @@ public class MemberPointsRecordService extends ServiceImpl<MemberPointsRecordMap
     /**
      * 获取周期内获得的积分总和
      */
-    public Long getPeriodPoints(Long memberId, String sceneCode, Integer periodType) {
-        log.info("开始查询周期内获得的积分: memberId={}, sceneCode={}, periodType={}", 
+    public Long getPeriodEarnedPoints(Long memberId, String sceneCode, String periodType) {
+        log.info("开始查询周期内获得的积分总和: memberId={}, sceneCode={}, periodType={}", 
                 memberId, sceneCode, periodType);
         
-        LocalDateTime now = LocalDateTime.now();
+        // 计算周期的开始和结束时间
         LocalDateTime startTime;
-        LocalDateTime endTime = now;
+        LocalDateTime endTime = LocalDateTime.now();
         
-        // 确定周期的开始时间
+        // 根据周期类型计算开始时间
         switch (periodType) {
-            case 1: // 每天
-                startTime = LocalDateTime.of(now.toLocalDate(), LocalTime.MIN);
+            case "DAY":
+                startTime = LocalDate.now().atStartOfDay();
                 break;
-            case 2: // 每周
-                startTime = LocalDateTime.of(now.toLocalDate().minusDays(now.getDayOfWeek().getValue() - 1), LocalTime.MIN);
+            case "WEEK":
+                startTime = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
                 break;
-            case 3: // 每月
-                startTime = LocalDateTime.of(now.toLocalDate().withDayOfMonth(1), LocalTime.MIN);
+            case "MONTH":
+                startTime = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
                 break;
-            case 4: // 每年
-                startTime = LocalDateTime.of(LocalDate.of(now.getYear(), 1, 1), LocalTime.MIN);
+            case "YEAR":
+                startTime = LocalDate.now().with(TemporalAdjusters.firstDayOfYear()).atStartOfDay();
                 break;
             default:
-                log.info("未知的周期类型，默认返回0: periodType={}", periodType);
+                log.warn("不支持的周期类型: {}", periodType);
                 return 0L;
         }
         
@@ -120,8 +120,8 @@ public class MemberPointsRecordService extends ServiceImpl<MemberPointsRecordMap
                 .eq(MemberPointsRecord::getMemberId, memberId)
                 .eq(MemberPointsRecord::getSceneCode, sceneCode)
                 .eq(MemberPointsRecord::getRecordType, PointsRecordType.EARN)
-                .ge(MemberPointsRecord::getGmtCreate, startTime)
-                .le(MemberPointsRecord::getGmtCreate, endTime)
+                .ge(MemberPointsRecord::getCreateTime, startTime)
+                .le(MemberPointsRecord::getCreateTime, endTime)
                 .select(MemberPointsRecord::getPoints)
                 .list()
                 .stream()
@@ -150,14 +150,14 @@ public class MemberPointsRecordService extends ServiceImpl<MemberPointsRecordMap
         }
         
         if (startTime != null) {
-            queryWrapper.ge(MemberPointsRecord::getGmtCreate, startTime);
+            queryWrapper.ge(MemberPointsRecord::getCreateTime, startTime);
         }
         
         if (endTime != null) {
-            queryWrapper.le(MemberPointsRecord::getGmtCreate, endTime);
+            queryWrapper.le(MemberPointsRecord::getCreateTime, endTime);
         }
         
-        queryWrapper.orderByDesc(MemberPointsRecord::getGmtCreate);
+        queryWrapper.orderByDesc(MemberPointsRecord::getCreateTime);
         
         IPage<MemberPointsRecord> result = page(page, queryWrapper);
         log.info("会员积分流水查询完成: memberId={}, totalRecords={}, currentPage={}, totalPages={}", 
@@ -195,5 +195,21 @@ public class MemberPointsRecordService extends ServiceImpl<MemberPointsRecordMap
         log.info("批量查询积分流水明细完成: 请求记录数={}, 查询到记录数={}", 
                 recordIds.size(), details.size());
         return details;
+    }
+    
+    /**
+     * 获取周期内获得的积分总和（兼容旧接口）
+     */
+    public Long getPeriodPoints(Long memberId, String sceneCode, Integer periodType) {
+        String periodTypeStr;
+        switch (periodType) {
+            case 1: periodTypeStr = "DAY"; break;
+            case 2: periodTypeStr = "WEEK"; break;
+            case 3: periodTypeStr = "MONTH"; break;
+            case 4: periodTypeStr = "YEAR"; break;
+            default: periodTypeStr = "DAY";
+        }
+        
+        return getPeriodEarnedPoints(memberId, sceneCode, periodTypeStr);
     }
 } 

@@ -52,9 +52,20 @@ public class MemberPointsRuleService extends ServiceImpl<MemberPointsRuleMapper,
         }
         
         // 获取当前周期内已获得的积分
-        Long periodPoints = pointsRecordService.getPeriodPoints(memberId, sceneCode, rule.getPeriodType());
+        Long periodPoints = pointsRecordService.getPeriodEarnedPoints(memberId, sceneCode, 
+                convertPeriodTypeToString(rule.getPeriodType()));
         
         // 检查是否超过限制
         return periodPoints + points <= rule.getPeriodLimit();
+    }
+    
+    private String convertPeriodTypeToString(Integer periodType) {
+        return switch (periodType) {
+            case 1 -> "DAY";
+            case 2 -> "WEEK";
+            case 3 -> "MONTH";
+            case 4 -> "YEAR";
+            default -> "DAY";
+        };
     }
 } 

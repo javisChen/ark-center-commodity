@@ -1,17 +1,31 @@
 package com.ark.center.member.client.member.common;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
+@Schema(
+    enumAsRef = true, 
+    description = """
+        注册类型:
+         * `USERNAME` - 用户名注册
+         * `MOBILE` - 手机号注册
+         * `EMAIL` - 邮箱注册
+         * `WECHAT` - 微信注册
+         * `QQ` - QQ注册
+        """
+)
 public enum RegisterType {
-    MOBILE(1, "手机号注册"),
-    USERNAME(2, "用户名注册");
     
-    private final int code;
-    private final String desc;
+    USERNAME("用户名注册"),
+    MOBILE("手机号注册"),
+    EMAIL("邮箱注册"),
+    WECHAT("微信注册"),
+    QQ("QQ注册");
     
-    RegisterType(int code, String desc) {
-        this.code = code;
-        this.desc = desc;
+    private final String description;
+    
+    RegisterType(String description) {
+        this.description = description;
     }
 } 

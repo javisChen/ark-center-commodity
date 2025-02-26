@@ -1,19 +1,31 @@
 package com.ark.center.member.client.member.common;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
+@Schema(
+    enumAsRef = true, 
+    description = """
+        积分记录类型:
+         * `EARN` - 获取积分
+         * `CONSUME` - 消费积分
+         * `EXPIRE` - 积分过期
+         * `FREEZE` - 积分冻结
+         * `UNFREEZE` - 积分解冻
+        """
+)
 public enum PointsRecordType {
     
-    EARN("获取"),
-    CONSUME("消费"),
-    EXPIRE("过期"),
-    FREEZE("冻结"),
-    UNFREEZE("解冻");
+    EARN("获取积分"),
+    CONSUME("消费积分"),
+    EXPIRE("积分过期"),
+    FREEZE("积分冻结"),
+    UNFREEZE("积分解冻");
     
-    private final String desc;
+    private final String description;
     
-    PointsRecordType(String desc) {
-        this.desc = desc;
+    PointsRecordType(String description) {
+        this.description = description;
     }
 } 

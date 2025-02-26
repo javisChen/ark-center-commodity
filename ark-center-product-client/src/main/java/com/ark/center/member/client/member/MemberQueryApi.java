@@ -4,12 +4,18 @@ import com.ark.center.member.client.member.dto.MemberAuthDTO;
 import com.ark.component.dto.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * 会员查询相关API
- */
+@FeignClient(
+        name = "${ark.center.member.service.name:member}",
+        path = "/v1/members",
+        url = "${ark.center.member.service.uri:}",
+        dismiss404 = true
+)
+@Tag(name = "会员查询接口")
 public interface MemberQueryApi {
     
     /**

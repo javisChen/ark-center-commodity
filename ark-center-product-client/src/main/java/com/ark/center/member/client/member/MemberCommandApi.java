@@ -3,6 +3,7 @@ package com.ark.center.member.client.member;
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
 import com.ark.component.dto.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,13 @@ import org.springframework.validation.annotation.Validated;
 @Tag(name = "会员命令接口")
 public interface MemberCommandApi {
 
+    /**
+     * 会员注册
+     * 
+     * @param command 注册命令
+     * @return 会员ID
+     */
     @PostMapping("/register")
-    @Operation(summary = "会员注册")
-    SingleResponse<Long> register(@RequestBody @Validated MemberRegisterCommand command);
+    @Operation(summary = "会员注册", description = "注册新会员")
+    SingleResponse<Long> register(@Parameter(description = "注册信息") @RequestBody @Validated MemberRegisterCommand command);
 } 
