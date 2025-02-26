@@ -5,21 +5,27 @@ import com.ark.center.member.client.member.common.IdentityType;
 import com.ark.center.member.client.member.common.LevelUpgradeType;
 import com.ark.center.member.client.member.common.LevelValidityType;
 import com.ark.center.member.client.member.common.MemberStatus;
+import com.ark.center.member.client.member.common.PointsAccountStatus;
 import com.ark.center.member.infra.member.Member;
 import com.ark.center.member.infra.member.MemberAuth;
 import com.ark.center.member.infra.member.MemberLevelConfig;
 import com.ark.center.member.infra.member.MemberLevelRecord;
+import com.ark.center.member.infra.member.MemberPointsAccount;
 import com.ark.center.member.infra.member.service.MemberAuthService;
 import com.ark.center.member.infra.member.service.MemberLevelRecordService;
 import com.ark.center.member.infra.member.service.MemberLevelService;
+import com.ark.center.member.infra.member.service.MemberPointsAccountService;
 import com.ark.center.member.infra.member.service.MemberService;
 import com.ark.component.exception.BizException;
 import com.ark.component.security.base.password.PasswordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 public abstract class AbstractRegisterStrategy implements RegisterStrategy {
 
@@ -28,6 +34,9 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
     protected final PasswordService passwordService;
     protected final MemberLevelService memberLevelService;
     protected final MemberLevelRecordService memberLevelRecordService;
+    
+    @Autowired
+    protected MemberPointsAccountService memberPointsAccountService;
 
     @Override
     public void validate(MemberRegisterCommand command) {
@@ -42,7 +51,25 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
 
     @Override
     public Member doRegister(MemberRegisterCommand command) {
-        // 1. 创建会员基础信息
+        // 1. 创建并保存会员基础信息
+        Member member = saveMember(command);
+        
+        // 2. 创建并保存认证信息
+        saveMemberAuth(command, member.getId());
+        
+        // 3. 创建并保存等级记录
+        saveLevelRecord(member.getId(), member.getLevel());
+        
+        // 4. 创建并保存积分账户
+        savePointsAccount(member.getId());
+        
+        return member;
+    }
+
+    /**
+     * 保存会员基础信息
+     */
+    protected Member saveMember(MemberRegisterCommand command) {
         Member member = new Member();
         member.setStatus(MemberStatus.ENABLE);
         member.setNickname(generateDefaultNickname());
@@ -61,22 +88,37 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
         
         // 保存会员信息
         memberService.save(member);
-        
-        // 2. 创建认证信息
+        return member;
+    }
+
+    /**
+     * 保存认证信息
+     */
+    protected void saveMemberAuth(MemberRegisterCommand command, Long memberId) {
         MemberAuth auth = new MemberAuth();
-        auth.setMemberId(member.getId());
+        auth.setMemberId(memberId);
         auth.setCredential(passwordService.enhancePassword(command.getPassword()));
         auth.setIdentityType(getIdentityType());
         auth.setIdentifier(getIdentifier(command));
         
         // 保存认证信息
         memberAuthService.save(auth);
+    }
+
+    /**
+     * 保存等级记录
+     */
+    protected void saveLevelRecord(Long memberId, Integer level) {
+        // 获取默认等级配置
+        MemberLevelConfig defaultLevel = memberLevelService.getDefaultLevel();
+        if (defaultLevel == null) {
+            throw new BizException("会员等级配置异常");
+        }
         
-        // 3. 创建等级记录
         MemberLevelRecord levelRecord = new MemberLevelRecord();
-        levelRecord.setMemberId(member.getId());
+        levelRecord.setMemberId(memberId);
         levelRecord.setBeforeLevel(0);
-        levelRecord.setAfterLevel(defaultLevel.getLevel());
+        levelRecord.setAfterLevel(level);
         levelRecord.setUpgradeType(LevelUpgradeType.INIT);
         levelRecord.setEffectTime(LocalDateTime.now());
         if (defaultLevel.getValidityType() != LevelValidityType.PERMANENT) {
@@ -84,8 +126,17 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
         }
         levelRecord.setDescription("会员注册初始等级");
         memberLevelRecordService.save(levelRecord);
+    }
+
+    /**
+     * 保存积分账户
+     */
+    protected void savePointsAccount(Long memberId) {
+        log.info("开始创建会员积分账户: memberId={}", memberId);
         
-        return member;
+        MemberPointsAccount account = memberPointsAccountService.getOrCreateAccount(memberId);
+        
+        log.info("会员积分账户创建完成: memberId={}, accountId={}", memberId, account.getId());
     }
 
     /**

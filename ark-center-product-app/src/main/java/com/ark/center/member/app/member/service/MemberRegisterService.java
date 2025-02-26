@@ -38,10 +38,10 @@ public class MemberRegisterService {
             throw new BizException("不支持的注册类型");
         }
         
-        // 1. 验证参数
+        // 验证参数
         strategy.validate(command);
         
-        // 2. 执行注册
+        // 执行注册
         Member member = strategy.doRegister(command);
         
         return member.getId();
