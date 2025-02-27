@@ -15,6 +15,12 @@ import java.time.LocalDate;
 public class Member extends BaseEntity {
     
     /**
+     * 会员编号
+     */
+    @TableField("member_no")
+    private String memberNo;
+    
+    /**
      * 手机号
      */
     @TableField("mobile")

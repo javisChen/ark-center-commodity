@@ -93,8 +93,10 @@ public class MemberAuthService extends ServiceImpl<MemberAuthMapper, MemberAuth>
         // 构建返回结果
         MemberAuthDTO result = new MemberAuthDTO();
         result.setMemberId(member.getId());
+        result.setMemberNo(member.getMemberNo());
+        result.setNickname(member.getNickname());
         result.setMobile(member.getMobile());
-        result.setMemberStatus(member.getStatus());
+        result.setStatus(member.getStatus());
         
         // 设置认证相关信息
         result.setPassword(auth.getCredential());

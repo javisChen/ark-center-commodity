@@ -10,12 +10,14 @@ import lombok.Getter;
         等级有效期类型:
          * `PERMANENT` - 永久有效
          * `FIXED` - 固定期限
+         * `PERIODIC` - 周期性
         """
 )
 public enum LevelValidityType {
     
     PERMANENT("永久有效"),
-    FIXED("固定期限");
+    FIXED("固定期限"),
+    PERIODIC("周期性");
     
     private final String description;
     

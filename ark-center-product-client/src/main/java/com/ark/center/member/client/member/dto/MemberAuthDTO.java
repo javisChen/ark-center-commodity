@@ -5,8 +5,6 @@ import com.ark.center.member.client.member.common.MemberStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 会员认证信息DTO，提供给认证中心使用
  */
@@ -21,10 +19,16 @@ public class MemberAuthDTO {
     private Long memberId;
     
     /**
-     * 用户名
+     * 会员编号
      */
-    @Schema(description = "用户名", example = "user123")
-    private String username;
+    @Schema(description = "会员编号", example = "M2023080100001")
+    private String memberNo;
+    
+    /**
+     * 昵称
+     */
+    @Schema(description = "昵称", example = "用户昵称")
+    private String nickname;
     
     /**
      * 手机号
@@ -41,8 +45,8 @@ public class MemberAuthDTO {
     /**
      * 会员状态
      */
-    @Schema(description = "会员状态", example = "NORMAL")
-    private MemberStatus memberStatus;
+    @Schema(description = "会员状态", example = "ENABLED")
+    private MemberStatus status;
     
     /**
      * 认证类型
@@ -55,10 +59,4 @@ public class MemberAuthDTO {
      */
     @Schema(description = "认证标识(用户名/手机号/邮箱等)", example = "13800138000")
     private String identifier;
-    
-    /**
-     * 最后登录时间
-     */
-    @Schema(description = "最后登录时间", example = "2023-01-01T12:00:00")
-    private LocalDateTime lastLoginTime;
 } 

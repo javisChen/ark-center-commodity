@@ -7,20 +7,19 @@ import lombok.Getter;
 @Schema(
     enumAsRef = true, 
     description = """
-        会员状态:
-         * `NORMAL` - 正常
-         * `DISABLED` - 禁用
-         * `LOCKED` - 锁定
+        成长值记录类型:
+         * `INCREASE` - 增加成长值
+         * `DECREASE` - 减少成长值
         """
 )
-public enum MemberStatus {
-    ENABLED("正常"),
-    DISABLED("禁用"),
-    LOCKED("锁定");
-
+public enum GrowthRecordType {
+    
+    INCREASE("增加成长值"),
+    DECREASE("减少成长值");
+    
     private final String description;
-
-    MemberStatus(String description) {
+    
+    GrowthRecordType(String description) {
         this.description = description;
     }
-}
+} 

@@ -8,24 +8,19 @@ import lombok.Getter;
     enumAsRef = true, 
     description = """
         注册类型:
-         * `USERNAME` - 用户名注册
-         * `MOBILE` - 手机号注册
-         * `EMAIL` - 邮箱注册
-         * `WECHAT` - 微信注册
-         * `QQ` - QQ注册
+         * `MOBILE` - 手机号注册 (code=1)
+         * `USERNAME` - 用户名注册 (code=2)
         """
 )
 public enum RegisterType {
+    MOBILE(1, "手机号注册"),
+    USERNAME(2, "用户名注册");
     
-    USERNAME("用户名注册"),
-    MOBILE("手机号注册"),
-    EMAIL("邮箱注册"),
-    WECHAT("微信注册"),
-    QQ("QQ注册");
-    
+    private final int code;
     private final String description;
     
-    RegisterType(String description) {
+    RegisterType(int code, String description) {
+        this.code = code;
         this.description = description;
     }
 } 

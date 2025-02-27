@@ -8,14 +8,20 @@ import lombok.Getter;
     enumAsRef = true, 
     description = """
         等级升级类型:
-         * `AUTO` - 自动升级
-         * `MANUAL` - 手动调整
+         * `INIT` - 初始化
+         * `GROWTH_VALUE` - 成长值升级
+         * `CONSUME_AMOUNT` - 消费金额升级
+         * `ORDER_COUNT` - 订单数量升级
+         * `MANUAL` - 人工调整
         """
 )
 public enum LevelUpgradeType {
     
-    AUTO("自动升级"),
-    MANUAL("手动调整");
+    INIT("初始化"),
+    GROWTH_VALUE("成长值升级"),
+    CONSUME_AMOUNT("消费金额升级"),
+    ORDER_COUNT("订单数量升级"),
+    MANUAL("人工调整");
     
     private final String description;
     

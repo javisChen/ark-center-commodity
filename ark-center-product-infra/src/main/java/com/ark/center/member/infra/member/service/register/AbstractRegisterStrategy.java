@@ -5,22 +5,13 @@ import com.ark.center.member.client.member.common.IdentityType;
 import com.ark.center.member.client.member.common.LevelUpgradeType;
 import com.ark.center.member.client.member.common.LevelValidityType;
 import com.ark.center.member.client.member.common.MemberStatus;
-import com.ark.center.member.client.member.common.PointsAccountStatus;
-import com.ark.center.member.infra.member.Member;
-import com.ark.center.member.infra.member.MemberAuth;
-import com.ark.center.member.infra.member.MemberLevelConfig;
-import com.ark.center.member.infra.member.MemberLevelRecord;
-import com.ark.center.member.infra.member.MemberPointsAccount;
-import com.ark.center.member.infra.member.service.MemberAuthService;
-import com.ark.center.member.infra.member.service.MemberLevelRecordService;
-import com.ark.center.member.infra.member.service.MemberLevelService;
-import com.ark.center.member.infra.member.service.MemberPointsAccountService;
-import com.ark.center.member.infra.member.service.MemberService;
+import com.ark.center.member.infra.member.*;
+import com.ark.center.member.infra.member.service.*;
 import com.ark.component.exception.BizException;
 import com.ark.component.security.base.password.PasswordService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -42,7 +33,7 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
     public void validate(MemberRegisterCommand command) {
         // 1. 验证认证标识是否已存在
         if (memberAuthService.isIdentifierExists(getIdentityType(), getIdentifier(command))) {
-            throw new BizException(getIdentityType().getDesc() + "已被注册");
+            throw new BizException(getIdentityType().getDescription() + "已被注册");
         }
         
         // 2. 子类特定验证
@@ -71,7 +62,7 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
      */
     protected Member saveMember(MemberRegisterCommand command) {
         Member member = new Member();
-        member.setStatus(MemberStatus.ENABLE);
+        member.setStatus(MemberStatus.ENABLED);
         member.setNickname(generateDefaultNickname());
         member.setMobile(command.getMobile());
         
@@ -172,18 +163,17 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
             return levelConfig.getValidEndTime();
         } else if (levelConfig.getValidityType() == LevelValidityType.PERIODIC) {
             // 周期性
-            switch (levelConfig.getPeriodType()) {
-                case 1: // 天
-                    return now.plusDays(levelConfig.getPeriodValue());
-                case 2: // 周
-                    return now.plusWeeks(levelConfig.getPeriodValue());
-                case 3: // 月
-                    return now.plusMonths(levelConfig.getPeriodValue());
-                case 4: // 年
-                    return now.plusYears(levelConfig.getPeriodValue());
-                default:
-                    throw new BizException("无效的周期类型");
-            }
+            return switch (levelConfig.getPeriodType()) {
+                case 1 -> // 天
+                        now.plusDays(levelConfig.getPeriodValue());
+                case 2 -> // 周
+                        now.plusWeeks(levelConfig.getPeriodValue());
+                case 3 -> // 月
+                        now.plusMonths(levelConfig.getPeriodValue());
+                case 4 -> // 年
+                        now.plusYears(levelConfig.getPeriodValue());
+                default -> throw new BizException("无效的周期类型");
+            };
         }
         
         // 永久有效返回null
