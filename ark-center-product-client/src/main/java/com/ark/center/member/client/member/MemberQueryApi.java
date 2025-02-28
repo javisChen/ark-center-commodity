@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
-        name = "${ark.center.member.service.name:member}",
+        name = "${ark.center.member.service.name:product}",
         path = "/v1/members",
         url = "${ark.center.member.service.uri:}",
         dismiss404 = true

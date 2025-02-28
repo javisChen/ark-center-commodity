@@ -3,6 +3,7 @@ package com.ark.center.member.infra.member.service.register;
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
 import com.ark.center.member.client.member.common.IdentityType;
 import com.ark.center.member.client.member.common.RegisterType;
+import com.ark.center.member.infra.channel.service.RegisterChannelService;
 import com.ark.center.member.infra.member.service.MemberAuthService;
 import com.ark.center.member.infra.member.service.MemberLevelRecordService;
 import com.ark.center.member.infra.member.service.MemberLevelService;
@@ -13,12 +14,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsernameRegisterStrategy extends AbstractRegisterStrategy {
 
-    public UsernameRegisterStrategy(MemberService memberService, 
-            MemberAuthService memberAuthService,
-            PasswordService passwordService,
-            MemberLevelService memberLevelService,
-            MemberLevelRecordService memberLevelRecordService) {
-        super(memberService, memberAuthService, passwordService, memberLevelService, memberLevelRecordService);
+    public UsernameRegisterStrategy(MemberService memberService,
+                                    MemberAuthService memberAuthService,
+                                    PasswordService passwordService,
+                                    MemberLevelService memberLevelService,
+                                    MemberLevelRecordService memberLevelRecordService,
+                                    RegisterChannelService registerChannelService) {
+        super(memberService,
+                memberAuthService,
+                passwordService,
+                memberLevelService,
+                memberLevelRecordService,
+                registerChannelService);
     }
 
     @Override

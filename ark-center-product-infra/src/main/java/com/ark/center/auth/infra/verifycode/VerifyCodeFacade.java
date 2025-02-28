@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 
 @FeignClient(
-        name = "${ark.center.auth.service.name:iam}",
+        name = "${ark.center.auth.service.name:auth}",
         path = "/v1/verify-code",
         url = "${ark.center.auth.service.uri:}",
         dismiss404 = true,

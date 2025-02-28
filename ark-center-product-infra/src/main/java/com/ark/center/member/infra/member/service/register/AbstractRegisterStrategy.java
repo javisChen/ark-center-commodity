@@ -5,8 +5,17 @@ import com.ark.center.member.client.member.common.IdentityType;
 import com.ark.center.member.client.member.common.LevelUpgradeType;
 import com.ark.center.member.client.member.common.LevelValidityType;
 import com.ark.center.member.client.member.common.MemberStatus;
-import com.ark.center.member.infra.member.*;
-import com.ark.center.member.infra.member.service.*;
+import com.ark.center.member.infra.channel.service.RegisterChannelService;
+import com.ark.center.member.infra.member.Member;
+import com.ark.center.member.infra.member.MemberAuth;
+import com.ark.center.member.infra.member.MemberLevelConfig;
+import com.ark.center.member.infra.member.MemberLevelRecord;
+import com.ark.center.member.infra.member.service.MemberAuthService;
+import com.ark.center.member.infra.member.service.MemberLevelRecordService;
+import com.ark.center.member.infra.member.service.MemberLevelService;
+import com.ark.center.member.infra.member.service.MemberService;
+import com.ark.center.member.infra.point.MemberPointsAccount;
+import com.ark.center.member.infra.point.service.MemberPointsAccountService;
 import com.ark.component.exception.BizException;
 import com.ark.component.security.base.password.PasswordService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +38,12 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
     @Autowired
     protected MemberPointsAccountService memberPointsAccountService;
 
+    private final RegisterChannelService registerChannelService;
+
     @Override
     public void validate(MemberRegisterCommand command) {
+        // 验证注册渠道
+        registerChannelService.validateChannel(command.getRegisterChannel());
         // 1. 验证认证标识是否已存在
         if (memberAuthService.isIdentifierExists(getIdentityType(), getIdentifier(command))) {
             throw new BizException(getIdentityType().getDescription() + "已被注册");
@@ -65,6 +78,8 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
         member.setStatus(MemberStatus.ENABLED);
         member.setNickname(generateDefaultNickname());
         member.setMobile(command.getMobile());
+        member.setMemberNo(generateMemberNo());
+        member.setRegisterChannel(command.getRegisterChannel());
         
         // 获取默认等级配置
         MemberLevelConfig defaultLevel = memberLevelService.getDefaultLevel();
@@ -178,5 +193,10 @@ public abstract class AbstractRegisterStrategy implements RegisterStrategy {
         
         // 永久有效返回null
         return null;
+    }
+
+    protected String generateMemberNo() {
+        // Implementation of generateMemberNo method
+        throw new UnsupportedOperationException("Method not implemented");
     }
 } 

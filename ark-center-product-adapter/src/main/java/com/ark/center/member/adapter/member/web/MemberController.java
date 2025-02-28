@@ -4,12 +4,14 @@ import com.ark.center.member.client.member.MemberCommandApi;
 import com.ark.center.member.client.member.MemberQueryApi;
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
 import com.ark.center.member.client.member.dto.MemberAuthDTO;
+import com.ark.center.member.client.member.dto.MemberRegisterDTO;
 import com.ark.center.member.app.member.MemberCommandHandler;
 import com.ark.center.member.infra.member.service.MemberAuthService;
 import com.ark.component.dto.SingleResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +25,9 @@ public class MemberController implements MemberCommandApi, MemberQueryApi {
     private final MemberAuthService memberAuthService;
     
     @Override
-    public SingleResponse<Long> register(@Validated MemberRegisterCommand command) {
-        return SingleResponse.ok(memberCommandHandler.register(command));
+    public SingleResponse<MemberRegisterDTO> register(@RequestBody @Validated MemberRegisterCommand command) {
+        MemberRegisterDTO registerDTO = memberCommandHandler.register(command);
+        return SingleResponse.ok(registerDTO);
     }
     
     @Override

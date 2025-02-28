@@ -73,4 +73,10 @@ public class Member extends BaseEntity {
      */
     @TableField("status")
     private MemberStatus status;
+    
+    /**
+     * 注册渠道
+     */
+    @TableField("register_channel")
+    private String registerChannel; // 注册渠道编码
 } 

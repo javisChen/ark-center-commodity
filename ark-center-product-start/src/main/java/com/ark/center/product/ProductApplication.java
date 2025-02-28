@@ -10,8 +10,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @MapperScan(basePackages = {
         "com.ark.center.*.infra.*.repository.db",
 })
-@SpringBootApplication(scanBasePackages = "com.ark.center.product")
-@EnableFeignClients()
+@SpringBootApplication(scanBasePackages = "com.ark.center")
+@EnableFeignClients(basePackages = {
+        "com.ark.center.auth.infra.verifycode",
+        // "com.ark.center.member.client.member"
+})
 @EnableDiscoveryClient
 public class ProductApplication extends ArkWebConfig {
 
