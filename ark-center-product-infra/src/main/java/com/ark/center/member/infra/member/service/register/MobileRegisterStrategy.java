@@ -42,6 +42,6 @@ public class MobileRegisterStrategy extends AbstractRegisterStrategy {
 
     @Override
     protected void doValidate(MemberRegisterCommand command) {
-        // 验证码校验由认证中心处理
+        // todo 如果从认证中心进来的，无需校验验证码，验证码校验由认证中心处理
     }
 } 
