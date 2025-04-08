@@ -1,12 +1,11 @@
 package com.ark.center.member.adapter.member.web;
 
+import com.ark.center.member.app.member.MemberCommandHandler;
 import com.ark.center.member.client.member.MemberCommandApi;
 import com.ark.center.member.client.member.MemberQueryApi;
 import com.ark.center.member.client.member.command.MemberRegisterCommand;
-import com.ark.center.member.client.member.common.RegisterType;
 import com.ark.center.member.client.member.dto.MemberAuthDTO;
 import com.ark.center.member.client.member.dto.MemberRegisterDTO;
-import com.ark.center.member.app.member.MemberCommandHandler;
 import com.ark.center.member.infra.member.service.MemberAuthService;
 import com.ark.component.dto.SingleResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
